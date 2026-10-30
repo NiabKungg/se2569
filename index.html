@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>SE Final Exam Prep — เว็บติวสอบ Final วิศวกรรมซอฟต์แวร์ 05506017 (1/2569)</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230d1930%22/><text x=%2250%22 y=%2270%22 font-size=%2252%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22>SE</text></svg>">
+<meta name="description" content="สื่อการสอนเตรียมสอบ Final วิชา Software Engineering 05506017 เทอม 1/2569 — เนื้อหาละเอียดทุกบท Ch1–Ch11 พร้อมภาพประกอบ แนวข้อสอบจากรุ่นพี่ โจทย์ซ้อมพร้อมเฉลย และระบบอ่านออกเสียงภาษาไทย">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-ch="0" data-section="" data-page="index.html" data-tts="1">
+<header class="topbar">
+  <button class="icon-btn menu-btn" id="menuBtn" aria-label="เปิดเมนู">☰</button>
+  <a class="brand" href="index.html"><span class="brand-badge">SE</span><span>Software Engineering <span class="brand-sub">05506017 · 1/2569</span></span></a>
+  <span class="spacer"></span>
+  <button class="icon-btn theme-btn" id="themeBtn" aria-label="สลับโหมดมืด/สว่าง">🌙</button>
+</header>
+<div class="layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="scrim" id="scrim"></div>
+
+  <main class="content"><div class="inner">
+
+<div class="hero hero-se">
+  <h1>ติวสอบ Final — Software Engineering</h1>
+  <p>สื่อการสอนเตรียมสอบปลายภาค วิชา 05506017 เทอม 1/2569 — เนื้อหาครบทั้ง 11 บทจากสไลด์อาจารย์
+  อธิบายละเอียดด้วยภาษาง่าย มีอุปมา เปรียบเทียบ และภาพวาดประกอบทุกหัวข้อ
+  จัดโครงสร้างตามแนวข้อสอบที่รุ่นพี่รีวิวมา พร้อมระบบอ่านออกเสียงภาษาไทยให้ฟังได้ทุกหัวข้อ</p>
+  <div class="hero-tags">
+    <span>📖 เนื้อหาครบ 11 บท</span>
+    <span>🎨 ภาพอธิบาย step-by-step</span>
+    <span>🎓 แนวข้อสอบรุ่นพี่ + เฉลย</span>
+    <span>🔊 อ่านออกเสียงไทย/อังกฤษ</span>
+    <span>📱 ใช้ได้ทั้งคอมและมือถือ</span>
+  </div>
+  <div class="hero-overall" data-overall>
+    <div class="lbl"><span>ความคืบหน้าของคุณ</span><span data-overalllbl>ยังไม่ได้เริ่ม</span></div>
+    <div class="pbar"><i style="width:0%"></i></div>
+  </div>
+</div>
+
+<section class="block" id="exammap">
+  <h2><span class="h2-dot">🎓</span> ข้อสอบ Final หน้าตาเป็นแบบไหน? (จากรีวิวรุ่นพี่)</h2>
+
+  <div class="box box-warn">
+    <div class="box-title">⚠️ โครงสร้างข้อสอบที่รุ่นพี่บอกมา — อ่านก่อนเริ่มเรียนทุกบท</div>
+    <p><strong>ส่วนที่ 1: แบบจับคู่ (Matching)</strong> — โจทย์ให้ศัพท์อังกฤษมาจับคู่กับนิยาม/ประโยคภาษาไทย โดย Final เน้น 2 เรื่อง:</p>
+    <ul>
+      <li><strong>จับคู่ Testing</strong> — ชื่อประเภทการทดสอบ (Unit / Integration / System / Acceptance / Function / Quality / Installation test) จับกับคำอธิบาย → ดูบทที่ <a href="ch10.html">10</a></li>
+      <li><strong>จับคู่ Maintenance</strong> — 4 ประเภท (Corrective / Adaptive / Perfective / Preventive) จับกับสถานการณ์ → ดูบทที่ <a href="ch11.html">11</a></li>
+    </ul>
+    <p><strong>ส่วนที่ 2: แบบเขียนตอบ</strong> — ให้โจทย์โปรเจกต์ (CS-Hospital หรือ CS-Pizza) แล้วให้เขียน:</p>
+    <ul>
+      <li><strong>Functional / Non-Functional Requirement</strong> ของระบบ → บทที่ <a href="ch6.html">6</a></li>
+      <li><strong>Use case diagram</strong> → บทที่ <a href="ch9.html">9</a></li>
+      <li><strong>Schema (ฐานข้อมูล)</strong> → บทที่ <a href="ch7.html">7</a></li>
+      <li><strong>สถาปัตยกรรมซอฟต์แวร์</strong> → บทที่ <a href="ch7.html">7</a></li>
+      <li><strong>แผนทดสอบระบบ + แผน Maintenance</strong> จากโปรเจกต์ของตัวเอง → บทที่ <a href="ch10.html">10</a> และ <a href="ch11.html">11</a></li>
+    </ul>
+    <p>💡 ทุกบทเรียนจะมีกล่อง <span class="tag exam">🎯 ออกสอบ</span> เด่น ๆ บอกว่าส่วนไหนเขียนตอบได้ และมีหน้า <a href="exam.html">🎓 ติว Final</a> รวมเฉลยตัวอย่างเต็มรูปแบบของ CS-Hospital ทุกข้อให้เลียนแบบ</p>
+  </div>
+
+  <div class="box box-idea">
+    <div class="box-title">🗺️ โจทย์ตัวอย่างที่อาจารย์ใช้: CS-Hospital</div>
+    <p>โรงพยาบาลขนาดเล็ก เปิดให้นักศึกษา บุคลากรในสถาบัน และผู้ป่วยนอกทั่วไป ยังไม่มีระบบจัดการผู้ป่วย จึงอยากได้เว็บแอปพลิเคชันจัดการผู้ป่วย โดย:</p>
+    <ul>
+      <li>เก็บข้อมูลผู้ป่วย (ประวัติการรักษา ผลการรักษา ผลจากห้องปฏิบัติการ)</li>
+      <li>เก็บข้อมูลบุคลากรทางการแพทย์</li>
+      <li>ออกรายงาน เช่น ใบรับรองแพทย์ ประวัติการรักษา</li>
+      <li>ส่งต่อผลวินิจฉัยให้ทีมแพทย์เฉพาะทางผ่านช่องทางออนไลน์ (LINE / Email)</li>
+    </ul>
+    <p><strong>เทคนิค:</strong> โจทย์เขียนตอบปีล่าสุด (66/67) ใช้ระบบ CS-Hospital/CS-Pizza — ฝึกเขียน FR/NFR, Use case, Schema, Architecture กับระบบนี้ซะ แล้วข้อสอบจริงจะเป็นระบบอื่นก็ใช้ท่าเดิมได้หมด (ดูเฉลยตัวอย่างครบทุกข้อที่ <a href="exam.html">หน้าติว Final</a>)</p>
+  </div>
+</section>
+
+<section class="block" id="chapters">
+  <h2><span class="h2-dot">📚</span> แผนที่บทเรียน — อ่านตามลำดับนี้</h2>
+  <p class="small">ลำดับที่แนะนำ: บท 1–3 เป็นพื้นฐานศัพท์ (ใช้ตอบจับคู่) → บท 4–8 เป็นกระบวนการ (ใช้ตอบเขียนเรื่องแผน/โมเดล) → บท 9–11 คือดาวเด่นของข้อสอบ Final (ใช้ทั้งจับคู่และเขียนตอบ)</p>
+  <div class="ch-grid">
+
+    <div class="ch-card" style="--cc:#0ea5e9">
+      <div class="ch-card-head">
+        <div class="num">1</div>
+        <h3>บทนำสู่วิศวกรรมซอฟต์แวร์ <span class="en">Introduction to SE — ประวัติ · Software Crisis · ประเภทซอฟต์แวร์ · SDLC</span></h3>
+        <div class="ch-prog" data-chprog="1"><span data-chpctlbl>—</span><div class="pbar"><i style="width:0%"></i></div></div>
+      </div>
+      <ul class="ch-sec-list">
+        <li><a href="ch1.html"><span class="sec-no">บท 1</span><span class="sec-t">ประวัติ SE · ประเภทซอฟต์แวร์ 8 แบบ · SE View · SDLC</span><span class="sec-meta" data-secmeta="1|1">—</span></a></li>
+      </ul>
+    </div>
+
+    <div class="ch-card" style="--cc:#8b5cf6">
+      <div class="ch-card-head">
+        <div class="num">2</div>
+        <h3>หลักการวิศวกรรมซอฟต์แวร์ <span class="en">SE Principles — 4 ชั้นความรู้ · 7 หลักการสำคัญ</span></h3>
+        <div class="ch-prog" data-chprog="2"><span data-chpctlbl>—</span><div class="pbar"><i style="width:0%"></i></div></div>
+      </div>
+      <ul class="ch-sec-list">
+        <li><a href="ch2.html"><span class="sec-no">บท 2</span><span class="sec-t">Principles → Methods → Methodologies → Tools · 7 หลักการ</span><span class="sec-meta" data-secmeta="2|2">—</span></a></li>
+      </ul>
+    </div>
+
+    <div class="ch-card" style="--cc:#ec4899">
+      <div class="ch-card-head">
+        <div class="num">3</div>
+        <h3>คุณภาพซอฟต์แวร์ <span class="en">Software Quality — 16 คุณภาพ · External/Internal · 4 ระบบ</span></h3>
+        <div class="ch-prog" data-chprog="3"><span data-chpctlbl>—</span><div class="pbar"><i style="width:0%"></i></div></div>
+      </div>
+      <ul class="ch-sec-list">
+        <li><a href="ch3.html"><span class="sec-no">บท 3</span><span class="sec-t">Correctness, Reliability, Robustness … · คุณภาพตามประเภทระบบ</span><span class="sec-meta" data-secmeta="3|3">—</span></a></li>
+      </ul>
+    </div>
+
+    <div class="ch-card" style="--cc:#10b981">
+      <div class="ch-card-head">
+        <div class="num">4</div>
+        <h3>งานพัฒนาซอฟต์แวร์ <span class="en">Tasks of SW Development — 13 งาน · Verification vs Validation</span></h3>
+        <div class="ch-prog" data-chprog="4"><span data-chpctlbl>—</span><div class="pbar"><i style="width:0%"></i></div></div>
+      </div>
+      <ul class="ch-sec-list">
+        <li><a href="ch4.html"><span class="sec-no">บท 4</span><span class="sec-t">Feasibility → Design → Code → Verification/Validation → Maintenance</span><span class="sec-meta" data-secmeta="4|4">—</span></a></li>
+      </ul>
+    </div>
+
+    <div class="ch-card" style="--cc:#f59e0b">
+      <div class="ch-card-head">
+        <div class="num">5</div>
+        <h3>การจัดการโครงการซอฟต์แวร์ <span class="en">Project Management — WBS · Gantt · PERT/CPM</span></h3>
+        <div class="ch-prog" data-chprog="5"><span data-chpctlbl>—</span><div class="pbar"><i style="width:0%"></i></div></div>
+      </div>
+      <ul class="ch-sec-list">
+        <li><a href="ch5.html"><span class="sec-no">บท 5</span><span class="sec-t">แผนโครงการ · Milestone/Deliverable · ตารางงาน · ควบคุมโครงการ</span><span class="sec-meta" data-secmeta="5|5">—</span></a></li>
+      </ul>
+    </div>
+
+    <div class="ch-card" style="--cc:#ef4444">
+      <div class="ch-card-head">
+        <div class="num">6</div>
+        <h3>วิศวกรรมความต้องการ <span class="en">Requirement Engineering — FR/NFR · User Story</span></h3>
+        <div class="ch-prog" data-chprog="6"><span data-chpctlbl>—</span><div class="pbar"><i style="width:0%"></i></div></div>
+      </div>
+      <ul class="ch-sec-list">
+        <li><a href="ch6.html"><span class="sec-no">บท 6</span><span class="sec-t">FR vs NFR (FURPS+) · User Story · Acceptance Test · จุดเขียนตอบสำคัญ!</span><span class="sec-meta" data-secmeta="6|6">—</span></a></li>
+      </ul>
+    </div>
+
+    <div class="ch-card" style="--cc:#6366f1">
+      <div class="ch-card-head">
+        <div class="num">7</div>
+        <h3>สถาปัตยกรรมซอฟต์แวร์ <span class="en">Software Architecture — สไตล์ต่าง ๆ · REST · ER Schema</span></h3>
+        <div class="ch-prog" data-chprog="7"><span data-chpctlbl>—</span><div class="pbar"><i style="width:0%"></i></div></div>
+      </div>
+      <ul class="ch-sec-list">
+        <li><a href="ch7.html"><span class="sec-no">บท 7</span><span class="sec-t">Client/Server · Layered · MVC · Pipe-and-Filter · ER Schema</span><span class="sec-meta" data-secmeta="7|7">—</span></a></li>
+      </ul>
+    </div>
+
+    <div class="ch-card" style="--cc:#14b8a6">
+      <div class="ch-card-head">
+        <div class="num">8</div>
+        <h3>โมเดลกระบวนการซอฟต์แวร์ <span class="en">Process Models — Waterfall · Spiral · RUP · XP · Scrum</span></h3>
+        <div class="ch-prog" data-chprog="8"><span data-chpctlbl>—</span><div class="pbar"><i style="width:0%"></i></div></div>
+      </div>
+      <ul class="ch-sec-list">
+        <li><a href="ch8.html"><span class="sec-no">บท 8</span><span class="sec-t">ข้อดี/ข้อจำกัดทุกโมเดล · งานแบบไหนเหมาะกับ Model ไหน</span><span class="sec-meta" data-secmeta="8|8">—</span></a></li>
+      </ul>
+    </div>
+
+    <div class="ch-card" style="--cc:#f97316">
+      <div class="ch-card-head">
+        <div class="num">9</div>
+        <h3>Use Cases <span class="en">Use Case Modeling — Actor · Diagram · include/extend</span></h3>
+        <div class="ch-prog" data-chprog="9"><span data-chpctlbl>—</span><div class="pbar"><i style="width:0%"></i></div></div>
+      </div>
+      <ul class="ch-sec-list">
+        <li><a href="ch9.html"><span class="sec-no">บท 9</span><span class="sec-t">วาด Use Case Diagram ให้ถูก · «include» vs «extend» · โครง Use Case</span><span class="sec-meta" data-secmeta="9|9">—</span></a></li>
+      </ul>
+    </div>
+
+    <div class="ch-card" style="--cc:#22c55e">
+      <div class="ch-card-head">
+        <div class="num">10</div>
+        <h3>การทดสอบซอฟต์แวร์ <span class="en">Software Testing — ประเภททดสอบ · Black/White box</span></h3>
+        <div class="ch-prog" data-chprog="10"><span data-chpctlbl>—</span><div class="pbar"><i style="width:0%"></i></div></div>
+      </div>
+      <ul class="ch-sec-list">
+        <li><a href="ch10.html"><span class="sec-no">บท 10</span><span class="sec-t">Unit → Integration → System → Acceptance · Equivalence/Boundary/State</span><span class="sec-meta" data-secmeta="10|10">—</span></a></li>
+      </ul>
+    </div>
+
+    <div class="ch-card" style="--cc:#a855f7">
+      <div class="ch-card-head">
+        <div class="num">11</div>
+        <h3>การบำรุงรักษาซอฟต์แวร์ <span class="en">Software Maintenance — 4 ประเภท · Maintainability</span></h3>
+        <div class="ch-prog" data-chprog="11"><span data-chpctlbl>—</span><div class="pbar"><i style="width:0%"></i></div></div>
+      </div>
+      <ul class="ch-sec-list">
+        <li><a href="ch11.html"><span class="sec-no">บท 11</span><span class="sec-t">Corrective/Adaptive/Perfective/Preventive · กระบวนการ · ต้นทุน</span><span class="sec-meta" data-secmeta="11|11">—</span></a></li>
+      </ul>
+    </div>
+
+    <div class="ch-card" style="--cc:#e11d48">
+      <div class="ch-card-head">
+        <div class="num">★</div>
+        <h3>ติวสอบ & ทบทวนด่วน <span class="en">Exam Prep — แนวข้อสอบรุ่นพี่ + สรุปรวม</span></h3>
+        <div class="ch-prog" data-chprog="12"><span data-chpctlbl>—</span><div class="pbar"><i style="width:0%"></i></div></div>
+      </div>
+      <ul class="ch-sec-list">
+        <li><a href="exam.html"><span class="sec-no">🎓</span><span class="sec-t">ติว Final — จับคู่ Testing/Maintenance + เฉลยเขียนตอบ CS-Hospital ครบทุกข้อ</span><span class="sec-meta" data-secmeta="12|F">—</span></a></li>
+        <li><a href="summary.html"><span class="sec-no">📋</span><span class="sec-t">สรุปรวมทุกบท — ชีตทบทวน 1 หน้าต่อบท อ่านก่อนเข้าห้องสอบ</span><span class="sec-meta" data-secmeta="12|S">—</span></a></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<section class="block" id="howto">
+  <h2><span class="h2-dot">✨</span> วิธีใช้เว็บนี้ให้สอบผ่าน</h2>
+  <div class="feat-grid">
+    <div class="feat">
+      <div class="f-ico">🔊</div>
+      <div class="f-t">ฟังเสียงอ่านได้ทุกหัวข้อ</div>
+      <div class="f-d">กดปุ่ม "🔊 อ่าน" ที่หัวข้อไหนก็ได้ ระบบจะอ่านให้ฟังทั้งไทยและอังกฤษศัพท์เฉพาะ ถ้าเครื่องไม่มีเสียงไทยในตัว ระบบจะใช้เสียงไทยออนไลน์ให้อัตโนมัติ — ปรับความเร็ว พัก หรือหยุดได้จากแถบด้านล่างจอ</div>
+    </div>
+    <div class="feat">
+      <div class="f-ico">🏋️</div>
+      <div class="f-t">ทำโจทย์ซ้อม + ติ๊กเก็บความคืบหน้า</div>
+      <div class="f-d">ท้ายแต่ละบทมีโจทย์ซ้อมแนวข้อสอบ ลองทำเองก่อนแล้วค่อยกดดูเฉลยทีละขั้น เมื่อทำได้แล้วติ๊ก ✓ — ความคืบหน้าถูกบันทึกไว้ในเบราว์เซอร์ของคุณเอง</div>
+    </div>
+    <div class="feat">
+      <div class="f-ico">🎯</div>
+      <div class="f-t">อ่านกล่อง "ออกสอบ" ทุกที่ที่เจอ</div>
+      <div class="f-d">เนื้อหาจัดเรียงตามลำดับความสำคัญกับข้อสอบ Final — ทุกหัวข้อที่รุ่นพี่บอกว่าออก จะมีกล่องแดนเด่นพร้อมแนวทางเขียนคำตอบ</div>
+    </div>
+    <div class="feat">
+      <div class="f-ico">🌙</div>
+      <div class="f-t">โหมดมืด + อ่านได้ทุกอุปกรณ์</div>
+      <div class="f-d">กดปุ่ม 🌙 มุมขวาบนเพื่อสลับโหมดมืด/สว่าง เว็บปรับ layout อัตโนมัติทั้งจอคอม แท็บเล็ต และมือถือ</div>
+    </div>
+  </div>
+
+  <div class="box box-idea" id="notebook">
+    <div class="box-title">🤖 อยากถามเพิ่มจาก video การสอนอาจารย์?</div>
+    <p>เนื้อหาบทเรียนนี้เรียบเรียงจากสไลด์อาจารย์ + video การสอน ถ้าอยากถามโจทย์เฉพาะจุดหรือให้อธิบายซ้ำด้วยภาษาของตัวเอง เข้าไปพิมพ์ถาม NotebookLM ได้เลย (มีสไลด์ทุกบทเป็นแหล่งข้อมูล):
+    <a href="https://notebook.google.com/notebook/5db4f39c-dd66-4504-8cc6-ed33e889b56a" target="_blank" rel="noopener">💻 เปิด Notebook วิชา SE</a></p>
+  </div>
+</section>
+
+<section class="block" id="reset">
+  <div class="reset-zone">
+    <button class="btn btn-danger" id="resetBtn">🗑 ล้างความคืบหน้าทั้งหมด</button>
+  </div>
+</section>
+
+</div></main>
+
+<nav class="pager" id="pager"></nav>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/tts.js"></script>
+</body>
+</html>

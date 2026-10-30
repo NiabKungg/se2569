@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>บทที่ 4 งานพัฒนาซอฟต์แวร์ — SE 05506017</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230d1930%22/><text x=%2250%22 y=%2270%22 font-size=%2252%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22>SE</text></svg>">
+<meta name="description" content="บทที่ 4 งานพัฒนาซอฟต์แวร์ — Feasibility study, Requirements, Design, Coding, Verification vs Validation, Acceptance testing, Production, Maintenance, Documentation พร้อมภาพประกอบและโจทย์ซ้อม">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-ch="4" data-section="4" data-page="ch4.html" data-tts="1">
+<header class="topbar">
+  <button class="icon-btn menu-btn" id="menuBtn" aria-label="เปิดเมนู">☰</button>
+  <a class="brand" href="index.html"><span class="brand-badge">SE</span><span>Software Engineering <span class="brand-sub">05506017 · 1/2569</span></span></a>
+  <span class="spacer"></span>
+  <button class="icon-btn theme-btn" id="themeBtn" aria-label="สลับโหมดมืด/สว่าง">🌙</button>
+</header>
+<div class="layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="scrim" id="scrim"></div>
+
+  <main class="content"><div class="inner">
+
+<div class="crumb">บทที่ 4 · งานพัฒนาซอฟต์แวร์</div>
+<h1 class="page-title">บทที่ 4 — Tasks of Software Development</h1>
+<p class="page-sub">ตลอดหนึ่งโปรเจกต์ "มีงานอะไรต้องทำบ้าง?" — 13 งานหลักจาก Feasibility จนถึง Maintenance
+และคู่คำที่ข้อสอบรักมาก: <strong>Verification กับ Validation</strong> ("static แก้ไขแบบไหน? เรากำลังสร้างสินค้าถูกต้อง หรือ สร้างสินค้าที่ถูก?")</p>
+
+<nav class="pillnav">
+  <a href="#objectives">🎯 จุดประสงค์</a>
+  <a href="#lesson">📖 บทเรียน</a>
+  <a href="#exam">🎯 แนวข้อสอบ</a>
+  <a href="#practice">🏋️ โจทย์ซ้อมมือ</a>
+</nav>
+
+<section class="block" id="objectives">
+  <div class="obj">
+    <h2>🎯 เรียนจบบทนี้ คุณต้องทำสิ่งเหล่านี้ได้</h2>
+    <ul>
+      <li>เรียง 13 งานของการพัฒนาซอฟต์แวร์ตามลำดับ และบอก "ผลผลิต (product)" ของแต่ละงานได้</li>
+      <li><strong>ตอบได้แม่น: Verification = "Are we building the product right?" (มุมนักพัฒนา) · Validation = "Are we building the right product?" (มุมลูกค้า)</strong> — ประโยคของ Barry Boehm ที่ออกสอบซ้ำ</li>
+      <li>อธิบาย Acceptance testing: ใครทำ เมื่อไหร่ input/output อะไร</li>
+      <li>แยกเอกสาร documentation สำหรับ "ผู้ใช้" กับ "นักพัฒนา" ต่างกันอย่างไร</li>
+      <li>อธิบาย 2 ประเภทของ verification (unit testing กับ system testing) พร้อม input/output ของแต่ละแบบ</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="lesson">
+  <h2><span class="h2-dot">📖</span> บทเรียน</h2>
+
+  <div class="box box-idea">
+    <div class="box-title">🗺️ ที่มาที่ไป — จากบทที่ 1 สู่ "ใบสั่งงานจริง"</div>
+    <p>บทที่ 1 บอกภาพรวมว่ามีกระบวนการพัฒนาซอฟต์แวร์ บทนี้จะแกะว่า "กระบวนการ" นั้นประกอบด้วยงานอะไรบ้าง — สไลด์วาดเป็นวงล้อ: Feasibility study เริ่มต้น → Requirements → ออกแบบ 3 ระดับ → เขียนโค้ด → รวมระบบ → ตรวจสอบ → ใช้งาน → บำรุงรักษา โดยมี 3 งานครอบทั้งวง: Project Management, Documentation, Validation</p>
+    <p><strong>อุปมา:</strong> เหมือนสร้างบ้าน — สำรวจดินว่าคุ้มสร้างไหม (Feasibility) → ถามเจ้าของบ้านว่าต้องการห้องอะไร (Requirements) → วาดแบบทั้งบ้าน (Architectural) และแบบห้องเล็ก ๆ (Detailed) → ก่ออิทีละห้อง (Coding) → ต่อท่อน้ำไฟทั้งบ้าน (Integration) → ตรวจว่าสร้างตามแบบไหม (Verification) → เจ้าของบ้านลองอยู่จริงแล้วยอมรับไหม (Validation/Acceptance) → อยู่จริง (Production) → ซ่อมเปลี่ยนตลอดชีวิตบ้าน (Maintenance)</p>
+  </div>
+
+  <h3>1) ภาพรวม 13 งาน</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 560 340" role="img" aria-label="วงล้อ 13 งานพัฒนาซอฟต์แวร์: Feasibility, Requirements, UI design, Architectural design, Detailed design, Programming, System integration, Verification, Validation, Production, Maintenance, Documentation, Project management">
+      <circle cx="280" cy="170" r="118" class="uml-bound"></circle>
+      <circle cx="280" cy="170" r="46" fill="rgba(16,185,129,.15)" stroke="#10b981" stroke-width="1.6"></circle>
+      <text x="280" y="166" text-anchor="middle" class="big t3">Software</text>
+      <text x="280" y="184" text-anchor="middle" class="big t3">Development</text>
+      <g class="small">
+        <text x="150" y="44" class="t1">Feasibility study</text>
+        <text x="330" y="44" class="t1">Requirements engineering</text>
+        <text x="452" y="92" class="t1">UI design</text>
+        <text x="492" y="150" class="t1">Architectural design</text>
+        <text x="478" y="208" class="t1">Detailed design</text>
+        <text x="404" y="266" class="t1">Programming</text>
+        <text x="256" y="316" class="t1">System integration</text>
+        <text x="96" y="300" class="t1">Verification (testing)</text>
+        <text x="44" y="240" class="t2">Validation</text>
+        <text x="24" y="178" class="t2">Production</text>
+        <text x="16" y="116" class="t2">Maintenance</text>
+        <text x="60" y="66" class="t3">Documentation</text>
+        <text x="330" y="300" class="t3">Project management</text>
+      </g>
+      <text x="280" y="52" text-anchor="middle" class="mut small">งาน 3 อย่างครอบทุกวง: Documentation · Project management · Validation</text>
+    </svg>
+    <figcaption>ภาพ 4.1 — วงล้อ 13 งาน (จากสไลด์อาจารย์): ตัวหนาคือลำดับหลัก สีแดงคืองานฝั่งผู้ใช้/ระยะยาว</figcaption>
+  </figure>
+
+  <h3>2) แกะทีละงาน — พร้อมผลผลิต (product) ของแต่ละงาน</h3>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>งาน</th><th>ทำอะไร (ภาษาคน)</th><th>ผลผลิต (Product)</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1. Feasibility study</strong></td><td>ตัดสินว่าโปรเจกต์ควรทำต่อไหม — ระบบอาจไม่จำเป็น แพงเกิน หรือเสี่ยงเกิน · วิธีหนึ่งคือ <em>cost-benefit analysis</em>: ประมาณต้นทุนระบบใหม่ (รวม HW ใหม่ด้วย) เทียบกับเงินที่จะประหยัดได้</td><td>การตัดสินใจทำ/ไม่ทำ + ตัวเลขต้นทุน-ผลประโยชน์</td></tr>
+      <tr><td><strong>2. Requirements engineering</strong><br>(specification)</td><td>ช่วงเริ่มโปรเจกต์ นักพัฒนาหาว่าผู้ใช้ (client/customer) ต้องการให้ซอฟต์แวร์ทำอะไร แล้ว<em>บันทึกให้ชัดที่สุด</em></td><td><strong>Requirements specification</strong></td></tr>
+      <tr><td><strong>3. User interface design</strong></td><td>ซอฟต์แวร์ส่วนใหญ่มี GUI ต้องออกแบบอย่างระวังให้<em>ใช้ง่าย</em></td><td>การออกแบบหน้าจอ/UI</td></tr>
+      <tr><td><strong>4. Architectural design</strong><br>(large-scale)</td><td>ระบบใหญ่จนเขียนเป็นโปรแกรมเดียวไม่ไหว — ต้องสร้างจาก<em>โมดูล/คอมโพเนนต์</em> · งานนี้ "หั่น" ระบบทั้งหมดเป็นโมดูลง่าย ๆ หลายชิ้น</td><td><strong>Architectural design + module specifications</strong></td></tr>
+      <tr><td><strong>5. Detailed design</strong></td><td>ออกแบบ<em>รายละเอียดของแต่ละโมดูล</em>จริงจัง</td><td><strong>Detailed design ของทุกโมดูล</strong></td></tr>
+      <tr><td><strong>6. Programming</strong> (coding)</td><td>แปลง detailed design เป็นคำสั่งภาษาโปรแกรม — อาจมีให้เลือกหลายภาษา ต้องเลือกหนึ่ง</td><td><strong>Code</strong></td></tr>
+      <tr><td><strong>7. System integration</strong></td><td>เอาคอมโพเนนต์ย่อยที่ทำเสร็จแล้วมา<em>รวมกัน</em> (เรียกอีกอย่างว่า "the build")</td><td><strong>ระบบที่สมบูรณ์ (complete system)</strong></td></tr>
+      <tr><td><strong>8. Verification</strong></td><td>ดูหัวข้อ 3 ด้านล่าง — ตรวจว่า<em>สร้างสินค้าถูกวิธี</em>หรือไม่</td><td>Test results ที่ยืนยันระบบตรง spec</td></tr>
+      <tr><td><strong>9. Validation</strong></td><td>ดูหัวข้อ 3 ด้านล่าง — ตรวจว่า<em>สร้างสินค้าที่ถูก</em>หรือไม่</td><td>เอกสาร sign-off / รายการ fault</td></tr>
+      <tr><td><strong>10. Production</strong></td><td>นำระบบไป<em>ใช้งานจริง</em> (บางตำราเรียกสับสนว่า implementation) — ผู้ใช้อาจต้องได้รับการอบรม</td><td>ระบบที่ใช้งานจริง + ผู้ใช้ที่ผ่านอบรม</td></tr>
+      <tr><td><strong>11. Maintenance</strong></td><td>พอใช้ไปแล้ว ซอฟต์แวร์แทบแน่นอนว่าจะต้อง<em>แก้หรือเพิ่มความสามารถ</em> — มักยาวไปอีกหลายปีหลังสร้างครั้งแรก</td><td><strong>Modified software</strong> (ซอฟต์แวร์ที่ถูกแก้แล้ว)</td></tr>
+      <tr><td><strong>12. Documentation</strong></td><td>เอกสารสำหรับ 2 กลุ่ม — <em>ผู้ใช้</em>: วิธีติดตั้ง/ติดตั้งใหม่/ใช้งาน (กระดาษยังต้องการ, help system สำหรับซอฟต์แวร์ general) เน้น "<strong>what</strong>" มุมนอก ไม่ใช่ "<strong>how</strong>" · <em>นักพัฒนา</em>: spec, architectural design, detailed design, code, comments, test schedules, test results, project plan — เพื่อพัฒนาต่อและ maintain</td><td>เอกสารคู่มือผู้ใช้ + เอกสารชุดนักพัฒนา</td></tr>
+      <tr><td><strong>13. Project management</strong></td><td>ใครบางคนต้อง<em>สร้างและดูแลแผน</em> แก้ปัญหา มอบงานให้คน และตรวจว่าทำเสร็จหรือยัง</td><td>แผนโครงการ + การควบคุมความคืบหน้า</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>3) Verification vs Validation — 🎯 คู่คำที่ออกสอบสม่ำเสมอ</h3>
+  <div class="box box-warn">
+    <div class="box-title">🎯 จำสองประโยคของ Barry Boehm ให้ขึ้นใจ (ข้อสอบชอบเติมคำ)</div>
+    <p><strong>Verification</strong> ตอบคำถาม: <em>"Are we building the product right?"</em> — เรากำลังสร้างสินค้า<em>ถูกวิธี</em>อยู่หรือเปล่า (ถูกตาม spec)</p>
+    <p><strong>Validation</strong> ตอบคำถาม: <em>"Are we building the right product?"</em> — เรากำลังสร้าง<em>สินค้าที่ถูก</em>อยู่หรือเปล่า (ตรงกับความต้องการผู้ใช้จริง)</p>
+    <p>สังเกตตำแหน่งคำ "right": ซ้ายสลับ — <em>product <strong>right</strong></em> (สร้างถูกวิธี) = Verification · <em><strong>right</strong> product</em> (สินค้าที่ใช่) = Validation</p>
+  </div>
+  <figure class="fig">
+    <svg viewBox="0 0 540 330" role="img" aria-label="เทียบ Verification กับ Validation: มุมมอง ผู้ตอบคำถาม ประเภทการทดสอบ ตัวอย่าง">
+      <rect x="20" y="20" width="240" height="290" rx="14" class="f1" stroke="#2563eb" fill="none"></rect>
+      <text x="140" y="52" text-anchor="middle" class="big t1">Verification</text>
+      <text x="140" y="74" text-anchor="middle" class="small">"building the product RIGHT?"</text>
+      <text x="140" y="102" text-anchor="middle" class="small">มุมมองของ <tspan class="t1">นักพัฒนา</tspan> (developer's view)</text>
+      <text x="140" y="124" text-anchor="middle" class="small">มองระบบจากด้านใน — implementation</text>
+      <text x="140" y="156" text-anchor="middle" class="small">ประเภท: <tspan class="t1">Unit testing</tspan> + <tspan class="t1">System testing</tspan></text>
+      <text x="140" y="184" text-anchor="middle" class="small">unit: ทดสอบโมดูลเดี่ยวแบบโดดเดี่ยว</text>
+      <text x="140" y="204" text-anchor="middle" class="small">system: ต่อโมดูลแล้วทดสอบทั้งระบบ</text>
+      <text x="140" y="240" text-anchor="middle" class="mut small">อุปมา: ช่างตรวจว่าต่อท่อตามแบบ</text>
+      <text x="140" y="258" text-anchor="middle" class="mut small">ที่วิศวกรวาดไว้ไหมทุกจุด</text>
+      <rect x="290" y="20" width="230" height="290" rx="14" class="f2" stroke="#dc2626" fill="none"></rect>
+      <text x="405" y="52" text-anchor="middle" class="big t2">Validation</text>
+      <text x="405" y="74" text-anchor="middle" class="small">"building the RIGHT product?"</text>
+      <text x="405" y="102" text-anchor="middle" class="small">มุมมองของ <tspan class="t2">ลูกค้า</tspan> (client's view)</text>
+      <text x="405" y="124" text-anchor="middle" class="small">มองระบบจากด้านนอก — external view</text>
+      <text x="405" y="156" text-anchor="middle" class="small">ตัวอย่างเด่น: <tspan class="t2">Acceptance testing</tspan></text>
+      <text x="405" y="180" text-anchor="middle" class="small">ท้ายโปรเจกต์ สาธิตให้ลูกค้าดูแล้ว</text>
+      <text x="405" y="200" text-anchor="middle" class="small">ลูกค้ารับรอง (accept) ว่าพอใจ</text>
+      <text x="405" y="240" text-anchor="middle" class="mut small">อุปมา: เจ้าของบ้านลองอยู่จริง</text>
+      <text x="405" y="258" text-anchor="middle" class="mut small">ว่า "บ้านแบบนี้ใช่ชีวิตที่ฉันอยากมีไหม"</text>
+      <text x="270" y="322" text-anchor="middle" class="mut">ได้ระบบที่ทดสอบสมบูรณ์แต่ผู้ใช้ไม่อยากใช้ = ผ่าน Verification แต่ตก Validation!</text>
+    </svg>
+    <figcaption>ภาพ 4.2 — Verification (ถูกวิธีไหม) vs Validation (ใช่ของที่ต้องการไหม) — จากคำกล่าวของ Barry Boehm</figcaption>
+  </figure>
+
+  <div class="box box-def">
+    <div class="box-title">📐 เจาะลึก Verification — 2 ประเภท</div>
+    <p><strong>Unit testing:</strong> ทดสอบแต่ละโมดูล<em>แบบโดดเดี่ยว (in isolation)</em> — inputs 3 อย่าง: (1) <em>unit specification</em> (2) <em>unit code</em> (3) <em>รายการผลทดสอบที่คาดหวัง</em> · products = test results · ยืนยันว่าพฤติกรรมของโค้ดตรงกับ unit specification</p>
+    <p><strong>System testing (integration testing):</strong> เชื่อมโมดูลเข้าด้วยกันแล้วทดสอบทั้งระบบ — inputs: system specification + โค้ดระบบทั้งหมด · ผลลัพธ์ = ซอฟต์แวร์สมบูรณ์ที่ผ่านการทดสอบ ยืนยันว่าระบบตรง spec</p>
+  </div>
+  <div class="box box-def">
+    <div class="box-title">📐 เจาะลึก Validation — Acceptance testing</div>
+    <p><strong>Acceptance testing</strong> เกิด<em>ท้ายโปรเจกต์</em> เมื่อระบบถือว่าเสร็จ — <em>สาธิต (demonstrate) ให้ลูกค้าดู</em> แล้วลูกค้ารับรองว่าน่าพอใจ</p>
+    <p>inputs: <strong>ลูกค้า + ซอฟต์แวร์ที่ดูเหมือนเสร็จสมบูรณ์</strong> · products: เอกสาร sign-off + ระบบที่รับรองแล้ว <em>หรือ</em> รายการ fault ที่ต้องแก้ · ผลลัพธ์: ระบบ "ตรงกับ requirement ของลูกค้า" หรือ "ไม่ตรง"</p>
+    <p><strong>บริบทรีวิวข้อสอบ:</strong> โจทย์มิดเทอมเคยให้เติม "สามารถแก้ไขซอฟต์แวร์ได้แบบ static ______" — จำสั้น ๆ: <em>แก้ไข static (เอกสาร/review โดยไม่รันระบบ) จะช่วยเรื่อง Validation ฝั่งมองงานให้ครบ; แก้ dynamic (รันระบบจริง) ฝั่ง Verification</em> — ถ้าข้อสอบให้เลือก validation/verification ให้อ่านประโยค: พูดถึงผู้ใช้/ความต้องการ → Validation, พูดถึง spec/โค้ด/internal → Verification</p>
+  </div>
+</section>
+
+<section class="block" id="exam">
+  <h2><span class="h2-dot">🎯</span> แนวข้อสอบของบทนี้</h2>
+  <div class="box box-warn">
+    <div class="box-title">🎯 ออกจริงจากรีวิวรุ่นพี่ + เติมคำคลาสสิก</div>
+    <ul>
+      <li><strong>เติมคำ Verification/Validation:</strong> "Are we building the product right?" → Verification · "Are we building the right product?" → Validation · หรือให้ประโยคมาให้เลือกคำ</li>
+      <li><strong>เขียนตอบเชื่อมข้อใหญ่:</strong> ข้อ Final "จะทดสอบระบบอย่างไร" — โครงคำตอบ: Verification (unit → system testing) ตามด้วย Validation (acceptance testing กับลูกค้า) → ดูเฉลยเต็มที่หน้า <a href="exam.html">ติว Final</a></li>
+      <li><strong>จับคู่งานกับผลผลิต:</strong> เช่น Architectural design → architectural design + module specifications · Requirements → requirements specification · Integration → complete system</li>
+      <li><strong>Documentation:</strong> ผู้ใช้ได้อะไร (คู่มือ what) / นักพัฒนาได้อะไร (spec, design, code, test results — how)</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="practice">
+  <h2><span class="h2-dot">🏋️</span> โจทย์ซ้อมมือ (6 ข้อ)</h2>
+
+  <div class="pr-card" data-pkey="p4-1">
+    <div class="pr-head"><span class="pr-num">ข้อ 1</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เติมคำ (แนวข้อสอบ):</strong> (1) "Are we building the product ______?" — Verification (2) "Are we building the ______ product?" — Validation เติมคำที่หายและบอกว่าใครเป็นคน "ตัดสิน"</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>(1)</b> เติม "right" → สร้างสินค้า<em>ถูกวิธี</em>หรือไม่ — ตัดสินโดยมุมมอง<em>นักพัฒนา</em> (เทียบกับ spec/internal)</span></li>
+          <li><span class="step-t"><b>(2)</b> เติม "right" → สร้าง<em>สินค้าที่ถูก</em>หรือไม่ — ตัดสินโดยมุมมอง<em>ลูกค้า/ผู้ใช้</em> (external)</span></li>
+          <li><span class="step-t"><b>ทริคจำ:</b> ตำแหน่งคำ right สลับกัน — product <em>right</em> = V<em>e</em>rification (ถูกวิธี), <em>right</em> product = V<em>a</em>litation... ให้จำแบบนี้: Verification = ตรง spec ไหม / Validation = ตรงใจไหม</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p4-2">
+    <div class="pr-head"><span class="pr-num">ข้อ 2</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>จำแนกสถานการณ์:</strong> (a) QA ทีมวิ่ง JUnit ทดสอบฟังก์ชันคำนวณค่าส่งทีละโมดูลแบบโดดเดี่ยว (b) สาธิตระบบทั้งหมดให้เจ้าของร้านดู แล้วเจ้าของร้านลงนามรับมอบ (c) เชื่อมโมดูลสั่งซื้อ+ครัว+จัดส่งแล้วทดสอบ flow สมบูรณ์</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>(a)</b> <strong>Verification — Unit testing</strong> (โมดูลเดี่ยว in isolation, inputs: unit spec + code + expected results)</span></li>
+          <li><span class="step-t"><b>(b)</b> <strong>Validation — Acceptance testing</strong> (ท้ายโปรเจกต์, demonstrate ให้ลูกค้า, ผลลัพธ์คือ sign-off หรือรายการ fault)</span></li>
+          <li><span class="step-t"><b>(c)</b> <strong>Verification — System/Integration testing</strong> (โมดูลต่อกันแล้วทดสอบทั้งระบบเทียบ system specification)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p4-3">
+    <div class="pr-head"><span class="pr-num">ข้อ 3</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เรียงงาน:</strong> เรียงลำดับงานต่อไปนี้: System integration / Feasibility study / Detailed design / Maintenance / Requirements engineering / Programming / Architectural design / Production / Verification</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>1.</b> Feasibility study — คุ้มทำไหมก่อนเริ่ม</span></li>
+          <li><span class="step-t"><b>2.</b> Requirements engineering — ผู้ใช้ต้องการอะไร → requirements specification</span></li>
+          <li><span class="step-t"><b>3.</b> Architectural design — หั่นระบบเป็นโมดูล</span></li>
+          <li><span class="step-t"><b>4.</b> Detailed design — ออกแบบรายโมดูล</span></li>
+          <li><span class="step-t"><b>5.</b> Programming — โค้ด</span></li>
+          <li><span class="step-t"><b>6.</b> System integration — รวมโมดูล → complete system</span></li>
+          <li><span class="step-t"><b>7.</b> Verification — ทดสอบว่าตรง spec</span></li>
+          <li><span class="step-t"><b>8.</b> Production — ใช้งานจริง + อบรม</span></li>
+          <li><span class="step-t"><b>9.</b> Maintenance — แก้/เพิ่มต่อหลายปี</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p4-4">
+    <div class="pr-head"><span class="pr-num">ข้อ 4</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>ตาราง:</strong> Unit testing มี inputs อะไร 3 อย่าง และ system testing มี inputs อะไรบ้าง ต่างกันตรงไหน?</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>Unit testing inputs:</b> (1) unit specification (2) unit code (3) list of expected test results — products: test results</span></li>
+          <li><span class="step-t"><b>System testing inputs:</b> system specification + code ของระบบสมบูรณ์</span></li>
+          <li><span class="step-t"><b>ต่างกัน:</b> unit = ระดับโมดูลเดียวโดดเดี่ยว / system = ระดับระบบหลังต่อโมดูลแล้ว — ทั้งคู่เป็น Verification 2 ประเภท</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p4-5">
+    <div class="pr-head"><span class="pr-num">ข้อ 5</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เทียบเอกสาร:</strong> Documentation สำหรับผู้ใช้กับสำหรับนักพัฒนา มีเนื้อหาอะไรบ้าง และต่างกันในเรื่อง "what vs how" อย่างไร</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>เอกสารผู้ใช้:</b> วิธีติดตั้ง ติดตั้งใหม่ ใช้งาน — กระดาษยังต้องการ ซอฟต์แวร์ general มักมี help system — เน้น "<strong>what</strong>" (มุมนอก/external view) ไม่ใช่ "<strong>how</strong>" (กลไกข้างใน)</span></li>
+          <li><span class="step-t"><b>เอกสารนักพัฒนา:</b> specification, architectural design, detailed design, code, comments ในโค้ด, test schedules, test results, project plan — เพื่อพัฒนาต่อและทำ maintenance</span></li>
+          <li><span class="step-t"><b>สรุปหนึ่งบรรทัด:</b> ผู้ใช้เอา "what" (ใช้ยังไง) นักพัฒนาเอา "how" (ข้างในทำงานยังไง)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p4-6">
+    <div class="pr-head"><span class="pr-num">ข้อ 6</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>วิเคราะห์เคส (โยงข้อสอบ Final):</strong> ทีม A สร้างแอปสั่งอาหาร ทดสอบทุกโมดูลผ่านหมด (ตรง spec 100%) แต่พอส่งมอบ ลูกค้าบอกว่า "ผมอยากได้ปุ่มเรียกพนักงาน ไม่ใช่แชตบอท" — ทีม A ตกตรงไหน ใช้คำว่า Verification หรือ Validation อธิบาย</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>ผ่าน Verification:</b> โค้ดตรง spec ทุกข้อ (building the product right ผ่าน) — ระบบทดสอบสมบูรณ์ ไม่พัง</span></li>
+          <li><span class="step-t"><b>ตก Validation:</b> สิ่งที่สร้างไม่ใช่ "right product" ของลูกค้า — spec เองแพ้ทางความต้องการจริงของผู้ใช้</span></li>
+          <li><span class="step-t"><b>บทเรียน:</b> Validation ไม่ใช่ทำตอนท้ายอย่างเดียว — ต้อง validate ความเข้าใจ requirement ตั้งแต่ต้น (acceptance test เขียนไว้ตั้งแต่ตอนเขียน requirement — เชื่อมบทที่ 6) ไม่งั้น "ทดสอบสมบูรณ์แต่ไม่ใช่ของที่ต้องการ"</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+</section>
+
+</div></main>
+
+<nav class="pager" id="pager"></nav>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/tts.js"></script>
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>บทที่ 10 การทดสอบซอฟต์แวร์ — SE 05506017</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230d1930%22/><text x=%2250%22 y=%2270%22 font-size=%2252%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22>SE</text></svg>">
+<meta name="description" content="บทที่ 10 การทดสอบซอฟต์แวร์ — Unit/Integration/System/Acceptance/Function/Quality/Installation test, Black-box vs White-box, Equivalence/Boundary/Control-flow/State-based พร้อมแนวจับคู่ข้อสอบ">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-ch="10" data-section="10" data-page="ch10.html" data-tts="1">
+<header class="topbar">
+  <button class="icon-btn menu-btn" id="menuBtn" aria-label="เปิดเมนู">☰</button>
+  <a class="brand" href="index.html"><span class="brand-badge">SE</span><span>Software Engineering <span class="brand-sub">05506017 · 1/2569</span></span></a>
+  <span class="spacer"></span>
+  <button class="icon-btn theme-btn" id="themeBtn" aria-label="สลับโหมดมืด/สว่าง">🌙</button>
+</header>
+<div class="layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="scrim" id="scrim"></div>
+
+  <main class="content"><div class="inner">
+
+<div class="crumb">บทที่ 10 · การทดสอบซอฟต์แวร์</div>
+<h1 class="page-title">บทที่ 10 — Software Testing</h1>
+<p class="page-sub">หัวข้อจับคู่ข้อสอบที่รุ่นพี่ยืนยันว่าออกชัวร์: ประเภทการทดสอบ 7 ระดับ
+Unit → Integration → Function → Quality → System → Acceptance → Installation
+บวก Black-box/White-box และเทคนิค Equivalence, Boundary, Control-flow, State-based</p>
+
+<nav class="pillnav">
+  <a href="#objectives">🎯 จุดประสงค์</a>
+  <a href="#levels">📚 7 ระดับการทดสอบ</a>
+  <a href="#tech">🧪 เทคนิคออกแบบเทส</a>
+  <a href="#exam">🎯 แนวข้อสอบ</a>
+  <a href="#practice">🏋️ โจทย์ซ้อมมือ</a>
+</nav>
+
+<section class="block" id="objectives">
+  <div class="obj">
+    <h2>🎯 เรียนจบบทนี้ คุณต้องทำสิ่งเหล่านี้ได้</h2>
+    <ul>
+      <li>จำคำพูด Dijkstra: <strong>"Testing shows the presence, not the absence of bugs"</strong> — ทดสอบพบว่ามี bug ไม่ใช่ว่าไม่มี bug</li>
+      <li>แยก <strong>fault/defect/bug</strong> (สิ่งผิดพลาดในระบบ) และนิยาม test case / test</li>
+      <li><strong>เรียงและจับคู่ 7 ระดับการทดสอบ</strong> กับคำอธิบาย+ใครทำ — แนวจับคู่ข้อสอบตรง ๆ</li>
+      <li>แยก <strong>Black-box</strong> (ดูจาก spec, ฝั่งลูกค้า) กับ <strong>White-box</strong> (ดูโค้ด, ฝั่งนักพัฒนา)</li>
+      <li>อธิบายเทคนิค 4 แบบ: <strong>Equivalence / Boundary / Control-flow / State-based</strong> + เขียน equivalence classes จากโจทย์ได้</li>
+      <li>อ่าน <strong>state diagram</strong> (Locked/Accepting/Unlocked/Blocked) และบอก transition ได้</li>
+      <li>อธิบาย mock objects (test driver vs test stub), fixture, และวงจร unit test 3 ขั้น (set up → act → verify)</li>
+      <li>เทียบ integration แบบ big bang / bottom-up / top-down / sandwich และ vertical</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="lesson">
+  <h2><span class="h2-dot">📖</span> บทเรียน</h2>
+
+  <div class="box box-idea">
+    <div class="box-title">🗺️ ที่มาที่ไป — ทำไมต้องมี "วิทยาการทดสอบ"</div>
+    <p>ทุกคนที่พัฒนาซอฟต์แวร์<em>ต้องทดสอบอยู่แล้ว — หลีกเลี่ยงไม่ได้</em> คำถามคือทำแบบสุ่ม ๆ (random trial-and-error) หรืออย่างเป็นระบบมีแผน? เป้าหมาย: ลอง "critical input combinations" ให้มากที่สุดในเวลา/ทรัพยากรที่มี — สูงสุด coverage ของ input space เท่าที่จะทำได้โดยทดสอบ "highest-priority" ก่อน</p>
+    <p><strong>ทำไม testing ยาก:</strong> ระบบจริงจัง<em>ทดสอบไม่ครบได้</em> — ตัวอย่างสไลด์: รหัส 4 หลัก มี 10,000 ชุด + ยังต้องเช็ก 3 หลัก 2 หลัก ครึ่ง ๆ กลาง ๆ จะ timeout reset รึเปล่า? คู่ของกันชุดล้นๆ? — เลยตั้งเป้า: <strong>หา fault ให้ได้เร็วและถูกที่สุด</strong> ทำได้เพราะเราเชื่อว่า "correct behavior บน critical test cases แทนพฤติกรรมของส่วนที่ไม่ได้ทดสอบได้"</p>
+    <p><strong>Tradeoff หัวใจ:</strong> ทดสอบให้ครอบคลุมมาก ๆ (high coverage) แต่ต้นทุนจำกัด — จึงต้องมีเทคนิค "งัด" เคสที่ไล่ bug ได้มากที่สุดก่อน</p>
+  </div>
+
+  <div class="box box-def">
+    <div class="box-title">📐 ศัพท์พื้นฐาน + TDD</div>
+    <p><strong>"Testing shows the presence, not the absence of bugs." — Edsger W. Dijkstra</strong> (จำให้ขึ้นใจ — อาจออกอ้าง/เติมคำ)</p>
+    <p><strong>Fault (aka defect, bug)</strong> = องค์ประกอบ HW/SW ที่ผิดพลาดซึ่งทำให้ระบบ fail ได้</p>
+    <p><strong>Test-Driven Development (TDD):</strong> ทุกขั้นของการพัฒนา<em>ต้องเริ่มด้วยแผนว่าจะ verify ยังไง</em> — ห้ามสร้าง artifact ใด (requirement, UML diagram, โค้ด) ถ้าไม่รู้ว่าจะทดสอบมันอย่างไร</p>
+    <p><strong>Test case</strong> = การเลือก input data เฉพาะสำหรับทดสอบ + <em>ผลที่คาดว่าจะได้ (expected output/behavior)</em> — สังเกตว่าต้องมี "expected" เสมอ ไม่งั้นไม่ใช่ test case</p>
+    <p><strong>Test</strong> = กลุ่ม test cases จำกัดชุดหนึ่ง</p>
+    <p><strong>White-box</strong> = เอาโครงสร้าง<em>ใน</em>โปรแกรมมาใช้ (สมมติมีโค้ดให้อ่าน) · <strong>Black-box</strong> = สำรวจ input space ของฟังก์ชันจาก<em>interface specification</em> (ไม่สนโค้ดข้างใน)</p>
+  </div>
+
+  <h3 id="levels">1) 🎯 Logical Organization of Testing — 7 ระดับ (หัวใจข้อจับคู่)</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 600 380" role="img" aria-label="ลำดับการทดสอบ 7 ระดับจาก component code ถึง system in use พร้อมผู้ทำและเป้าหมาย">
+      <g>
+        <rect x="20" y="30" width="150" height="42" rx="9" class="f1" stroke="#2563eb" fill="none"></rect>
+        <text x="95" y="49" text-anchor="middle" class="big t1">Unit test</text>
+        <text x="95" y="66" text-anchor="middle" class="small mut">ตรวจแต่ละโมดูลตาม spec (ของ dev)</text>
+        <rect x="200" y="30" width="150" height="42" rx="9" class="f1" stroke="#2563eb" fill="none"></rect>
+        <text x="275" y="49" text-anchor="middle" class="big t1">Integration test</text>
+        <text x="275" y="66" text-anchor="middle" class="small mut">โมดูลทั้งหมดทำงานร่วมกันได้</text>
+        <rect x="380" y="30" width="150" height="42" rx="9" class="f2" stroke="#dc2626" fill="none"></rect>
+        <text x="455" y="49" text-anchor="middle" class="big t2">Function test</text>
+        <text x="455" y="66" text-anchor="middle" class="small mut">ตรวจ Functional Requirements</text>
+        <rect x="380" y="110" width="150" height="42" rx="9" class="f2" stroke="#dc2626" fill="none"></rect>
+        <text x="455" y="129" text-anchor="middle" class="big t2">Quality test</text>
+        <text x="455" y="146" text-anchor="middle" class="small mut">ตรวจ Non-functional Requirements</text>
+        <rect x="380" y="190" width="150" height="42" rx="9" class="f3" stroke="#059669" fill="none"></rect>
+        <text x="455" y="209" text-anchor="middle" class="big t3">Acceptance test</text>
+        <text x="455" y="226" text-anchor="middle" class="small mut">ลูกค้าตรวจ requirement ทั้งหมด</text>
+        <rect x="380" y="270" width="150" height="42" rx="9" class="f3" stroke="#059669" fill="none"></rect>
+        <text x="455" y="289" text-anchor="middle" class="big t3">Installation test</text>
+        <text x="455" y="306" text-anchor="middle" class="small mut">ในสภาพแวดล้อมจริงของผู้ใช้</text>
+        <rect x="200" y="190" width="150" height="42" rx="9" class="fsoft" stroke="var(--acc-ink)" fill="none"></rect>
+        <text x="275" y="209" text-anchor="middle" class="big">System test</text>
+        <text x="275" y="226" text-anchor="middle" class="small mut">ระบบสมบูรณ์เทียบ System Spec</text>
+        <rect x="20" y="190" width="150" height="42" rx="9" class="f1" stroke="#2563eb" fill="none"></rect>
+        <text x="95" y="209" text-anchor="middle" class="big t1">White box</text>
+        <text x="95" y="226" text-anchor="middle" class="small mut">(โดย developer)</text>
+        <rect x="20" y="270" width="150" height="42" rx="9" class="f3" stroke="#059669" fill="none"></rect>
+        <text x="95" y="289" text-anchor="middle" class="big t3">Black box</text>
+        <text x="95" y="306" text-anchor="middle" class="small mut">(โดย customer)</text>
+      </g>
+      <line class="uml-msg" x1="170" y1="50" x2="196" y2="50" marker-end="url(#ar3)"></line>
+      <line class="uml-msg" x1="350" y1="50" x2="376" y2="50" marker-end="url(#ar3)"></line>
+      <line class="uml-msg" x1="455" y1="72" x2="455" y2="106" marker-end="url(#ar3)"></line>
+      <line class="uml-msg" x1="455" y1="152" x2="455" y2="186" marker-end="url(#ar3)"></line>
+      <line class="uml-msg" x1="455" y1="232" x2="455" y2="266" marker-end="url(#ar3)"></line>
+      <text x="300" y="345" text-anchor="middle" class="mut">จำเป็นท่อน: ทดสอบชิ้นเดี่ยว → รวมกัน → เช็กฟังก์ชัน (FR) → เช็กคุณภาพ (NFR) → ระบบรวม → ลูกค้ายอมรับ → ติดตั้งในบ้านผู้ใช้จริง</text>
+    </svg>
+    <figcaption>ภาพ 10.1 — โครง Logical Organization of Testing (จากสไลด์): White-box ฝั่ง developer, Black-box ฝั่ง customer — สังเกตว่าไม่จำเป็นต้องทำเป็นเส้นตรงจนขั้นสุดท้ายในโลกจริง</figcaption>
+  </figure>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>ระดับ</th><th>ทำอะไร</th><th>ใคร/อะไรตรวจ</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Unit test</strong></td><td>ทดสอบโมดูล/คอมโพเนนต์เดี่ยว แบบ<em>โดดเดี่ยว</em> เทียบ unit specification</td><td>developer — <strong>white box</strong></td></tr>
+      <tr><td><strong>Integration test</strong></td><td>นำโมดูลที่ผ่าน unit test มาต่อกัน ทดสอบการทำงานร่วมกัน</td><td>developer</td></tr>
+      <tr><td><strong>Function test</strong></td><td>ยืนยันว่า<em>Functional requirements</em> ถูกตอบสนอง</td><td>ทีม/QA บนระบบรวม</td></tr>
+      <tr><td><strong>Quality test</strong></td><td>ยืนยัน<em>Non-functional requirements</em> (คุณภาพ เช่น speed, security)</td><td>ทีม/QA</td></tr>
+      <tr><td><strong>System test</strong></td><td>ทดสอบ<em>ระบบสมบูรณ์</em>เทียบ System Specification</td><td>ทีมรวม (ต้องทำงานกับช่างล็อก/ช่างไฟ ฯลฯ ถ้ามี HW)</td></tr>
+      <tr><td><strong>Acceptance test</strong></td><td><em>ลูกค้า</em>ทดสอบยอมรับว่า requirement ทั้งหมดตอบสนอง (black box)</td><td><strong>customer</strong></td></tr>
+      <tr><td><strong>Installation test</strong></td><td>ทดสอบใน<em>สภาพแวดล้อมจริง</em>ของผู้ใช้ ("platform" จริง)</td><td>ผู้ใช้ + ทีมติดตั้ง</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box box-key">
+    <div class="box-title">⚡ ตัวอย่าง Acceptance tests ของ Safe Home (black box — ดูพฤติกรรมนอก)</div>
+    <ul>
+      <li>ใช้คีย์ถูกต้องของ tenant ปัจจุบัน กับประตูห้องตัวเอง → <strong>pass</strong></li>
+      <li>ใช้คีย์ถูกต้องของ tenant ปัจจุบัน กับ<em>ประตูห้องคนอื่น</em> → <strong>fail</strong></li>
+      <li>ใช้คีย์ invalid กับห้องไหนก็ได้ → <strong>fail</strong></li>
+      <li>ใช้คีย์ของ tenant ที่ถูกถอนแล้ว กับห้องเดิม → <strong>fail</strong></li>
+      <li>ใช้คีย์ของ tenant ที่เพิ่มสด ๆ กับห้องตัวเอง → <strong>pass</strong></li>
+    </ul>
+    <p>อ่านได้ว่า acceptance test มักมาเป็น "สถานการณ์ input → คาดผล pass/fail" — เขียนได้ตั้งแต่ตอนเขียน requirement (บทที่ 6!)</p>
+  </div>
+
+  <div class="box box-def">
+    <div class="box-title">📐 Test Coverage</div>
+    <p><strong>Test coverage</strong> = วัดว่า spec หรือโค้ดของโปรแกรมถูก exercise โดยทดสอบมากแค่ไหน · <em>Specification testing</em> = ครอบคลุม input space (big picture — เช่น acceptance tests) · <em>Code coverage</em> = วัดว่าองค์ประกอบของ source code ถูกทดสอบเท่าไหร่ (implementation details — unit tests)</p>
+  </div>
+
+  <h3 id="tech">2) 🧪 เทคนิคออกแบบเทสที่ "Critical" — 4 แบบ</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 Heuristics: เคสบางตัว "วิกฤต" กว่าใคร</div>
+    <p>Test cases ควรถูกจัดลำดับ — บางเทสมีโอกาสจับ fault สูงกว่า เพราะมนุษย์มักผิดซ้ำ ๆ รูปแบบเดิม · <strong>สำหรับ black-box:</strong> equivalence testing, boundary testing · <strong>สำหรับ white-box:</strong> control-flow testing, state-based testing — ใช้เดี่ยวหรือผสมกันได้</p>
+  </div>
+
+  <h3>2.1) Equivalence Testing (black-box)</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 หั่น input space เป็นกลุ่ม "คาดว่าเจ้าประจำตัวในกลุ่มทำงานเหมือนกัน"</div>
+    <p>แบ่ง input ทั้งหมดเป็น <strong>equivalence groups</strong> — สมมติฐาน: (1) นักพัฒนาที่ตั้งใจดีอาจพลาดแบบกระทบ<em>ทั้งคลาส</em>ของค่า (2) ไม่มีเหตุผลที่เขาจะตั้งใจ hard-code พฤติกรรมพิเศษให้ค่าใดค่าหนึ่งในคลาส</p>
+    <p><strong>2 ขั้น:</strong> ① แบ่งค่า input เป็น equivalence groups ② เลือกค่าทดสอบจากแต่ละกลุ่ม (หยิบตัวแทน 1 ตัวต่อกลุ่ม — เพราะสมมติว่าในกลุ่มพฤติกรรมเหมือนกัน)</p>
+    <p><strong>สูตรหา equivalence classes:</strong></p>
+    <ul>
+      <li>input กำหนดเป็น <strong>ช่วงค่า</strong> (range เช่นตัวเลข/ตัวอักษร) → <em>1 กลุ่ม valid + 2 กลุ่ม invalid</em> (น้อยกว่าช่วง / เกินช่วง)</li>
+      <li>input กำหนดเป็น <strong>ค่าเดียว</strong> (เช่น security code ตัวเฉพาะ) → <em>1 valid + 2 invalid</em></li>
+      <li>input กำหนดเป็น <strong>เซตค่า</strong> (เช่นชื่อวัน/เดือน) → <em>1 valid + 1 invalid</em></li>
+      <li>input เป็น <strong>Boolean</strong> → <em>1 valid + 1 invalid</em></li>
+    </ul>
+  </div>
+  <figure class="fig">
+    <svg viewBox="0 0 560 220" role="img" aria-label="Equivalence classes ของค่า 0-100: กลุ่ม valid ตรงกลาง กลุ่ม invalid น้อยกว่า 0 และเกิน 100">
+      <line class="ax" x1="40" y1="120" x2="520" y2="120"></line>
+      <rect x="40" y="86" width="140" height="34" rx="6" class="f2" stroke="#dc2626" fill="none"></rect>
+      <rect x="180" y="86" width="200" height="34" rx="6" class="f3" stroke="#059669" fill="none"></rect>
+      <rect x="380" y="86" width="140" height="34" rx="6" class="f2" stroke="#dc2626" fill="none"></rect>
+      <text x="110" y="108" text-anchor="middle" class="t2">invalid: &lt; 0</text>
+      <text x="280" y="108" text-anchor="middle" class="t3">valid: 0 ≤ x ≤ 100</text>
+      <text x="450" y="108" text-anchor="middle" class="t2">invalid: &gt; 100</text>
+      <circle cx="180" cy="120" r="5" class="pt1"></circle>
+      <circle cx="380" cy="120" r="5" class="pt1"></circle>
+      <text x="180" y="146" text-anchor="middle" class="small t1">boundary 0</text>
+      <text x="380" y="146" text-anchor="middle" class="small t1">boundary 100</text>
+      <text x="280" y="185" text-anchor="middle" class="mut">ทดสอบ: หยิบตัวแทนจากกลุ่ม invalid (-5), valid (50), invalid (150) — และอย่าลืมขอบ 0 กับ 100 (→ boundary testing)</text>
+    </svg>
+    <figcaption>ภาพ 10.2 — Equivalence classes ของ input "จำนวน 0–100": ช่วงเดียว → 1 valid + 2 invalid</figcaption>
+  </figure>
+
+  <h3>2.2) Boundary Testing</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 กรณีพิเศษของ equivalence — จับ "ขอบ"</div>
+    <p>โฟกัส<em>ค่าที่ขอบของ equivalence classes</em> — ฐานคิด: นักพัฒนามักมองข้ามเคสพิเศษที่ขอบ (ตัวอย่างเรื่องจริง: Microsoft Zune leap year bug)</p>
+    <p>เลือก "ขอบ" หรือ outlier เช่น: <strong>ศูนย์, ค่า min/max, เซตว่าง, สตริงว่าง, null</strong> · สับสน <strong>&gt; กับ &gt;=</strong> · palindromes (สร้าง FSM จำกลับไม่ได้) ฯลฯ</p>
+  </div>
+
+  <h3>2.3) Control-flow Testing (white-box)</h3>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>ชนิด coverage</th><th>ความหมาย</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Statement coverage</strong></td><td>ทุก statement ถูก<em>execute อย่างน้อย 1 ครั้ง</em>โดย test case ใด test case หนึ่ง</td></tr>
+      <tr><td><strong>Edge (branch) coverage</strong></td><td>ทุก edge (กิ่งของ control flow) ถูก traverse อย่างน้อย 1 ครั้ง</td></tr>
+      <tr><td><strong>Condition coverage</strong></td><td>ทุก condition ให้ผล TRUE และ FALSE อย่างน้อยครั้งละครั้งใน test case ใดก็ได้</td></tr>
+      <tr><td><strong>Path coverage</strong></td><td>ทุกเส้นทาง (path) ที่แตกต่างของโปรแกรมถูก traverse อย่างน้อยครั้งละครั้ง (แพงสุด เส้นทางโตเร็วมาก)</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">โครง control graph: <code class="inline">a;</code> = เส้นเดียว · <code class="inline">a; b;</code> = สองกล่องต่อกัน · <code class="inline">if a then b;</code> = กิ่ง true เข้า b กิ่ง false ข้าม · <code class="inline">if a then b else c;</code> = สองกิ่ง · <code class="inline">while a do b;</code> = วนย้อน — และ Exceptions/Concurrency ก็เป็น control flow รูปหนึ่ง</p>
+
+  <h3>2.4) State-based Testing (นิยมกับ OOP)</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 นิยาม + ตัวอย่าง Safe Home</div>
+    <p>นิยามชุด<em>abstract states</em> ที่ object มีได้ แล้วทดสอบโดยเทียบ state จริงกับ state ที่คาด · state ของ object = constraint บนค่า attributes (เพราะ method ใช้ attribute คำนวณพฤติกรรม) — object ที่ไม่มี attribute ไม่มี state แต่ยัง unit-test ได้ · เตือน: state diagram เป็นสิ่งที่คน "คิดขึ้นมา" อาจไม่ครบ/ไม่ถูก (เหมือน equivalence classes)</p>
+    <p><strong>5 สถานะของระบบล็อก:</strong></p>
+    <ol class="flowsteps">
+      <li><b>Locked</b> ≡ (lockDeviceArmed == true) &amp;&amp; (numOfAttempts == 0)</li>
+      <li><b>Accepting</b> ≡ (armed == true) &amp;&amp; (0 &lt; numOfAttempts &lt; maxNumOfAttempts) — กำลังนับพยายาม (อาจเถียงได้ว่า Locked เป็น sub-state ของ Accepting)</li>
+      <li><b>Unlocked</b> ≡ (armed == false) &amp;&amp; (numOfAttempts == 0)</li>
+      <li><b>Blocked</b> ≡ (armed == true) &amp;&amp; (numOfAttempts == maxNumOfAttempts)</li>
+      <li><b>Undefined</b> ≡ ค่า attribute ที่ไม่เข้า 4 สถานะข้างบนเลย (บอกว่าโปรแกรมพัง — ควรไม่เกิด)</li>
+    </ol>
+    <p><strong>Events 2 ตัว:</strong> valid-key, invalid-key · <strong>transitions 5 เส้นที่ valid:</strong> Locked→Unlocked · Locked→Accepting · Accepting→Accepting (พยายามผิดซ้ำ ยังไม่เกิน) · Accepting→Unlocked · Accepting→Blocked (พยายามผิดจนเต็ม → sound-alarm)</p>
+  </div>
+  <figure class="fig">
+    <svg viewBox="0 0 560 300" role="img" aria-label="State diagram: Locked, Accepting, Unlocked, Blocked พร้อม transition ตาม valid-key และ invalid-key">
+      <defs><marker id="ar4" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--text)"></path></marker></defs>
+      <ellipse cx="110" cy="90" rx="62" ry="28" class="uml-ell"></ellipse>
+      <text x="110" y="95" text-anchor="middle" class="big">Locked</text>
+      <ellipse cx="330" cy="90" rx="70" ry="28" class="uml-ell"></ellipse>
+      <text x="330" y="95" text-anchor="middle" class="big">Accepting</text>
+      <text x="330" y="66" text-anchor="middle" class="small mut">(นับพยายาม)</text>
+      <ellipse cx="110" cy="230" rx="70" ry="28" class="uml-ell3"></ellipse>
+      <text x="110" y="235" text-anchor="middle" class="big t3">Unlocked</text>
+      <ellipse cx="420" cy="230" rx="62" ry="28" class="uml-ell2"></ellipse>
+      <text x="420" y="235" text-anchor="middle" class="big t2">Blocked</text>
+      <line class="uml-msg" x1="164" y1="82" x2="256" y2="82" marker-end="url(#ar4)"></line>
+      <text x="210" y="72" text-anchor="middle" class="small">invalid-key [count &lt; max] / signal-failure</text>
+      <line class="uml-msg" x1="300" y1="64" x2="150" y2="66" marker-end="url(#ar4)"></line>
+      <text x="226" y="52" text-anchor="middle" class="small mut">valid-key / signal-success</text>
+      <line class="uml-ret" x1="110" y1="118" x2="110" y2="200" marker-end="url(#ar4)"></line>
+      <text x="30" y="165" class="small t3">valid-key / success</text>
+      <line class="uml-ret" x1="170" y1="226" x2="354" y2="240" marker-end="url(#ar4)"></line>
+      <text x="262" y="222" text-anchor="middle" class="small t3">valid-key / success</text>
+      <line class="uml-msg" x1="392" y1="96" x2="420" y2="198" marker-end="url(#ar4)"></line>
+      <text x="470" y="150" class="small t2">invalid-key [count = max] / sound-alarm</text>
+      <text x="280" y="285" text-anchor="middle" class="mut">รูปแบบ label: event [guard condition] / action — ครอบ state ทุกสถานะ ≥ 1 เทส + transition ถูกทุกเส้น ≥ 1 ครั้ง + กระตุ้น transition ผิดกฎทุกแบบ</text>
+    </svg>
+    <figcaption>ภาพ 10.3 — State diagram ระบบล็อก: 4 สถานะ 2 เหตุการณ์ 5 transition ที่ valid — เงื่อนไขครอบคลุม state-based testing คือ (1) ทุก state ถูกเยี่ยม ≥1 ครั้ง (2) ทุก valid transition ≥1 ครั้ง (3) ทุก invalid transition ถูก trigger ≥1 ครั้ง</figcaption>
+  </figure>
+
+  <h3>3) Practical Unit Testing — Mock objects</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 Driver vs Stub + วงจร 3 ขั้น</div>
+    <p><strong>Test driver</strong> = ตัวจำลอง<em>ส่วนที่เรียกใช้</em> component ที่ทดสอบ (ด้านบน) · <strong>Test stub</strong> = ตัวจำลอง<em>คอมโพเนนต์ที่ถูกเรียกใช้</em> (ด้านล่าง) — ต้องมี mock เพราะ: ① ตัวจริงยังไม่มีให้ใช้ ② mock ง่ายตรวจ fault เจอง่าย (mock ไม่ใช่แหล่ง bug)</p>
+    <p><strong>unit ที่จะทดสอบเรียกว่า fixture</strong> — วงจร unit testing: ① สร้าง fixture + driver + stub(s) ② driver invoke operation บน fixture ③ ประเมินว่า actual state == expected state</p>
+    <p><strong>ชื่อ method ทดสอบ:</strong> <code class="inline">&lt;methodName&gt;_&lt;startingState&gt;_&lt;expectedResult&gt;</code> เช่น <code class="inline">checkKey_anyState_invalidKeyRejected()</code>, <code class="inline">enterKey_accepting_toBlocked()</code> — ตรวจด้วย assert methods ของ JUnit/xUnit: assertTrue, assertEquals(expected, actual), assertNull ฯลฯ</p>
+  </div>
+
+  <h3>4) Integration Testing — วิธีประกอบโมดูล</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 ประเด็นหลัก: ประกอบทีละยูนิตแล้ว "จับตัวการ" ที่มีปัญหาให้เร็ว</div>
+    <p><strong>Horizontal Integration:</strong></p>
+    <ul>
+      <li><strong>"Big bang"</strong> — รวมทุกอย่างครั้งเดียวจบ → ปัญหา: <em>จำกันยาก</em>ว่าหน่วยไหนก่อ integration fault</li>
+      <li><strong>Bottom-up</strong> — ทดสอบจาก Level-1 (ล่าง) ขึ้นไป ทีละก้อน (test Logger → +PhotoSObsrv → …) · <em>ข้อดี:</em> mock น้อยมาก · <em>ข้อเสีย:</em> ผู้ใช้ไม่เห็น functionality จนช้ามาก</li>
+      <li><strong>Top-down</strong> — เริ่ม Level-4 (บนสุด Controller) ลงไป ใช้ stub แทนชั้นล่างที่ยังไม่มี</li>
+      <li><strong>Sandwich</strong> — ผสมบวกล่างและบนลงประกบกลาง</li>
+    </ul>
+    <p><strong>Vertical Integration:</strong> หั่นระบบ<em>แนวตั้งตาม use case (user story)</em> แล้ว integrate ในแต่ละสไลซ์ก่อน (ใช้เทคนิค horizontal ในสไลซ์) — ตาม TDD: outer loop = ทำ acceptance test ผ่าน, inner loop = ทำ unit test ผ่าน, ระหว่างกลาง Refactor (วงจร Red-Green-Refactor ของ story)</p>
+  </div>
+  <div class="box box-idea">
+    <div class="box-title">💡 เกร็ดจากสไลด์ท้ายบท — Honeypots (ความปลอดภัย)</div>
+    <p><strong>Honeypot</strong> = กับดักหลอกเพื่อตรวจจับและศึกษาการโจมตีเครือข่าย (ส่วนของ security testing) — ผู้ใช้: <em>Attackers</em> (untrusted — script kiddies 95% ใช้มัลแวร์จากเน็ต ป้องกันง่าย / advanced 5% แกะระบบได้ ป้องกันยาก) กับ <em>Researchers</em> (trusted แต่อาจลบไฟล์ผิดพลาด) → ต้อง refine access control แยกสิทธิ์ตามประเภท</p>
+  </div>
+</section>
+
+<section class="block" id="exam">
+  <h2><span class="h2-dot">🎯</span> แนวข้อสอบของบทนี้</h2>
+  <div class="box box-warn">
+    <div class="box-title">🎯 จับคู่ Testing — ออกแน่นอน (รีวิวรุ่นพี่ + NotebookLM ยืนยัน)</div>
+    <ul>
+      <li><strong>จับคู่ 7 ระดับ:</strong> Unit / Integration / Function / Quality / System / Acceptance / Installation ↔ คำอธิบาย — คีย์: "โดดเดี่ยว" (Unit), "รวมโมดูล" (Integration), "Functional Req" (Function), "Non-functional" (Quality), "ระบบสมบูรณ์+System Spec" (System), "ลูกค้ายอมรับ" (Acceptance), "สภาพแวดล้อมผู้ใช้จริง" (Installation)</li>
+      <li><strong>จับคู่เทคนิค:</strong> equivalence groups (Equivalence), ค่า 0/min/max/null (Boundary), statement/edge/path coverage (Control-flow), states+transitions (State-based)</li>
+      <li><strong>เขียนตอบ "จะทดสอบระบบอย่างไร" จากโปรเจกต์:</strong> เดินตามระดับ + black/white box + เขียน test case ตัวอย่าง (ดูเฉลยเต็มหน้าติว Final)</li>
+      <li><strong>Driver vs Stub:</strong> driver เรียกของที่ทดสอบ (บน) / stub ถูกเรียก (ล่าง)</li>
+      <li><strong>Equivalence classes จากโจทย์:</strong> ให้กฎ range/ค่าเดียว/เซต/boolean → นับกลุ่ม</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="practice">
+  <h2><span class="h2-dot">🏋️</span> โจทย์ซ้อมมือ (8 ข้อ)</h2>
+
+  <div class="pr-card" data-pkey="p10-1">
+    <div class="pr-head"><span class="pr-num">ข้อ 1</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>จับคู่ (แนวข้อสอบตรงจากรุ่นพี่):</strong> จับประเภทการทดสอบกับคำอธิบาย: (1) Unit test (2) Integration test (3) Function test (4) Quality test (5) System test (6) Acceptance test (7) Installation test — กับคำอธิบาย: (ก) ลูกค้าทดสอบยอมรับ requirement ทั้งหมด (ข) ตรวจ Non-functional requirements (ค) ตรวจ Functional requirements (ง) ต่อโมดูลเข้าด้วยกันทดสอบ (จ) ตรวจแต่ละโมดูลแบบโดดเดี่ยว (ฉ) ตรวจในสภาพแวดล้อมใช้งานจริงของผู้ใช้ (ซ) ตรวจระบบรวมเทียบ System Specification</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>(1)→(จ)</b> Unit test — โมดูลเดี่ยวโดดเดี่ยว (ของ developer, white box)</span></li>
+          <li><span class="step-t"><b>(2)→(ง)</b> Integration test — รวมโมดูลแล้วทดสอบ</span></li>
+          <li><span class="step-t"><b>(3)→(ค)</b> Function test — ตอบสนอง Functional Requirements</span></li>
+          <li><span class="step-t"><b>(4)→(ข)</b> Quality test — ตอบสนอง Non-functional Requirements (คุณภาพ)</span></li>
+          <li><span class="step-t"><b>(5)→(ซ)</b> System test — ระบบสมบูรณ์เทียบ System Spec</span></li>
+          <li><span class="step-t"><b>(6)→(ก)</b> Acceptance test — ลูกค้ายอมรับ (black box โดยลูกค้า)</span></li>
+          <li><span class="step-t"><b>(7)→(ฉ)</b> Installation test — ติดตั้งใน environment จริงของผู้ใช้</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p10-2">
+    <div class="pr-head"><span class="pr-num">ข้อ 2</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เติมคำ:</strong> "Testing shows the ______, not the ______ of bugs." — ใครพูด และแปลว่าอะไรในทางปฏิบัติ?</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>เติม:</b> "Testing shows the <strong>presence</strong>, not the <strong>absence</strong> of bugs." — <strong>Edsger W. Dijkstra</strong></span></li>
+          <li><span class="step-t"><b>ความหมาย:</b> การทดสอบพิสูจน์ได้แค่ว่า "มีบั๊ก" — ไม่เคยพิสูจน์ได้ว่า "ไม่มีบั๊กเหลืออยู่เลย"</span></li>
+          <li><span class="step-t"><b>ในทางปฏิบัติ:</b> ระบบจริงจังไม่มีทางทดสอบครบทุก input (10,000 รหัส 4 หลัก + เคสเศษ ๆ) — เราจึงลดเป้าเป็นหา fault ที่ critical ให้เร็วที่สุดแทน</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p10-3">
+    <div class="pr-head"><span class="pr-num">ข้อ 3</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>ออกแบบ equivalence classes:</strong> ระบบ CS-Hospital รับ "อายุผู้ป่วย" ต้องอยู่ระหว่าง 1–120 ปี / "เลขบัตรประชาชน" ต้องเป็น 13 หลักพอดี / "เบอร์โทร" เป็นตัวเลข 9 หรือ 10 หลัก — ให้ equivalence classes แต่ละกรณีและเสนอค่าทดสอบ</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>อายุ (range):</b> valid = 1–120 · invalid = น้อยกว่า 1 (เช่น 0, -5) · invalid = มากกว่า 120 (เช่น 150) — รวม 3 กลุ่ม + ขอบ 1, 120 (boundary)</span></li>
+          <li><span class="step-t"><b>เลขบัตร (ค่าเดียว — 13 หลักพอดี):</b> valid = 13 หลัก · invalid = 12 หลัก · invalid = 14 หลัก — 3 กลุ่ม</span></li>
+          <li><span class="step-t"><b>เบอร์โทร (เซตของ 2 ความยาว):</b> valid = 9 หลัก หรือ 10 หลัก · invalid = ความยาวอื่น (8 หลัก, 11 หลัก) — 2 กลุ่ม (ตามกฎ "เซตค่า" = 1 valid + 1 invalid)</span></li>
+          <li><span class="step-t"><b>เสริม boundary:</b> อย่าลืม 1, 120, 13 หลักพอดี, ศูนย์ (0), เซตว่าง/สตริงว่าง, null — ขอบคือจุดที่ dev พลาดบ่อย</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p10-4">
+    <div class="pr-head"><span class="pr-num">ข้อ 4</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>State-based:</strong> ระบบล็อกอยู่ state "Accepting" ที่ numOfAttempts = maxNumOfAttempts − 1 — (ก) ถ้าผู้ใช้ใส่ key ผิดอีกเกิดอะไร (ข) ถ้าใส่ key ถูก (ค) ระบุ event, guard, action จาก transition ที่ (ก)</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>(ก)</b> numOfAttempts เต็ม max → transition <strong>Accepting → Blocked</strong> + <strong>sound-alarm</strong></span></li>
+          <li><span class="step-t"><b>(ข)</b> ใส่ถูก → <strong>Accepting → Unlocked</strong> + signal-success (ตัวนับกลับ 0 ตามนิยาม Unlocked)</span></li>
+          <li><span class="step-t"><b>(ค)</b> แยก label: event = <em>invalid-key</em> · guard = [numOfAttempts = maxNumOfAttempts] · action = <em>sound-alarm</em></span></li>
+          <li><span class="step-t"><b>เทียบ transition ที่ยังไม่เต็ม:</b> guard [count &lt; max] → อยู่ Accepting→Accepting (signal-failure แต่ยังไม่ blocked)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p10-5">
+    <div class="pr-head"><span class="pr-num">ข้อ 5</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>Mock objects:</strong> แยก test driver กับ test stub ต่างกันอย่างไร ทำไมต้องมี mock และ unit ที่ถูกทดสอบเรียกว่าอะไร</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>Test driver</b> = จำลองส่วนที่<em>เรียกใช้</em> operation บน component ที่ทดสอบ (ตัวเรียก — อยู่ด้านบน)</span></li>
+          <li><span class="step-t"><b>Test stub</b> = จำลอง component ที่<em>ถูกเรียกใช้</em>โดยตัวที่ทดสอบ (ตัวถูกเรียก — ด้านล่าง)</span></li>
+          <li><span class="step-t"><b>ทำไมต้อง mock:</b> ① ตัวจริงยังไม่พร้อม/ไม่มี ② mock ง่าย ไม่เป็นแหล่ง fault → จับ bug ของตัวที่ทดสอบได้ง่าย</span></li>
+          <li><span class="step-t"><b>unit ที่ทดสอบ = fixture</b> — วงจร: สร้าง fixture+driver+stub → driver invoke → เทียบ actual vs expected state</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p10-6">
+    <div class="pr-head"><span class="pr-num">ข้อ 6</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เทียบ Integration:</strong> Big bang มีปัญหาอะไร / Bottom-up ข้อดี-ข้อเสีย / Top-down ใช้อะไรแทนชั้นล่าง / ระบบที่ทำงานตาม user story ใหญ่ ๆ หลายตัวควรใช้แบบไหน</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>Big bang:</b> รวมหมดครั้งเดียว → <em>แยกตัวการ</em>ที่ก่อ integration fault ยากมาก</span></li>
+          <li><span class="step-t"><b>Bottom-up:</b> ข้อดี = ต้อง implement mock <em>น้อยมาก</em> / ข้อเสีย = ผู้ใช้ไม่เห็น functionality ใด ๆ จนช่วงท้ายพัฒนา</span></li>
+          <li><span class="step-t"><b>Top-down:</b> เริ่มจากบน (Controller) ใช้ <em>test stub</em> แทนชั้นล่างที่ยังไม่ถูกพัฒนา</span></li>
+          <li><span class="step-t"><b>โจทย์ story ใหญ่:</b> ใช้ <strong>Vertical Integration</strong> — หั่นแนวตั้งตาม use case/user story แล้ว integrate ในสไลซ์ก่อน (ใช้ horizontal ข้างใน) + วงจร TDD: acceptance test (outer loop) + unit test (inner loop) + refactor</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p10-7">
+    <div class="pr-head"><span class="pr-num">ข้อ 7</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เขียน test case (โยงข้อสอบ Final):</strong> สำหรับระบบ CS-Hospital เขียน test case 1 ชุดในรูปแบบของสไลด์ (Test-case ID, Use Case Tested, Pass/fail criteria, Input data, Test procedure + expected result) โดยเลือกฟังก์ชัน "ค้นหาประวัติผู้ป่วย"</p>
+      <details class="sol"><summary>แนวคำตอบ</summary>
+        <pre class="schema">Test-case Identifier: TC-3
+Use Case Tested: SearchPatientHistory (main success scenario)
+Pass/fail Criteria: ผ่านถ้าค้นด้วย HN ที่มีในระบบเจอประวัติถูกต้อง และแพทย์ที่ไม่มีสิทธิ์
+                    เข้าถึงข้อมูลผู้ป่วยนอกเขตรับผิดชอบต้องถูกปฏิเสธ
+Input Data: HN ผู้ป่วย (สตริงตัวเลข 7 หลัก), บัญชีผู้ใช้แพทย์
+Test Procedure                | Expected Result
+Step 1. ค้นด้วย HN ที่มีจริง   | ระบบแสดงประวัติตรงกับฐานข้อมูล ภายใน 2 วินาที
+Step 2. ค้นด้วย HN ที่ไม่มี     | ระบบแจ้ง "ไม่พบผู้ป่วย" ไม่ crash
+Step 3. ค้นด้วย HN ว่าง/สัญลักษณ์ | ระบบตรวจ input แจ้ง "รูปแบบไม่ถูกต้อง" (boundary/invalid)
+Step 4. แพทย์นอกเขตค้นผู้ป่วย    | ระบบปฏิเสธสิทธิ์ + บันทึก log การเข้าถึง (security)</pre>
+        <ol class="steps">
+          <li><span class="step-t"><b>สูตร:</b> ทุกเคสต้องมี expected result จริง ๆ + คลุมทั้ง success, invalid input, boundary และสิทธิ์</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p10-8">
+    <div class="pr-head"><span class="pr-num">ข้อ 8</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>Control-flow:</strong> ความต่าง statement / edge / condition / path coverage — และอะไรแพงสุดทำยากสุด เพราะอะไร</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>Statement:</b> ทุกคำสั่งรันผ่าน ≥ 1 ครั้ง (หยุดง่ายสุด)</span></li>
+          <li><span class="step-t"><b>Edge:</b> ทุกกิ่ง (branch) ของ control flow เดินผ่าน ≥ 1 ครั้ง</span></li>
+          <li><span class="step-t"><b>Condition:</b> ทุก condition ออกทั้ง TRUE และ FALSE ≥ ครั้งละครั้ง</span></li>
+          <li><span class="step-t"><b>Path:</b> ทุกเส้นทางเฉพาะเจาะจงของโปรแกรม ≥ 1 ครั้ง — <strong>แพงสุด</strong> เพราะจำนวน path โตแบบเลขชี้กำลังเมื่อมีวง/กิ่งซ้อน ทำจริงไม่ได้เต็ม 100%</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+</section>
+
+</div></main>
+
+<nav class="pager" id="pager"></nav>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/tts.js"></script>
+</body>
+</html>

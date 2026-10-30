@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>บทที่ 8 โมเดลกระบวนการซอฟต์แวร์ — SE 05506017</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230d1930%22/><text x=%2250%22 y=%2270%22 font-size=%2252%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22>SE</text></svg>">
+<meta name="description" content="บทที่ 8 โมเดลกระบวนการซอฟต์แวร์ — Waterfall, Spiral, Prototyping, RAD, Incremental, Evolutionary, RUP, XP, Scrum พร้อมข้อดีข้อจำกัดและแนวข้อสอบ">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-ch="8" data-section="8" data-page="ch8.html" data-tts="1">
+<header class="topbar">
+  <button class="icon-btn menu-btn" id="menuBtn" aria-label="เปิดเมนู">☰</button>
+  <a class="brand" href="index.html"><span class="brand-badge">SE</span><span>Software Engineering <span class="brand-sub">05506017 · 1/2569</span></span></a>
+  <span class="spacer"></span>
+  <button class="icon-btn theme-btn" id="themeBtn" aria-label="สลับโหมดมืด/สว่าง">🌙</button>
+</header>
+<div class="layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="scrim" id="scrim"></div>
+
+  <main class="content"><div class="inner">
+
+<div class="crumb">บทที่ 8 · โมเดลกระบวนการซอฟต์แวร์</div>
+<h1 class="page-title">บทที่ 8 — Software Process Models</h1>
+<p class="page-sub">รีวิวรุ่นพี่เตือน: "ทำความเข้าใจข้อจำกัดกับลักษณะของ Process Model — งานแบบไหนเหมาะกับ Model ไหน"
+บทนี้จึงจัดเป็นเทียบคู่ ๆ: ข้อดี/ข้อจำกัด ของ Waterfall, Spiral, Prototyping, RAD, Incremental, Evolutionary, RUP, XP, Scrum</p>
+
+<nav class="pillnav">
+  <a href="#objectives">🎯 จุดประสงค์</a>
+  <a href="#lesson">📖 บทเรียน</a>
+  <a href="#exam">🎯 แนวข้อสอบ</a>
+  <a href="#practice">🏋️ โจทย์ซ้อมมือ</a>
+</nav>
+
+<section class="block" id="objectives">
+  <div class="obj">
+    <h2>🎯 เรียนจบบทนี้ คุณต้องทำสิ่งเหล่านี้ได้</h2>
+    <ul>
+      <li>เล่าข้อดี/ข้อจำกัดของ Waterfall ได้ 4 ข้อ (ระบุชัดว่า "ออกสอบ")</li>
+      <li>อธิบาย Spiral: วนซ้ำ + <strong>risk analysis นำทุกเฟส</strong> + สิ่งที่วนในแต่ละรอบ + ใครประเมินจบรอบ</li>
+      <li>อธิบาย Prototyping (RAD Tool) และ RAD: 5 เฟส, ทีมขนาน, 60–90 วัน, ใช้เมื่อไหร่</li>
+      <li>แยก Incremental กับ Evolutionary และต่างจาก Waterfall อย่างไร</li>
+      <li>จำ RUP: 4 เฟส (Inception, Elaboration, Construction, Transition) + core process workflows 7 + supporting 3 + ลักษณะ "use case driven, architecture centric"</li>
+      <li>จำ XP: user stories, KIS, CRC cards, spike solution, refactoring, pair programming, continuous integration + 10 แนวปฏิบัติ</li>
+      <li>จำ Scrum: 3 เฟส, sprint 2–4 สัปดาห์, product backlog, scrum master ทำอะไร, ประโยชน์ 5 ข้อ</li>
+      <li><strong>จับคู่ "งานแบบไหน → Model ไหน" ได้</strong> (แนวข้อสอบที่รุ่นพี่ย้ำ)</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="lesson">
+  <h2><span class="h2-dot">📖</span> บทเรียน</h2>
+
+  <div class="box box-idea">
+    <div class="box-title">🗺️ ที่มาที่ไป — ทุกโมเดลคือการแก้จุดอ่อนของโมเดลก่อน</div>
+    <p>อ่านบทนี้เป็น "เรื่องวิวัฒนาการ": Waterfall วินัยดีแต่<em>ช้า ได้ของทีเดียวจบ</em> → Prototyping ทำตัวอย่างให้ผู้ใช้ดูก่อน<em>จับ requirement ให้แม่น</em> → Spiral เอา waterfall+prototype วนซ้ำ<em>แล้วเติม Risk Analysis</em> → RAD ย่นเวลาด้วยทีมขนาน + reuse → Incremental/Evolutionary ส่งเป็นก้อน → RUP จัดระเบียบกระบวนการเชิงวัตถุด้วย UML → XP/Scrum คือ Agile เร่ง feedback เป็นรายสัปดาห์</p>
+    <p><strong>อุปมาประจำบท:</strong> สร้างบ้าน — Waterfall = ออกแบบทั้งหมดแล้วก่อจบทีเดียว · Prototyping = สร้าง mockup บ้านตัวอย่างให้เจ้าของดูก่อน · Spiral = สร้างทีละวง วงแรกขอโครงเล็ก ๆ ประเมินเสี่ยงแล้วค่อยขยาย · Incremental = ส่งห้องนอนใช้ก่อนแล้วค่อยก่อห้องอื่น · Agile = ทีมช่างยืนพร้อมกันเช้าทุกวันปรับตาม feedback รายวัน</p>
+  </div>
+
+  <h3>1) Waterfall Model — รากฐานทุกโมเดล</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 5 ขั้น (ทบทวนจากบทที่ 1) + เกิดหลัง Feasibility</div>
+    <p>เริ่ม<em>หลัง Feasibility study</em> เมื่อรู้ต้นทุน-ผลประโยชน์แล้ว: <strong>Requirements Analysis and Specification</strong> (ระบุ+บันทึก requirement แบบใช้ภาษาปลายทาง/ผู้ใช้อ่านรู้เรื่อง) → <strong>Design and Specification</strong> แบ่ง 2 ซับ: <em>Architectural (high-level)</em> โครงสร้างโมดูล+การจัดองค์ประกอบ และ <em>Detailed design</em> ออกแบบรายโมดูลจากโครง → <strong>Coding and Module Testing</strong> (ทำโค้ดจริง+ทดสอบก่อนส่งต่อ) → <strong>Integration and System Testing</strong> (โมดูลที่ทดสอบแล้วมารวม ทดสอบเป็นระบบ) → <strong>Delivery and Maintenance</strong></p>
+  </div>
+  <div class="box box-warn">
+    <div class="box-title">🎯 ข้อดี / ข้อจำกัด ของ Waterfall — จำเป๊ะจากสไลด์ (ออกสอบ)</div>
+    <div class="match-grid">
+      <div class="match-item"><span class="m-key">ข้อดี (Advantages)</span><ul><li>แต่ละ task เป็นอิสระจากกัน</li><li>ควบคุมง่าย แม้โครงการใหญ่</li><li>โครงการจบตามเวลา (finish on time)</li></ul></div>
+      <div class="match-item"><span class="m-key">ข้อจำกัด (Disadvantages)</span><ul><li>ต้องออกแบบทุกงานก่อนแล้วค่อย coding</li><li>เอกสารเยอะมาก เปลืองเวลา</li><li>ผู้ใช้ต้องรอจนกระบวนการเสร็จหมด</li><li>ใช้กับเครื่องมือ/เทคโนโลยีใหม่ไม่ได้</li></ul></div>
+    </div>
+    <p>เหมาะกับงาน: requirement <em>ชัดเจนคงที่</em> เทคโนโลยีคุ้นเคย — ไม่เหมาะ: requirement กำกวม/จะเปลี่ยน</p>
+  </div>
+
+  <h3>2) Spiral Model — น้ำตก+ต้นแบบ+วิเคราะห์ความเสี่ยง</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 นิยามจากสไลด์</div>
+    <p>โมเดลที่ใช้ <strong>Waterfall + Prototype โดยพัฒนาเป็นเฟสเล็ก ๆ</strong> — แต่ละเฟสเล็กถูก<em>ทดสอบ ประเมิน และ integrate</em> เข้าโปรเจกต์หลัก</p>
+    <p>พัฒนาโดย <strong>Dr. Barry Boehm ที่ TRW</strong> — เป็น enhancement ของ waterfall/rapid prototype โดย <strong>risk analysis นำหน้าทุกเฟส</strong> (risk analysis preceding each phase) · รวม iterative development เข้ากับความเป็นระเบียบของ waterfall · ส่งมอบ incrementally ได้ทุกวง</p>
+    <p><strong>วงของ Spiral มีอะไร (จำ 6 คำ):</strong> Risk Analysis · Prototype · Design/Validation · Planning · Alternatives · Repeat + แกน: Measure of Cumulative Cost and Progress (วัดต้นทุนสะสม+ความคืบหน้า)</p>
+    <p><strong>เริ่ม/จบกระบวนการ:</strong> เริ่มเมื่อ mission การทำงานจริงปรับปรุงได้ด้วยแรง SE · ตลอดทางต้อง test hypothesis · จบเมื่อวงใด violate hypothesis หรือจบด้วยการติดตั้งผลิตภัณฑ์ใหม่/ที่แก้แล้ว</p>
+    <p><strong>Requirements ใน spiral:</strong> Alternatives/ความไม่แน่นอนต้อง resolve ทันทีที่เจอ · risk-driven ยอมใช้โมเดลอื่นผสมได้จนกว่า high-risk จะยุติ · คนเกี่ยวข้อง<em>review หลังจบทุกวง</em> แล้ววางแผนวงถัดไป</p>
+  </div>
+  <figure class="fig">
+    <svg viewBox="0 0 460 300" role="img" aria-label="Spiral model: วงกลมซ้อน 4 ส่วน Risk analysis, Prototype, Design/Validation, Planning วนรอบเพิ่มขนาดตามต้นทุน">
+      <circle cx="230" cy="140" r="34" class="uml-bound"></circle>
+      <circle cx="230" cy="140" r="72" class="uml-bound"></circle>
+      <circle cx="230" cy="140" r="110" class="uml-bound"></circle>
+      <path d="M230 140 L230 106 A34 34 0 0 1 264 140 L264 140" fill="none" stroke="#2563eb" stroke-width="2"></path>
+      <path d="M230 68 A72 72 0 0 1 302 140 L302 140 A72 72 0 0 1 230 212 A72 72 0 0 1 158 140 A72 72 0 0 1 230 68" fill="none" stroke="#dc2626" stroke-width="1.6" stroke-dasharray="6 4"></path>
+      <text x="230" y="34" text-anchor="middle" class="big t1">Risk Analysis</text>
+      <text x="404" y="140" text-anchor="middle" class="big t2">Prototype</text>
+      <text x="230" y="252" text-anchor="middle" class="big t3">Design / Validation</text>
+      <text x="56" y="140" text-anchor="middle" class="big">Planning</text>
+      <text x="230" y="286" text-anchor="middle" class="mut">ทุกวงเริ่มด้วย risk analysis — แผงมุมวัด "Cumulative Cost and Progress" เพิ่มตามวง</text>
+      <text x="230" y="98" text-anchor="middle" class="small mut">Alternatives → Repeat</text>
+    </svg>
+    <figcaption>ภาพ 8.1 — Spiral: วนซ้ำแต่ละวงโตขึ้น (ต้นทุนสะสมเพิ่ม) — เหมาะกับโครงการ<em>เสี่ยงสูง/ใหญ่</em> เพราะจับ risk ก่อนลงทุนจริงทุกวง</figcaption>
+  </figure>
+
+  <h3>3) Prototyping Model</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 ใจความสั้น ๆ</div>
+    <p>ทำ<em>ต้นแบบง่าย ๆ</em> ให้ผู้ใช้เช็ก requirement ของตัวเอง แล้วแก้ต้นแบบซ้ำ จนเข้าใจ requirement ผู้ใช้จริง · ต่อยอดจาก Waterfall · <strong>ไม่ดีสำหรับระบบใหญ่</strong> · เครื่องมือพัฒนาเรียกว่า <strong>RAD Tool (Rapid Application Development Tool)</strong></p>
+    <p>โฟลว์: Requirements → Design → Coding &amp; Module Testing → Integration &amp; System Testing → (มี "Testing" loop กลับมาแก้) → Delivery &amp; Maintenance</p>
+  </div>
+
+  <h3>4) RAD Model — เร่งสปีด 60–90 วัน</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 นิยาม + 5 เฟส + เมื่อไหร่ใช้</div>
+    <p><strong>RAD = Rapid Application Development</strong> — โมเดล incremental ที่เน้น<em>รอบพัฒนาสั้นมาก (extremely short development cycle)</em> · <strong>ใช้เมื่อ:</strong> requirement <em>เข้าใจดีแล้ว (well understood)</em> และ<em>scope ถูกจำกัด (constrained)</em> → ทีมสร้างระบบทำงานเต็มรูปแบบในเวลาสั้นมาก (ตามภาพสไลด์: <strong>60–90 วัน</strong>) โดยทีมหลายทีมทำขนานกัน</p>
+    <p><strong>5 เฟส (จำ "B-D-P-A-T"):</strong></p>
+    <ul>
+      <li><strong>Business modeling</strong> — ข้อมูลไหลในธุรกิจแบบไหน: อะไรขับเคลื่อน process? ข้อมูลไปที่ไหน? ใครประมวลผล?</li>
+      <li><strong>Data modeling</strong> — กลั่นเป็น data objects ที่รองรับธุรกิจ</li>
+      <li><strong>Process modeling</strong> — แปลง data objects ให้บรรลุ flow ของธุรกิจ: add/modify/delete/retrieve</li>
+      <li><strong>Application generation</strong> — ใช้เทคนิค 4GL (ภาษารุ่น 4/สัญลักษณ์กราฟิกที่ลูกค้าอ่านรู้เรื่อง)</li>
+      <li><strong>Testing and turnover</strong> — เน้น<em>reuse</em> คอมโพเนนต์ที่ทดสอบแล้ว → เวลาทดสอบรวมลดลง</li>
+    </ul>
+  </div>
+
+  <h3>5) Incremental vs Evolutionary Distribution</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 คู่เทียบสั้น ๆ</div>
+    <p><strong>Incremental Distribution Model:</strong> ทำ<em>analysis + design ของระบบทั้งหมดก่อน</em> แล้วค่อยพัฒนาแต่ละเฟส · ต่างจาก Waterfall ที่ห้ามหั่นเป็นเฟสเล็ก · แต่ก็ยากเหมือนกันที่จะหั่นโปรเจกต์รวมเป็นเฟสเล็ก</p>
+    <p><strong>Evolutionary Distribution Model:</strong> = <em>Evolutionary (Prototyping) Model + Incremental</em> — พัฒนา<em>ระบบหลัก (main system) ก่อน</em> แล้วค่อยเพิ่มส่วนตามรอบ</p>
+  </div>
+
+  <h3>6) RUP — Rational Unified Process</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 ภาพรวม</div>
+    <p>พัฒนาโดย <strong>Rational Software Corporation</strong> (ต่อมารวมกับ IBM) — methodology นิยมสำหรับระบบ<em>เชิงวัตถุ</em>ใช้ <strong>UML</strong> · เหมาะกับองค์กร/ธุรกิจ<em>ขนาดใหญ่</em> โดยเฉพาะผู้ผลิต/จัดจำหน่ายซอฟต์แวร์ ครอบคลุมทั้งบริหารโครงการและควบคุมคุณภาพ</p>
+    <p><strong>ลักษณะเด่น (จำประโยคนี้):</strong> "use case driven, <strong>architecture centric</strong>, iterative, incremental" + มี cycles, phases, workflows, risk mitigation, quality control, project management, configuration control</p>
+    <p><strong>Core Process Workflows 7 กิจกรรม:</strong> ① Business Modeling ② Requirement ③ Analysis (เอกสารขอบเขตระบบ → ผลคือ <em>Use Case Diagram &amp; Use Case Specification</em>) ④ Design (ศึกษา Pattern Design + เน้น UI) ⑤ Implementation ⑥ Testing ⑦ Deployment (ติดตั้ง HW/SW/network)</p>
+    <p><strong>Core Supporting Workflows 3 กิจกรรม:</strong> ① Configuration &amp; Change Management ② Project Management ③ Environment</p>
+  </div>
+  <div class="box box-key">
+    <div class="box-title">⚡ RUP 4 เฟส (จำ "I-E-C-T")</div>
+    <ul>
+      <li><strong>1. Inception</strong> — เริ่มต้น: กำหนดขอบเขต หน้าที่งานหลัก วิสัยทัศน์ ความสามารถพัฒนา · ก่อนวน iteration · มี Business Modeling, Requirement + supporting ทั้งหมด</li>
+      <li><strong>2. Elaboration</strong> — วางแผน/จัดสรรทรัพยากร: ระบุฟังก์ชันระบบใหม่ ทรัพยากรต่อฟังก์ชัน สถาปัตยกรรม · มี BM, Requirement, Analysis &amp; Design, Implementation &amp; Test + <em>Prototype สถาปัตยกรรม</em></li>
+      <li><strong>3. Construction</strong> — สร้างจริง: กิจกรรมสำคัญคือ <em>Implementation และ Testing</em></li>
+      <li><strong>4. Transition</strong> — ส่งมอบ: ติดตั้งใช้จริง อบรม ผู้เชี่ยวชาญปรึกษา บำรุงรักษาตามแผน</li>
+    </ul>
+  </div>
+
+  <h3>7) XP — Extreme Programming</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 วงจร 4 จุด: Planning → Design → Coding → Test</div>
+    <ul>
+      <li><strong>Planning:</strong> <em>User stories</em> — เล่าหน้าที่/ลักษณะที่ผู้ใช้ต้องการ (คล้าย use case เขียนโดยลูกค้า) · ทีมประเมิน cost เป็น<em>จำนวนสัปดาห์</em> · release ตาม velocity · acceptance test criteria + iteration plan</li>
+      <li><strong>Design:</strong> <em>KIS = Keep It Simple</em> — ใช้ <strong>CRC cards</strong> (Class Responsibility Collaborator) · ปัญหายากให้ทำ <strong>spike solution</strong> (โปรตงพร้อมใช้ทันทีเพื่อทดลอง) · <strong>Refactoring</strong> = ปรับปรุง design ภายหลัง coding</li>
+      <li><strong>Coding:</strong> พัฒนาเป็นโมดูลย่อย จบแล้วทดสอบทันที · <strong>Pair Programming</strong> (สองคนหนึ่งเครื่อง) · รวมต่อเนื่อง = <strong>Continuous Integration</strong></li>
+      <li><strong>Test:</strong> unit test ทุกชุดรวมกันเป็นชุดใหญ่ <strong>Universal Testing Suite</strong> → acceptance testing → release software increment → คำนวณ project velocity</li>
+    </ul>
+  </div>
+  <div class="box box-key">
+    <div class="box-title">⚡ 10 XP Practices (ตารางเทียบของสไลด์ — จับคู่ได้)</div>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>Practice</th><th>คีย์เวิร์ด</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Incremental planning</strong></td><td>requirement อยู่บน story cards เลือกเข้า release ตามเวลาที่มี+priority นักพัฒนาแตกเป็น tasks</td></tr>
+        <tr><td><strong>Small releases</strong></td><td>ทำ "ชุดฟังก์ชันน้อยที่สุดที่ให้ business value" ออกก่อน แล้ว release ถี่ ๆ เพิ่มฟีเจอร์</td></tr>
+        <tr><td><strong>Simple design</strong></td><td>ออกแบบพอสำหรับ requirement ปัจจุบัน ไม่เกินนั้น</td></tr>
+        <tr><td><strong>Test-first development</strong></td><td>เขียน<em>unit test อัตโนมัติก่อน</em>เขียนฟังก์ชันจริง (TDD)</td></tr>
+        <tr><td><strong>Refactoring</strong></td><td>ปรับปรุงโค้ดต่อเนื่องทันทีที่เจอจุดดีขึ้นได้ — โค้ดง่าย maintainable</td></tr>
+        <tr><td><strong>Pair programming</strong></td><td>2 คนหนึ่งจอ ตรวจงานกันและกัน</td></tr>
+        <tr><td><strong>Collective ownership</strong></td><td>ทุกคู่ทำทุกพื้นที่ ไม่มี "islands of expertise" — <em>ใครก็แก้อะไรก็ได้ (Anyone can change anything)</em></td></tr>
+        <tr><td><strong>Continuous integration</strong></td><td>จบ task รวมเข้าระบบทันที แล้ว unit test <em>ทั้งระบบต้องผ่านหมด</em></td></tr>
+        <tr><td><strong>Sustainable pace</strong></td><td>OT หนักไม่ยอมรับ — ลดคุณภาพโค้ดและผลิตภาพกลางเทอม</td></tr>
+        <tr><td><strong>On-site customer</strong></td><td>ตัวแทนผู้ใช้จริงอยู่<em>เต็มเวลา</em>กับทีม เป็นสมาชิกทีม รับผิดชอบดึง requirement มาให้ทีม</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <h3>8) Scrum</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 นิยาม + 3 เฟส</div>
+    <p>Scrum เป็น agile method แบบกว้าง — เน้น <strong>การจัดการการพัฒนาแบบ iterative</strong> มากกว่าแนวปฏิบัติเฉพาะ</p>
+    <ul>
+      <li><strong>เฟส 1 (outline planning):</strong> วาง objective ทั่วไป + design สถาปัตยกรรม</li>
+      <li><strong>เฟส 2 (sprint cycles):</strong> รอบวนพัฒนา increment ของระบบ — <strong>sprint ยาวคงที่ ปกติ 2–4 สัปดาห์</strong> (เทียบ release ของ XP) · เริ่มจาก <em>product backlog</em> (รายการงานทั้งหมด) · เฟส selection ทีมทั้งหมดคุยกับลูกค้าเลือกฟีเจอร์รอบนี้ · ระหว่างทำทีม<em>โดดเดี่ยวจากลูกค้า/องค์กร</em> คุยผ่าน "Scrum master" เท่านั้น · จบ sprint review นำเสนอ stakeholder แล้วเริ่มรอบใหม่</li>
+      <li><strong>เฟส 3 (project closure):</strong> ปิดโปรเจกต์ เอกสาร help/manual ประเมินบทเรียน</li>
+    </ul>
+    <p><strong>Scrum master ทำอะไร:</strong> facilitator — จัด<em>ประชุมรายวัน</em>, ตาม backlog, จด decision, วัดความคืบหน้า, สื่อสารกับลูกค้า/ผู้บริหารนอกทีม · บทบาทสำคัญ = <strong>ปกป้องทีมจาก external distractions</strong> · ทีมประชุมสั้นทุกวันแชร์ progress/ปัญหา/แผนพรุ่งนี้ → ทุกคนรู้สถานการณ์ ปรับแผนระยะสั้นได้</p>
+    <p><strong>Scrum benefits (5 ข้อ):</strong> ① ผลิตภัณฑ์แตกเป็นชิ้นเล็ก manageable/understandable ② <em>requirement ไม่เสถียรไม่ขวางความคืบหน้า</em> ③ ทีมเห็นทุกอย่าง สื่อสารดีขึ้น ④ ลูกค้าเห็นส่งมอบตรงเวลา + feedback ⑤ เกิดความไว้ใจลูกค้า↔นักพัฒนา + วัฒนธรรมเชิงบวกที่ทุกคนเชื่อว่าโปรเจกต์สำเร็จ</p>
+  </div>
+
+  <div class="box box-key" id="exam">
+    <div class="box-title">🎯 เทคนิคตอบ "งานแบบไหนเหมาะกับ Model ไหน" (แนวที่รุ่นพี่รีวิว)</div>
+    <p>โจทย์จะเล่าสถานการณ์ — จับ "คีย์เวิร์ด" ในโจทย์มาเทียบตารางนี้:</p>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>คีย์เวิร์ดในโจทย์</th><th>Model ที่เหมาะ</th><th>เหตุผล</th></tr></thead>
+      <tbody>
+        <tr><td>requirement ชัด คงที่ เทคโนโลยีคุ้น ต้องคุมง่าย</td><td><strong>Waterfall</strong></td><td>ทีละขั้นชัด ควบคุมง่ายแม้โครงการใหญ่</td></tr>
+        <tr><td>โครงการใหญ่ <em>เสี่ยงสูง</em> ต้องประเมิน risk ตลอด</td><td><strong>Spiral</strong></td><td>risk analysis นำทุกเฟส ลดโอกาสพัง</td></tr>
+        <tr><td>requirement ยัง<em>กำกวม</em> ต้องโชว์ตัวอย่างให้ผู้ใช้เห็นก่อน</td><td><strong>Prototyping</strong></td><td>ทำต้นแบบเร็วให้ผู้ใช้เช็ก-แก้ซ้ำ</td></tr>
+        <tr><td>requirement เข้าใจดี + scope จำกัด + <em>ต้องส่งไวมาก</em></td><td><strong>RAD</strong></td><td>ทีมขนาน + reuse → 60–90 วันจบ</td></tr>
+        <tr><td>ส่งมอบเป็นส่วน ๆ แต่ design รวมครั้งเดียว</td><td><strong>Incremental</strong></td><td>analysis+design รวมก่อน พัฒนาทีละเฟส</td></tr>
+        <tr><td>ส่งเป็นส่วน โดย "หลัก/แกน" มาก่อนแล้ววิวัฒน์ต่อ</td><td><strong>Evolutionary</strong></td><td>prototyping + incremental</td></tr>
+        <tr><td>องค์กรใหญ่ ระบบเชิงวัตถุ ใช้ UML ควบคุมคุณภาพเข้ม</td><td><strong>RUP</strong></td><td>use case driven, architecture centric, 4 เฟสชัด</td></tr>
+        <tr><td>ทีมเล็ก requirement เปลี่ยนบ่อย ลูกค้าร่วมทีมได้</td><td><strong>XP</strong></td><td>stories + TDD + pair + on-site customer</td></tr>
+        <tr><td>ต้องจัดการทีม iterative มีหลายทีม/งานคลุมเครือ</td><td><strong>Scrum</strong></td><td>sprint + backlog + scrum master ปกป้องทีม</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="block" id="examx">
+  <h2><span class="h2-dot">🎯</span> แนวข้อสอบเพิ่มเติมของบทนี้</h2>
+  <div class="box box-warn">
+    <div class="box-title">🎯 มีโอกาสสูง</div>
+    <ul>
+      <li><strong>ข้อดี/ข้อจำกัด Waterfall</strong> — ให้เขียนตอบ 4+4 ข้อ (จำจากกล่อง match-grid ข้างบน)</li>
+      <li><strong>Spiral:</strong> ผู้พัฒนา (Boehm/TRW), นวัตกรรมคือ risk analysis นำหน้าทุกเฟส, วงประกอบด้วยอะไร, ใคร review ท้ายวง</li>
+      <li><strong>RAD:</strong> 60–90 วัน, ใช้เมื่อ requirement well-understood + scope constrained, 5 เฟส B-D-P-A-T</li>
+      <li><strong>RUP:</strong> 4 เฟส I-E-C-T + 7 core + 3 supporting + "use case driven, architecture centric"</li>
+      <li><strong>XP:</strong> KIS, CRC cards, spike solution, refactoring, pair programming, continuous integration, collective ownership, on-site customer</li>
+      <li><strong>Scrum:</strong> sprint 2–4 สัปดาห์, product backlog, scrum master ปกป้องทีม, ประโยชน์ requirement ไม่เสถียรไม่ขวางงาน</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="practice">
+  <h2><span class="h2-dot">🏋️</span> โจทย์ซ้อมมือ (6 ข้อ)</h2>
+
+  <div class="pr-card" data-pkey="p8-1">
+    <div class="pr-head"><span class="pr-num">ข้อ 1</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เขียนตอบ (แนวข้อสอบ):</strong> ยกข้อดีของ Waterfall 3 ข้อ และข้อจำกัด 4 ข้อ</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>ข้อดี:</b> ① แต่ละ task อิสระจากกัน ② ควบคุมง่ายแม้โครงการใหญ่ ③ โครงการจบตามเวลา</span></li>
+          <li><span class="step-t"><b>ข้อจำกัด:</b> ① ต้องออกแบบทุก task แล้วค่อย coding ② เอกสารเยอะ เปลืองเวลา ③ ผู้ใช้รอจนกระบวนการเสร็จหมด ④ ใช้กับเครื่องมือใหม่ไม่ได้</span></li>
+          <li><span class="step-t"><b>ปิดท้ายเพิ่มคะแนน:</b> เหมาะกับงาน requirement ชัดคงที่ — ไม่เหมาะกับงานที่ requirement จะเปลี่ยนระหว่างทาง</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p8-2">
+    <div class="pr-head"><span class="pr-num">ข้อ 2</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เติมคำ:</strong> Spiral Model พัฒนาโดย ______ ที่ ______ — โมเดลนี้เป็นการผสม ______ กับ ______ โดยมี ______ นำหน้าทุกเฟส</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>เติม:</b> พัฒนาโดย <strong>Dr. Barry Boehm</strong> ที่ <strong>TRW</strong></span></li>
+          <li><span class="step-t">ผสม <strong>waterfall/sequential</strong> กับ <strong>iterative development + prototype</strong> โดยมี <strong>risk analysis</strong> นำหน้าทุกเฟส</span></li>
+          <li><span class="step-t">ทำให้: ตรวจ requirement + ทดสอบเฟสเล็กได้ ลด risk ป้องกันโปรเจกต์พัง เห็น progress ชัด คุมงบและ timeline ได้</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p8-3">
+    <div class="pr-head"><span class="pr-num">ข้อ 3</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>จับคู่ Model (เลียนแบบสถานการณ์):</strong> (a) ธนาคารต้องการระบบพนักงานเงินสด requirement ชัดเจนตายตัวตามกฎระเบียบ (b) สตาร์ทอัพทำแอปไอเดียใหม่ยังไม่รู้ผู้ใช้อยากได้อะไรจริง (c) องค์กรใหญ่ต้องเปลี่ยนระบบสำคัญ มีความเสี่ยงเรื่อง integration กับระบบเก่าหลายตัว (d) ร้านค้าอยากได้เว็บขายของแบบง่าย scope เล็ก ต้องขึ้นขายใน 2 เดือน</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>(a)</b> <strong>Waterfall</strong> — requirement ชัดคงที่ + ควบคุมง่ายตามกฎระเบียบ</span></li>
+          <li><span class="step-t"><b>(b)</b> <strong>Prototyping</strong> (หรือ XP/Scrum) — requirement กำกวม ต้องทำต้นแบบให้ผู้ใช้ทดลองแล้วแก้ซ้ำ</span></li>
+          <li><span class="step-t"><b>(c)</b> <strong>Spiral</strong> — โครงการใหญ่เสี่ยงสูง ใช้ risk analysis นำทุกวง</span></li>
+          <li><span class="step-t"><b>(d)</b> <strong>RAD</strong> — scope จำกัด + requirement เข้าใจดี + ต้องสั้น 60–90 วัน</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p8-4">
+    <div class="pr-head"><span class="pr-num">ข้อ 4</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>RUP เรียง:</strong> เรียง 4 เฟสของ RUP พร้อมบอกว่าแต่ละเฟสกิจกรรมหลักคืออะไร</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>1. Inception</b> — เริ่มต้น: ขอบเขต วิสัยทัศน์ หน้าที่หลัก (Business Modeling + Requirement + supporting)</span></li>
+          <li><span class="step-t"><b>2. Elaboration</b> — วางแผน/ทรัพยากร: ฟังก์ชันระบบ + สถาปัตยกรรม (อาจทำ prototype สถาปัตยกรรม)</span></li>
+          <li><span class="step-t"><b>3. Construction</b> — สร้าง: หัวใจคือ Implementation + Testing</span></li>
+          <li><span class="step-t"><b>4. Transition</b> — ส่งมอบ: ติดตั้งใช้จริง อบรม ผู้เชี่ยวชาญดูแล บำรุงรักษาตามแผน</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p8-5">
+    <div class="pr-head"><span class="pr-num">ข้อ 5</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>จับคู่ XP:</strong> (a) สองคนหนึ่งจอ ตรวจงานกัน (b) เขียน test ก่อนเขียนโค้ดจริง (c) ใครก็แก้โค้ดส่วนไหนก็ได้ ไม่มี "เจ้าของโค้ดเฉพาะคน" (d) มีตัวแทนผู้ใช้อยู่กับทีมเต็มเวลา (e) ปรับปรุงโค้ดต่อเนื่องเมื่อเจอจุดที่ดีขึ้นได้ (f) ทำโปรโตทดลองของส่วนที่ยากทันทีเพื่อแก้ปัญหาออกแบบ</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>(a)</b> Pair programming</span></li>
+          <li><span class="step-t"><b>(b)</b> Test-first development (TDD)</span></li>
+          <li><span class="step-t"><b>(c)</b> Collective ownership</span></li>
+          <li><span class="step-t"><b>(d)</b> On-site customer</span></li>
+          <li><span class="step-t"><b>(e)</b> Refactoring</span></li>
+          <li><span class="step-t"><b>(f)</b> Spike solution — (เสริม: จบ task รวมระบบทันที+test ผ่านหมด = Continuous integration)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p8-6">
+    <div class="pr-head"><span class="pr-num">ข้อ 6</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เขียนตอบโยง Final:</strong> โปรเจกต์เทอมของคุณเป็นเว็บแอป 4 คน ทำ 8 สัปดาห์ — ถ้าให้เลือก Scrum อธิบายวิธีจัดทีม + sprint + backlog + บทบาท Scrum master ว่าจะทำอย่างไร (พร้อมยกประโยชน์ 2 ข้อที่ตรงกับโปรเจกต์)</p>
+      <details class="sol"><summary>แนวคำตอบ</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>เฟส 1 outline planning:</b> ทีมวาง objective + ออกแบบสถาปัตยกรรมรวมครั้งแรก (เช่น web + database กลาง)</span></li>
+          <li><span class="step-t"><b>Sprint cycles:</b> 8 สัปดาห์ ÷ sprint 2 สัปดาห์ = 4 รอบ · แต่ละรอบดึงงานจาก product backlog มาทำ increment ที่ใช้ได้ (เช่น sprint 1 = ระบบล็อกอิน+ลงทะเบียน)</span></li>
+          <li><span class="step-t"><b>Selection + isolation:</b> เริ่ม sprint ทีมคุยกับลูกค้า (อาจารย์) เลือกฟีเจอร์รอบนั้น ระหว่างทำตั้งใจทำให้สำเร็จโดยไม่เปลี่ยนความต้องการกลางทาง</span></li>
+          <li><span class="step-t"><b>Scrum master:</b> หมุนเวียนหรือตั้ง 1 คน — จัด stand-up รายวัน ตาม backlog จด decision <strong>ปกป้องทีมจากสิ่งรบกวนภายนอก</strong></span></li>
+          <li><span class="step-t"><b>Review:</b> จบ sprint นำเสนอ stakeholder รับ feedback เข้า backlog รอบถัดไป</span></li>
+          <li><span class="step-t"><b>ประโยชน์ที่ตรงโปรเจกต์:</b> ① requirement อาจารย์ปรับกลางเทอมไม่ทำให้งานตัน (unstable requirements ไม่ขวาง progress) ② ทุกคนเห็นสถานะทุกวัน → สื่อสารดี ไม่มีคนตกงาน และส่งได้ตรงรอบ + ได้ feedback จากการสาธิตจริงทุก 2 สัปดาห์</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+</section>
+
+</div></main>
+
+<nav class="pager" id="pager"></nav>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/tts.js"></script>
+</body>
+</html>

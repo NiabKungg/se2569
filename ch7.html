@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>บทที่ 7 สถาปัตยกรรมซอฟต์แวร์ — SE 05506017</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230d1930%22/><text x=%2250%22 y=%2270%22 font-size=%2252%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22>SE</text></svg>">
+<meta name="description" content="บทที่ 7 สถาปัตยกรรมซอฟต์แวร์ — Client/Server, Layered, MVC, Pipe-and-Filter, REST, ER Schema (Crow's foot) พร้อมตัวอย่างวาดสถาปัตยกรรมและ Schema สำหรับข้อสอบ">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-ch="7" data-section="7" data-page="ch7.html" data-tts="1">
+<header class="topbar">
+  <button class="icon-btn menu-btn" id="menuBtn" aria-label="เปิดเมนู">☰</button>
+  <a class="brand" href="index.html"><span class="brand-badge">SE</span><span>Software Engineering <span class="brand-sub">05506017 · 1/2569</span></span></a>
+  <span class="spacer"></span>
+  <button class="icon-btn theme-btn" id="themeBtn" aria-label="สลับโหมดมืด/สว่าง">🌙</button>
+</header>
+<div class="layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="scrim" id="scrim"></div>
+
+  <main class="content"><div class="inner">
+
+<div class="crumb">บทที่ 7 · สถาปัตยกรรมซอฟต์แวร์</div>
+<h1 class="page-title">บทที่ 7 — Software Architecture</h1>
+<p class="page-sub">สองข้อเขียนจากรีวิวรุ่นพี่มาจากบทนี้: "เขียนสถาปัตยกรรมซอฟต์แวร์" และ "เขียน Schema"
+เราจะเรียนนิยามสถาปัตยกรรม, สไตล์ต่าง ๆ, REST/HTTP และการวาด ER Schema แบบ crow's foot — พร้อมตัวอย่าง CS-Hospital</p>
+
+<nav class="pillnav">
+  <a href="#objectives">🎯 จุดประสงค์</a>
+  <a href="#lesson">📖 บทเรียน</a>
+  <a href="#schema">🗃️ Schema</a>
+  <a href="#exam">🎯 แนวข้อสอบ</a>
+  <a href="#practice">🏋️ โจทย์ซ้อมมือ</a>
+</nav>
+
+<section class="block" id="objectives">
+  <div class="obj">
+    <h2>🎯 เรียนจบบทนี้ คุณต้องทำสิ่งเหล่านี้ได้</h2>
+    <ul>
+      <li>นิยามสถาปัตยกรรมซอฟต์แวร์ได้: "ชุดการตัดสินใจระดับสูงที่กำหนดโครงสร้าง (ส่วน + ความสัมพันธ์)" และรู้ว่า <strong>มันไม่ใช่ phase ของการพัฒนา</strong></li>
+      <li>บอกเหตุผลการแตกระบบ (decompose) ได้ 5 ข้อ</li>
+      <li><strong>จำสไตล์สถาปัตยกรรมหลัก</strong> (Client/Server, Central Repository, Layered, P2P, Microservices, MVC, REST, Pipe-and-Filter) พร้อมวาดภาพได้</li>
+      <li>อธิบาย Client = triggering process, Server = reactive process และ HTTP methods GET/POST/PUT/DELETE</li>
+      <li><strong>วาด ER Schema แบบ crow's foot</strong> จากโจทย์ระบบ (แนวข้อ "เขียน Schema")</li>
+      <li>อธิบาย MVC: Model/View/Controller ทำหน้าที่อะไร</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="lesson">
+  <h2><span class="h2-dot">📖</span> บทเรียน</h2>
+
+  <div class="box box-idea">
+    <div class="box-title">🗺️ ที่มาที่ไป — จากบทที่ 2 สู่ "แบบพิมพ์เขียว"</div>
+    <p>บทที่ 2 บอกหลัก Modularity (หั่นระบบเป็นชิ้น) — บทนี้ตอบต่อ: หั่นแล้ว <em>ประกอบกันอย่างไร? เชื่อมกันด้วยอะไร?</em> คำตอบคือสถาปัตยกรรม</p>
+    <p>ซอฟต์แวร์ไม่ใช่คำสั่งเรียงยาว ๆ มันมีโครงสร้างแบบลำดับชั้น: Product line → System/product → Subsystems/Modules → Packages → Classes/Objects → Methods → Source code — แต่ลำดับชั้นแค่บอก "อะไรอยู่ในอะไร" ยังไม่ได้บอก <em>ขั้นตอนหั่น</em> และ <em>ความสัมพันธ์</em> — สถาปัตยกรรมตอบสิ่งนี้</p>
+    <p><strong>อุปมา:</strong> สถาปัตยกรรมซอฟต์แวร์ = แบบพิมพ์เขียวของอาคาร — ก่อนก่อสร้างต้องตัดสินว่า: มีปีกไหนบ้าง (decomposition) · ปีกต่อกันด้วยทางเดิน/ลิฟต์จุดไหน (connectors) · ใช้รูปแบบอาคารแบบไหน (style: คอนโดมิเนียมชั้นลอย = layered, หมู่บ้านเดี่ยวเท่ากัน = microservices)</p>
+  </div>
+
+  <div class="box box-def">
+    <div class="box-title">📐 นิยาม + เหตุผลของการ decompose</div>
+    <p><strong>Software Architecture</strong> = <em>ชุดการตัดสินใจระดับสูง (high-level decisions) ที่กำหนดโครงสร้างของโซลูชัน — ส่วนต่าง ๆ ของระบบ (parts) และความสัมพันธ์ (relationships)</em></p>
+    <ul>
+      <li>เป็นการตัดสินใจ<em>หลัก</em>ที่ทำ<em>ตั้งแต่เนิ่น ๆ</em> และกระทบส่วนใหญ่ของระบบ ("design philosophy") — <strong>แก้ทีหลังยากมาก</strong></li>
+      <li>เป็นการเลือกใช้<em>วิธีที่พิสูจน์แล้ว</em> (well-known solutions proven to work) กับปัญหาคล้ายกัน</li>
+      <li><strong>Software Architecture ไม่ใช่ phase ของการพัฒนา</strong> — ไม่ได้หมายถึงผลผลิตเฉพาะขั้นไหน (ไม่ใช่แค่ "high-level design")</li>
+    </ul>
+    <p><strong>ทำไมต้อง decompose (5 เหตุผล):</strong> ① เอาอย่าง divide-and-conquer จัดการความซับซ้อน ② เช็กว่าบางส่วนมีอยู่แล้ว reusable ได้ ③ โฟกัสส่วนที่สร้างสรรค์ เลี่ยง reinventing the wheel ④ รองรับ flexibility/evolution ด้วยการ decoupling (แต่ละส่วนพัฒนาแยกกันได้ — separation of concerns) ⑤ สร้างความได้เปรียบเชิงกลยุทธ์ที่ยั่งยืน</p>
+    <p><strong>ตัวอย่างการตัดสินใจสถาปัตยกรรม (Safe Home):</strong> แบ่ง subsystem (ควบคุมอุปกรณ์ / จัดการ / เข้าถึงข้อมูลระยะไกล) · จับ SW ↔ HW (embedded / เดสก์ท็อป / สมาร์ตโฟน) · เลือกแพลตฟอร์ม (Android vs iOS, Web?) · เลือกสไตล์จับระบบเข้าด้วยกัน (architecture style)</p>
+  </div>
+
+  <div class="box box-def">
+    <div class="box-title">📐 ขอบเขตของการตัดสินใจ (A matter of scope) + ข้อกังวลหลัก</div>
+    <p>การตัดสินใจเป็น "architectural" ถ้า<em>มองจากขอบเขตปัจจุบันเท่านั้น</em> — ตัดสินไม่ได้จากมุมแคบกว่านั้น (เช่นตัดสินเรื่องระดับ subsystem ไม่ได้จากมุมระดับ class) · ลำดับขอบเขต: product line > product/system > subsystem > class — ยิ่งสูง impact ยิ่ง systemic</p>
+    <p><strong>Key Concerns 3 ข้อ:</strong> ① <em>System decomposition</em> — หั่นยังไง มีชิ้นครบไหม ชิ้นเข้ากันไหม คุยกันยังไง ② <em>Cross-cutting concerns</em> — คุณภาพครอบข้ามระบบ และการ tradeoff ระหว่างคุณภาพ ③ <em>Conceptual integrity</em> — ความสม่ำเสมอของแนวคิดทั้งระบบ</p>
+    <p><strong>การตัดสินใจมัก involve compromise:</strong> "ดีที่สุด" ต่อ component เดี่ยวอาจไม่ถูกเลือก เมื่อมองรวมกันหรือในบริบทกว้าง (ชิ้นส่วนดีสุดของรถแข่ง + รถหรู ประกอบกันไม่ได้ชั้นเลิศ) — พิจารณาเพิ่ม: business priorities, ทรัพยากร, ความสามารถแกนขององค์กร, ลูกค้าเป้าหมาย, เทคโนโลยีมาแรง, การลงทุนเดิม, backward compatibility</p>
+  </div>
+
+  <h3>1) มุมมอง (Views) — วิธี "มอง" สถาปัตยกรรม</h3>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>กลุ่มมุมมอง</th><th>รายการ</th><th>ใจความ</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Module/Subsystem Views</strong></td><td>Module Decomposition View / Dependency View / Layered View / Class View</td><td>decomposition = หั่น top-down (block diagram) · dependency = ใครใช้ใคร · layered = กรณีพิเศษของ dependency · class = "domain model" (OOA) และ "class diagram" (OOD)</td></tr>
+      <tr><td><strong>Component and Connector Views</strong></td><td>Process View / Concurrency View / Shared Data View / Client-Server View</td><td>process = ระบบเป็นชุด process คุยกันเป็นลำดับ · shared data = ใครแชร์ข้อมูลอะไร · client/server เช่น web browsing</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box box-def">
+    <div class="box-title">📐 สัญกรณ์ UML Component — provided / required interface</div>
+    <p>component นิยามพฤติกรรมผ่าน <strong>provided interface</strong> (สิ่งที่ให้บริการ — consumer เรียกใช้) และ <strong>required interface</strong> (สิ่งที่มันต้องเรียกใช้จากคนอื่น) — consumer เข้าถึงฟังก์ชันผ่าน required interface ("output port") ส่งเข้าไปที่ provider ที่ implement ผ่าน provided interface ("input port") — อุปมา: ปลั๊กไฟกับเต้า — รูปร่างต้องตรงกัน (interface) ถึงต่อกันได้ ไม่ต้องสนว่าข้างในสายวิ่งยังไง</p>
+    <p><strong>องค์ประกอบของ Architecture Styles 4 ชิ้น:</strong> <em>Components</em> (processing elements ที่ "ทำงาน") · <em>Connectors</em> (ทางสื่อสาร: broadcast bus, middleware, events, procedure calls) · <em>Interfaces</em> (จุดต่อบน component/connector บอกทางข้อมูลไหลเข้าออก) · <em>Configurations</em> (การจัดวาง component+connector ทั้งหมดที่เป็นสถาปัตยกรรม)</p>
+  </div>
+
+  <h3>2) 🎯 สไตล์สถาปัตยกรรม (Architecture Styles) — วาดได้ จำนิยามได้</h3>
+  <div class="box box-warn">
+    <div class="box-title">🎯 รายการจากสไลด์: REST (เว็บ) · Pipe-and-Filter (UNIX shell) · Client/Server · Central Repository (database) · Layered (Multi-Tiered) · Peer-to-Peer · Microservices — และ MVC</div>
+    <p>ข้อสอบเขียน "สถาปัตยกรรมซอฟต์แวร์" ของระบบ web แบบ CS-Hospital — คำตอบดีคือวาดระบบผสม: <strong>Layered + Client/Server + Central Repository</strong> (สไลด์เองบอกว่า "Real System is a Combination of Styles")</p>
+  </div>
+
+  <h3>2.1) Client/Server</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 นิยามที่ต้องพิมพ์ตอบให้ได้</div>
+    <p><strong>Client = triggering process</strong> (ตัวกระตุ้น — ส่งคำขอเมื่อไหร่ที่มันอยาก) · <strong>Server = reactive process</strong> (ตัวรับ — คอย<em>ฟัง</em>คำขอแล้ว<em>ตอบสนอง</em>) · คุยกันผ่าน <strong>connector</strong></p>
+    <p>ขั้นตอน 4 จังหวะ: (1) client ประกอบคำขอ (packing) → (2) server unpacking คำขอ → (3) server ประกอบคำตอบ (packing response) → (4) client unpacking ผลลัพธ์ใช้งาน — ส่งกันเป็น packets บน network connection</p>
+  </div>
+  <figure class="fig">
+    <svg viewBox="0 0 540 250" role="img" aria-label="Client/Server: User ส่งผ่าน Client (triggering) ผ่าน Connector ไป Server (reactive) แล้วตอบกลับ">
+      <rect x="30" y="60" width="120" height="56" rx="10" class="f1" stroke="#2563eb" fill="none"></rect>
+      <text x="90" y="84" text-anchor="middle" class="big t1">Client</text>
+      <text x="90" y="104" text-anchor="middle" class="small mut">triggering (ริเริ่มคำขอ)</text>
+      <rect x="400" y="60" width="120" height="56" rx="10" class="f3" stroke="#059669" fill="none"></rect>
+      <text x="460" y="84" text-anchor="middle" class="big t3">Server</text>
+      <text x="460" y="104" text-anchor="middle" class="small mut">reactive (คอยฟัง+ตอบ)</text>
+      <rect x="220" y="66" width="120" height="44" rx="22" class="fsoft" stroke="var(--acc-ink)" fill="none"></rect>
+      <text x="280" y="93" text-anchor="middle" class="big">Connector</text>
+      <line class="uml-msg" x1="150" y1="78" x2="216" y2="82" marker-end="url(#ar2)"></line>
+      <text x="183" y="64" text-anchor="middle" class="small t1">request →</text>
+      <line class="uml-ret" x1="396" y1="94" x2="344" y2="90" marker-end="url(#ar2)"></line>
+      <text x="370" y="124" text-anchor="middle" class="small t3">← response</text>
+      <line class="uml-msg" x1="340" y1="88" x2="398" y2="82" marker-end="url(#ar2)"></line>
+      <circle cx="280" cy="176" r="14" class="pt2"></circle>
+      <text x="280" y="212" text-anchor="middle" class="small mut">User ใช้ผ่าน Client — Client เลือกเวลาส่งคำขอเอง (times of its choosing) Server จะ reject หรือทำตามแล้วส่งคำตอบกลับ</text>
+      <text x="280" y="232" text-anchor="middle" class="small mut">อุปมา: ร้านอาหาร — ลูกค้า (client) เรียกพนักงาน พนักงาน (server) คอยรับออเดอร์แล้วส่งอาหารกลับ</text>
+    </svg>
+    <figcaption>ภาพ 7.1 — Client/Server style: จำคู่คำ triggering vs reactive</figcaption>
+  </figure>
+
+  <h3>2.2) Layered (Multi-Tiered)</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 460 260" role="img" aria-label="Layered architecture 3 ชั้น: UI, Application Logic, Technical Services แต่ละชั้นให้บริการชั้นบนและใช้บริการชั้นล่าง">
+      <rect x="80" y="24" width="300" height="56" rx="10" class="f1" stroke="#2563eb" fill="none"></rect>
+      <text x="230" y="48" text-anchor="middle" class="big t1">User Interface Layer</text>
+      <text x="230" y="68" text-anchor="middle" class="small mut">User Interaction (หน้าจอ ปุ่ม ฟอร์ม)</text>
+      <rect x="80" y="102" width="300" height="56" rx="10" class="f2" stroke="#dc2626" fill="none"></rect>
+      <text x="230" y="126" text-anchor="middle" class="big t2">Application Logic Layer</text>
+      <text x="230" y="146" text-anchor="middle" class="small mut">(Business Policies) อัลกอริทึม + ประมวลผลข้อมูล</text>
+      <rect x="80" y="180" width="300" height="56" rx="10" class="f3" stroke="#059669" fill="none"></rect>
+      <text x="230" y="204" text-anchor="middle" class="big t3">Technical Services Layer</text>
+      <text x="230" y="224" text-anchor="middle" class="small mut">(Mechanisms & Utilities) storage, networking, device drivers</text>
+      <line class="uml-msg" x1="340" y1="80" x2="340" y2="100" marker-end="url(#ar2)"></line>
+      <text x="404" y="94" class="small mut">ใช้บริการ ↓</text>
+      <line class="uml-ret" x1="120" y1="158" x2="120" y2="178" marker-end="url(#ar2)"></line>
+      <text x="16" y="172" class="small mut">ให้บริการ ↑</text>
+      <text x="230" y="252" text-anchor="middle" class="mut">แต่ละชั้นให้บริการชั้นบน และใช้บริการชั้นล่าง — ซ่อนชั้นในจากทุกชั้นยกเว้นชั้นติดกัน → coupling ลด → evolvability + reusability ดีขึ้น</text>
+    </svg>
+    <figcaption>ภาพ 7.2 — Layered style: อุปมา ตึกสำนักงาน — พนักงานขาย (UI) ไม่จำเป็นต้องรู้ว่ามิเตอร์ไฟวิ่งยังไง (Technical services)</figcaption>
+  </figure>
+
+  <h3>2.3) MVC — Model-View-Controller</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 560 300" role="img" aria-label="MVC: User กด Controller สั่ง Model, Model แจ้ง View, View ดึง state มาแสดง">
+      <rect x="210" y="30" width="130" height="52" rx="10" class="f2" stroke="#dc2626" fill="none"></rect>
+      <text x="275" y="52" text-anchor="middle" class="big t2">View</text>
+      <text x="275" y="72" text-anchor="middle" class="small mut">แสดงผลให้ผู้ใช้</text>
+      <rect x="210" y="180" width="130" height="52" rx="10" class="f1" stroke="#2563eb" fill="none"></rect>
+      <text x="275" y="202" text-anchor="middle" class="big t1">Model</text>
+      <text x="275" y="222" text-anchor="middle" class="small mut">ข้อมูล+state+logic</text>
+      <rect x="60" y="105" width="120" height="52" rx="10" class="f3" stroke="#059669" fill="none"></rect>
+      <text x="120" y="127" text-anchor="middle" class="big t3">Controller</text>
+      <text x="120" y="147" text-anchor="middle" class="small mut">รับ input แปลความหมาย</text>
+      <circle cx="490" cy="130" r="16" class="pt"></circle>
+      <text x="490" y="165" text-anchor="middle" class="small">User</text>
+      <line class="uml-msg" x1="180" y1="120" x2="255" y2="178" marker-end="url(#ar2)"></line>
+      <text x="150" y="200" class="small t1">2. แก้ state</text>
+      <line class="uml-ret" x1="290" y1="178" x2="286" y2="84" marker-end="url(#ar2)"></line>
+      <text x="304" y="140" class="small t3">4. บอกว่า "เปลี่ยนแล้ว"</text>
+      <line class="uml-msg" x1="256" y1="84" x2="250" y2="176" marker-end="url(#ar2)"></line>
+      <text x="212" y="132" class="small t3">5. ขอ state มาแสดง</text>
+      <line class="uml-msg" x1="470" y1="120" x2="184" y2="128" marker-end="url(#ar2)"></line>
+      <text x="330" y="112" class="small t1">1. ผู้ใช้ทำอะไรบางอย่าง</text>
+      <line class="uml-ret" x1="192" y1="146" x2="474" y2="142" marker-end="url(#ar2)"></line>
+      <text x="330" y="168" class="small mut">3+6. อัปเดตหน้าจอ (change your display)</text>
+      <text x="280" y="272" text-anchor="middle" class="mut">Model ไม่สนใจ View และ Controller เลย (oblivious) — เลขเดียวกันใน Model แสดงหลายแบบใน View ได้ (เช่น array เรียง 1 แถว หรือ 3 แถว)</text>
+    </svg>
+    <figcaption>ภาพ 7.3 — MVC: Model เก็บข้อมูล/state/logic อย่างเงียบ ๆ · Controller รับ input ผู้ใช้แปลความหมายสั่ง Model · View ดึงข้อมูลจาก Model มาแสดง — ตัวอย่าง array [14, 26, 31] แสดงเรียงคนละแบบได้จาก Model เดียว</figcaption>
+  </figure>
+
+  <h3>2.4) อีก 4 สไตล์ — Pipe-and-Filter · Central Repository · P2P · Microservices</h3>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>สไตล์</th><th>องค์ประกอบ/นิยาม</th><th>ตัวอย่าง</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Pipe-and-Filter</strong></td><td>Components = <em>Filters</em> (แปลง input → output) · Connectors = <em>Pipes</em> (สายข้อมูลไหลต่อกัน)</td><td>คำสั่ง UNIX: <code class="inline">ls | grep -v xxx | more</code> — ส่งผลลัพธ์เป็นท่อต่อกัน</td></tr>
+      <tr><td><strong>Central Repository (database)</strong></td><td>ใช้<em>คลังข้อมูลกลาง</em>เป็นศูนย์แลกเปลี่ยนระหว่าง subsystems — ทุก subsystem เข้าถึงข้อมูลกลาง</td><td>Safe Home: ข้อมูล valid keys, access history, tenant profiles อยู่ DB เดียว ทุก subsystem อ่าน/เขียนผ่านมัน</td></tr>
+      <tr><td><strong>Peer-to-Peer</strong></td><td>ทุกโหนด<em>บทบาทเท่าเทียม</em> — เป็นได้ทั้งผู้ร้องขอและผู้ให้บริการ</td><td>แชร์ไฟล์/บล็อกเชน — ไม่มี server ศูนย์กลาง</td></tr>
+      <tr><td><strong>Microservices</strong></td><td>แบ่งระบบเป็น<em>บริการเล็ก ๆ อิสระ</em> คุยกันผ่านเครือข่าย — deploy แยกกันได้</td><td>ระบบร้านอาหาร: บริการสั่งซื้อ / บริการครัว / บริการชำระเงิน แยกกัน</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box box-idea">
+    <div class="box-title">💡 ระบบจริงผสมหลายสไตล์ (จากสไลด์ Safe Home)</div>
+    <p>Subsystem ควบคุมอุปกรณ์ + subsystem จัดการ + subsystem เข้าถึงระยะไกล ทั้งหมดแชร์ข้อมูลผ่าน <strong>Central Repository</strong> (valid keys, history, profiles) — ส่วนฝั่งเว็บ (browser → web server → application server) เป็น <strong>Tiered/Layered</strong> — ข้อเขียนตอบให้ผสมอย่างนี้แล้วตั้งชื่อสไตล์ชัด ๆ จะได้คะแนนเต็ม</p>
+  </div>
+
+  <h3>2.5) REST + HTTP — ภาษาของเว็บ</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 REST (Representational State Transfer)</div>
+    <p>สไตล์เว็บ: <em>Client/Server แบบ <strong>Stateless</strong></em> — server ไม่จำประวัติคำขอเก่าของ client (session state อยู่ที่ client เอง) · ทรัพยากร (resource) ระบุด้วย <strong>URI</strong> · คำขอมีข้อมูลครบทุกอย่างที่ต้องใช้ · คำตอบเป็น representation มาตรฐาน (HTML, XML, JSON) มี hyperlink · มี intermediary (caching)</p>
+    <p><strong>HTTP methods (คู่กับ CRUD):</strong> <em>POST = create</em> (สร้างทรัพยากรใหม่) · <em>GET = read</em> (อ่าน) · <em>PUT = update</em> (แก้) · <em>DELETE = delete</em> (ลบ) — ทริค: REST ใช้ <em>URI = นาม (noun)</em> เช่น <code class="inline">/employees/</code> และ <em>HTTP method = กริยา (verb)</em> เช่น POST — เขียนตอบ: <code class="inline">POST /employees/ HTTP 1.1</code> + ข้อมูล John Doe, waiter, 1000 คือการ create พนักงานใหม่</p>
+    <p><strong>RESTful vs JSON-RPC (ตารางเทียบของสไลด์):</strong> REST เน้นทรัพยากร (nouns) นำทางได้, logic รันฝั่ง server, ใช้ HTTP method ทำ CRUD, body เป็น media มาตรฐานตาม negotiable, มี code-on-demand + caching · JSON-RPC เน้น procedure (verbs), logic ฝั่ง client มาก, URI เป็นที่อยู่ object, body เป็น JSON objects ล้วน</p>
+  </div>
+
+  <h3 id="schema">3) 🎯 Shared Database Connector — การเขียน Schema (ER Diagram + Crow's Foot)</h3>
+  <div class="box box-warn">
+    <div class="box-title">🎯 ข้อสอบ "เขียน Schema" = วาดแผนผังฐานข้อมูล (Entity-Relationship)</div>
+    <p>สไลด์ตัวอย่างร้านอาหาร: <strong>Entity set</strong> (ตาราง) เช่น employee, dining table, food order, menu item, payment · <strong>Relationship set</strong> เชื่อมระหว่าง entity เช่น employee–assigned–table · <strong>Attribute</strong> = คอลัมน์ (emp-id, name, role, salary…) · สัญลักษณ์ <strong>Crow's foot</strong> บอกจำนวน: exactly one (ขีด 1) · one or more (ปีกอีก้า) · zero or one (วงกลม+ขีด) · zero or more (วงกลม+ปีก)</p>
+    <p>สไลด์เขียน schema แบบข้อความด้วย: <code class="inline">employee (identifier, name, role, salary, …)</code>, <code class="inline">assigned (date, working shift)</code>, <code class="inline">dining table (identifier, capacity, status, seated customers)</code>, <code class="inline">food order (time, item, quantity, total price, status)</code>, <code class="inline">menu item (identifier, price, ingredients, availability)</code>, <code class="inline">payment (time, date, amount, confirmation number)</code></p>
+  </div>
+  <figure class="fig">
+    <svg viewBox="0 0 560 400" role="img" aria-label="ER Schema ร้านอาหารแบบ crow's foot: employee — assigned — dining table — food order — menu item พร้อม payment">
+      <defs><marker id="crow" markerWidth="14" markerHeight="12" refX="12" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12" fill="none" stroke="var(--text)" stroke-width="1.4"></path></marker></defs>
+      <g>
+        <rect x="20" y="40" width="96" height="52" rx="9" class="f1" stroke="#2563eb" fill="none"></rect>
+        <text x="68" y="62" text-anchor="middle" class="big t1">employee</text>
+        <text x="68" y="80" text-anchor="middle" class="small mut">emp-id (PK), name,</text>
+        <text x="68" y="88" text-anchor="middle" class="small mut" dy="0">role, salary</text>
+        <rect x="170" y="40" width="90" height="52" rx="9" class="fsoft" stroke="var(--acc-ink)" fill="none"></rect>
+        <text x="215" y="62" text-anchor="middle" class="big">assigned</text>
+        <text x="215" y="80" text-anchor="middle" class="small mut">date, shift</text>
+        <rect x="314" y="40" width="104" height="52" rx="9" class="f1" stroke="#2563eb" fill="none"></rect>
+        <text x="366" y="62" text-anchor="middle" class="big t1">dining table</text>
+        <text x="366" y="80" text-anchor="middle" class="small mut">tbl-id (PK), capacity,</text>
+        <text x="366" y="88" text-anchor="middle" class="small mut">status, customers</text>
+        <rect x="464" y="40" width="86" height="52" rx="9" class="f2" stroke="#dc2626" fill="none"></rect>
+        <text x="507" y="62" text-anchor="middle" class="big t2">food order</text>
+        <text x="507" y="80" text-anchor="middle" class="small mut">time, item,</text>
+        <text x="507" y="88" text-anchor="middle" class="small mut">qty, price, status</text>
+        <rect x="464" y="150" width="86" height="52" rx="9" class="f2" stroke="#dc2626" fill="none"></rect>
+        <text x="507" y="172" text-anchor="middle" class="big t2">menu item</text>
+        <text x="507" y="190" text-anchor="middle" class="small mut">mi-id (PK), price,</text>
+        <text x="507" y="198" text-anchor="middle" class="small mut">ingredients</text>
+        <rect x="170" y="150" width="90" height="52" rx="9" class="f3" stroke="#059669" fill="none"></rect>
+        <text x="215" y="172" text-anchor="middle" class="big t3">payment</text>
+        <text x="215" y="190" text-anchor="middle" class="small mut">time, date,</text>
+        <text x="215" y="198" text-anchor="middle" class="small mut">amount, confirm#</text>
+      </g>
+      <line class="uml-line" x1="116" y1="66" x2="170" y2="66" marker-end="url(#crow)"></line>
+      <text x="143" y="58" text-anchor="middle" class="small mut">1:N</text>
+      <line class="uml-line" x1="260" y1="66" x2="314" y2="66" marker-end="url(#crow)"></line>
+      <text x="287" y="58" text-anchor="middle" class="small mut">1:N</text>
+      <line class="uml-line" x1="418" y1="66" x2="464" y2="66" marker-end="url(#crow)"></line>
+      <text x="441" y="58" text-anchor="middle" class="small mut">1:N</text>
+      <line class="uml-line" x1="507" y1="92" x2="507" y2="150" marker-end="url(#crow)"></line>
+      <text x="530" y="124" class="small mut">ordered</text>
+      <line class="uml-line" x1="260" y1="176" x2="330" y2="92"></line>
+      <text x="300" y="160" class="small mut">paid by</text>
+      <text x="280" y="248" text-anchor="middle" class="mut">ตัวอย่าง: พนักงาน 1 คน assigned โต๊ะหลายโต๊ะ (1:N) · โต๊ะหนึ่งมี food order หลายใบ (1:N) · order ประกอบ menu item หลายรายการ</text>
+      <text x="280" y="268" text-anchor="middle" class="mut">สัญลักษณ์ crow's foot: ปีกอีก้า = "หลายตัว" ขีด = "หนึ่งตัว" วงกลม = "ศูนย์ได้"</text>
+      <text x="280" y="308" text-anchor="middle" class="big t2">→ โจทย์สอบจะเป็นระบบอื่น (เช่น CS-Hospital) — ท่าเดิมเปลี่ยน entity เท่านั้น</text>
+      <text x="280" y="336" text-anchor="middle" class="small mut">ขั้น 1: อ่านโจทย์หา "สิ่งที่เก็บข้อมูล" = entity · ขั้น 2: หา "ความสัมพันธ์" = line · ขั้น 3: กำกับ attribute + PK · ขั้น 4: ใส่สัญลักษณ์จำนวน (1:N ฯลฯ)</text>
+    </svg>
+    <figcaption>ภาพ 7.4 — ER Schema ร้านอาหารจากสไลด์ (แบบ crow's foot) + สูตร 4 ขั้นแปลงโจทย์เป็น schema — ใช้ท่าเดิมกับ CS-Hospital ที่หน้าติว Final</figcaption>
+  </figure>
+
+  <h3>4) Problem Structure — รูปแบบปัญหาคลาสสิก 3 กลุ่ม</h3>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>ปัญหา</th><th>รูปแบบโซลูชัน (Structure)</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1. ผู้ใช้ทำงานกับระบบคอมพิวเตอร์</strong> (โลกเสมือน)</td><td>1.a <em>Transformation</em>: Feeding subsystem → Transformation subsystem → Receiving subsystem (input doc → output doc) · 1.b <em>Simple editing</em>: Data editor ↔ Data repository</td></tr>
+      <tr><td><strong>2. ระบบควบคุมโลกกายภาพอัตโนมัติ</strong> (ไม่มีผู้ใช้)</td><td><em>Required behavior</em>: Controlling subsystem → Controlled subsystem</td></tr>
+      <tr><td><strong>3. ระบบเป็นคนกลางผู้ใช้↔โลกกายภาพ</strong></td><td>3.a <em>Information display</em>: Monitoring → Monitored (observe แล้วแสดงข้อมูล) · 3.b <em>Commanded behavior</em>: Controlling → Controlled โดยมี Operator สั่ง</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="block" id="exam">
+  <h2><span class="h2-dot">🎯</span> แนวข้อสอบของบทนี้</h2>
+  <div class="box box-warn">
+    <div class="box-title">🎯 ออกเขียนตอบ 2 ข้อจากรีวิวรุ่นพี่</div>
+    <ul>
+      <li><strong>"เขียนสถาปัตยกรรมซอฟต์แวร์" ของ CS-Hospital/CS-Pizza:</strong> วาดไดอะแกรม client/server + layered 3 ชั้น + database กลาง + ระบุชื่อสไตล์ → ดูเฉลยเต็มที่หน้า <a href="exam.html">ติว Final</a></li>
+      <li><strong>"เขียน Schema":</strong> วาด ER crow's foot จาก entity ในโจทย์ (patient, staff, record…)</li>
+      <li><strong>จับคู่/เติมคำสไตล์:</strong> triggering/reactive (Client-Server), stateless + URI (REST), ให้บริการชั้นบน-ใช้ชั้นล่าง (Layered), filters+pipes (Pipe-and-Filter), เท่าเทียม (P2P), เล็กอิสระ (Microservices)</li>
+      <li><strong>MVC:</strong> บอกบทบาท M/V/C และเส้นทาง 1→6 ของการกดปุ่มหนึ่งครั้ง</li>
+      <li><strong>HTTP methods:</strong> GET/POST/PUT/DELETE จับคู่ CRUD</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="practice">
+  <h2><span class="h2-dot">🏋️</span> โจทย์ซ้อมมือ (6 ข้อ)</h2>
+
+  <div class="pr-card" data-pkey="p7-1">
+    <div class="pr-head"><span class="pr-num">ข้อ 1</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เติมคำ (แนวข้อสอบ):</strong> ใน Client/Server อธิบายว่า Client เป็น ______ process และ Server เป็น ______ process</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>Client = triggering process</b> — เป็นตัวกระตุ้น ส่งคำขอเมื่อมันเลือกส่ง (times of its choosing)</span></li>
+          <li><span class="step-t"><b>Server = reactive process</b> — เสนอชุดบริการ คอยฟัง (listens) คำขอ แล้วตอบสนอง (reject หรือทำตามแล้วส่ง response)</span></li>
+          <li><span class="step-t"><b>จำอุปมา:</b> ลูกค้าเรียก / พนักงานคอยรับ</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p7-2">
+    <div class="pr-head"><span class="pr-num">ข้อ 2</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>จับคู่ HTTP ↔ CRUD:</strong> create / read / update / delete จับกับ HTTP method ใด และเขียนตัวอย่าง request สร้างพนักงานใหม่ในระบบร้านอาหาร</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>create → POST</b> (สร้างทรัพยากรใหม่) · read → GET · update → PUT · delete → DELETE</span></li>
+          <li><span class="step-t"><b>ตัวอย่างตามสไลด์:</b> <code class="inline">POST /employees/ HTTP 1.1</code> + <code class="inline">Host: www.restaurant.com</code> + body <code class="inline">name=John%20Doe&amp;role=waiter&amp;salary=1000</code> — URI เป็นนาม (/employees/) method เป็นกริยา (POST)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p7-3">
+    <div class="pr-head"><span class="pr-num">ข้อ 3</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>จำแนกสไตล์:</strong> (a) ทีมเขียนคำสั่ง UNIX ต่อกันหลายคำสั่งส่งข้อมูลเป็นสาย (b) ระบบที่ทุกเครื่องเท่าเทียม ใช้ได้ทั้งส่งและรับ (c) แอปธนาคารที่หน้าจอ/ตรรกะ/ฐานข้อมูลแยกชั้นชัดเจน (d) ระบบที่ server ไม่จำคำขอเก่าของ client เลย</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>(a)</b> <strong>Pipe-and-Filter</strong> — Filters แปลงข้อมูล Pipes ส่งต่อ</span></li>
+          <li><span class="step-t"><b>(b)</b> <strong>Peer-to-Peer</strong> — บทบาทเท่าเทียม</span></li>
+          <li><span class="step-t"><b>(c)</b> <strong>Layered (Multi-Tiered)</strong> — UI / Application logic / Technical services</span></li>
+          <li><span class="step-t"><b>(d)</b> <strong>REST</strong> — stateless server ไม่มีความจำคำขอเก่า (session state อยู่ที่ client)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p7-4">
+    <div class="pr-head"><span class="pr-num">ข้อ 4</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>วาด Schema (เลียนแบบข้อสอบ ย่อส่วน):</strong> ระบบคลินิกเล็กมี: ผู้ป่วยจองคิวกับแพทย์ การจองหนึ่งครั้งมี 1 แพทย์ แพทย์หนึ่งคนรับจองได้หลายครั้ง การจองหนึ่งครั้งออกใบเสร็จ 1 ใบ — วาด ER crow's foot พร้อม attribute และ PK</p>
+      <details class="sol"><summary>แนวคำตอบ</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>ขั้น 1 หา entity:</b> อ่านโจทย์ทีละวลี — "ผู้ป่วย" / "แพทย์" / "การจอง" / "ใบเสร็จ" → 4 entities: <code class="inline">Patient</code>, <code class="inline">Doctor</code>, <code class="inline">Appointment</code>, <code class="inline">Invoice</code></span></li>
+          <li><span class="step-t"><b>ขั้น 2 attribute + PK:</b> Patient(PK patient-id, name, phone) · Doctor(PK doctor-id, name, specialty) · Appointment(PK appt-id, date, time, status) · Invoice(PK invoice-id, amount, date)</span></li>
+          <li><span class="step-t"><b>ขั้น 3 ความสัมพันธ์:</b> Patient 1:N Appointment (ผู้ป่วย 1 จองได้หลายครั้ง) · Doctor 1:N Appointment (แพทย์ 1 รับหลายครั้ง / การจอง 1 ครั้งมี 1 แพทย์) · Appointment 1:1 Invoice (จอง 1 ครั้งออกใบเสร็จ 1 ใบ)</span></li>
+          <li><span class="step-t"><b>ขั้น 4 สัญลักษณ์:</b> ฝั่ง "หลายตัว" วาดปีกอีก้า (crow's foot) ฝั่ง 1 วาดขีด · เขียนกำกับความสัมพันธ์ (books / assigned / issues)</span></li>
+          <li><span class="step-t"><b>เกร็ดสอบ:</b> ไม่ต้องสวย แต่ต้องครบ 4 ชิ้น: entity ชื่อชัด, PK ระบุ, attribute สมเหตุผล, สัญลักษณ์จำนวนถูก</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p7-5">
+    <div class="pr-head"><span class="pr-num">ข้อ 5</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>MVC เรียงจังหวะ:</strong> ผู้ใช้กดปุ่มลบเลขในเกมตัวเลข — เรียง 6 จังหวะการทำงานของ Model/View/Controller จากสไลด์</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>1.</b> ผู้ใช้กระทำ → Controller รับจาก input device</span></li>
+          <li><span class="step-t"><b>2.</b> Controller แปลความหมาย แล้วสั่ง Model "Change your state" (Model ปรับข้อมูล)</span></li>
+          <li><span class="step-t"><b>4.</b> Model แจ้ง View ว่า "I have changed" (notification)</span></li>
+          <li><span class="step-t"><b>5.</b> View ขอ state จาก Model ("I need your state to display")</span></li>
+          <li><span class="step-t"><b>3+6.</b> View เปลี่ยนการแสดงผล ผู้ใช้เห็นหน้าจอใหม่ (visual feedback)</span></li>
+          <li><span class="step-t"><b>สรุปบทบาท:</b> Model = ข้อมูล/state/logic (oblivious to View+Controller, มี API ให้ดึง state + แจ้ง observer) · View = การนำเสนอ ดึงข้อมูลตรงจาก Model · Controller = รับ input แปลความหมายไปสั่ง Model</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p7-6">
+    <div class="pr-head"><span class="pr-num">ข้อ 6</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เขียนตอบสั้น:</strong> "Software Architecture is not a phase of development" หมายความว่าอะไร และทำไมการตัดสินใจเชิงสถาปัตยกรรมมักเกี่ยวข้องกับ compromise</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>ไม่ใช่ phase:</b> สถาปัตยกรรมไม่ได้หมายถึงผลผลิตเฉพาะของขั้นไหน (ไม่ใช่เอกสาร "high-level design" ที่ทำแล้วจบ) — มันคือ<em>ชุดการตัดสินใจ</em>ที่เกิดต่อเนื่องทั้งการพัฒนาและ evolution ทำ<em>ตั้งแต่เนิ่น</em> (บางทีตั้งแต่คุย requirement กับลูกค้า) และกระทบส่วนใหญ่ของระบบ</span></li>
+          <li><span class="step-t"><b>compromise:</b> design ที่ดีที่สุดของ component เดี่ยว (มองโดด) อาจไม่ใช่ที่เลือกเมื่อมองรวมกัน — เพราะเกณฑ์ "ดี" ต่างกัน (ดีสำหรับรถแข่ง ≠ ดีสำหรับรถหรู)</span></li>
+          <li><span class="step-t"><b>ปัจจัยเพิ่ม:</b> business priorities, ทรัพยากรที่มี, core competences, ลูกค้าเป้าหมาย, คู่แข่ง, เทรนด์, การลงทุนเดิม, backward compatibility — สถาปนิกต้องเทรดออฟ ไม่ใช่เลือก "เท่ที่สุด"</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+</section>
+
+</div></main>
+
+<nav class="pager" id="pager"></nav>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/tts.js"></script>
+</body>
+</html>

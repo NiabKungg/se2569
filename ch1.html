@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>บทที่ 1 บทนำสู่วิศวกรรมซอฟต์แวร์ — SE 05506017</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230d1930%22/><text x=%2250%22 y=%2270%22 font-size=%2252%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22>SE</text></svg>">
+<meta name="description" content="บทที่ 1 บทนำสู่วิศวกรรมซอฟต์แวร์ — ประวัติ SE, Software Crisis, ประเภทซอฟต์แวร์ 8 แบบ, SE View, SDLC พร้อมภาพประกอบและโจทย์ซ้อม">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-ch="1" data-section="1" data-page="ch1.html" data-tts="1">
+<header class="topbar">
+  <button class="icon-btn menu-btn" id="menuBtn" aria-label="เปิดเมนู">☰</button>
+  <a class="brand" href="index.html"><span class="brand-badge">SE</span><span>Software Engineering <span class="brand-sub">05506017 · 1/2569</span></span></a>
+  <span class="spacer"></span>
+  <button class="icon-btn theme-btn" id="themeBtn" aria-label="สลับโหมดมืด/สว่าง">🌙</button>
+</header>
+<div class="layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="scrim" id="scrim"></div>
+
+  <main class="content"><div class="inner">
+
+<div class="crumb">บทที่ 1 · บทนำสู่วิศวกรรมซอฟต์แวร์</div>
+<h1 class="page-title">บทที่ 1 — Introduction to Software Engineering</h1>
+<p class="page-sub">ทำไมโลกต้องมี "วิศวกรรมซอฟต์แวร์"? เราจะเริ่มจากวิกฤตซอฟต์แวร์ (Software Crisis) ที่บีบให้เกิดสาขานี้
+แล้วรู้จักประเภทซอฟต์แวร์ทั้ง 8 แบบ (หัวข้อจับคู่ข้อสอบ!), มุมมองของ SE และวงจรชีวิตซอฟต์แวร์ (SDLC)</p>
+
+<nav class="pillnav">
+  <a href="#objectives">🎯 จุดประสงค์</a>
+  <a href="#lesson">📖 บทเรียน</a>
+  <a href="#exam">🎯 แนวข้อสอบ</a>
+  <a href="#practice">🏋️ โจทย์ซ้อมมือ</a>
+</nav>
+
+<section class="block" id="objectives">
+  <div class="obj">
+    <h2>🎯 เรียนจบบทนี้ คุณต้องทำสิ่งเหล่านี้ได้</h2>
+    <ul>
+      <li>เล่าที่มาของ SE ได้: 1968 การประชุม NATO ตั้งคำว่า "Software Engineering" เพื่อแก้ Software Crisis</li>
+      <li>จำ 8 Laws of Software Evolution (ทฤษฎีการวิวัฒนาการของซอฟต์แวร์) คร่าว ๆ แล้วอธิบายได้ว่าแต่ละกฎหมายพูดถึงอะไร</li>
+      <li><strong>จำแนกประเภทซอฟต์แวร์ทั้ง 8 แบบ</strong> จากชื่อโปรแกรมที่โจทย์ให้มา (แนวจับคู่ข้อสอบเป๊ะ ๆ)</li>
+      <li>อธิบาย SE View ได้: Methodology / Technique / Environment + Project Management + Software Development</li>
+      <li>เรียงลำดับ SDLC ได้ และบอกกิจกรรมหลัก 4 อย่างของ Software Process ได้ (Specification → Development → Validation → Evolution)</li>
+      <li>บอกสัดส่วนต้นทุนได้: พัฒนา 60% ทดสอบ 40% และทำไมแก้ bug ยิ่งช้ายิ่งแพง</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="lesson">
+  <h2><span class="h2-dot">📖</span> บทเรียน</h2>
+
+  <div class="box box-idea">
+    <div class="box-title">🗺️ ที่มาที่ไป — ทำไมต้องมีวิชานี้ (อ่านเป็นเรื่องเล่าก่อน)</div>
+    <p>ลองนึกภาพว่า "สร้างแอปบันทึกรายรับรายจ่ายส่วนตัว" กับ "สร้างระบบโอนเงินของธนาคารทั้งประเทศ" — งานสองแบบนี้ต่างกันคนละเรื่องเลย งานแรกคนเดียวนั่งเขียนคืนเดียวจบ แก้ผิดก็แก้เลยไม่กระทบใคร แต่งานที่สองต้องมีทีมหลายสิบคน โค้ดหลายล้านบรรทัด ผิดแค่บรรทัดเดียวเงินหายเป็นล้าน และต้องใช้งานจริงทุกวัน 20 ปี ต้องซ่อม ต้องเพิ่มฟีเจอร์ตลอดเวลา</p>
+    <p><strong>ปัญหาคือ:</strong> ในยุคทศวรรษ 1960 โลกพยายามสร้างซอฟต์แวร์ใหญ่ ๆ แบบที่สองด้วยวิธีเดียวกับงานแรก — คนเก่งเขียนเอง ไม่มีแผน ไม่มีวินัย — ผลคือโครงการล้มเป็นแถบ งบบานปลาย ส่งไม่ทัน เรียกวิกฤตนี้ว่า <strong>Software Crisis (วิกฤตซอฟต์แวร์)</strong></p>
+    <p><strong>ทางแก้:</strong> ปี 1968 ที่ประชุม <strong>NATO</strong> จึงเสนอคำว่า <strong>"Software Engineering"</strong> — ยืมวิธีคิดแบบ "วิศวกรรม" (ที่คนสร้างสะพาน/เครื่องบินใช้อยู่) มาใช้สร้างซอฟต์แวร์ คือมีแผน มีหลักการ มีการทดสอบ มีการจัดการทีม อย่างเป็นระบบ ต่อมาปี 1975 คำนี้ถูกนิยามอย่างชัดเจนในการประชุม <strong>ICSE</strong> (International Conference on Software Engineering)</p>
+    <p><strong>อุปมาที่ควรจำ:</strong> Software Engineering = สถาปนิก-วิศวกรที่ออกแบบบ้านใหญ่ ไม่ใช่ช่างไม้ที่เต๊าะแต๊ะตามใจ ส่วน <em>Programming</em> คืองานของช่างตีไม้ตามแบบที่วิศวกรเขียนไว้ — สไลด์อาจารย์สรุปว่า "SE คือศิลปะการเข้าใจปัญหาธุรกิจ คิดวิธีแก้ และออกแบบ blueprint ของคำตอบ ส่วนการเขียนโปรแกรมคืองานฝีมือที่ implement blueprint นั้น"</p>
+  </div>
+
+  <div class="box box-def">
+    <div class="box-title">📖 ศัพท์พื้นฐานที่สอนใช้ทั้งเทอม (Notations)</div>
+    <p><strong>SE</strong> = Software Engineering (วิชานี้) · <strong>SEng</strong> = Software Engineer (คนทำงาน) · <strong>SW</strong> = Software · <strong>HW</strong> = Hardware · <strong>SP</strong> = Software Project</p>
+    <p><strong>Hardware</strong> = เครื่องคอมพิวเตอร์/อุปกรณ์อิเล็กทรอนิกส์ที่ <em>มองเห็นและจับต้องได้</em></p>
+    <p><strong>Software</strong> = โปรแกรมทุกชนิดที่ติดตั้งลงบน Hardware เพื่อให้มัน "ทำงาน" ได้ — ซอฟต์แวร์อาจสร้างเพื่อลูกค้าเฉพาะราย (Custom) หรือสร้างขายตลาดหลวง (Generic เช่น MS-Office)</p>
+    <p><strong>Engineering</strong> = การนำหลักวิทยาศาสตร์และวิธีการทางวิทยาศาสตร์ มาใช้สร้างสิ่งที่เป็นประโยชน์ (โครงสร้าง, เครื่องจักร) เช่น วิศวกรรมโยธา วิศวกรรมไฟฟ้า — ซอฟต์แวร์ก็เป็นสาขาวิศวกรรมหนึ่ง</p>
+    <p><strong>นิยาม SE แบบที่อาจออกเติมคำ:</strong> "Software Engineering is a computer science's field deals with the building of <em>so large or so complex</em> software systems <em>by teams of engineers</em>" — จุดสำคัญคือ 2 คำ: <strong>ใหญ่/ซับซ้อน</strong> และ <strong>ทำงานเป็นทีม</strong></p>
+  </div>
+
+  <h3>1) Software Crisis — วิกฤตซอฟต์แวร์เปลี่ยนหน้าไปตามยุค</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 4 ยุคของวิกฤต — ทีละยุคมีปัญหาคนละแบบ</div>
+    <p>วิกฤตซอฟต์แวร์ไม่ได้จบในปี 1968 ไปเลย — มันเปลี่ยนหน้าตาไปตามเทคโนโลยี สไลด์อาจารย์แบ่งเป็น 4 ยุค:</p>
+    <ul>
+      <li><strong>1970 — ปัญหาเรื่อง Size:</strong> อยากสร้างซอฟต์แวร์ขนาดใหญ่ แต่ไม่รู้วิธีพัฒนา "โปรแกรมใหญ่" — แก้ด้วยการหาวิธีพัฒนาซอฟต์แวร์ขนาดใหญ่</li>
+      <li><strong>1980 — ปัญหาเรื่อง Quantity:</strong> ต้องการคนทำงาน IT จำนวนมากแต่คนไม่พอ (Backlog งานค้างเยอะ ผู้เชี่ยวชาญด้าน Information Processing ไม่มี)</li>
+      <li><strong>1990 — ปัญหาเรื่อง Quality:</strong> ซอฟต์แวร์ใหญ่แล้วแต่ใช้งานยาก แก้ด้วยการออกแบบ User Interface ให้ใช้ง่าย</li>
+      <li><strong>1990 (ต่อ) — ปัญหาเรื่อง Interface:</strong> โปรแกรมและข้อมูลของแต่ละระบบคุยกันไม่ได้ — ต้องทำให้โปรแกรมต่าง ๆ ทำงานร่วมกันได้ (interoperability)</li>
+    </ul>
+  </div>
+  <figure class="fig">
+    <svg viewBox="0 0 520 240" role="img" aria-label="ไทม์ไลน์วิกฤตซอฟต์แวร์ 4 ยุค: 1970 Size, 1980 Quantity, 1990 Quality, 1990E Interface">
+      <line class="ax" x1="30" y1="120" x2="490" y2="120"></line>
+      <polygon points="490,115 500,120 490,125" class="mka"></polygon>
+      <circle cx="70" cy="120" r="7" fill="#2563eb"></circle>
+      <circle cx="190" cy="120" r="7" fill="#dc2626"></circle>
+      <circle cx="320" cy="120" r="7" fill="#059669"></circle>
+      <circle cx="450" cy="120" r="7" fill="#7c3aed"></circle>
+      <text x="70" y="100" text-anchor="middle" class="big t1">1970</text>
+      <text x="70" y="148" text-anchor="middle">Size</text>
+      <text x="70" y="168" text-anchor="middle" class="small mut">พัฒนาโปรแกรมใหญ่ยังไง</text>
+      <text x="190" y="100" text-anchor="middle" class="big t2">1980</text>
+      <text x="190" y="148" text-anchor="middle">Quantity</text>
+      <text x="190" y="168" text-anchor="middle" class="small mut">คนทำงาน IT ไม่พอ</text>
+      <text x="320" y="100" text-anchor="middle" class="big t3">1990</text>
+      <text x="320" y="148" text-anchor="middle">Quality</text>
+      <text x="320" y="168" text-anchor="middle" class="small mut">UI ใช้งานยาก</text>
+      <text x="450" y="100" text-anchor="middle" class="big" fill="#7c3aed">1990-E</text>
+      <text x="450" y="148" text-anchor="middle">Interface</text>
+      <text x="450" y="168" text-anchor="middle" class="small mut">ระบบคุยกันไม่ได้</text>
+      <text x="260" y="215" text-anchor="middle" class="mut">Software Crisis เปลี่ยนหน้าไปตามยุค: ใหญ่ → เยอะ → ดี → เชื่อมกันได้</text>
+    </svg>
+    <figcaption>ภาพ 1.1 — ไทม์ไลน์ Software Crisis: จำง่าย ๆ ว่า "S-Q-Q-I" (Size, Quantity, Quality, Interface)</figcaption>
+  </figure>
+
+  <h3>2) 8 Laws of Software Evolution — ทฤษฎีการวิวัฒนาการของซอฟต์แวร์</h3>
+  <div class="box box-idea">
+    <div class="box-title">💡 อุปมาก่อนจำ — ซอฟต์แวร์เหมือนสิ่งมีชีวิต ไม่ใช่ของชิ้นเดียวจบ</div>
+    <p>ซอฟต์แวร์ที่ใช้งานจริงไม่เคย "เสร็จสมบูรณ์" จริง ๆ — เหมือนรถที่ซื้อมาแล้วต้องเปลี่ยนยาง ถ่ายน้ำมัน เพิ่มอุปกรณ์ เพราะโลกเปลี่ยน ผู้ใช้เปลี่ยน กฎหมายเปลี่ยน เลฮ์แมน (Lehman) เสนอกฎหมาย 8 ข้ออธิบายพฤติกรรมนี้ — <strong>ไม่ต้องท่องคำแปลเป๊ะ ให้จำแนวคิดว่าข้อไหนพูดถึงอะไร</strong> (เพราะข้อสอบมักจับคู่ชื่อกับคำอธิบาย)</p>
+  </div>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>กฎ (Law)</th><th>ปี</th><th>พูดถึงอะไร (คำอธิบายแบบคนไทยอ่านรู้เรื่อง)</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Law of Continuing Change</strong></td><td>1974</td><td>ซอฟต์แวร์ต้องเปลี่ยน/วิวัฒนาการต่อเนื่องตลอดเวลา ไม่งั้นจะใช้ไม่ได้และแพงขึ้นเรื่อย ๆ — เหมือนมือถือที่ต้องอัปเดต OS ไม่งั้นแอปใหม่ ๆ ใช้ไม่ได้</td></tr>
+      <tr><td><strong>Law of Increasing Complexity</strong></td><td>1974</td><td>ถ้าเพิ่มฟีเจอร์โดยไม่บริหาร ความซับซ้อนจะเพิ่มขึ้นเรื่อย ๆ — ต้อง "คุม" การเพิ่มของความซับซ้อน (งานช่างเติมห้องบ้านใหม่ไม่วางแผน สายไฟน้ำประปาจะเละ)</td></tr>
+      <tr><td><strong>Law of Self-regulation</strong></td><td>1974</td><td>กระบวนการพัฒนาซอฟต์แวร์มีลักษณะ self-regulating — ปรับตัวตามสภาพแวดล้อมแบบการแจกแจงปกติ (normal distribution)</td></tr>
+      <tr><td><strong>Law of Conservation of Organizational Stability</strong></td><td>1980</td><td>องค์กรที่พัฒนามักคงสถานะเดิม — วงจรชีวิตผลิตภัณฑ์ควรคงเสถียรภาพ</td></tr>
+      <tr><td><strong>Law of Conservation of Familiarity</strong></td><td>1980</td><td>การเปลี่ยนแปลงต้องคงความคุ้นเคยของผู้ใช้ — ซอฟต์แวร์โตได้ปกติ แต่อย่าเปลี่ยนจนคนใช้งง (จำ: ต้องให้ผู้ใช้ "คุ้น" กับ SW ที่ทำงานด้วย การเติบโตควรเป็นแบบปกติ)</td></tr>
+      <tr><td><strong>Law of Continuing Growth</strong></td><td>1980</td><td>ฟังก์ชัน/รายละเอียดของซอฟต์แวร์ต้องเพิ่มขึ้นเรื่อย ๆ อย่างค่อยเป็นค่อยไป เพื่อรักษาความพึงพอใจของผู้ใช้</td></tr>
+      <tr><td><strong>Law of Declining Quality</strong></td><td>1996</td><td>คุณภาพจะ "ลดลง" ถ้าไม่ดูแลรักษาดี — คุณภาพจะไม่ลด ก็ต่อเมื่อบำรุงรักษาอย่างดีตามสภาพแวดล้อมและมี Feedback System (หมายเหตุ: ข้อความในสไลด์เขียนไว้ทั้งสองมุม ให้จำว่ากฎนี้เกี่ยวกับคุณภาพกับการบำรุงรักษา)</td></tr>
+      <tr><td><strong>Feedback System Law</strong></td><td>1996</td><td>การวิวัฒนาการเป็นระบบหลายลูป/หลายระดับ — feedback loop นำไปสู่การปรับปรุงที่ดีขึ้น (เหมือนทำข้อสอบเก่าแล้วเก็บ feedback ไปแก้ทุกรอบ)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>3) ประเภทซอฟต์แวร์ 8 แบบ — 🎯 หัวข้อจับคู่ข้อสอบที่ชัดที่สุดของบทนี้</h3>
+  <div class="box box-warn">
+    <div class="box-title">🎯 ออกสอบแน่ — โจทย์จะตั้งชื่อโปรแกรมมาให้จับว่าเป็นประเภทไหน (บางชื่อไม่เคยได้ยินมาก่อน!)</div>
+    <p>ทริคคือ <strong>อย่าจำชื่อโปรแกรม</strong> — จำ "คุณสมบัติเด่น" ของแต่ละประเภทแทน เพราะโจทย์จะเอาโปรแกรมที่ไม่รู้จักมา แต่คำอธิบายจะเผยว่ามันทำอะไร ลองฝึกจากตารางนี้:</p>
+  </div>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>ประเภท</th><th>เด่นที่อะไร (คีย์เวิร์ด)</th><th>ตัวอย่างโปรแกรม</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1. System Software</strong></td><td>"เขียนไว้<em>บริการโปรแกรมอื่น</em>" — ใช้หนัก ผู้ใช้หลายคน มี scheduling, resource sharing, process management</td><td>Operating System (Windows, Linux), device driver, compiler, editor, file management</td></tr>
+      <tr><td><strong>2. Application Software</strong></td><td>"แก้ปัญหาเฉพาะเรื่อง/ระบบธุรกิจ" — มี 3 ส่วน: <em>Data gathering → Analysis → Control/Output</em></td><td>ระบบบัญชีร้านค้า, ระบบจัดการผู้ป่วย (CS-Hospital!), โปรแกรมพยากรณ์อากาศ</td></tr>
+      <tr><td><strong>3. Engineering & Scientific SW</strong></td><td>"number crunching" = คำนวณเลขหนัก ๆ ด้วยอัลกอริทึม — จำโดยคำว่า astronomy/volcanology, CAD, simulation, real-time</td><td>โปรแกรมจำลองการระเบิดภูเขาไฟ, ซอฟต์แวร์ดาราศาสตร์, AutoCAD, MATLAB</td></tr>
+      <tr><td><strong>4. Embedded Software</strong></td><td>"ฝังในสินค้าอุตสาหกรรม ทำได้<em>เฉพาะฟังก์ชันที่จำกัด</em>" — อยู่ในเครื่องใช้ ไม่ใช่เครื่องคอมทั่วไป</td><td>แผงปุ่มไมโครเวฟ, ระบบควบคุมน้ำมัน/เครื่องยนต์ในรถยนต์, ระบบในเครื่องซักผ้า</td></tr>
+      <tr><td><strong>5. Product-line Software</strong></td><td>"ขายตลาดหลวง/mass market" — ใช้ได้ทุกคน ไม่ได้ทำให้ลูกค้ารายเดียว</td><td>Word Processor (Word), Spreadsheet (Excel), โปรแกรมบัญชีการเงิน, Database system สำเร็จรูป</td></tr>
+      <tr><td><strong>6. Web-based Software</strong></td><td>"WebApps" — หน้าเว็บ + คำสั่งที่รันได้ เช่น HTML, CGI, Java (ใช้ผ่าน browser)</td><td>เว็บธนาคาร, Gmail, Shopee web, ระบบลงทะเบียนออนไลน์</td></tr>
+      <tr><td><strong>7. AI Software</strong></td><td>"ใช้อัลกอริทึม<em>ไม่ใช่เชิงตัวเลข</em> (non-numerical) แก้ปัญหาซับซ้อน" — จำคำว่า expert system, knowledge-based, neural network, pattern recognition</td><td>ระบบแนะนำวินิจฉัยโรค, จำแนกใบหน้า/เสียงพูด, แชตบอท</td></tr>
+      <tr><td><strong>8. Mobile Application</strong></td><td>"ทำเฉพาะอุปกรณ์ไร้สายขนาดเล็ก (สมาร์ตโฟน/แท็บเล็ต)" — แบ่ง 3 ชนิด: web-based / native / hybrid</td><td>LINE, Grab, TikTok, แอปธนาคารบนมือถือ</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box box-idea">
+    <div class="box-title">💡 ทริคจับคู่แบบไม่สะดุด</div>
+    <p>เจอโจทย์ตั้งชื่อแปลก ๆ ให้ถามตัวเอง 4 คำถาม: (1) มัน<em>บริการโปรแกรมอื่น</em>หรือเปล่า? → System · (2) มัน<em>ฝังอยู่ในเครื่องใช้/รถยนต์</em>? → Embedded · (3) มัน<em>คำนวณเลขหนัก/จำลองระบบ</em>? → Engineering & Scientific · (4) มัน<em>เรียนรู้/จำแนกรูปแบบ</em>? → AI — ถ้าไม่เข้า 4 ข้อนี้ ก็ดูว่าขายตลาดหลวง (Product-line), ใช้ผ่านเว็บ (Web-based), ใช้บนมือถือ (Mobile) หรือทำงานธุรกิจเฉพาะเรื่อง (Application)</p>
+  </div>
+
+  <h3>4) SE View — มองวิชานี้ผ่านแผนที่ใหญ่ 5 ส่วน</h3>
+  <p>สไลด์วาดแผนที่ใหญ่ให้เห็นว่า "การทำ SE" ประกอบด้วยอะไรบ้าง — ตรงกลางคืองานพัฒนาซอฟต์แวร์ ล้อมรอบด้วยการจัดการโครงการ และเสาหลัก 3 ต้น:</p>
+  <figure class="fig">
+    <svg viewBox="0 0 520 300" role="img" aria-label="SE View: Project Management และ Methodology ด้านบน, Software Development ตรงกลาง, Technique และ Environment ด้านล่าง">
+      <rect x="30" y="24" width="220" height="52" rx="10" class="f1" stroke="#2563eb" fill="none"></rect>
+      <text x="140" y="55" text-anchor="middle" class="big t1">Project Management</text>
+      <rect x="290" y="24" width="200" height="52" rx="10" class="f2" stroke="#dc2626" fill="none"></rect>
+      <text x="390" y="55" text-anchor="middle" class="big t2">Methodology</text>
+      <rect x="120" y="112" width="280" height="60" rx="12" fill="rgba(37,99,235,.14)" stroke="#2563eb" stroke-width="2"></rect>
+      <text x="260" y="137" text-anchor="middle" class="big t1">Software Development</text>
+      <text x="260" y="158" text-anchor="middle" class="small mut">หัวใจตรงกลาง — งานพัฒนาซอฟต์แวร์จริง</text>
+      <rect x="60" y="208" width="180" height="52" rx="10" class="f3" stroke="#059669" fill="none"></rect>
+      <text x="150" y="239" text-anchor="middle" class="big t3">Technique</text>
+      <rect x="290" y="208" width="180" height="52" rx="10" class="fsoft" stroke="var(--acc-ink)" fill="none"></rect>
+      <text x="380" y="239" text-anchor="middle" class="big">Environment</text>
+      <text x="140" y="105" text-anchor="middle" class="small mut">บริหารงานให้จบตามเวลา/งบ</text>
+      <text x="390" y="105" text-anchor="middle" class="small mut">เลือกโมเดลกระบวนการ เช่น Waterfall</text>
+      <text x="150" y="195" text-anchor="middle" class="small mut">OOP, Algorithm, CASE tool</text>
+      <text x="380" y="195" text-anchor="middle" class="small mut">PC, OS, Internet, Client-Server</text>
+    </svg>
+    <figcaption>ภาพ 1.2 — SE View: Methodology = เลือกโมเดลการพัฒนา (Waterfall/Spiral/OO) · Technique = เทคนิคทำงาน (OOP, Algorithm, CASE) · Environment = เครื่องมือ/แพลตฟอร์ม (PC, OS, Internet, Client-Server)</figcaption>
+  </figure>
+
+  <h3>5) SDLC — วงจรชีวิตซอฟต์แวร์ (Software Life Cycle)</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 นิยามสั้น ๆ</div>
+    <p><strong>Software Process</strong> = กิจกรรมทั้งหมดที่ใช้ "สร้างหรือวิวัฒนาการ" ซอฟต์แวร์ เป้าหมายคือผลิตซอฟต์แวร์ที่มี <strong>high quality, reliable, predictable, efficient</strong></p>
+    <p><strong>Software Life Cycle (Software Model)</strong> = โมเดลที่จับกิจกรรมเหล่านั้นมาเรียงเป็นวงจร — มีหลายแบบ: Waterfall, Spiral, Prototyping, Incremental Distribution, Evolutionary Distribution (บทที่ 8 จะลงลึกทีละแบบ)</p>
+    <p><strong>กิจกรรมหลัก 4 อย่าง (Software Process Activities)</strong> — จำสั้น ๆ ว่า "S-D-V-E":</p>
+    <ul>
+      <li><strong>01 Specification</strong> — ระบบต้องทำอะไรให้ตรงกับความต้องการ (กำหนดข้อกำหนด)</li>
+      <li><strong>02 Development</strong> — ผลิตระบบซอฟต์แวร์จริง</li>
+      <li><strong>03 Validation</strong> — ตรวจว่าซอฟต์แวร์ตรงกับความต้องการของผู้ใช้หรือไม่</li>
+      <li><strong>04 Evolution</strong> — เปลี่ยนซอฟต์แวร์ตามความต้องการที่เปลี่ยนไป</li>
+    </ul>
+  </div>
+  <figure class="fig">
+    <svg viewBox="0 0 460 300" role="img" aria-label="Waterfall: 5 ขั้นลงบันไดจาก Requirements ถึง Delivery and Maintenance">
+      <defs><marker id="ar1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--muted)"></path></marker></defs>
+      <rect x="20" y="18" width="190" height="40" rx="9" class="f1" stroke="#2563eb" fill="none"></rect>
+      <text x="115" y="43" text-anchor="middle">1. Requirements Analysis</text>
+      <rect x="90" y="78" width="190" height="40" rx="9" class="f2" stroke="#dc2626" fill="none"></rect>
+      <text x="185" y="103" text-anchor="middle">2. Design & Specification</text>
+      <rect x="160" y="138" width="190" height="40" rx="9" class="f3" stroke="#059669" fill="none"></rect>
+      <text x="255" y="163" text-anchor="middle">3. Coding & Module Testing</text>
+      <rect x="230" y="198" width="190" height="40" rx="9" class="fsoft" stroke="var(--acc-ink)" fill="none"></rect>
+      <text x="325" y="223" text-anchor="middle">4. Integration & System Testing</text>
+      <rect x="255" y="255" width="195" height="38" rx="9" class="fsoft" stroke="var(--acc-ink)" fill="none"></rect>
+      <text x="352" y="279" text-anchor="middle">5. Delivery & Maintenance</text>
+      <line class="ax" x1="210" y1="58" x2="185" y2="74" marker-end="url(#ar1)"></line>
+      <line class="ax" x1="280" y1="118" x2="255" y2="134" marker-end="url(#ar1)"></line>
+      <line class="ax" x1="350" y1="178" x2="325" y2="194" marker-end="url(#ar1)"></line>
+      <line class="ax" x1="415" y1="238" x2="382" y2="252" marker-end="url(#ar1)"></line>
+      <text x="60" y="230" class="mut small">น้ำไหลไปทางเดียว</text>
+      <text x="60" y="248" class="mut small">ขั้นเสร็จค่อยไปขั้นต่อไป</text>
+    </svg>
+    <figcaption>ภาพ 1.3 — Waterfall (น้ำตก): 5 ขั้นไหลลงเป็นลำดับ — โมเดลพื้นฐานที่โมเดลอื่นนำไปดัดแปลงต่อ (ลงลึกในบทที่ 8)</figcaption>
+  </figure>
+
+  <h3>6) ต้นทุนของซอฟต์แวร์ — เงินไปไหนบ้าง</h3>
+  <div class="box box-key">
+    <div class="box-title">⚡ ตัวเลขที่อาจออกเติมคำ</div>
+    <p>ต้นทุนซอฟต์แวร์ = <strong>พัฒนา (Developing) 60% + ทดสอบ (Testing) 40%</strong> — และต้นทุนแปรผันตาม (1) ประเภทระบบที่จะพัฒนา (2) ความต้องการของระบบ (3) โมเดลที่ใช้พัฒนา</p>
+    <p>เกร็ดที่อาจารย์ย้ำในบทถัด ๆ: กราฟต้นทุนแก้ fault จะยิ่งแพงมากขึ้นเรื่อย ๆ ตามระยะ — <strong>แก้ตอน Requirements ถูกที่สุด แก้ตอน Maintenance แพงที่สุด</strong> (จำภาพบันไดเลื่อนขึ้น) — เพราะยิ่งพบช้า bug ยิ่งแพร่กระจายไปทั่ว design/code/เอกสาร และอาจถึงมือผู้ใช้แล้ว</p>
+  </div>
+</section>
+
+<section class="block" id="exam">
+  <h2><span class="h2-dot">🎯</span> แนวข้อสอบของบทนี้</h2>
+  <div class="box box-warn">
+    <div class="box-title">🎯 ออกสอบมาแล้ว / มีโอกาสสูง</div>
+    <ul>
+      <li><strong>จับคู่ประเภทซอฟต์แวร์:</strong> โจทย์ให้ชื่อโปรแกรม (อาจไม่เคยได้ยิน) ให้จับว่าเป็น System / Application / Embedded ฯลฯ → ใช้ทริค 4 คำถามข้างบน</li>
+      <li><strong>จับคู่ศัพท์:</strong> Methodology / Technique / Environment / Project Management จับกับนิยาม (เช่น "Waterfall Model, Spiral Model" → Methodology, "PC, OS, Internet" → Environment)</li>
+      <li><strong>เติมคำ:</strong> นิยาม SE (ใหญ่/ซับซ้อน + ทำงานทีม), ต้นทุน 60/40, ปี 1968 NATO</li>
+      <li><strong>เขียนตอบ (อาจประกอบข้อใหญ่):</strong> เวลาให้วางแผนโปรเจกต์ อาจถามถึงกิจกรรม SDLC และ Software Process Activities 4 อย่างเป็นโครง</li>
+    </ul>
+  </div>
+  <div class="box box-idea">
+    <div class="box-title">💡 เชื่อมโยง: บทนี้เป็น "เมล็ดพันธุ์" ของบทหลัง</div>
+    <p>Waterfall ที่เห็นในบทนี้จะลงลึกในบทที่ 8 (โมเดลกระบวนการ) · Validation ที่กล่าวถึงจะกลายเป็นคำถาม Verification vs Validation ในบทที่ 4 · Evolution จะเต็มรูปเป็น Maintenance ในบทที่ 11 — อ่านบทนี้ให้เห็นภาพรวมก่อน แล้วบทหลังจะง่ายขึ้นเยอะ</p>
+  </div>
+</section>
+
+<section class="block" id="practice">
+  <h2><span class="h2-dot">🏋️</span> โจทย์ซ้อมมือ (6 ข้อ)</h2>
+  <p>ลองทำเองก่อน แล้วค่อยกดเปิดคำใบ้ → เฉลยทีละขั้น เมื่อทำได้แล้วติ๊ก ✓ เพื่อบันทึกความคืบหน้า</p>
+
+  <div class="pr-card" data-pkey="p1-1">
+    <div class="pr-head"><span class="pr-num">ข้อ 1</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>จับคู่ (แนวข้อสอบจริง):</strong> โปรแกรมต่อไปนี้เป็นซอฟต์แวร์ประเภทใด? (a) ระบบควบคุมฉีดน้ำมันเข้าเครื่องยนต์รถยนต์ (b) MATLAB โปรแกรมจำลองการทดลองฟิสิกส์ (c) โปรแกรมจำแนกว่าภาพนี้มีแมวหรือหมา (d) Microsoft Excel</p>
+      <details class="sol"><summary>คำใบ้ + เฉลย</summary>
+        <p>ใช้ทริค 4 คำถาม: ฝังในเครื่องใช้/รถ? คำนวณเลขหนัก/จำลอง? เรียนรู้/จำแนกรูปแบบ? ขายตลาดหลวง?</p>
+        <ol class="steps">
+          <li><span class="step-t"><b>(a)</b> "ควบคุมน้ำมันเข้าเครื่องยนต์" = ฝังในสินค้า ทำเฉพาะฟังก์ชันที่จำกัด → <strong>Embedded Software</strong> (สไลด์ใช้ตัวอย่าง "fuel control" พอดี)</span></li>
+          <li><span class="step-t"><b>(b)</b> "จำลองการทดลอง/คำนวณเลขหนัก (number crunching)" → <strong>Engineering & Scientific Software</strong></span></li>
+          <li><span class="step-t"><b>(c)</b> "จำแนกรูปภาพ (pattern recognition)" ด้วยอัลกอริทึม non-numerical → <strong>AI Software</strong></span></li>
+          <li><span class="step-t"><b>(d)</b> ขายตลาดหลวงให้ทุกคนใช้ ไม่ได้ทำให้ลูกค้ารายเดียว → <strong>Product-line Software</strong></span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p1-2">
+    <div class="pr-head"><span class="pr-num">ข้อ 2</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>จับคู่:</strong> จับศัพท์ต่อไปนี้เข้าคู่กับนิยาม: (1) Methodology (2) Technique (3) Environment (4) Tool — ตัวเลือก: (ก) CASE Tool, Programming Language (ข) Waterfall Model, Spiral Model (ค) PC, OS, Internet, Client-Server (ง) สิ่งที่พัฒนามาสนับสนุนการใช้ techniques/methods/methodologies</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>(1)→(ข)</b> Methodology = วิธี/โมเดลการพัฒนาซอฟต์แวร์ เช่น Waterfall, Spiral, Structured, OO Model</span></li>
+          <li><span class="step-t"><b>(2)→(ก)</b> Technique = เทคนิค Planning และ Design/Development เช่น OOP, Algorithm, Programming Language, CASE Tool</span></li>
+          <li><span class="step-t"><b>(3)→(ค)</b> Environment = เครื่องมือสิ่งแวดล้อมการพัฒนา เช่น PC, OS, Internet, Client-Servers</span></li>
+          <li><span class="step-t"><b>(4)→(ง)</b> Tool = ถูกพัฒนาขึ้นเพื่อสนับสนุนการใช้ technique/method/methodology (เขียนสไลด์: "Tool is developed to support the application of techniques, methods, and methodologies")</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p1-3">
+    <div class="pr-head"><span class="pr-num">ข้อ 3</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เรียงลำดับ:</strong> เรียง 5 ขั้นของ Waterfall ให้ถูกต้อง: Integration & System Testing / Delivery & Maintenance / Requirements Analysis and Specification / Coding and Module Testing / Design and Specification</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>ขั้น 1</b> Requirements Analysis and Specification — หาว่าผู้ใช้ต้องการอะไร</span></li>
+          <li><span class="step-t"><b>ขั้น 2</b> Design and Specification — ออกแบบระบบที่ตอบสนองความต้องการ</span></li>
+          <li><span class="step-t"><b>ขั้น 3</b> Coding and Module Testing — เขียนโค้ดและทดสอบรายโมดูล</span></li>
+          <li><span class="step-t"><b>ขั้น 4</b> Integration and System Testing — รวมโมดูลและทดสอบทั้งระบบ</span></li>
+          <li><span class="step-t"><b>ขั้น 5</b> Delivery and Maintenance — ส่งมอบและบำรุงรักษา</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p1-4">
+    <div class="pr-head"><span class="pr-num">ข้อ 4</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>อธิบายสั้น:</strong> Software Process Activities มี 4 กิจกรรมอะไรบ้าง และกิจกรรมไหนที่เกิด "หลังส่งมอบระบบไปแล้ว"?</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>Specification</b> — กำหนดว่าระบบต้องทำอะไรเพื่อตอบสนองความต้องการ</span></li>
+          <li><span class="step-t"><b>Development</b> — ผลิตระบบซอฟต์แวร์</span></li>
+          <li><span class="step-t"><b>Validation</b> — ตรวจว่าซอฟต์แวร์ตรงกับความต้องการผู้ใช้</span></li>
+          <li><span class="step-t"><b>Evolution</b> — เปลี่ยนซอฟต์แวร์ตามความต้องการที่เปลี่ยนไป ← <strong>กิจกรรมนี้คือสิ่งที่เกิดหลังส่งมอบ</strong> (และจะกลายเป็น "Maintenance" ในบทที่ 11)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p1-5">
+    <div class="pr-head"><span class="pr-num">ข้อ 5</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>ต่อยอด:</strong> "ปีนี้บริษัทต้องเก็บคนทำงาน IT เพิ่ม 50 อัตรา แต่หาคนไม่ได้เลย งานกองไว้เยอะ" — สถานการณ์นี้ตรงกับ Software Crisis ยุคใด และปัญหาเรียกว่าอะไร?</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>มองคีย์เวิร์ด</b> "หาคนไม่ได้ + งานกอง" = ปัญหาจำนวนคน ไม่ใช่ปัญหาขนาดโปรแกรมหรือคุณภาพ</span></li>
+          <li><span class="step-t"><b>จับยุค</b> 1980 — ปัญหาเรื่อง <strong>Quantity</strong> เพราะเกิด Backlog (งานค้างสะสม) และขาดผู้เชี่ยวชาญด้าน Information Processing</span></li>
+          <li><span class="step-t"><b>ต่างจากยุคอื่น:</b> 1970 = Size (โปรแกรมใหญ่เกินวิธีเดิม) · 1990 = Quality (UI ใช้ยาก) · 1990-E = Interface (ระบบคุยกันไม่ได้)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p1-6">
+    <div class="pr-head"><span class="pr-num">ข้อ 6</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>วิเคราะห์:</strong> เพื่อนบอกว่า "เขียนโปรแกรมเก็บข้อมูลการฝึกซ้อมส่วนตัว เขียนเองใช้เอง ไม่ต้องใช้ Software Engineering หรอก" — เพื่อนพูดถูกหรือไม่ เพราะอะไร (ใช้นิยาม SE)</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>นิยาม</b> SE ทำงานกับซอฟต์แวร์ที่ "<em>so large or so complex</em>" และ "<em>by teams of engineers</em>"</span></li>
+          <li><span class="step-t"><b>นำมาวิเคราะห์</b> โปรแกรมของเพื่อน: เล็ก (ไม่ใหญ่) ซับซ้อนต่ำ (ไม่ซับซ้อน) ทำคนเดียว (ไม่ใช่ทีม) → จริง ๆ ไม่ต้องใช้ SE เต็มรูป</span></li>
+          <li><span class="step-t"><b>แต่</b> ถ้าวันหนึ่งขยายเป็นแอปขายให้คนอื่นใช้ มีทีม มีผู้ใช้จำนวนมาก ต้องบำรุงรักษายาว ๆ — นั่นแหละคือเมื่อ SE เข้ามาจำเป็น (และระลึกถึง Software Crisis: โปรเจกต์ใหญ่ที่ไม่มีวินัยจะล้ม)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+</section>
+
+</div></main>
+
+<nav class="pager" id="pager"></nav>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/tts.js"></script>
+</body>
+</html>

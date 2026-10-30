@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>บทที่ 9 Use Cases — SE 05506017</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230d1930%22/><text x=%2250%22 y=%2270%22 font-size=%2252%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22>SE</text></svg>">
+<meta name="description" content="บทที่ 9 Use Cases — Actor 3 ชนิด, Use Case Diagram, «include» vs «extend», โครงเขียน Use Case รายละเอียด, System Sequence Diagram พร้อมแนวข้อสอบเขียน diagram">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-ch="9" data-section="9" data-page="ch9.html" data-tts="1">
+<header class="topbar">
+  <button class="icon-btn menu-btn" id="menuBtn" aria-label="เปิดเมนู">☰</button>
+  <a class="brand" href="index.html"><span class="brand-badge">SE</span><span>Software Engineering <span class="brand-sub">05506017 · 1/2569</span></span></a>
+  <span class="spacer"></span>
+  <button class="icon-btn theme-btn" id="themeBtn" aria-label="สลับโหมดมืด/สว่าง">🌙</button>
+</header>
+<div class="layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="scrim" id="scrim"></div>
+
+  <main class="content"><div class="inner">
+
+<div class="crumb">บทที่ 9 · Use Cases</div>
+<h1 class="page-title">บทที่ 9 — Uses Cases</h1>
+<p class="page-sub">ข้อสอบเขียนตรง ๆ: "เขียน Use case diagram" — เราจะเรียนอ่านโจทย์หา actor/use case,
+วาด diagram ให้ถูกกฎ, แยก «include» กับ «extend», กับดัก Login ที่อาจารย์เตือนใน video,
+และโครงเขียน Use Case รายละเอียดแบบ UC-1</p>
+
+<nav class="pillnav">
+  <a href="#objectives">🎯 จุดประสงค์</a>
+  <a href="#lesson">📖 บทเรียน</a>
+  <a href="#exam">🎯 แนวข้อสอบ</a>
+  <a href="#practice">🏋️ โจทย์ซ้อมมือ</a>
+</nav>
+
+<section class="block" id="objectives">
+  <div class="obj">
+    <h2>🎯 เรียนจบบทนี้ คุณต้องทำสิ่งเหล่านี้ได้</h2>
+    <ul>
+      <li>อธิบาย Use case 3 องค์ประกอบ: <strong>actors · use case diagram · scenarios</strong></li>
+      <li>แยก <strong>Initiating (primary) actor</strong> / <strong>Participating (secondary)</strong> / <strong>Supporting</strong> / <strong>Offstage</strong> ได้จากโจทย์</li>
+      <li><strong>วาด Use Case Diagram ถูกรูปแบบ:</strong> actor (คนขีด), ellipse (use case), system boundary, ชื่อ use case เป็น verb phrase</li>
+      <li>ตอบตารางเทียบ <strong>«include» vs «extend»</strong> 4 คำถามได้ (optional? complete? conditional? เปลี่ยนพฤติกรรมฐาน?)</li>
+      <li>เลี่ยงกับดัก Login (BAD vs GOOD) และรู้ทางแก้: AuthenticateUser หรือ precondition</li>
+      <li>เขียน <strong>โครง Use Case รายละเอียด</strong> (UC ID, related REQs, actors, pre/postconditions, main scenario, extensions) ได้</li>
+      <li>อธิบาย Traceability matrix ว่าใช้ทำอะไร 3 ประโยชน์</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="lesson">
+  <h2><span class="h2-dot">📖</span> บทเรียน</h2>
+
+  <div class="box box-idea">
+    <div class="box-title">🗺️ ที่มาที่ไป — จาก requirement สู่ "เรื่องเล่าของการใช้งาน"</div>
+    <p>บทที่ 6 เขียน requirement เป็น user story — บทนี้อธิบายการทำงานให้ชัดขึ้นอีกชั้น: <strong>Use case ใช้สำหรับ Functional Requirements Analysis and Specification</strong> — เป็นการบรรยาย step-by-step ว่าผู้ใช้จะใช้ระบบอย่างไรเพื่อบรรลุเป้าหมายธุรกิจ</p>
+    <p><strong>3 องค์ประกอบหลัก:</strong> ① <em>Environmental agents / actors</em> ที่จะทำงานร่วมกับระบบ ② <em>Use case diagram</em> แสดงความสัมพันธ์ actor ↔ use case ③ <em>Use case scenarios/scripts</em> — ลำดับการทำงานร่วมกันระหว่าง actor นอกระบบ กับ ระบบที่จะสร้าง (system-to-be)</p>
+    <p><strong>อุปมา:</strong> use case = สคริปต์ละคร — actor คือนักแสดง, use case คือฉาก (มีชื่อเป็นกริยา เช่น "เช่าหนังสือ"), scenario คือบทพูดทีละจังหวะ พร้อมฉบับ "ยังไงถ้าพลาด" (extensions)</p>
+  </div>
+
+  <h3>1) Actor มีกี่แบบ? — 🎯 จำ 4 ชื่อนี้</h3>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>ชนิด</th><th>นิยาม</th><th>ตัวอย่าง (Safe Home)</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Initiating actor</strong> (aka <em>primary actor / user</em>)</td><td><strong>เป็นผู้เริ่ม</strong> use case เพื่อบรรลุเป้าหมาย</td><td>Tenant เริ่ม "Unlock"</td></tr>
+      <tr><td><strong>Participating actor</strong> (aka <em>secondary actor</em>)</td><td>ร่วมใน use case <em>แต่ไม่ได้เริ่ม</em> — มีซับ 2 ชนิด</td><td>LockDevice, Database</td></tr>
+      <tr><td>— <strong>Supporting actor</strong></td><td><em>ช่วย</em>ระบบให้จบ use case ได้</td><td>LockDevice ปลดล็อกจริง, LightSwitch เปิดไฟ</td></tr>
+      <tr><td>— <strong>Offstage actor</strong></td><td>ร่วมแบบ<em>ผ่าน ๆ</em> — ไม่เริ่ม ไม่ช่วย แต่<em>อาจถูกแจ้งเรื่องมัน</em> (เช่นเพื่อบันทึกรายการ)</td><td>Police ที่ถูก notify ตอนแฮกเกอร์ยิง alarm</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box box-idea">
+    <div class="box-title">💡 สังเกตจากสไลด์ที่อาจารย์ขีดเส้นใต้</div>
+    <p>"บ้าน" และ "ประตู" ไม่ได้ปรากฏเป็น actor! — เพราะ actor ต้องเป็นสิ่ง<em>ภายนอกระบบที่มีปฏิสัมพันธ์กับมัน</em> (คน หรือระบบ/อุปกรณ์ภายนอก) ไม่ใช่วัตถุในโลกปัญหา — ประตูเป็นสิ่งที่ LockDevice ควบคุม เป็นส่วนหนึ่งของโลกกายภาพ ไม่ใช่คู่สนทนาของระบบ</p>
+  </div>
+
+  <h3>2) แปลง Requirement → Use Case (ตารางจากสไลด์)</h3>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>Initiator</th><th>Initiator's Goal</th><th>Participants</th><th>Use Case Name</th></tr></thead>
+    <tbody>
+      <tr><td>Tenant</td><td>Unlock and enter home</td><td>Lock, Household Devices, Database</td><td><strong>Unlock (UC-1)</strong></td></tr>
+      <tr><td>Tenant</td><td>Lock the door</td><td>Lock, Household Devices, Database</td><td><strong>Lock (UC-2)</strong></td></tr>
+      <tr><td>Landlord</td><td>สร้างบัญชีผู้ใช้ใหม่ให้เข้าบ้านได้</td><td>Tenant, Database</td><td><strong>AddUser (UC-3)</strong></td></tr>
+      <tr><td>Landlord</td><td>ยกเลิกบัญชีผู้ใช้ ปิดสิทธิ์เข้า</td><td>Database</td><td><strong>RetireUser (UC-4)</strong></td></tr>
+      <tr><td>Tenant</td><td>ดูประวัติการเข้าออกบ้าน</td><td>Database</td><td><strong>ViewHistory (UC-5)</strong></td></tr>
+      <tr><td>Tenant</td><td>ตั้งค่าการทำงานอุปกรณ์ในบ้าน</td><td>Database</td><td><strong>SetDevicePrefs (UC-6)</strong></td></tr>
+      <tr><td>Visitor</td><td>ไปเยี่ยมบ้านคนอยู่อาศัย</td><td>Lock, Database</td><td><strong>VisitHome (UC-7)</strong></td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">Initiating actors มาจาก user stories อยู่แล้ว (บทที่ 6) — ส่วน participating actors จะถูก identify ตอนวิเคราะห์ use case</p>
+
+  <h3>3) 🎯 Use Case Diagram — วาดถูกกฎ (ข้อสอบเขียน)</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 620 360" role="img" aria-label="Use Case Diagram Safe Home: Tenant กับ Landlord อยู่นอก boundary, เชื่อม Unlock, Lock, AddUser, RemoveUser, InspectAccessHistory, SetDevicePrefs โดยย่อยหลายตัว include AuthenticateUser">
+      <defs><marker id="ar3" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--text)"></path></marker></defs>
+      <g transform="translate(30,110)">
+        <circle cx="16" cy="10" r="10" class="uml-actor"></circle>
+        <line class="uml-actor" x1="16" y1="20" x2="16" y2="42"></line>
+        <line class="uml-actor" x1="0" y1="28" x2="32" y2="28"></line>
+        <line class="uml-actor" x1="16" y1="42" x2="4" y2="60"></line>
+        <line class="uml-actor" x1="16" y1="42" x2="28" y2="60"></line>
+        <text x="16" y="78" text-anchor="middle">Tenant</text>
+      </g>
+      <g transform="translate(30,240)">
+        <circle cx="16" cy="10" r="10" class="uml-actor"></circle>
+        <line class="uml-actor" x1="16" y1="20" x2="16" y2="42"></line>
+        <line class="uml-actor" x1="0" y1="28" x2="32" y2="28"></line>
+        <line class="uml-actor" x1="16" y1="42" x2="4" y2="60"></line>
+        <line class="uml-actor" x1="16" y1="42" x2="28" y2="60"></line>
+        <text x="16" y="78" text-anchor="middle">Landlord</text>
+      </g>
+      <rect x="120" y="24" width="330" height="320" rx="14" class="uml-bound"></rect>
+      <text x="285" y="48" text-anchor="middle" class="mut">Safe Home Access System (system boundary)</text>
+      <g>
+        <ellipse cx="235" cy="90" rx="88" ry="24" class="uml-ell"></ellipse>
+        <text x="235" y="95" text-anchor="middle">UC1: Unlock</text>
+        <ellipse cx="235" cy="150" rx="88" ry="24" class="uml-ell"></ellipse>
+        <text x="235" y="155" text-anchor="middle">UC2: Lock</text>
+        <ellipse cx="150" cy="210" rx="90" ry="24" class="uml-ell"></ellipse>
+        <text x="150" y="215" text-anchor="middle">UC3: AddUser</text>
+        <ellipse cx="150" cy="268" rx="96" ry="24" class="uml-ell"></ellipse>
+        <text x="150" y="273" text-anchor="middle">UC4: RemoveUser</text>
+        <ellipse cx="170" cy="322" rx="110" ry="22" class="uml-ell"></ellipse>
+        <text x="170" y="327" text-anchor="middle">UC5: InspectAccessHistory</text>
+        <ellipse cx="330" cy="210" rx="104" ry="24" class="uml-ell"></ellipse>
+        <text x="330" y="215" text-anchor="middle">UC6: SetDevicePrefs</text>
+        <ellipse cx="330" cy="280" rx="92" ry="24" class="uml-ell2"></ellipse>
+        <text x="330" y="285" text-anchor="middle">UC7: AuthenticateUser</text>
+      </g>
+      <g transform="translate(500,120)">
+        <circle cx="16" cy="10" r="10" class="uml-actor"></circle>
+        <line class="uml-actor" x1="16" y1="20" x2="16" y2="42"></line>
+        <line class="uml-actor" x1="0" y1="28" x2="32" y2="28"></line>
+        <line class="uml-actor" x1="16" y1="42" x2="4" y2="60"></line>
+        <line class="uml-actor" x1="16" y1="42" x2="28" y2="60"></line>
+        <text x="16" y="78" text-anchor="middle">LockDevice</text>
+        <text x="16" y="94" text-anchor="middle" class="small mut">«participate»</text>
+      </g>
+      <line class="uml-line" x1="78" y1="140" x2="152" y2="102" marker-end="url(#ar3)"></line>
+      <text x="106" y="112" class="small mut">«initiate»</text>
+      <line class="uml-line" x1="78" y1="150" x2="152" y2="156" marker-end="url(#ar3)"></line>
+      <text x="104" y="144" class="small mut">«initiate»</text>
+      <line class="uml-line" x1="78" y1="290" x2="96" y2="232" marker-end="url(#ar3)"></line>
+      <text x="66" y="252" class="small mut">«initiate»</text>
+      <line class="uml-line" x1="78" y1="300" x2="86" y2="300" marker-end="url(#ar3)"></line>
+      <line class="uml-line" x1="78" y1="310" x2="90" y2="324" marker-end="url(#ar3)"></line>
+      <line class="uml-line" x1="78" y1="280" x2="130" y2="286" marker-end="url(#ar3)"></line>
+      <line class="uml-line" x1="252" y1="266" x2="268" y2="298" marker-end="url(#ar3)"></line>
+      <text x="262" y="252" class="small mut">«include»</text>
+      <line class="uml-line" x1="208" y1="228" x2="262" y2="268" marker-end="url(#ar3)"></line>
+      <text x="216" y="252" class="small mut">«include»</text>
+      <line class="uml-line" x1="204" y1="318" x2="262" y2="302" marker-end="url(#ar3)"></line>
+      <text x="226" y="336" class="small mut">«include»</text>
+      <line class="uml-line" x1="356" y1="300" x2="500" y2="196" marker-end="url(#ar3)"></line>
+      <text x="430" y="242" class="small mut">«participate»</text>
+      <text x="310" y="60" class="small mut">actor อยู่<tspan fill="#dc2626">นอก</tspan>กรอบ · ellipse = use case · เส้นเฉย ๆ = ความสัมพันธ์ · «include» = เรียก subroutine</text>
+      <text x="310" y="76" class="small mut">Base use cases: UC1–UC6 · Subroutine: UC7 AuthenticateUser (ถูก include)</text>
+    </svg>
+    <figcaption>ภาพ 9.1 — Use Case Diagram ของ Safe Home (จากสไลด์): Tenant/Landlord เป็น initiating actor · UC7 AuthenticateUser เป็น subroutine ถูก include โดยหลาย use case · LockDevice เป็น participating actor</figcaption>
+  </figure>
+
+  <div class="box box-def">
+    <div class="box-title">📐 กฎการวาด (เช็คลิสต์ก่อนส่งกระดาษ)</div>
+    <ul>
+      <li><strong>Actor</strong> วาดเป็นตัวคน stick figure — อยู่<em>นอก</em> system boundary เสมอ</li>
+      <li><strong>Use case</strong> วาดเป็นวงรี (ellipse) ชื่อเป็น <em>verb phrase</em> (กริยา+นาม: Unlock, AddUser — ไม่ใช่คำนามเปล่า ๆ เช่น "Door")</li>
+      <li><strong>System boundary</strong> กรอบใหญ่ครอบ use cases ทั้งหมด มีชื่อระบบ</li>
+      <li>เส้นเชื่อม actor↔use case (ความสัมพันธ์) · «initiate» จาก actor ผู้เริ่ม · «include»/«extend» เป็นเส้นประหัวลูกศร</li>
+      <li>แยก <strong>Base use cases</strong> (ตัวหลัก) กับ <strong>Subroutine use cases</strong> (ตัวย่อยถูกเรียก)</li>
+    </ul>
+  </div>
+
+  <h3>4) 🎯 DRY + «include» vs «extend» — ตาราง 4 คำถามที่ออกสอบเป๊ะ</h3>
+  <div class="box box-idea">
+    <div class="box-title">💡 DRY Use Cases — ตัดซ้ำด้วย Subroutine Use Case</div>
+    <p>ถ้าหลาย use case มีขั้นตอนซ้ำ ๆ เหมือนกัน (เช่น "ยืนยันตัวตน") อย่าเขียนซ้ำทุกตัว — หั่นออกมา parametrized เป็น <strong>subroutine use case</strong> แล้วใช้ «include» เรียก (หลัก DRY: Don't Repeat Yourself)</p>
+  </div>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>คำถาม</th><th>Included use case («include»)</th><th>Extending use case («extend»)</th></tr></thead>
+    <tbody>
+      <tr><td>Subroutine use case นี้ <strong>optional</strong> ไหม?</td><td><strong>No</strong> — ต้องมีทุกครั้ง</td><td><strong>Yes</strong> — เกิดเมื่อเงื่อนไขเกิด</td></tr>
+      <tr><td>Base use case <strong>complete</strong> ไหมโดยไม่มีตัวนี้?</td><td><strong>No</strong> — ขาดแล้วไม่ครบ</td><td><strong>Yes</strong> — ฐานจบได้เอง</td></tr>
+      <tr><td>การ execute เป็น <strong>conditional</strong> ไหม?</td><td><strong>No</strong> — เกิดเสมอ</td><td><strong>Yes</strong> — เกิดเมื่อเงื่อนไข</td></tr>
+      <tr><td>เปลี่ยน <strong>พฤติกรรม</strong>ของ base ไหม?</td><td><strong>No</strong></td><td><strong>Yes</strong></td></tr>
+    </tbody>
+  </table></div>
+  <div class="box box-def">
+    <div class="box-title">📐 จำง่าย: «include» = จำเป็นทุกครั้ง (subroutine) / «extend» = เป็นทางเลือกเมื่อเกิดเหตุ</div>
+    <p>ตัวอย่าง «extend» จากสไลด์: <em>ManageAccount</em> เป็น optional extension ของ InspectAccessHistory และ SetDevicePrefs — ปกติดูประวัติก็จบ ถ้าจำเป็นถึงจะโผล่มาจัดการบัญชีเพิ่ม</p>
+  </div>
+
+  <div class="box box-warn">
+    <div class="box-title">🎯 กับดัก Login (BAD vs GOOD) — อาจารย์เน้นใน video ว่าข้อสอบชอบลักไก่</div>
+    <div class="match-grid">
+      <div class="match-item" style="border-color: rgba(220,38,38,.5)"><span class="m-key" style="color:#dc2626">BAD</span> — วาด Login เป็น ellipse ใหญ่แล้วให้ AddUser, SetDevicePrefs "ต่อ" มันเป็นเส้นปกติ ทำให้ diagram พัวพัน Login ทุกเส้น อ่านไม่รู้เรื่อง</div>
+      <div class="match-item" style="border-color: rgba(5,150,105,.5)"><span class="m-key" style="color:#059669">GOOD</span> — ทำ Login เป็น subroutine «include» (AuthenticateUser / Login) ให้ use cases ที่ต้องยืนยันตัวตนเรียกใช้ — หรือถ้า login เป็นแค่เงื่อนไขก่อนใช้ ก็<em>ยุบเป็น precondition</em> เลย</div>
+    </div>
+    <p>หลักคิด: Login ไม่ใช่ "เป้าหมายธุรกิจ" ที่ผู้ใช้อยากทำ (ไม่มีใคร "อยาก login") — มันเป็นกลไกกลาง จึงควรเป็น subroutine เท่านั้น</p>
+  </div>
+
+  <h3>5) Generalization — ทำให้ diagram ไม่บวม</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 2 แบบ</div>
+    <p><strong>Actor generalization:</strong> Resident (abstract, ทั่วไปกว่า) ← Tenant, Landlord (particular) — ความสัมพันธ์ที่ Tenant/Landlord มีร่วมกันย้ายขึ้น Resident ได้</p>
+    <p><strong>Use case generalization:</strong> UC9 ManageUsers (abstract กว่า) ← UC3 AddUser, UC4 RemoveUser — ตัวแทนย่อยสืบทอดพฤติกรรมและเพิ่มเอง</p>
+    <p>ลูกศรชี้จาก "particular" ไปหา "more general" — อุปมา: แผนผังตระกูล ยิ่งบนยิ่งกลาง</p>
+  </div>
+
+  <h3>6) Traceability Matrix — ตารางความสอดคล้อง REQ ↔ UC</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 3 ประโยชน์ (จำให้ได้)</div>
+    <ul>
+      <li>ตรวจว่า<em>requirement ทุกข้อถูกครอบคลุมโดย use cases</em> (ไม่มี REQ ล่ม)</li>
+      <li>ตรวจว่า<em>ไม่มี use case ไหนโผล่มาไร้เหตุผล</em> (ไม่ได้เกิดจาก REQ ไหนเลย = ตัดทิ้ง)</li>
+      <li><strong>จัดลำดับความสำคัญงาน</strong> (prioritize work on use cases) — จากสไลด์: นับ priority weight (PW) ของ REQ ที่ use case รับผิดชอบ แถว Max PW / Total PW ช่วยเรียงว่าตัวไหนทำก่อน</li>
+    </ul>
+  </div>
+
+  <h3>7) 🎯 โครงเขียน Use Case รายละเอียด (Schema for Detailed Use Cases)</h3>
+  <pre class="schema"><span class="k">Use Case UC-#:</span>        ชื่อ / identifier [verb phrase — กริยา+นาม]
+<span class="k">Related Requirements:</span>  รายการ REQ ที่ use case นี้รองรับ
+<span class="k">Initiating Actor:</span>     actor ผู้เริ่มปฏิสัมพันธ์เพื่อบรรลุเป้าหมาย
+<span class="k">Actor's Goal:</span>         คำอธิบายเป้าหมายของ initiating actor
+<span class="k">Participating Actors:</span> actors ที่ช่วยบรรลุเป้าหมาย / ต้องรู้ผลลัพธ์
+<span class="k">Preconditions:</span>        สถานะที่ต้องจริง "ก่อน" เริ่ม (assumed state)
+<span class="k">Postconditions:</span>       สิ่งที่ต้องจริง "หลัง" จบ (สำเร็จหรือยกเลิก)
+<span class="k">Flow of Events — Main Success Scenario:</span>
+  → 1. initiating actor ส่ง action/stimulus เข้าระบบ   (ลูกศร → = ทางเข้าระบบ)
+     2. system ตอบสนอง / ส่งข้อความถึง participating actor  ( ← = จากระบบออก)
+  → 3. ...
+<span class="k">Flow of Events — Extensions (Alternate Scenarios):</span>
+     What could go wrong? — จดจุดผิดพลาดของขั้นใดขั้นหนึ่ง + วิธีจัดการ
+  → 1a. เช่น actor ใส่ข้อมูลผิด
+     2a. เช่น ไฟดับ, network fail, ข้อมูลที่ขอไม่มี</pre>
+  <div class="box box-key">
+    <div class="box-title">⚡ ตัวอย่างเต็ม UC-1 Unlock + UC-7 AuthenticateUser (จากสไลด์ — เลียนแบบในข้อสอบได้เลย)</div>
+    <pre class="schema">Use Case UC-1:        Unlock
+Related Requirements: REQ1, REQ3, REQ4, REQ5
+Initiating Actor:     Tenant หรือ Landlord
+Actor's Goal:         ปลดล็อกแล้วเข้าบ้าน ไฟส่องสว่างอัตโนมัติ
+Participating Actors: LockDevice, LightSwitch, Timer
+Preconditions:        • เซตคีย์ที่ถูกต้องใน DB ไม่ว่าง
+                      • ระบบแสดงเมนูตรงประตูมีตัวเลือก Lock/Unlock
+Postconditions:       Timer เริมนับถอยหลัง auto-lock จาก autoLockInterval
+Main Success Scenario:
+  → 1. Tenant/Landlord มาถึงประตู เลือกเมนู "Unlock"
+     2. include:: AuthenticateUser (UC-7)
+     3. System (a) แจ้งสถานะ lock เช่น "disarmed" (b) สั่ง LockDevice ปลดล็อก (c) สั่ง LightSwitch เปิดไฟ
+     4. System สั่ง Timer เริ่มนับถอยหลัง auto-lock
+  → 5. Tenant/Landlord เปิดประตู เข้าบ้าน</pre>
+    <p>และ subroutine UC-7 AuthenticateUser (มี extensions):</p>
+    <pre class="schema">Use Case UC-7:        AuthenticateUser (sub-use case)
+Related Requirements: REQ3, REQ4
+Initiating Actor:     Tenant หรือ Landlord
+Actor's Goal:         ให้ระบบระบุตัวตนได้แน่นอน ที่หน้าประตู
+Participating Actors: AlarmBell, Police
+Preconditions:        เซตคีย์ไม่ว่าง + ตัวนับพยายาม = 0
+Main Success Scenario:
+     1. System ทวงถามการยืนยันตัวตน (เช่น คีย์พยัญชนะ/ตัวเลข)
+  → 2. Tenant/Landlord ป้อนคีย์ที่ถูกต้อง
+     3. System (a) ตรวจคีย์ว่าถูกต้อง (b) แจ้งความถูกต้อง
+Extensions:
+  2a. Tenant/Landlord ใส่คีย์ผิด
+     1. System (a) จับ error (b) บันทึกพยายามล้มเหลว (c) แจ้งผู้ใช้
+        1a. ถ้าจำนวนพยายามเกิน maximum → System สั่ง (a) ส่งเสียง AlarmBell (b) แจ้ง Police ว่าน่าจะมีบุกรุก
+  → 2. ผู้ใช้ป้อนคีย์ถูกต้อง → ไปขั้น 3 เหมือนเดิม</pre>
+  </div>
+
+  <div class="box box-def">
+    <div class="box-title">📐 Acceptance Test Case คู่กับ UC-7 (จากสไลด์)</div>
+    <p><strong>TC-1</strong> ทดสอบ UC-1 (main) + UC-7 · เกณฑ์ผ่าน/ตก: <em>ผ่าน</em>ถ้าผู้ใช้ใส่คีย์ที่มีใน DB โดยจำนวนพยายามล้มเหลวยังไม่เกิน maximum · ขั้น: (1) ใส่คีย์ผิด+ประตูถูก → ระบบ beep บันทึกพยายามล้มเหลว ทวงใหม่ · (2) ใส่คีย์ถูก → ไฟเขียว บันทึกสำเร็จ ปลดล็อกจริง</p>
+  </div>
+
+  <h3>8) System Sequence Diagram (SSD) และ Activity Diagram</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 600 340" role="img" aria-label="SSD ของ UC Unlock: User, System, LockDevice, LightSwitch, Timer แลกเปลี่ยนข้อความ 7 ข้อ">
+      <g>
+        <text x="70" y="40" text-anchor="middle" class="big">User</text>
+        <text x="70" y="56" text-anchor="middle" class="small mut">«initiating»</text>
+        <text x="300" y="40" text-anchor="middle" class="big">: System</text>
+        <text x="470" y="40" text-anchor="middle" class="big">LockDevice</text>
+        <text x="470" y="56" text-anchor="middle" class="small mut">«supporting»</text>
+        <text x="566" y="40" text-anchor="middle" class="big">Timer</text>
+        <text x="566" y="56" text-anchor="middle" class="small mut">«offstage»</text>
+      </g>
+      <line class="uml-line" x1="70" y1="64" x2="70" y2="300"></line>
+      <line class="uml-line" x1="300" y1="64" x2="300" y2="300"></line>
+      <line class="uml-line" x1="470" y1="64" x2="470" y2="300"></line>
+      <line class="uml-line" x1="566" y1="64" x2="566" y2="300"></line>
+      <g class="small">
+        <line class="uml-msg" x1="70" y1="96" x2="296" y2="96" marker-end="url(#ar3)"></line>
+        <text x="183" y="90" text-anchor="middle">select function("unlock")</text>
+        <line class="uml-ret" x1="300" y1="126" x2="74" y2="126" marker-end="url(#ar3)"></line>
+        <text x="187" y="120" text-anchor="middle">prompt for the key</text>
+        <line class="uml-msg" x1="70" y1="156" x2="296" y2="156" marker-end="url(#ar3)"></line>
+        <text x="183" y="150" text-anchor="middle">enter key</text>
+        <line class="uml-ret" x1="300" y1="186" x2="74" y2="186" marker-end="url(#ar3)"></line>
+        <text x="187" y="180" text-anchor="middle">signal: valid key, lock open</text>
+        <line class="uml-msg" x1="304" y1="216" x2="466" y2="216" marker-end="url(#ar3)"></line>
+        <text x="385" y="210" text-anchor="middle">open the lock</text>
+        <line class="uml-msg" x1="304" y1="248" x2="562" y2="248" marker-end="url(#ar3)"></line>
+        <text x="430" y="242" text-anchor="middle">start ("duration")</text>
+      </g>
+      <text x="300" y="326" text-anchor="middle" class="mut">Main success scenario — คล้าย UML sequence diagram แต่เป็น<em>ระหว่าง actor กับระบบ</em> ไม่ใช่ object กับ object</text>
+    </svg>
+    <figcaption>ภาพ 9.2 — System Sequence Diagram: สลับจังหวะ → (actor สั่ง) กับ ← (system ตอบ) — alternate scenario ใช้ loop (ใส่ key ผิดซ้ำ) แล้วสาย AlarmBell → Police</figcaption>
+  </figure>
+  <div class="box box-def">
+    <div class="box-title">📐 Activity Diagram (สรุปองค์ประกอบ)</div>
+    <p>จากสไลด์: <em>Initial node</em> → Select "Unlock" → Enter Key → Verify Key → <em>decision</em> [authorized] → Signal Success → Open Lock &amp; Lit Light → Start Autolock Timer → <em>activity final node</em> · กิ่ง [not authorized] → Notify Intrusion → Sound Alarm → <em>merge</em> — องค์ประกอบ: initial/final node, action, decision + guard condition [..], merge</p>
+  </div>
+
+  <div class="box box-idea">
+    <div class="box-title">💡 Limitations ของ Use Cases (+User Stories ด้วย) และ UI requirements</div>
+    <p>① บ่อยครั้งผู้ใช้ใช้ระบบ<em>แทนผู้รับประโยชน์จริง</em> (พนักงานธนาคารแทนลูกค้า) — จะคุยเป้าหมายใครดี? คำตอบตามสไลด์: ควรพิจารณา<em>ทั้งสองฝ่าย</em> ไม่งั้นได้ภาพบางส่วน · และระบบอัตโนมัติมักตัดคนกลางออกให้ผู้รับประโยชน์จริงคุยกับระบบเอง หรือคนกลางกลายเป็น supporting actor</p>
+    <p>② <strong>UI requirements:</strong> อย่าเสียเวลาทำ mockup สวย ๆ สีสันเยอะ — <em>วาดมือ</em>บังคับให้โฟกัสฟีเจอร์สำคัญ (สไลด์เดินเรื่อง keypad 3 รอบ: มีปุ่ม Unlock เพิ่มเพื่อแก้ตัวพิมพ์ผิด → เพิ่ม display เลขที่กดเพื่อช่วยจำ vs ระวังแฮกเกอร์อ่าน → ชั่งน้ำหนัก cost/ความกะบัง/ความชื้น/ข้อมูลรั่ว)</p>
+    <p>③ <strong>Security &amp; abuse cases:</strong> ระบุความเสี่ยงร้ายแรง — risk 3 ระดับ: <em>Intolerable / ALARP (as low as reasonably practical) / Acceptable</em> · ตัวอย่าง abuse sequence: ใส่คีย์ผิดถึง max รอหมดเวลา ใส่ผิดอีก — ต้องมี counter-measure (block + alarm)</p>
+  </div>
+</section>
+
+<section class="block" id="exam">
+  <h2><span class="h2-dot">🎯</span> แนวข้อสอบของบทนี้</h2>
+  <div class="box box-warn">
+    <div class="box-title">🎯 "เขียน Use case diagram" — ออกเขียนตอบทุกปีล่าสุด</div>
+    <ul>
+      <li><strong>สิ่งที่กรรมการให้คะแนน:</strong> actor ถูกต้องไม่หลุดใคร (ผู้ใช้/ระบบภายนอกเช่น LINE, Email), use case เป็นกริยา, boundary มี, ความสัมพันธ์ «include» ใช้ถูกต้อง</li>
+      <li><strong>ตาราง «include» vs «extend»</strong> 4 คำถาม — จำ No/Yes ทั้งแถว</li>
+      <li><strong>กับดัก Login:</strong> อย่าวาด Login พัวพันทุก use case — ทำเป็น subroutine «include» หรือยุบเป็น precondition</li>
+      <li><strong>โครง Use Case รายละเอียด</strong> 8 หัวข้อ + main scenario สลับ → / ← + extensions เลข x.y</li>
+      <li><strong>ชนิด actor 4 แบบ</strong> + ตัวอย่าง offstage (Police ถูกแจ้ง)</li>
+      <li><strong>Traceability matrix</strong> 3 ประโยชน์</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="practice">
+  <h2><span class="h2-dot">🏋️</span> โจทย์ซ้อมมือ (6 ข้อ)</h2>
+
+  <div class="pr-card" data-pkey="p9-1">
+    <div class="pr-head"><span class="pr-num">ข้อ 1</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>จำแนก actor (แนวข้อสอบ):</strong> ระบบ CS-Hospital มี: พยาบาลกดลงทะเบียนผู้ป่วย / ระบบ LINE Notify รับข้อความแจ้งเตือน / หัวหน้าแพทย์ได้รับสำเนารายงานโดยไม่มีส่วนร่วมโดยตรง / ระบบคลังยาตอบคำขอตรวจสต๊อก — ใครคือ initiating, supporting, offstage?</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>พยาบาล</b> = <strong>Initiating actor</strong> — เริ่ม use case ลงทะเบียนผู้ป่วย</span></li>
+          <li><span class="step-t"><b>ระบบ LINE Notify</b> = participating — ถ้ามัน<em>ส่งการแจ้งออกไปทำงานแทนระบบ</em>ถือเป็น <strong>Supporting actor</strong></span></li>
+          <li><span class="step-t"><b>หัวหน้าแพทย์ที่แค่ได้รับสำเนา</b> = <strong>Offstage actor</strong> — ไม่เริ่ม ไม่ช่วย แต่ถูกแจ้ง (เพื่อบันทึก/รับรู้)</span></li>
+          <li><span class="step-t"><b>ระบบคลังยาที่ตอบคำขอ</b> = <strong>Supporting actor</strong> (ระบบภายนอกช่วยให้ use case สำเร็จ)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p9-2">
+    <div class="pr-head"><span class="pr-num">ข้อ 2</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>ตาราง 4 คำถาม:</strong> เติมตารางเทียบ «include» กับ «extend»: optional? / base complete โดยไม่มีมัน? / conditional? / เปลี่ยนพฤติกรรม base?</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>«include»:</b> ตอบ No ทั้ง 4 — จำเป็น ฐานไม่ครบถ้าขาด เกิดเสมอ ไม่เปลี่ยนพฤติกรรมฐาน</span></li>
+          <li><span class="step-t"><b>«extend»:</b> ตอบ Yes ทั้ง 4 — ตัวเลือก ฐานจบเองได้ เกิดเมื่อเงื่อนไข เปลี่ยนพฤติกรรมฐานได้</span></li>
+          <li><span class="step-t"><b>จำ:</b> include = "ต้องวิ่งทุกครั้ง" (subroutine) · extend = "โผล่เฉพาะบางเคส" (ส่วนขยาย)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p9-3">
+    <div class="pr-head"><span class="pr-num">ข้อ 3</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>หา use case จากโจทย์ (ฝึกข้อสอบ ย่อส่วน):</strong> ระบบ CS-Hospital (ส่วนย่อย): เก็บข้อมูลผู้ป่วย ออกรายงาน ใบรับรองแพทย์ ส่งต่อผลวินิจฉัยให้ทีมแพทย์เฉพาะทางผ่าน LINE/Email — ระบุ (ก) initiating actors (ข) use cases อย่างน้อย 4 ตัว พร้อมชื่อ verb phrase (ค) participating actors</p>
+      <details class="sol"><summary>แนวคำตอบ</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>(ก) initiating actors:</b> Nurse/Staff (ลงทะเบียนผู้ป่วย), Doctor (ค้นประวัติ ออกใบรับรอง ส่งต่อผลวินิจฉัย), อาจมี Admin (จัดการบัญชีบุคลากร)</span></li>
+          <li><span class="step-t"><b>(ข) use cases:</b> RegisterPatient · SearchPatientHistory · IssueMedicalCertificate · SendDiagnosisToSpecialist · ManageMedicalStaff — ทุกชื่อเป็นกริยา+นาม</span></li>
+          <li><span class="step-t"><b>(ค) participating:</b> Patient Database (supporting — เก็บ/ให้ข้อมูล), LINE API / Email Server (supporting — ส่งข้อความจริง), Specialist Team (อาจเป็น offstage/supporting ขึ้นกับว่ามีส่วนรับข้อมูลเป็นระบบหรือคน)</span></li>
+          <li><span class="step-t"><b>เกร็ด:</b> "ส่งผ่าน LINE/Email" ในโจทย์ = สัญญาณว่าต้องมี actor ระบบภายนอกชื่อ LINE/Email Server ใน diagram — ข้อสอบชอบให้คะแนนตรงจุดนี้</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p9-4">
+    <div class="pr-head"><span class="pr-num">ข้อ 4</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เขียน Use Case เต็ม (จำลองข้อสอบ):</strong> เขียน use case "SendDiagnosisToSpecialist" ของ CS-Hospital ตามโครง 8 หัวข้อ พร้อม main scenario 4 ขั้น และ extension 1 เคส</p>
+      <details class="sol"><summary>แนวคำตอบ</summary>
+        <pre class="schema">Use Case UC-4: SendDiagnosisToSpecialist
+Related Requirements: ส่งต่อผลการรักษา/วินิจฉัยให้ทีมแพทย์เฉพาะทางผ่าน LINE/Email
+Initiating Actor: Doctor
+Actor's Goal: ส่งผลวินิจฉัยให้ทีมเฉพาะทางรับทราบโดยเร็ว
+Participating Actors: LINE API / Email Server, Specialist Team
+Preconditions: Doctor ยืนยันตัวตนแล้ว · มีผลวินิจฉัยบันทึกในระบบแล้ว
+Postconditions: ระบบบันทึกว่าส่งสำเร็จ + เวลา และ Specialist Team ได้รับข้อความ
+Main Success Scenario:
+  → 1. Doctor เลือกผลวินิจฉัยและกด "ส่งต่อเฉพาะทาง" แล้วเลือกทีมปลายทาง
+     2. System แสดงสรุปให้ยืนยัน
+  → 3. Doctor ยืนยันส่ง
+     4. System ส่งข้อความผ่าน LINE API / Email Server และบันทึก log การส่ง
+     5. System แจ้ง Doctor ว่าส่งสำเร็จพร้อมเวลา
+Extensions:
+  4a. ช่องทาง LINE ล้มเหลว (network fail)
+      1. System ลองช่องทางสำรอง (Email) อัตโนมัติ
+      2. ถ้าทุกช่องทางล้ม → System แจ้ง Doctor ให้ลองใหม่และเก็บงานไว้ในคิวรอส่ง</pre>
+        <ol class="steps">
+          <li><span class="step-t"><b>สังเกตสูตร:</b> ขั้นสลับ → / ← · extension อ้างเลขขั้นต้นทาง (4a) · pre/post เป็นสิ่ง "เช็กได้"</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p9-5">
+    <div class="pr-head"><span class="pr-num">ข้อ 5</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>กับดัก Login:</strong> เพื่อนวาด diagram โดยให้ "Login" เป็น ellipse แล้วเส้นจาก AddUser, SetDevicePrefs, ViewHistory ต่อเข้า Login ทั้งหมดแบบเส้นตรง — วิเคราะห์ว่ามีปัญหาอะไร และวิธีแก้ 2 วิธี</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>ปัญหา:</b> diagram พัวพัน — Login ไม่ใช่เป้าหมายธุรกิจที่ผู้ใช้มุ่งทำ มันเป็นกลไกซ้ำ ๆ หลาย use case → การต่อเส้นตรงหมดทำให้ diagram อ่านยาก + ไม่บอกชัดว่า Login ถูกเรียกเมื่อไหร่</span></li>
+          <li><span class="step-t"><b>แก้วิธี 1:</b> ทำ Login/AuthenticateUser เป็น <strong>subroutine use case</strong> แล้วเชื่อมด้วย <strong>«include»</strong> จาก use cases ที่ต้องยืนยันตัวตน (ตามสไลด์ GOOD)</span></li>
+          <li><span class="step-t"><b>แก้วิธี 2:</b> ถ้าไม่อยากมี ellipse ตัวนี้เลย ให้<strong>ยุบเป็น precondition</strong> ของแต่ละ use case ("ผู้ใช้ต้องล็อกอินแล้ว")</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p9-6">
+    <div class="pr-head"><span class="pr-num">ข้อ 6</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>Traceability:</strong> ระบบมี REQ1–REQ4 และ use case UC-A (ครอบ REQ1,REQ3) UC-B (ครอบ REQ2) — REQ4 ไม่มี UC ใดครอบ และมี UC-C ที่ไม่ครอบ REQ ใดเลย — บอก 2 ปัญหาที่ traceability matrix เผย และ 3 ประโยชน์ของ matrix</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>ปัญหา 1:</b> REQ4 <em>ไม่ถูกครอบคลุม</em>โดย use case ใด — requirement นี้อาจลืม implement (ต้องเพิ่ม/ต่อยอด UC)</span></li>
+          <li><span class="step-t"><b>ปัญหา 2:</b> UC-C ไม่มี REQ รองรับ — <em>สร้างมาไร้เหตุผล</em> (ไม่ตอบ requirement ไหน) → ควรตัดหรือหา REQ ที่มันควรรองรับ</span></li>
+          <li><span class="step-t"><b>3 ประโยชน์:</b> ① เช็ก REQ ครบ ② เช็กไม่มี UC ลอย ③ ใช้จัดลำดับความสำคัญงาน (จาก priority weight)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+</section>
+
+</div></main>
+
+<nav class="pager" id="pager"></nav>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/tts.js"></script>
+</body>
+</html>

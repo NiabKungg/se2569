@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>บทที่ 5 การจัดการโครงการซอฟต์แวร์ — SE 05506017</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230d1930%22/><text x=%2250%22 y=%2270%22 font-size=%2252%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22>SE</text></svg>">
+<meta name="description" content="บทที่ 5 การจัดการโครงการซอฟต์แวร์ — Project planning, Milestones/Deliverables, WBS, Gantt Chart, PERT และ CPM พร้อมตัวอย่างคำนวณ step-by-step และโจทย์ซ้อม">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-ch="5" data-section="5" data-page="ch5.html" data-tts="1">
+<header class="topbar">
+  <button class="icon-btn menu-btn" id="menuBtn" aria-label="เปิดเมนู">☰</button>
+  <a class="brand" href="index.html"><span class="brand-badge">SE</span><span>Software Engineering <span class="brand-sub">05506017 · 1/2569</span></span></a>
+  <span class="spacer"></span>
+  <button class="icon-btn theme-btn" id="themeBtn" aria-label="สลับโหมดมืด/สว่าง">🌙</button>
+</header>
+<div class="layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="scrim" id="scrim"></div>
+
+  <main class="content"><div class="inner">
+
+<div class="crumb">บทที่ 5 · การจัดการโครงการซอฟต์แวร์</div>
+<h1 class="page-title">บทที่ 5 — Software Project Management</h1>
+<p class="page-sub">รู้วิธีสร้างซอฟต์แวร์อย่างเดียวไม่พอ — ต้องจัดการโครงการให้<em>เสร็จตามเวลา ตามงบ ตามคุณภาพ</em>
+เราจะเรียนวางแผนโครงการ, Milestone/Deliverable, WBS, ตาราง Gantt (ทำโจทย์คำนวณได้!) และ PERT vs CPM</p>
+
+<nav class="pillnav">
+  <a href="#objectives">🎯 จุดประสงค์</a>
+  <a href="#lesson">📖 บทเรียน</a>
+  <a href="#exam">🎯 แนวข้อสอบ</a>
+  <a href="#practice">🏋️ โจทย์ซ้อมมือ</a>
+</nav>
+
+<section class="block" id="objectives">
+  <div class="obj">
+    <h2>🎯 เรียนจบบทนี้ คุณต้องทำสิ่งเหล่านี้ได้</h2>
+    <ul>
+      <li>บอกได้ว่าทำไมพัฒนาซอฟต์แวร์ยาก (5 เหตุผล) และทำไมต้องมี Project Management</li>
+      <li>แยก <strong>Milestone</strong> (จุดสิ้นสุดของ activity) กับ <strong>Deliverable</strong> (ผลงานที่ส่งให้ลูกค้า) ได้</li>
+      <li>จำประเภทแผนโครงการ 5 แบบ (Quality / Validation / Configuration management / Maintenance / Staff development plan)</li>
+      <li><strong>วาด Gantt chart จากตารางงาน+ความยาวงานได้</strong> แบบโจทย์ในสไลด์ และบอกข้อจำกัดของ Gantt</li>
+      <li>แยก <strong>PERT (เน้นเวลา, ใช้ AOA)</strong> กับ <strong>CPM (เน้นต้นทุน)</strong> และวาด network diagram จากตารางความสัมพันธ์งาน</li>
+      <li>จำ 5 หน้าที่ของ Management: Planning, Organizing, Staffing, Directing, Controlling</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="lesson">
+  <h2><span class="h2-dot">📖</span> บทเรียน</h2>
+
+  <div class="box box-idea">
+    <div class="box-title">🗺️ ที่มาที่ไป — ทำไมงานซอฟต์แวร์ "บริหารยาก"</div>
+    <p>สไลด์เปิดว่า "Why the SW Development is Difficult?" — เพราะ:</p>
+    <p>① ผู้ใช้<em>ไม่รู้ requirement ของตัวเอง</em> · ② requirement<em>เปลี่ยน</em>ตลอด · ③ การจัด "คนถูกคนกับงานถูกงาน" (right man in the right job) ยาก · ④ การ<em>สื่อสารในทีม</em>ยิ่งคนเยอะยิ่งยุ่ง · ⑤ เทคโนโลยี<em>เปลี่ยน</em>เร็ว</p>
+    <p><strong>อุปมา:</strong> สร้างบ้านก็มีนายช่างคอยคุมตารางงาน งบ ทีมช่าง คุณภาพวัสดุ — โปรเจกต์ซอฟต์แวร์ก็ต้องมี "นายหน้าบ้าน" แต่ยากกว่า เพราะ "วัสดุ" ของเรา (requirement) เปลี่ยนระหว่างก่อสร้างตลอดเวลา! นี่คือเหตุผลที่ Project Management = "การนำความรู้ ทักษะ เครื่องมือ และเทคนิคมาใช้กับกิจกรรมโครงการให้เป็นไปตาม requirement ของโครงการ"</p>
+  </div>
+
+  <div class="box box-def">
+    <div class="box-title">📐 ควบคุม 3 อย่าง + คุณลักษณะโครงการ 4 ด้าน</div>
+    <p><strong>Writing projects ต้องควบคุม 3 อย่าง:</strong> <em>Quality</em> (คุณภาพผลงาน) · <em>Cost</em> (ต้นทุน) · <em>Delivery</em> (ส่งมอบทันเวลา)</p>
+    <p><strong>คุณลักษณะโครงการที่ต้องดู (Project Characteristics):</strong> <em>Time · Task · Cost · Quality</em></p>
+    <p><strong>Management 4 ด้านรอบโครงการ (จากภาพสไลด์):</strong> Risk, Scope, Supply, Communication, Organization — ล้อมกลุ่ม Time, Cost, Quality ไว้ตรงกลาง</p>
+  </div>
+
+  <h3>1) ประเภทแผนโครงการ (Types of Project Plan) — 5 แบบ</h3>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>แผน</th><th>อธิบาย (คีย์เวิร์ด)</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Quality plan</strong></td><td>อธิบาย<em>ขั้นตอนและมาตรฐานคุณภาพ</em> (quality procedures and standards) ที่จะใช้ในโครงการ</td></tr>
+      <tr><td><strong>Validation plan</strong></td><td>อธิบาย approach, ทรัพยากร (resources) และตารางเวลา (schedule) ที่ใช้<em>validate ระบบ</em></td></tr>
+      <tr><td><strong>Configuration management plan</strong></td><td>อธิบายขั้นตอนและโครงสร้าง<em>การจัดการ configuration</em> ที่จะใช้</td></tr>
+      <tr><td><strong>Maintenance plan</strong></td><td><em>พยากรณ์</em>ความต้องการบำรุงรักษาของระบบ, ต้นทุนและแรงงาน (effort) ที่ต้องใช้ — ← ตัวนี้สำคัญกับข้อสอบ Final ที่ถามแผน Maintenance!</td></tr>
+      <tr><td><strong>Staff development plan</strong></td><td>อธิบายว่า<em>ทักษะและประสบการณ์</em>ของสมาชิกทีมจะถูกพัฒนาอย่างไร</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="box box-def">
+    <div class="box-title">📐 โครงสร้าง Project Plan (7 หัวข้อ) + Milestone vs Deliverable</div>
+    <p><strong>โครงสร้างแผน:</strong> Introduction · Project organisation · Risk analysis · Hardware & software resource requirements · Work breakdown · Project schedule · Monitoring and reporting mechanisms</p>
+    <p><strong>Milestone</strong> = <em>จุดสิ้นสุดของ process activity</em> (จุดหมายปลายทางของขั้นตอน เช่น "จบ feasibility report")</p>
+    <p><strong>Deliverable</strong> = <em>ผลงานโครงการที่ส่งมอบให้ลูกค้า</em> (project results delivered to customers)</p>
+    <p><strong>ตัวอย่างจากสไลด์ (RE process):</strong> กิจกรรม Feasibility study → milestone "Feasibility report" · Requirements analysis → "Requirements definition" · Prototype development → "Evaluation report" · Design study → "Architectural design" · จบด้วย "Requirements specification"</p>
+    <p><strong>อุปมา:</strong> Milestone = เส้นชัยย่อย ๆ ในมาราธอน (จุดที่บอกว่าถึง กม.ที่ 10 แล้ว) · Deliverable = รางวัล/หลักฐานที่มอบให้ผู้สนับสนุนเมื่อวิ่งถึงจุดสำคัญ</p>
+  </div>
+
+  <h3>2) Project Scheduling — ปัญหาคลาสสิกที่อาจารย์ชอบถาม</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 วิธีทำ + ปัญหา (จำประโยคของ Brooks!)</div>
+    <p><strong>วิธีทำ scheduling:</strong> แบ่งโปรเจกต์เป็น tasks → ประมาณเวลา+ทรัพยากรของแต่ละ task → จัด task ให้ทำ<em>พร้อมกัน (concurrently)</em> ใช้คนคุ้มค่าที่สุด → <em>ลด task dependency</em> (ลดการรอคอยระหว่างงาน) → ลงตาราง (แต่จริง ๆ ขึ้นกับ intuition และประสบการณ์ของ project manager)</p>
+    <p><strong>ปัญหาของ scheduling (4 ข้อ):</strong></p>
+    <ul>
+      <li>ประมาณ<em>ความยาก</em>ของปัญหาและต้นทุนยากมาก</li>
+      <li><em>Productivity ไม่ได้แปรผันตรง</em>กับจำนวนคนที่ทำงานเดียวกัน</li>
+      <li><strong>"Adding people to a late project makes it later"</strong> — เพิ่มคนให้โปรเจกต์ที่ล่าอยู่แล้วยิ่งทำให้ล่ากว่าเดิม (เพราะ communication overhead — คนใหม่ต้องให้เวลาเรียนรู้ คนเก่าต้องให้เวลาสอน สื่อสารยิ่งยุ่ง)</li>
+      <li>สิ่งไม่คาดคิด<em>มักเกิดเสมอ</em> — วางแผนต้องเผื่อ contingency (เผื่อเวลาเผื่องบ) เสมอ</li>
+    </ul>
+  </div>
+
+  <div class="box box-def">
+    <div class="box-title">📐 Project Life Cycle (4 ระยะ) + Management Functions (5 ข้อ)</div>
+    <p><strong>Project Life Cycle:</strong> <em>Initiation</em> (กำหนด scope, ขนาด, task) → <em>Planning</em> (กำหนดกิจกรรม, ต้นทุน, เวลา, risk) → <em>Execution</em> (ทีมทำงานตาม schedule, ผู้อำนวยการคุมให้ตามแผน) → <em>Closing</em> (ทำใน maintenance process — ผลเป็น succeed หรือ fail)</p>
+    <p><strong>Management Functions (จำคำ 5 ตัว P-O-S-D-C):</strong></p>
+    <ul>
+      <li><strong>Planning</strong> — ตัดสิน objectives, resources, goals + กำหนด flow ของข้อมูล/คน/สินค้า</li>
+      <li><strong>Organizing</strong> — เส้นทางอำนาจและความรับผิดชอบที่ชัดเจน (สร้างโครงสร้างได้ดีเมื่อ goal ชัดและ planning ดี)</li>
+      <li><strong>Staffing</strong> — จ้างคนตามโครงสร้างองค์กร: recruiting, compensating, developing, promoting</li>
+      <li><strong>Directing</strong> — นำทางลูกน้องให้เข้าใจโครงสร้างและเป้าหมาย + ฝึกอบรมวิศวกรหน้าใหม่</li>
+      <li><strong>Controlling</strong> — วัดผลและแก้ไขกิจกรรมให้บรรลุเป้าหมาย (วัด performance เทียบแผน + corrective action)</li>
+    </ul>
+  </div>
+
+  <div class="box box-key">
+    <div class="box-title">⚡ Software Pricing — ปัจจัยกระทบราคา 5 ตัว (จับคู่ได้)</div>
+    <ul>
+      <li><strong>Market opportunity</strong> — ยอมราคาต่ำเพื่อเปิดตลาดใหม่ หวังกำไรระยะยาว</li>
+      <li><strong>Cost estimate uncertainty</strong> — ไม่มั่นใจต้นทุน → เพิ่มราคาด้วย contingency</li>
+      <li><strong>Contractual terms</strong> — ลูกค้ายอมให้ developer กุม source code ไปใช้ต่อ → ราคาถูกลงได้</li>
+      <li><strong>Requirements volatility</strong> — requirement จะเปลี่ยน → ตัดราคาเพื่อชนะงาน แล้วคิดแพงตอนขอเปลี่ยนทีหลัง</li>
+      <li><strong>Financial health</strong> — บริษัทกำลังยาก → ตัดราคาเพื่อรักษา cash flow (รอดดีกว่ากำไร)</li>
+    </ul>
+  </div>
+
+  <h3>3) Project Control มี 3 เครื่องมือ: WBS · Gantt · PERT และ CPM</h3>
+
+  <h3>3.1) WBS — Work Breakdown Structure</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 หั่นงานใหญ่เป็นทวี</div>
+    <p>WBS = หั่นงานซอฟต์แวร์ทั้งโครงการเป็นกิ่ง ๆ ลงลึกเรื่อย ๆ — ราก: Software Development → แตก 5 กิ่ง: Requirement Definition / Design / Development / Integration Testing / Project Management → กิ่ง Requirement แตกเป็น Old System Analysis, Requirement Analysis, Software Requirement · Design แตกเป็น External Design, Internal Design · Development → Coding, Module Testing · Integration Testing → Integrate Testing, Implement · Project Management → Change Management, Cost Management, Supply Management ฯลฯ</p>
+    <p><strong>อุปมา:</strong> รายการซื้อของเข้าครัวงานเลี้ยง — "ทำอาหารงานเลี้ยง" หั่นเป็น ซื้อของ/เตรียมวัตถุดิบ/ปรุง/จัดโต๊ะ แล้วแตกซ้ำ เช่น "ซื้อของ" → ผัก/เนื้อ/เครื่องปรุง — หั่นละเอียดพอให้ "ประเมินเวลา+มอบหมายคน" ได้</p>
+  </div>
+  <figure class="fig">
+    <svg viewBox="0 0 560 300" role="img" aria-label="WBS: Software Development แตกเป็น Requirement Definition, Design, Development, Integration Testing, Project Management และแตกต่อ">
+      <rect x="195" y="14" width="170" height="40" rx="10" fill="rgba(245,158,11,.16)" stroke="#f59e0b" stroke-width="1.6"></rect>
+      <text x="280" y="39" text-anchor="middle" class="big">Software Development</text>
+      <line class="ax" x1="280" y1="54" x2="280" y2="76"></line>
+      <line class="ax" x1="70" y1="76" x2="490" y2="76"></line>
+      <g class="small">
+        <line class="ax" x1="70" y1="76" x2="70" y2="96"></line>
+        <line class="ax" x1="175" y1="76" x2="175" y2="96"></line>
+        <line class="ax" x1="280" y1="76" x2="280" y2="96"></line>
+        <line class="ax" x1="385" y1="76" x2="385" y2="96"></line>
+        <line class="ax" x1="490" y1="76" x2="490" y2="96"></line>
+      </g>
+      <g>
+        <rect x="14" y="96" width="112" height="46" rx="9" class="f1" stroke="#2563eb" fill="none"></rect>
+        <text x="70" y="124" text-anchor="middle">Requirement Definition</text>
+        <rect x="124" y="96" width="102" height="46" rx="9" class="f2" stroke="#dc2626" fill="none"></rect>
+        <text x="175" y="124" text-anchor="middle">Design</text>
+        <rect x="234" y="96" width="92" height="46" rx="9" class="f3" stroke="#059669" fill="none"></rect>
+        <text x="280" y="124" text-anchor="middle">Development</text>
+        <rect x="334" y="96" width="102" height="46" rx="9" class="f1" stroke="#2563eb" fill="none"></rect>
+        <text x="385" y="116" text-anchor="middle">Integration</text>
+        <text x="385" y="134" text-anchor="middle">Testing</text>
+        <rect x="444" y="96" width="92" height="46" rx="9" class="fsoft" stroke="var(--acc-ink)" fill="none"></rect>
+        <text x="490" y="116" text-anchor="middle">Project</text>
+        <text x="490" y="134" text-anchor="middle">Management</text>
+      </g>
+      <g class="small mut">
+        <line class="aux" x1="70" y1="142" x2="70" y2="168"></line>
+        <text x="70" y="184" text-anchor="middle">Old System Analysis</text>
+        <text x="70" y="202" text-anchor="middle">Requirement Analysis</text>
+        <text x="70" y="220" text-anchor="middle">Software Requirement</text>
+        <line class="aux" x1="175" y1="142" x2="175" y2="168"></line>
+        <text x="175" y="184" text-anchor="middle">External Design</text>
+        <text x="175" y="202" text-anchor="middle">Internal Design</text>
+        <line class="aux" x1="280" y1="142" x2="280" y2="168"></line>
+        <text x="280" y="184" text-anchor="middle">Coding</text>
+        <text x="280" y="202" text-anchor="middle">Module Testing</text>
+        <line class="aux" x1="490" y1="142" x2="490" y2="168"></line>
+        <text x="490" y="184" text-anchor="middle">Change Management</text>
+        <text x="490" y="202" text-anchor="middle">Cost Management</text>
+        <text x="490" y="220" text-anchor="middle">Supply Management</text>
+      </g>
+      <text x="280" y="262" text-anchor="middle" class="mut">หั่นลงเรื่อย ๆ จนกว่าจะ "ประเมินเวลาและมอบหมายคนได้" — และมีผลลัพธ์ตรวจได้</text>
+    </svg>
+    <figcaption>ภาพ 5.1 — Work Breakdown Structure: หั่นจากงานใหญ่ลงเป็นงานย่อยที่บริหารได้</figcaption>
+  </figure>
+
+  <h3>3.2) Gantt Chart — ตารางแท่ง (พร้อมโจทย์จากสไลด์ทำ step-by-step)</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 ความรู้พื้นฐาน</div>
+    <p>พัฒนาโดย <strong>Henry L. Gantt ปี 1917</strong> เพื่อใช้ scheduling โครงการ · <strong>ข้อดี:</strong> เห็นชัดว่างานไหน<em>เริ่มเมื่อไหร่-จบเมื่อไหร่</em> · <strong>ข้อจำกัด 3 ข้อ (ออกสอบ!):</strong> (1) <em>ไม่แสดงความสัมพันธ์ระหว่างงาน (dependency) ชัดเจน</em> (2) <em>ไม่บอกผลกระทบถ้างานล่าช้า</em> (3) <em>ไม่เหมาะกับโครงการใหญ่ที่มีหลาย subsystem/ซับซ้อน</em></p>
+  </div>
+
+  <div class="box box-key">
+    <div class="box-title">⚡ ตัวอย่างโจทย์จากสไลด์ — วาด Gantt ทีละขั้น</div>
+    <p><strong>โจทย์:</strong> งาน A–J มีข้อมูลดังนี้ (งาน | งานที่ต้องเสร็จก่อน | เวลาสัปดาห์): A(−,3) B(−,5) C(B,3) D(A,C,4) E(D,8) F(C,2) G(F,4) H(F,2) I(B,5) J(E,G,H,3)</p>
+    <ol class="flowsteps">
+      <li><b>หางานที่เริ่มได้ทันที:</b> งานที่ "ต้องเสร็จก่อน = −" คือ <em>A</em> และ <em>B</em> → เริ่มสัปดาห์ 0: A วิ่ง 0–3, B วิ่ง 0–5</li>
+      <li><b>ไล่งานที่อยู่หลัง B:</b> C (หลัง B เสร็จที่สัปดาห์ 5) → 5–8 · I (หลัง B) → 5–10</li>
+      <li><b>งาน D รอสองตัว (A, C):</b> เริ่มได้เมื่อ<em>ทั้งคู่จบ</em> = จบช้าสุดคือ C ที่ 8 → D วิ่ง 8–12</li>
+      <li><b>งาน E รอ D:</b> → 12–20 (งานยาวสุด!) · ส่วน F รอ C → 8–10</li>
+      <li><b>งาน G, H รอ F:</b> G → 10–14 · H → 10–12</li>
+      <li><b>งาน J รอ E, G, H:</b> จบช้าสุดคือ E ที่ 20 → J วิ่ง 20–23 → <strong>โครงการจบสัปดาห์ที่ 23</strong></li>
+      <li><b>หา Critical Path (เส้นทางวิกฤต)</b> — เส้นทางที่ถ้าล่าแม้แต่งานเดียว โครงการทั้งงานล่า: B(5) → C(3) → D(4) → E(8) → J(3) = <strong>23 สัปดาห์</strong> — ตรงกับเวลาจบรวมพอดี แสดงว่าเป็นเส้นทางยาวสุด</li>
+    </ol>
+  </div>
+  <figure class="fig">
+    <svg viewBox="0 0 600 380" role="img" aria-label="Gantt chart ของงาน A-J จากตัวอย่าง แสดงแท่งตามช่วงสัปดาห์ และเส้น critical path B-C-D-E-J สีแดง">
+      <g class="small">
+        <text x="46" y="34">งาน A (3w)</text><rect x="120" y="22" width="36" height="16" rx="4" class="f1" stroke="#2563eb"></rect>
+        <text x="46" y="64">งาน B (5w)</text><rect x="120" y="52" width="60" height="16" rx="4" fill="rgba(220,38,38,.7)" stroke="#dc2626"></rect>
+        <text x="46" y="94">งาน C (3w)</text><rect x="180" y="82" width="36" height="16" rx="4" fill="rgba(220,38,38,.7)" stroke="#dc2626"></rect>
+        <text x="46" y="124">งาน D (4w)</text><rect x="216" y="112" width="48" height="16" rx="4" fill="rgba(220,38,38,.7)" stroke="#dc2626"></rect>
+        <text x="46" y="154">งาน E (8w)</text><rect x="264" y="142" width="96" height="16" rx="4" fill="rgba(220,38,38,.7)" stroke="#dc2626"></rect>
+        <text x="46" y="184">งาน F (2w)</text><rect x="216" y="172" width="24" height="16" rx="4" class="f1" stroke="#2563eb"></rect>
+        <text x="46" y="214">งาน G (4w)</text><rect x="240" y="202" width="48" height="16" rx="4" class="f1" stroke="#2563eb"></rect>
+        <text x="46" y="244">งาน H (2w)</text><rect x="240" y="232" width="24" height="16" rx="4" class="f1" stroke="#2563eb"></rect>
+        <text x="46" y="274">งาน I (5w)</text><rect x="180" y="262" width="60" height="16" rx="4" class="f3" stroke="#059669"></rect>
+        <text x="46" y="304">งาน J (3w)</text><rect x="360" y="292" width="36" height="16" rx="4" fill="rgba(220,38,38,.7)" stroke="#dc2626"></rect>
+      </g>
+      <line class="aux" x1="120" y1="10" x2="120" y2="315"></line>
+      <g class="small mut">
+        <text x="118" y="330" text-anchor="middle">0</text>
+        <text x="180" y="330" text-anchor="middle">5</text>
+        <text x="240" y="330" text-anchor="middle">10</text>
+        <text x="300" y="330" text-anchor="middle">15</text>
+        <text x="360" y="330" text-anchor="middle">20</text>
+        <text x="396" y="330" text-anchor="middle">23</text>
+        <text x="430" y="330" text-anchor="start">← สัปดาห์</text>
+      </g>
+      <g class="small">
+        <text x="436" y="64" class="t2">Critical Path:</text>
+        <text x="436" y="84" class="t2">B→C→D→E→J</text>
+        <text x="436" y="104" class="mut">= 5+3+4+8+3</text>
+        <text x="436" y="124" class="mut">= 23 สัปดาห์</text>
+        <text x="436" y="152" class="mut">งานสีน้ำเงิน/เขียว</text>
+        <text x="436" y="172" class="mut">มีสัปดาห์ว่างเผื่อ</text>
+        <text x="436" y="192" class="mut">ล่าได้บ้าง (float)</text>
+      </g>
+      <text x="300" y="362" text-anchor="middle" class="mut">แท่งแดง = งานบน Critical Path (ล่าไม่ได้เลย) · เริ่มจบของแต่ละงานอ่านจากแกนสัปดาห์</text>
+    </svg>
+    <figcaption>ภาพ 5.2 — Gantt chart คำตอบของโจทย์ตัวอย่าง: วางแท่งตาม "จุดที่งานที่ต้องเสร็จก่อน" จบ — และจะเห็นข้อจำกัดของ Gantt เอง: ความสัมพันธ์ระหว่างงานต้องไปคิดในหัวเอง</figcaption>
+  </figure>
+
+  <h3>3.3) PERT และ CPM — เครือข่ายงาน (Network Diagram)</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 เทียบคู่ (ออกสอบจับคู่/เติมคำ)</div>
+    <p><strong>PERT (Program Evaluation and Review Technique):</strong> เน้น <em>development time (เวลา)</em> · เหมาะกับ<em>โครงการใหญ่</em> · วาดด้วย <strong>Activity On Arrow (AOA)</strong> — ลูกศร = งาน</p>
+    <p><strong>CPM (Critical Path Method):</strong> เน้น <em>development cost (ต้นทุน)</em></p>
+    <p><strong>จุดประสงค์การใช้ PERT (4 ข้อ):</strong> ① Project Planning — คำนวณเวลาที่ควรใช้ งานเริ่ม/จบเมื่อไหร่ งานไหน critical · ② Project Control — ควบคุมตาม schedule · ③ Resource — ต้นทุน ทีม เครื่องมือ · ④ Project Management — งานไหนควรย่นเวลาพัฒนา</p>
+  </div>
+
+  <div class="box box-key">
+    <div class="box-title">⚡ ตัวอย่างโจทย์ที่ 2 จากสไลด์ — วาด network AOA step-by-step</div>
+    <p><strong>โจทย์:</strong> งาน A(−) B(−) C(A) D(B) E(C,D) — วาดเครือข่าย AOA ให้ถูก</p>
+    <ol class="flowsteps">
+      <li><b>หางานที่ไม่มีงานก่อนหน้า:</b> A และ B → วาดลูกศร A และ B ออกจากจุดเริ่ม (START)</li>
+      <li><b>งานที่รอ A:</b> C → วาดลูกศร C ต่อท้าย A (จุดท้ายของ A คือจุดต้นของ C)</li>
+      <li><b>งานที่รอ B:</b> D → วาดลูกศร D ต่อท้าย B</li>
+      <li><b>งาน E รอ C และ D:</b> สองลูกศร (จากท้าย C และท้าย D) ต้องมาบรรจบจุดเดียวกันก่อน แล้วลูกศร E ออกจากจุดนั้นไปจุดจบ — <em>จุดบรรจบคือวิธี AOA เขียน "ต้องรอหลายงาน" โดยไม่ต้องเขียนประโยคใด ๆ</em></li>
+      <li><b>อ่านเครือข่ายได้ว่า:</b> เส้นทางยาวสุด (critical path) คือเส้นที่มีงานมากสุด/รวมเวลามากสุด — ทาง A→C→E หรือ B→D→E ขึ้นกับระยะเวลาแต่ละงาน ถ้าโจทย์ให้เวลาให้เทียบผลรวม</li>
+    </ol>
+  </div>
+  <figure class="fig">
+    <svg viewBox="0 0 540 240" role="img" aria-label="Network AOA ของงาน A B C D E: START แตก A B, A ต่อ C, B ต่อ D, C และ D บรรจบก่อน E ไป END">
+      <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--muted)"></path></marker></defs>
+      <circle cx="50" cy="120" r="18" class="f1" stroke="#2563eb"></circle>
+      <text x="50" y="125" text-anchor="middle" class="small t1">START</text>
+      <circle cx="230" cy="60" r="14" class="f2" stroke="#dc2626"></circle>
+      <circle cx="230" cy="180" r="14" class="f2" stroke="#dc2626"></circle>
+      <circle cx="400" cy="120" r="14" class="f2" stroke="#dc2626"></circle>
+      <circle cx="500" cy="120" r="18" class="f3" stroke="#059669"></circle>
+      <text x="500" y="125" text-anchor="middle" class="small t3">END</text>
+      <line class="uml-msg" x1="68" y1="120" x2="215" y2="64" marker-end="url(#ar2)"></line>
+      <text x="130" y="82" class="big t1">A</text>
+      <line class="uml-msg" x1="68" y1="120" x2="215" y2="176" marker-end="url(#ar2)"></line>
+      <text x="130" y="164" class="big t1">B</text>
+      <line class="uml-msg" x1="244" y1="60" x2="388" y2="112" marker-end="url(#ar2)"></line>
+      <text x="310" y="80" class="big t1">C</text>
+      <line class="uml-msg" x1="244" y1="180" x2="388" y2="128" marker-end="url(#ar2)"></line>
+      <text x="310" y="172" class="big t1">D</text>
+      <line class="uml-msg" x1="414" y1="120" x2="480" y2="120" marker-end="url(#ar2)"></line>
+      <text x="445" y="110" text-anchor="middle" class="big t1">E</text>
+      <text x="270" y="222" text-anchor="middle" class="mut">ลูกศร = งาน (Activity On Arrow) · วงกลม = จุดเชื่อม (event) · C รอ A, D รอ B, E รอ C+D พร้อมกัน</text>
+    </svg>
+    <figcaption>ภาพ 5.3 — PERT network แบบ AOA ของตัวอย่าง A–E — จุดบรรจบก่อน E เขียนแทนคำว่า "E ต้องรอ C และ D เสร็จพร้อมกัน"</figcaption>
+  </figure>
+</section>
+
+<section class="block" id="exam">
+  <h2><span class="h2-dot">🎯</span> แนวข้อสอบของบทนี้</h2>
+  <div class="box box-warn">
+    <div class="box-title">🎯 NotebookLM ยืนยันจุดที่อาจารย์เน้นใน video</div>
+    <ul>
+      <li><strong>จับคู่ Milestone vs Deliverable</strong> และประเภทแผน 5 แบบ (โดยเฉพาะ Maintenance plan — เชื่อมข้อเขียน Final!)</li>
+      <li><strong>ข้อจำกัดของ Gantt chart 3 ข้อ</strong> (ไม่ชัด dependency / ไม่บอกผล delay / ไม่เหมาะโครงการใหญ่) — อาจารย์ย้ำใน video</li>
+      <li><strong>PERT = เวลา (AOA) vs CPM = ต้นทุน</strong> — เติมคำคลาสสิก</li>
+      <li><strong>Brooks:</strong> "Adding people to a late project makes it later" เพราะ communication overhead</li>
+      <li><strong>โจทย์คำนวณ:</strong> จากตารางงาน → วาด Gantt / หา critical path และเวลารวม — ฝึกจากโจทย์ข้อ 4–5 ด้านล่าง</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="practice">
+  <h2><span class="h2-dot">🏋️</span> โจทย์ซ้อมมือ (6 ข้อ)</h2>
+
+  <div class="pr-card" data-pkey="p5-1">
+    <div class="pr-head"><span class="pr-num">ข้อ 1</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เติมคำ:</strong> ______ เป็นจุดสิ้นสุดของ process activity / ______ เป็นผลงานโครงการที่ส่งมอบให้ลูกค้า และให้ยกตัวอย่าง milestone ในกระบวนการ RE</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>ช่องแรก:</b> <strong>Milestones</strong> — จุดสิ้นสุดของ activity</span></li>
+          <li><span class="step-t"><b>ช่องสอง:</b> <strong>Deliverables</strong> — ผลงานส่งให้ลูกค้า</span></li>
+          <li><span class="step-t"><b>ตัวอย่าง milestone ใน RE:</b> Feasibility report, Requirements definition, Evaluation report, Architectural design, Requirements specification</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p5-2">
+    <div class="pr-head"><span class="pr-num">ข้อ 2</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เติมคำ (คลาสสิก):</strong> PERT เน้นการพัฒนาด้าน ______ เหมาะกับโครงการ ______ ใช้วิธีวาดแบบ ______ / CPM เน้นการพัฒนาด้าน ______</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>PERT:</b> เน้น <strong>development time (เวลา)</strong> เหมาะกับโครงการ<strong>ใหญ่</strong> วาดแบบ <strong>Activity On Arrow (AOA)</strong></span></li>
+          <li><span class="step-t"><b>CPM:</b> เน้น <strong>development cost (ต้นทุน)</strong></span></li>
+          <li><span class="step-t"><b>จำ:</b> PERT = เวลา Time (อักษร T ซ้อนกับ "Time"), CPM = Cost (อักษร C ซ้อนกับ Cost)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p5-3">
+    <div class="pr-head"><span class="pr-num">ข้อ 3</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>วิเคราะห์:</strong> ทีมโครงการล่าช้า 2 สัปดาห์ ผู้จัดการตัดสินใจ "ดึงคนใหม่ 5 คนเข้าช่วยเดี๋ยวก็เสร็จ" — ถูกหรือผิด อธิบายด้วยหลักการ scheduling</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>ผิด</b> — ตรงประโยคคลาสสิก: <strong>"Adding people to a late project makes it later"</strong></span></li>
+          <li><span class="step-t"><b>เพราะ communication overhead:</b> คน 5 คนใหม่ต้องเรียนรู้บริบทงาน คนเก่าต้องแบ่งเวลาสอน/สื่อสาร จำนวนช่องทางสื่อสารโตแบบ n(n−1)/2 งานยิ่งล่ากว่าเดิม</span></li>
+          <li><span class="step-t"><b>ทางที่ดีกว่า:</b> ทบทวนแผน (revise estimates) ปรับ scope/ลำดับงาน และอย่าลืมว่าแผนต้องมี <em>contingency</em> อยู่แล้ว ("The unexpected always happens")</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p5-4">
+    <div class="pr-head"><span class="pr-num">ข้อ 4</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>คำนวณ (เลียนแบบโจทย์สไลด์):</strong> งาน P(−,2) Q(−,4) R(P,3) S(Q,6) T(R,S,1) — หาเวลาเริ่ม-จบของแต่ละงาน ระยะเวลารวมโครงการ และ critical path</p>
+      <details class="sol"><summary>เฉลย step-by-step</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>งานไร้เงื่อนไข:</b> P → 0–2 · Q → 0–4</span></li>
+          <li><span class="step-t"><b>R รอ P:</b> → 2–5 · <b>S รอ Q:</b> → 4–10</span></li>
+          <li><span class="step-t"><b>T รอ R และ S:</b> เริ่มเมื่อทั้งคู่จบ = จบช้าสุดคือ S ที่สัปดาห์ 10 → T วิ่ง 10–11</span></li>
+          <li><span class="step-t"><b>เวลารวมโครงการ = 11 สัปดาห์</strong></span></li>
+          <li><span class="step-t"><b>critical path:</b> เทียบสองเส้นทาง Q→S→T = 4+6+1 = 11 สัปดาห์ (ยาวสุด) ส่วน P→R→T = 2+3+1 = 6 สัปดาห์ → <strong>Q→S→T</strong> คือ critical path — งาน P, R มีเผื่อเวลา (float) 5 สัปดาห์</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p5-5">
+    <div class="pr-head"><span class="pr-num">ข้อ 5</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>วาด network:</strong> จากตารางงาน: A(−) B(−) C(−) D(A) E(B,C) F(D,E) — วาด AOA network และบอกว่างานใดต้องรองานอะไร</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>START แตก 3 ลูกศร:</b> A, B, C (ไม่มีงานก่อนหน้า)</span></li>
+          <li><span class="step-t"><b>D ต่อจากจุดท้ายของ A</b></span></li>
+          <li><span class="step-t"><b>E รอสองงาน:</b> จุดท้ายของ B และจุดท้ายของ C ต้องบรรจบจุดเดียวกัน แล้วลูกศร E ออกจากจุดนั้น</span></li>
+          <li><span class="step-t"><b>F รอสองงาน:</b> จุดท้าย D บรรจบกับจุดท้าย E แล้ว F วิ่งไป END</span></li>
+          <li><span class="step-t"><b>สังเกต:</b> งานที่ "รอหลายงาน" คือ E และ F — ใน AOA จะใช้จุดบรรจบ (event node) แทนคำพูด "รอทั้งคู่พร้อมกัน"</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p5-6">
+    <div class="pr-head"><span class="pr-num">ข้อ 6</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>โยงข้อสอบเขียน:</strong> ถ้าข้อสอบให้เขียน "แผนบริหารโปรเจกต์ที่คุณทำ" ควรเอาสาระไหนจากบทนี้มาใส่บ้างให้ได้คะแนนเต็ม</p>
+      <details class="sol"><summary>แนวคำตอบ (โครง)</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>โครงสร้างแผน 7 หัวข้อ:</b> Introduction / Project organisation / Risk analysis / HW-SW resources / Work breakdown / Schedule / Monitoring และ reporting</span></li>
+          <li><span class="step-t"><b>WBS:</b> หั่นงานโปรเจกต์เป็นกิจกรรมย่อยมีผลลัพธ์ (เช่น requirements, design, coding, testing, นำส่ง)</span></li>
+          <li><span class="step-t"><b>ตารางเวลา:</b> ใช้ Gantt แสดงเวลาเริ่ม-จบแต่ละงาน + ระบุ milestone/deliverable สำคัญ</span></li>
+          <li><span class="step-t"><b>ควบคุม 3 อย่าง:</b> Quality / Cost / Delivery พร้อมเผื่อ contingency</span></li>
+          <li><span class="step-t"><b>ระบุแผนเสริมที่เกี่ยวกับ Final:</b> Validation plan (วิธีทดสอบ) + Maintenance plan (คาดการณ์งานบำรุงรักษา ต้นทุน แรงงาน) — สองแผนนี้ตอบโจทย์ "จะทดสอบและวางแผน maintenance อย่างไร" พอดี → ดูเฉลยเต็มที่หน้าติว Final</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+</section>
+
+</div></main>
+
+<nav class="pager" id="pager"></nav>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/tts.js"></script>
+</body>
+</html>

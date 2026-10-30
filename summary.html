@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>📋 สรุปรวมทุกบท — ทบทวนก่อนสอบ — SE 05506017</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230d1930%22/><text x=%2250%22 y=%2270%22 font-size=%2252%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22>SE</text></svg>">
+<meta name="description" content="สรุปรวมทุกบท Software Engineering 05506017 — ชีตทบทวนก่อนเข้าห้องสอบ อ่านจบใน 15 นาที ครบทุกคีย์เวิร์ดข้อสอบ">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-ch="12" data-section="S" data-page="summary.html" data-tts="1">
+<header class="topbar">
+  <button class="icon-btn menu-btn" id="menuBtn" aria-label="เปิดเมนู">☰</button>
+  <a class="brand" href="index.html"><span class="brand-badge">SE</span><span>Software Engineering <span class="brand-sub">05506017 · 1/2569</span></span></a>
+  <span class="spacer"></span>
+  <button class="icon-btn theme-btn" id="themeBtn" aria-label="สลับโหมดมืด/สว่าง">🌙</button>
+</header>
+<div class="layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="scrim" id="scrim"></div>
+
+  <main class="content"><div class="inner">
+
+<div class="crumb">ทบทวนก่อนสอบ</div>
+<h1 class="page-title">📋 สรุปรวมทุกบท — อ่านจบใน 15 นาที</h1>
+<p class="page-sub">ชีตทบทวนก่อนเข้าห้องสอบ — ทุกคีย์เวิร์ดที่เคยออก เรียงตามบท อ่านผ่านทีละบล็อก
+(อยากดูคำอธิบายละเอียด กดเข้าไปบทนั้นจากชื่อบท)</p>
+
+<nav class="pillnav">
+  <a href="#s1">1</a><a href="#s2">2</a><a href="#s3">3</a><a href="#s4">4</a><a href="#s5">5</a>
+  <a href="#s6">6</a><a href="#s7">7</a><a href="#s8">8</a><a href="#s9">9</a><a href="#s10">10</a>
+  <a href="#s11">11</a><a href="#sfinal">🎓 ข้อสอบ</a>
+</nav>
+
+<div class="sum-ch" id="s1" style="--cc:#0ea5e9">
+  <div class="sum-ch-head">บทที่ 1 — บทนำสู่วิศวกรรมซอฟต์แวร์ (<a href="ch1.html" style="color:#fff;text-decoration:underline">เปิดบทเต็ม</a>)</div>
+  <div class="sum-ch-body">
+    <ul>
+      <li><strong>1968 NATO</strong> เสนอ "Software Engineering" แก้ Software Crisis · <strong>1975 ICSE</strong> นิยามชัด</li>
+      <li>นิยาม SE: สร้างซอฟต์แวร์ <em>ใหญ่/ซับซ้อน</em> ด้วย <em>ทีมวิศวกร</em> — Programming = implement blueprint ของ SE</li>
+      <li>Software Crisis: <strong>1970 Size · 1980 Quantity · 1990 Quality · 1990-E Interface</strong></li>
+      <li>ประเภทซอฟต์แวร์ 8 แบบ (จับคู่!): System (บริการโปรแกรมอื่น: OS, driver, compiler) · Application (ธุรกิจ: data gathering→analysis→control) · Eng &amp; Sci (number crunching) · Embedded (ฝังเครื่องใช้) · Product-line (ขายตลาดหลวง: Word) · Web-based (WebApps) · AI (non-numerical, pattern recognition) · Mobile (native/web/hybrid)</li>
+      <li>SE View: <strong>Methodology</strong> (Waterfall/Spiral/OO) · <strong>Technique</strong> (OOP/Algo/CASE) · <strong>Environment</strong> (PC/OS/Internet) + Project Management + SW Development</li>
+      <li>SDLC 5 ขั้น: Requirements → Design → Coding+Module Testing → Integration+System Testing → Delivery+Maintenance</li>
+      <li>Process activities: <strong>S-D-V-E</strong> Specification / Development / Validation / Evolution · ต้นทุน: <strong>พัฒนา 60% + ทดสอบ 40%</strong></li>
+    </ul>
+  </div>
+</div>
+
+<div class="sum-ch" id="s2" style="--cc:#8b5cf6">
+  <div class="sum-ch-head">บทที่ 2 — หลักการวิศวกรรมซอฟต์แวร์ (<a href="ch2.html" style="color:#fff;text-decoration:underline">เปิดบทเต็ม</a>)</div>
+  <div class="sum-ch-body">
+    <ul>
+      <li>Method = guideline กว้าง / Technique = technical+mechanical / รวมกัน = <strong>Methodology</strong> / Tool = support ทุกชั้น</li>
+      <li>พีระมิดจากล่าง: <strong>Principles → Methods/Techniques → Methodologies → Tools</strong> ("Principles คือฐานของทุกอย่าง")</li>
+      <li>7 หลักการ: <strong>Rigor &amp; Formality</strong> (Formality เข้มกว่า — ใช้กฎคณิต) · <strong>Separation of Concerns</strong> (แยก: Time/Qualities/Views/Parts) · <strong>Modularity</strong> (Decomposability top-down divide&amp;conquer + Composability bottom-up) · <strong>Abstraction</strong> (มองสาระ ละรายละเอียด — กรณีพิเศษของ SoC) · <strong>Anticipation of Change</strong> (แยกซอฟต์แวร์จากสินค้าอุตสาหกรรม → maintainability) · <strong>Generality</strong> (ใช้หลายกรณี แต่แพงกว่า) · <strong>Incrementality</strong> (early subsets → early feedback)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="sum-ch" id="s3" style="--cc:#ec4899">
+  <div class="sum-ch-head">บทที่ 3 — คุณภาพซอฟต์แวร์ (<a href="ch3.html" style="color:#fff;text-decoration:underline">เปิดบทเต็ม</a>)</div>
+  <div class="sum-ch-body">
+    <ul>
+      <li><strong>External</strong> = ผู้ใช้เห็น / <strong>Internal</strong> = นักพัฒนาดูโครงสร้าง — คีย์: "internal verifiability จำเป็นต่อ external reliability"</li>
+      <li><strong>Product</strong> (โค้ด+req+design+test data) vs <strong>Process</strong> (วิธีผลิต — ใกล้ชิด product quality)</li>
+      <li>16 คุณภาพ คีย์เวิร์ด: Correctness (ตรง spec) · Reliability (probability+time) · Robustness (ทน input แปลก) · Performance (ช้า/ใหญ่/แรม — ประเมินด้วย Measurement/Analysis/Simulation) · User Friendliness (menu ดีกว่า command) · Verifiability (SW monitors) · Maintainability (Corrective 20%/Adaptive/Perfective) · Repairability (RAS, standard parts) · Evolvability (documented หรือแก้ยากขึ้น) · Reusability · Portability (คนละ OS) · Understandability (ช่วย evolvability+verifiability) · Interoperability (coexist+cooperate) · Productivity (process!) · Timeliness (process) · Visibility (documented steps+status — internal+external)</li>
+      <li>4 ระบบ: Information-based (integrity/security/availability/transaction perf) · Real-time (เวลาตอบ = correctness — เร็วไปก็ผิด!) · Distributed (partition + เครื่องล่ม — แก้ด้วย replication) · Embedded (ไม่มี interface มนุษย์ — ตู้ขายของ, monitor ผู้ป่วย)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="sum-ch" id="s4" style="--cc:#10b981">
+  <div class="sum-ch-head">บทที่ 4 — งานพัฒนาซอฟต์แวร์ (<a href="ch4.html" style="color:#fff;text-decoration:underline">เปิดบทเต็ม</a>)</div>
+  <div class="sum-ch-body">
+    <ul>
+      <li>13 งาน: Feasibility (cost-benefit) → Requirements (→spec) → UI design → Architectural (→arch design+module specs) → Detailed (→module designs) → Programming (→code) → Integration ("the build" → complete system) → Verification → Validation → Production (ใช้จริง+อบรม) → Maintenance → Documentation → Project management</li>
+      <li>🎯 <strong>Verification = "Are we building the product RIGHT?" (มุมนักพัฒนา, unit+system testing)</strong> · <strong>Validation = "Are we building the RIGHT product?" (มุมลูกค้า, acceptance testing)</strong> — Boehm</li>
+      <li>Unit test inputs: unit spec + unit code + expected results · Acceptance: สาธิต→sign-off หรือรายการ fault</li>
+      <li>Documentation: ผู้ใช้ = "what" (ติดตั้ง/ใช้) / นักพัฒนา = "how" (spec, design, code, comments, test results, plan)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="sum-ch" id="s5" style="--cc:#f59e0b">
+  <div class="sum-ch-head">บทที่ 5 — การจัดการโครงการซอฟต์แวร์ (<a href="ch5.html" style="color:#fff;text-decoration:underline">เปิดบทเต็ม</a>)</div>
+  <div class="sum-ch-body">
+    <ul>
+      <li>ยากเพราะ: ผู้ใช้ไม่รู้ requirement · requirement เปลี่ยน · right man right job · สื่อสารทีม · เทคโนโลยีเปลี่ยน</li>
+      <li>ควบคุม 3 อย่าง: <strong>Quality · Cost · Delivery</strong> / Characteristics: Time-Task-Cost-Quality</li>
+      <li>แผน 5 แบบ: Quality / Validation / Configuration mgmt / <strong>Maintenance (พยากรณ์งาน+ต้นทุน — ใช้ตอบข้อสอบ!)</strong> / Staff development</li>
+      <li><strong>Milestone</strong> = จุดสิ้นสุด activity / <strong>Deliverable</strong> = ผลงานส่งลูกค้า</li>
+      <li>Brooks: <strong>"Adding people to a late project makes it later"</strong> (communication overhead) — วางแผนต้องมี contingency</li>
+      <li>Life cycle: Initiation → Planning → Execution → Closing / ฟังก์ชันบริหาร <strong>P-O-S-D-C</strong>: Planning, Organizing, Staffing, Directing, Controlling</li>
+      <li>Control เครื่องมือ: <strong>WBS</strong> (หั่นงานเป็นทวี) · <strong>Gantt</strong> (แท่งเริ่ม-จบ — <em>จำกัด: dependency ไม่ชัด / ไม่บอกผล delay / ไม่เหมาะใหญ่ซับซ้อน</em>) · <strong>PERT = เวลา (AOA)</strong> vs <strong>CPM = ต้นทุน</strong></li>
+    </ul>
+  </div>
+</div>
+
+<div class="sum-ch" id="s6" style="--cc:#ef4444">
+  <div class="sum-ch-head">บทที่ 6 — วิศวกรรมความต้องการ (<a href="ch6.html" style="color:#fff;text-decoration:underline">เปิดบทเต็ม</a>)</div>
+  <div class="sum-ch-body">
+    <ul>
+      <li>RE 3 ขั้น: <strong>Gathering (elicitation) → Analysis → Specification</strong> (ชัด/สม่ำเสมอ/ครบ)</li>
+      <li>ลูกค้าให้ "problem statement" ไม่ใช่ requirements — เราต้องวิเคราะห์แปลง (Problem domain → Requirements → Specification → โปรแกรม/Solution domain)</li>
+      <li>⚡ <strong>"Requirements are not simply desires!"</strong> = desires ปรับด้วย constraints (physical/social/legal/financial) + threats</li>
+      <li>Problem analysis: หาสาเหตุก่อนเขียน requirement (Traffic: จราจรแปรปรวน/ไม่คุ้นเส้น/นิสัยออกสาย)</li>
+      <li>User Story: <strong>"As a [role], I can [capability], [business-goal]"</strong> — เขียนโดยลูกค้า · acceptance test เขียนพร้อม story · sizing เป็น points · ไม่มี priority (เรียงตามตำแหน่ง to-do list)</li>
+      <li>Sizing 5 ขั้น: แบ่งเล็กคล้ายกัน → ขนาดสัมพัทธ์ → รวม → velocity → duration = size ÷ velocity (1 point = 2 วัน ตัวอย่าง)</li>
+      <li>Business policies ต้องระบุชัด (เช่น ผิด 3 ครั้ง = block) — ไม่ปล่อยให้ programmer hard-code เอง</li>
+      <li>🎯 <strong>FR = "ระบบต้องทำอะไร" / NFR = "ทำดีแค่ไหน" ตาม FURPS+</strong>: Functionality(Security), Usability, Reliability, Performance, Supportability + อื่น ๆ — เขียน NFR ต้องมีเกณฑ์วัด</li>
+      <li>Acceptance test ทำโดยลูกค้า<em>ตลอดโปรเจกต์</em> · UI requirement: วาดมือ ไม่ทำ mockup หรู</li>
+    </ul>
+  </div>
+</div>
+
+<div class="sum-ch" id="s7" style="--cc:#6366f1">
+  <div class="sum-ch-head">บทที่ 7 — สถาปัตยกรรมซอฟต์แวร์ (<a href="ch7.html" style="color:#fff;text-decoration:underline">เปิดบทเต็ม</a>)</div>
+  <div class="sum-ch-body">
+    <ul>
+      <li>นิยาม: ชุดการตัดสินใจ high-level กำหนดโครงสร้าง (ส่วน+ความสัมพันธ์) — ทำเนิ่น ๆ แก้ยาก · <strong>ไม่ใช่ phase</strong></li>
+      <li>Decompose เพราะ: divide&amp;conquer / reuse / ไม่ reinvent wheel / decoupling / ได้เปรียบกลยุทธ์</li>
+      <li>Views: Module (decomposition/dependency/layered/class) + Component-Connector (process/concurrency/shared data/client-server)</li>
+      <li>องค์ประกอบสไตล์: Components + Connectors + Interfaces + Configurations</li>
+      <li>🎯 สไตล์: <strong>Client/Server</strong> (client=triggering, server=reactive) · <strong>Central Repository</strong> (DB กลาง) · <strong>Layered</strong> (UI/Logic/Technical — ลด coupling เพิ่ม reusability) · <strong>P2P</strong> (เท่าเทียม) · <strong>Microservices</strong> (เล็กอิสระ) · <strong>MVC</strong> (Model ข้อมูล+logic / View แสดง / Controller รับ input — Model oblivious) · <strong>REST</strong> (stateless, URI นาม + HTTP method กริยา: POST create/GET read/PUT update/DELETE delete) · <strong>Pipe-and-Filter</strong> (UNIX: ls | grep | more)</li>
+      <li>ระบบจริง = ผสมหลายสไตล์ (Safe Home: Central Repository + Tiered)</li>
+      <li>🎯 Schema: ER + crow's foot — entity/PK/FK/1:N · โจทย์สอบ = อ่านหา "สิ่งที่เก็บข้อมูล" เป็นตาราง</li>
+    </ul>
+  </div>
+</div>
+
+<div class="sum-ch" id="s8" style="--cc:#14b8a6">
+  <div class="sum-ch-head">บทที่ 8 — โมเดลกระบวนการซอฟต์แวร์ (<a href="ch8.html" style="color:#fff;text-decoration:underline">เปิดบทเต็ม</a>)</div>
+  <div class="sum-ch-body">
+    <ul>
+      <li><strong>Waterfall</strong> ดี: task อิสระ / ควบคุมง่ายแม้ใหญ่ / จบตามเวลา — จำกัด: ออกแบบหมดก่อน coding / เอกสารเยอะ / ผู้ใช้รอจนจบ / ใช้ tool ใหม่ไม่ได้</li>
+      <li><strong>Spiral</strong> (Boehm, TRW) = waterfall+prototype วนเฟสเล็ก + <strong>risk analysis นำทุกเฟส</strong> — ลด risk คุมงบ progress ชัด / วง: Alternatives-Risk-Prototype-Design/Validation-Planning + cost axis / คนเกี่ยวข้อง review ท้ายทุกวง</li>
+      <li><strong>Prototyping</strong> — ต้นแบบให้ผู้ใช้เช็ก req แก้ซ้ำ · ไม่ดีกับใหญ่ · ใช้ RAD Tool</li>
+      <li><strong>RAD</strong> — incremental, <em>60–90 วัน</em>, ใช้เมื่อ req well-understood + scope constrained / 5 เฟส: Business → Data → Process modeling → Application generation (4GL) → Testing &amp; turnover (reuse → ทดสอบน้อยลง)</li>
+      <li><strong>Incremental</strong> (design รวมก่อน พัฒนาเฟสเล็ก — ต่างจาก Waterfall ที่ห้ามหั่น) / <strong>Evolutionary</strong> = Prototyping + Incremental (หลักมาก่อน)</li>
+      <li><strong>RUP</strong> — use case driven, architecture centric, iterative+incremental / เฟส <strong>I-E-C-T</strong>: Inception (ขอบเขต+วิสัยทัศน์) / Elaboration (แผน+สถาปัตยกรรม+prototype) / Construction (Implementation+Testing) / Transition (ส่งมอบ+อบรม+บำรุง) / Workflows: core 7 (Business modeling, Requirement, Analysis→Use case Diagram&amp;Spec, Design, Implementation, Testing, Deployment) + supporting 3 (Config &amp; Change mgmt, PM, Environment)</li>
+      <li><strong>XP</strong> — Planning (user stories, cost สัปดาห์) / Design (<strong>KIS</strong>, CRC cards, <strong>spike solution</strong>, <strong>refactoring</strong>) / Coding (โมดูลย่อย+ทดสอบทันที, <strong>pair programming</strong>, <strong>continuous integration</strong>) / Test (unit รวม → Universal Testing Suite → acceptance) / 10 practices: incremental planning, small releases, simple design, test-first, refactoring, pair programming, collective ownership (ใครก็แก้ได้), continuous integration, sustainable pace (ไม่ OT หนัก), on-site customer</li>
+      <li><strong>Scrum</strong> — จัดการ iterative / 3 เฟส: outline planning → sprint cycles (2–4 สัปดาห์, product backlog, selection กับลูกค้า ทีมโดด คุยผ่าน scrum master, จบ review) → closure / scrum master: จัดประชุมรายวัน ตาม backlog จด decision วัด progress <strong>ปกป้องทีมจาก distractions</strong> / ประโยชน์: ชิ้นเล็กจัดการง่าย · req ไม่เสถียรไม่ขวาง · ทีมเห็นทุกอย่าง · ส่งตรงเวลา+feedback · ความไว้ใจ</li>
+      <li>🎯 งาน→Model: req ชัดคงที่=Waterfall / ใหญ่เสี่ยง=Spiral / req กำกวม=Prototyping / ด่วน scope จำกัด=RAD / ส่งเป็นก้อน=Incremental/Evolutionary / ใหญ่+UML=RUP / เล็ก agile=XP / จัดการทีม iterative=Scrum</li>
+    </ul>
+  </div>
+</div>
+
+<div class="sum-ch" id="s9" style="--cc:#f97316">
+  <div class="sum-ch-head">บทที่ 9 — Use Cases (<a href="ch9.html" style="color:#fff;text-decoration:underline">เปิดบทเต็ม</a>)</div>
+  <div class="sum-ch-body">
+    <ul>
+      <li>ใช้กับ <strong>Functional Requirements analysis+specification</strong> · 3 องค์ประกอบ: actors + diagram + scenarios</li>
+      <li>Actor 4 แบบ: <strong>Initiating</strong> (เริ่ม, ชื่อเดิม primary/user) · <strong>Participating</strong> (ร่วมไม่เริ่ม) = Supporting (ช่วย) + Offstage (แค่ถูกแจ้ง เช่น Police) · บ้าน/ประตู<em>ไม่ใช่</em> actor</li>
+      <li>Diagram: actor นอกกรอบ · ellipse + ชื่อ verb phrase · system boundary · base vs subroutine use cases · «initiate» / «participate»</li>
+      <li>🎯 <strong>«include» (ตอบ No ทั้ง 4: ไม่ optional / ฐานไม่สมบูรณ์ถ้าขาด / ไม่ conditional / ไม่เปลี่ยนพฤติกรรมฐาน)</strong> vs <strong>«extend» (Yes ทั้ง 4)</strong> — DRY: ตัดซ้ำเป็น subroutine</li>
+      <li>🎯 Login กับดัก: BAD = Login เป็น ellipse ศูนย์กลางพัวพัน / GOOD = subroutine «include» (AuthenticateUser) หรือยุบเป็น precondition</li>
+      <li>Generalization: Resident←Tenant/Landlord · ManageUsers←AddUser/RemoveUser (ลูกศรชี้หาตัว general)</li>
+      <li>Traceability matrix 3 ประโยชน์: REQ ครบ / ไม่มี UC ลอย / จัดลำดับงาน (PW)</li>
+      <li>โครงเขียน UC: UC-# (verb phrase) / Related REQs / Initiating Actor / Goal / Participating Actors / Preconditions / Postconditions / Main scenario (สลับ → actor สั่ง, ← system ตอบ) / Extensions (เลขขั้น+ตัวอักษร เช่น 2a)</li>
+      <li>SSD = sequence diagram ระหว่าง actor↔system / Activity: initial→action→decision[guard]→merge→final / UC มี limitation: ผู้ใช้แทนผู้รับประโยชน์จริง → ดูทั้งสองมุม / UI: วาดมือก่อน prototype / Risk: Intolerable-ALARP-Acceptable + abuse case</li>
+    </ul>
+  </div>
+</div>
+
+<div class="sum-ch" id="s10" style="--cc:#22c55e">
+  <div class="sum-ch-head">บทที่ 10 — การทดสอบซอฟต์แวร์ (<a href="ch10.html" style="color:#fff;text-decoration:underline">เปิดบทเต็ม</a>)</div>
+  <div class="sum-ch-body">
+    <ul>
+      <li>"Testing shows the <strong>presence, not the absence</strong> of bugs" — Dijkstra</li>
+      <li>fault=defect=bug / <strong>TDD</strong> = ทุกขั้นเริ่มจากแผน verify / test case = input เฉพาะ + <em>expected output</em> / test = กลุ่ม test cases</li>
+      <li><strong>White-box</strong> = ดูโครงสร้างโค้ด (developer) / <strong>Black-box</strong> = ดู input space จาก spec (customer)</li>
+      <li>🎯 7 ระดับ: <strong>Unit</strong> (โดดเดี่ยว, white-box, dev) → <strong>Integration</strong> (ต่อโมดูล) → <strong>Function</strong> (FR) → <strong>Quality</strong> (NFR) → <strong>System</strong> (ระบบสมบูรณ์เทียบ System Spec) → <strong>Acceptance</strong> (ลูกค้า, black-box) → <strong>Installation</strong> (สภาพแวดล้อมจริง)</li>
+      <li>Coverage: specification coverage (input space — acceptance) vs code coverage (unit)</li>
+      <li>เทคนิค black-box: <strong>Equivalence</strong> (range→1 valid+2 invalid / ค่าเดียว→1+2 / เซต→1+1 / boolean→1+1) · <strong>Boundary</strong> (0/min/max/empty/null/>&gt;=)</li>
+      <li>เทคนิค white-box: <strong>Control-flow</strong> (statement/edge/condition/path coverage — path แพงสุด) · <strong>State-based</strong> (4 สถานะ: Locked-Accepting-Unlocked-Blocked + events valid/invalid-key; ครอบ state ทุกอัน + transition valid ทุกเส้น + trigger invalid ทุกแบบ)</li>
+      <li>Mock: <strong>driver</strong> (จำลองตัวเรียก) / <strong>stub</strong> (จำลองตัวถูกเรียก) / unit ที่ทดสอบ = fixture / วงจร: set up → act → verify / ชื่อเทส: method_state_expected (checkKey_anyState_invalidKeyRejected) / JUnit asserts</li>
+      <li>Integration: <strong>Big bang</strong> (จับตัวการยาก) / <strong>Bottom-up</strong> (mock น้อย แต่ผู้ใช้เห็นช้า) / <strong>Top-down</strong> (บนลง + stub) / <strong>Sandwich</strong> / <strong>Vertical</strong> = หั่นตาม use case + inner loop (unit test) / outer loop (acceptance) + refactor</li>
+    </ul>
+  </div>
+</div>
+
+<div class="sum-ch" id="s11" style="--cc:#a855f7">
+  <div class="sum-ch-head">บทที่ 11 — การบำรุงรักษาซอฟต์แวร์ (<a href="ch11.html" style="color:#fff;text-decoration:underline">เปิดบทเต็ม</a>)</div>
+  <div class="sum-ch-body">
+    <ul>
+      <li>นิยาม: แก้ไขระบบ <strong>หลังส่งมอบ</strong> เพื่อ correct faults / improve performance / adapt environment — ต้นทุนสะสมแพงกว่าพัฒนา</li>
+      <li>🎯 4 ประเภท: <strong>Corrective 21%</strong> (แก้ error) / <strong>Adaptive 25%</strong> (สภาพแวดล้อม HW/SW เปลี่ยน: OS/DB ใหม่) / <strong>Perfective 50%</strong> (req ผู้ใช้เปลี่ยน เพิ่มฟังก์ชัน) / <strong>Preventive 4%</strong> (เพิ่ม maintainability กันอนาคต)</li>
+      <li>Dev vs Maint: dev อิสระไม่ผูกโลกจริง / maint ถูก driven จริง + ติดระบบเดิม + <strong>defects disrupt production</strong> + standards เลื่อนลอย</li>
+      <li>ช่วงชีวิต: Introductory=<em>user support</em> / Growth=<em>correcting faults</em> / Maturity=<em>enhancements</em> / Decline=<em>technology changes</em></li>
+      <li>สาเหตุปัญหา 3 ข้อ: unstructured code / ขาด domain knowledge / ขาด documentation · เครื่องมือ 4 กลุ่ม / evolution: version-centered vs history-centered</li>
+      <li>กระบวนการ 5 ขั้น: <strong>Change requests → Impact analysis → Release planning → Change implementation → System release</strong> (3 ชนิดคำขอ: fault repair / platform adaptation / system enhancement)</li>
+      <li>Maintainability กระทบโดย: อายุ / ขนาด (KLOC) / ภาษา (4GL&gt;3GL) / environment / ออกแบบดี / modularization / เอกสาร (แพงเท่าโค้ด) / end-user involvement / management</li>
+      <li>สัญญาณ maintainability ถดถอย: คำขอ corrective เพิ่ม / เวลา impact analysis / เวลา implement / คำขอค้าง — โตเรื่อย = ถดถอย</li>
+      <li>Cost factors: <strong>team stability</strong> (ทีมเดิมถูกลง) / <strong>contractual responsibility</strong> (ไม่ผูกดูแล = ไม่ออกแบบให้แก้ง่าย) / staff skills / program age+structure</li>
+    </ul>
+  </div>
+</div>
+
+<div class="sum-ch" id="sfinal" style="--cc:#e11d48">
+  <div class="sum-ch-head">🎓 ข้อสอบ Final — แผนที่คำตอบด่วน (<a href="exam.html" style="color:#fff;text-decoration:underline">เปิดหน้าติวพร้อมเฉลยเต็ม</a>)</div>
+  <div class="sum-ch-body">
+    <ul>
+      <li><strong>จับคู่ Testing:</strong> โดดเดี่ยว=Unit / ต่อโมดูล=Integration / FR=Function / NFR=Quality / ระบบรวม+System Spec=System / ลูกค้ายอมรับ=Acceptance / สภาพแวดล้อมจริง=Installation</li>
+      <li><strong>จับคู่ Maintenance:</strong> แก้บั๊ก=Corrective / OS-DB ใหม่=Adaptive / เพิ่มฟังก์ชัน=Perfective (50% เยอะสุด) / refactor+เอกสาร=Preventive (4% น้อยสุด)</li>
+      <li><strong>FR/NFR:</strong> อ่านโจทย์วลีต่อวลี → "ทำอะไร"=FR / "ดีแค่ไหนมีเกณฑ์วัด"=NFR ผูก FURPS+</li>
+      <li><strong>Use case:</strong> actor นอกกรอบ / ellipse กริยา / boundary / «include» AuthenticateUser — ห้าม Login พัวพัน</li>
+      <li><strong>Schema:</strong> entity=สิ่งเก็บข้อมูล / PK-FK / 1:N ปีกอีก้า</li>
+      <li><strong>สถาปัตยกรรม:</strong> Layered (UI/Logic/Services) + Client/Server + Central DB + ตั้งชื่อสไตล์ชัด</li>
+      <li><strong>Testing plan:</b></strong> acceptance test คู่ requirement → unit (white, mock) → integration → system → function/quality → acceptance ลูกค้า → installation</li>
+      <li><strong>Maintenance plan:</strong> กระบวนการ 5 ขั้น + ครอบ 4 ประเภท + ตัวชี้วัด 4 ตัว</li>
+    </ul>
+  </div>
+</div>
+
+<section class="block" id="reset">
+  <div class="reset-zone">
+    <button class="btn btn-danger" id="resetBtn">🗑 ล้างความคืบหน้าทั้งหมด</button>
+  </div>
+</section>
+
+</div></main>
+
+<nav class="pager" id="pager"></nav>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/tts.js"></script>
+</body>
+</html>

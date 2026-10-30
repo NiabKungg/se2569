@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>บทที่ 3 คุณภาพซอฟต์แวร์ — SE 05506017</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230d1930%22/><text x=%2250%22 y=%2270%22 font-size=%2252%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22>SE</text></svg>">
+<meta name="description" content="บทที่ 3 คุณภาพซอฟต์แวร์ — External vs Internal, Product vs Process, 16 คุณภาพสำคัญ (Correctness, Reliability, Robustness...) และคุณภาพตามประเภทระบบ 4 แบบ พร้อมภาพประกอบและโจทย์ซ้อม">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-ch="3" data-section="3" data-page="ch3.html" data-tts="1">
+<header class="topbar">
+  <button class="icon-btn menu-btn" id="menuBtn" aria-label="เปิดเมนู">☰</button>
+  <a class="brand" href="index.html"><span class="brand-badge">SE</span><span>Software Engineering <span class="brand-sub">05506017 · 1/2569</span></span></a>
+  <span class="spacer"></span>
+  <button class="icon-btn theme-btn" id="themeBtn" aria-label="สลับโหมดมืด/สว่าง">🌙</button>
+</header>
+<div class="layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="scrim" id="scrim"></div>
+
+  <main class="content"><div class="inner">
+
+<div class="crumb">บทที่ 3 · คุณภาพซอฟต์แวร์</div>
+<h1 class="page-title">บทที่ 3 — Software Quality</h1>
+<p class="page-sub">"ซอฟต์แวร์ดี" แปลว่าอะไร? บทนี้ตอบด้วยศัพท์ 16 คำ — Correctness, Reliability, Robustness ฯลฯ
+ซึ่งเป็นหัวข้อจับคู่ข้อสอบที่รุ่นพี่เจอตรง ๆ ("ให้นิยามมาแล้วเติมชื่อ Quality ที่ถูกต้อง")</p>
+
+<nav class="pillnav">
+  <a href="#objectives">🎯 จุดประสงค์</a>
+  <a href="#lesson">📖 บทเรียน</a>
+  <a href="#exam">🎯 แนวข้อสอบ</a>
+  <a href="#practice">🏋️ โจทย์ซ้อมมือ</a>
+</nav>
+
+<section class="block" id="objectives">
+  <div class="obj">
+    <h2>🎯 เรียนจบบทนี้ คุณต้องทำสิ่งเหล่านี้ได้</h2>
+    <ul>
+      <li>แยก <strong>External กับ Internal qualities</strong> ได้ และอธิบายความเชื่อมโยง (verifiability internal → reliability external)</li>
+      <li>แยก <strong>Product กับ Process qualities</strong> ได้</li>
+      <li><strong>จำนิยาม 16 คุณภาพ</strong> แล้วจับคู่กับประโยคอธิบายได้ (แนวข้อสอบจับคู่ตรง ๆ)</li>
+      <li>อธิบาย 3 ประเภทของ Maintenance ตาม Ch3 (Corrective 20% / Adaptive / Perfective) — ทางไปบทที่ 11</li>
+      <li>บอกได้ว่าระบบ 4 ประเภท (Information-based / Real-time / Distributed / Embedded) ใส่ใจคุณภาพอะไรเป็นพิเศษ</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="lesson">
+  <h2><span class="h2-dot">📖</span> บทเรียน</h2>
+
+  <div class="box box-idea">
+    <div class="box-title">🗺️ ที่มาที่ไป — วิศวกรแต่ละสาขาสร้างอะไร?</div>
+    <p>สไลด์เปิดด้วยคำถามสนุก ๆ: วิศวกรโยธา → สร้างสะพาน · วิศวกรไฟฟ้า → สร้างวงจร · วิศวกรอวกาศ → สร้างเครื่องบิน · <strong>วิศวกรซอฟต์แวร์ → สร้าง "ระบบซอฟต์แวร์"</strong></p>
+    <p>แต่คำถามที่ยากกว่าคือ: สะพานดี = ทนน้ำทนแดด รับน้ำหนักได้ — แล้ว <em>ซอฟต์แวร์ดี = ?</em> คำตอบไม่มีคำเดียว แต่มี "ศัพท์ 16 คำ" ที่วิศวกรซอฟต์แวร์ทั้งโลกใช้คุยกันเรื่องคุณภาพ — นั่นคือเนื้อหาของบทนี้ และมันออกสอบจับคู่ทุกปี</p>
+    <p><strong>อุปมาที่จะใช้ทั้งบท:</strong> ซอฟต์แวร์เหมือนรถยนต์ — วิ่งตรงตามที่บอกไว้ (Correctness) · เอาออกถนนทุกวันไม่สตาร์ทไม่ขึ้น (Reliability) · ชนหลุมก็ไม่พังทั้งคัน (Robustness) · เร่งได้ไว (Performance) · ใช้ง่ายไม่ต้องอ่านคู่มือ (User Friendliness) · เปิดฝากระโปรงซ่อมง่าย (Repairability/Maintainability) · เปลี่ยนเครื่องยนต์ใหม่ก็ยังวิ่งได้ (Portability/Adaptability)</p>
+  </div>
+
+  <h3>1) External vs Internal Qualities — มองจากด้านไหน?</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 นิยาม + ความเชื่อมโยงที่อาจารย์เน้น</div>
+    <p><strong>External qualities</strong> = คุณภาพที่ <em>ผู้ใช้มองเห็น</em> (visible to the users) — ผู้ใช้คือคนที่ "สนใจ" คุณภาพพวกนี้ เช่น ใช้งานได้สม่ำเสมอไหม (reliability) ใช้ง่ายไหม</p>
+    <p><strong>Internal qualities</strong> = คุณภาพที่<em>นักพัฒนา</em>เป็นคนสนใจ (concern the developers) — เกี่ยวกับ "โครงสร้างของซอฟต์แวร์" เป็นหลัก และมีหน้าที่ "ช่วยให้เกิดคุณภาพภายนอก"</p>
+    <p><strong>ประโยคที่อาจารย์เขียนไว้ (ออกสอบได้):</strong> "The internal quality of <em>verifiability</em> is necessary to achieve the external quality of <em>reliability</em>" — โครงสร้างที่ตรวจสอบง่าย (internal) คือสิ่งจำเป็นที่ทำให้ระบบเชื่อถือได้ในสายตาผู้ใช้ (external)</p>
+  </div>
+  <figure class="fig">
+    <svg viewBox="0 0 520 260" role="img" aria-label="External quality ผู้ใช้มองเห็น เทียบกับ Internal quality นักพัฒนาดูโครงสร้าง โดย internal ช่วยให้ external เกิดขึ้น">
+      <rect x="30" y="30" width="210" height="180" rx="14" class="f1" stroke="#2563eb" fill="none"></rect>
+      <text x="135" y="60" text-anchor="middle" class="big t1">External</text>
+      <text x="135" y="84" text-anchor="middle" class="small">ผู้ใช้มองเห็น · ผู้ใช้สนใจ</text>
+      <text x="135" y="116" text-anchor="middle" class="small">reliability (ใช้แล้วเชื่อได้)</text>
+      <text x="135" y="140" text-anchor="middle" class="small">usability (ใช้ง่าย)</text>
+      <text x="135" y="164" text-anchor="middle" class="small">performance (ไว)</text>
+      <text x="135" y="196" text-anchor="middle" class="mut small">อุปมา: คันเร่ง เกียร์ หน้าปัด</text>
+      <rect x="290" y="30" width="200" height="180" rx="14" class="f3" stroke="#059669" fill="none"></rect>
+      <text x="390" y="60" text-anchor="middle" class="big t3">Internal</text>
+      <text x="390" y="84" text-anchor="middle" class="small">นักพัฒนาสนใจ · ดูโครงสร้าง</text>
+      <text x="390" y="116" text-anchor="middle" class="small">verifiability (ตรวจสอบง่าย)</text>
+      <text x="390" y="140" text-anchor="middle" class="small">understandability (อ่านโค้ดรู้เรื่อง)</text>
+      <text x="390" y="164" text-anchor="middle" class="small">maintainability (แก้ง่าย)</text>
+      <text x="390" y="196" text-anchor="middle" class="mut small">อุปมา: เครื่องยนต์ สายไวริง ใต้ฝากระโปรง</text>
+      <line class="uml-msg" x1="240" y1="120" x2="286" y2="120" stroke-dasharray="7 4"></line>
+      <polygon points="286,115 296,120 286,125" fill="#2563eb"></polygon>
+      <text x="263" y="108" text-anchor="middle" class="small t1">ช่วยให้เกิด</text>
+      <text x="260" y="235" text-anchor="middle" class="mut">ความเชื่อมโยงคีย์ข้อสอบ: verifiability (internal) จำเป็นต่อ reliability (external)</text>
+    </svg>
+    <figcaption>ภาพ 3.1 — External = สิ่งที่ผู้ใช้สัมผัสได้, Internal = โครงสร้างที่นักพัฒนาสร้างไว้เพื่อหล่อเลี้ยง external</figcaption>
+  </figure>
+
+  <h3>2) Product vs Process Qualities — คุณภาพของ "ของ" หรือของ "วิธีทำ"</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 คู่ที่สอง</div>
+    <p><strong>Process</strong> = กระบวนการที่ใช้<em>ผลิต</em>ผลิตภัณฑ์ซอฟต์แวร์ — ถ้า process ต้องการการวางแผน test data อย่างรอบคอบก่อนออกแบบ ผลลัพธ์คือผลิตภัณฑ์ดีขึ้น</p>
+    <p><strong>Product</strong> = ตัวผลิตภัณฑ์ซอฟต์แวร์ — ซึ่งไม่ใช่แค่โค้ด แต่รวม <em>object code, requirements, design, source code, test data</em> ด้วย</p>
+    <p><strong>ความเชื่อมโยง:</strong> Process qualities กับ product qualities <em>ใกล้ชิดกันมาก (closely related)</em> — เช่นกระบวนการที่ดีทำให้ product reliability สูงขึ้น</p>
+    <p><strong>อุปมา:</strong> Process = สูตรและวิธีทำขนม, Product = ขนมจานนั้น — สูตรบอกให้ตวงนิ่งเวลาอบนิ่ง (process quality) ขนมออกมาอร่อยทุกแกงทุกเตา (product quality)</p>
+  </div>
+
+  <h3>3) 16 คุณภาพ — 🎯 ตารางจับคู่ข้อสอบ (สำคัญที่สุดของบท)</h3>
+  <div class="box box-warn">
+    <div class="box-title">🎯 รีวิวรุ่นพี่บอกเป๊ะ: "ให้นิยามหรือประโยคอธิบาย Software Quality มาแล้วให้เติมชื่อที่ถูกต้อง"</div>
+    <p>อ่านตารางนี้ให้ครบ จุดสำคัญคือจำ "คีย์เวิร์ดในนิยาม" — โจทย์จะเอาคีย์เวิร์ดมาตั้งประโยค เช่นเห็น "probability ... over a specified time interval" → Reliability ทันที</p>
+  </div>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>คุณภาพ</th><th>คีย์เวิร์ดในนิยาม</th><th>อธิบายแบบเข้าใจง่าย</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1. Correctness</strong></td><td>functional requirements specifications</td><td>โปรแกรม "ทำงานถูกต้องเชิงฟังก์ชัน" ตาม spec หรือไม่ — ขึ้นกับว่าเราเขียน spec ชัดแค่ไหน (rigorous) · ต้องบอกได้ไม่กำกวมว่าโปรแกรมตรง spec หรือไม่</td></tr>
+      <tr><td><strong>2. Reliability</strong></td><td>probability + operate as expected + specified time</td><td>"โอกาสที่ซอฟต์แวร์จะทำงาน<em>ตามคาด</em>ตลอดช่วงเวลาที่กำหนด" — ถ้าความผิดพลาดไม่ร้ายแรง โปรแกรมที่ไม่ 100% ถูกก็อาจยัง reliable อยู่ได้ · SE จะเป็นวิศวกรรมแท้จริงเมื่อทำ reliability ได้เทียบเท่าสินค้าวิศวกรรมอื่น</td></tr>
+      <tr><td><strong>3. Robustness</strong></td><td>จัดการ input แปลก ๆ (ill-formatted)</td><td>"เข้มแข็ง" ต่อสถานการณ์ที่ไม่คาดคิด — ระบบที่ใช้โดยมือใหม่ต้องรับมือ input เพี้ยน ๆ ได้ แต่ embedded system จาก sensor อาจไม่ต้อง · สัมพันธ์แนบแน่นกับ correctness</td></tr>
+      <tr><td><strong>4. Performance</strong></td><td>too slow / too big / memory</td><td>กระทบ usability: <em>ช้า</em> → ผลิตภาพลด · <em>ใหญ่</em> → รันยาก · <em>กิน RAM</em> → แอปอื่นพัง · ประเมินด้วยวิเคราะห์ complexity ของอัลกอริทึม + 3 วิธี: <strong>Measurement, Analysis, Simulation</strong></td></tr>
+      <tr><td><strong>5. User Friendliness</strong></td><td>easy to use, menus vs commands</td><td>ใช้ง่าย — มือใหม่/คนไม่ใช่โปรแกรมเมอร์อยากได้ menu ไม่ใช่พิมพ์ command · เมาส์/หน้าต่างดีกว่าคำสั่งอักษรตัวเดียว · อย่าลืม: correctness และ performance ก็ส่งผลต่อ user friendliness ด้วย</td></tr>
+      <tr><td><strong>6. Verifiability</strong></td><td>verified easily, SW monitors</td><td>ตรวจสอบได้ง่าย — วิธีเพิ่มคือใช้ <em>software monitors</em> (โค้ดที่ฝังเข้าไปเฝ้าดู performance/correctness) · เป็น internal quality ที่จำเป็นต่อ reliability (external)</td></tr>
+      <tr><td><strong>7. Maintainability</strong></td><td>SW evolution, 3 ประเภทซ่อม</td><td>คำว่า "ซ่อมบำรุง" ไม่ค่อยเหมาะกับซอฟต์แวร์ อาจารย์ชอบใช้คำว่า <em>SW evolution</em> — แบ่ง 3 ประเภท: <strong>Corrective</strong> (แก้ error ที่หลุดไป ~20% ของต้นทุน), <strong>Adaptive</strong> (ปรับให้เข้ากับ environment ใหม่ เช่น OS/DB ใหม่), <strong>Perfective</strong> (ปรับปรุงให้ดีขึ้น เพิ่มฟังก์ชัน ปรับ performance) → ลงลึกอีกทีในบทที่ 11</td></tr>
+      <tr><td><strong>8. Repairability</strong></td><td>RAS, standard parts, modules</td><td>ซ่อมง่าย — ยืมแนวคิด RAS (Repairability, Availability, Serviceability) จาก hardware · ใช้ standard parts ลดต้นทุน · เปลี่ยนชิ้นส่วนเดียวง่ายกว่าเปลี่ยนทั้งคัน → ผลิตภัณฑ์ที่มี <em>well-designed modules</em> ซ่อมง่ายกว่า · เลือกโครงสร้างโมดูล+interface ให้ถูก ลดการเชื่อมข้ามโมดูล</td></tr>
+      <tr><td><strong>9. Evolvability</strong></td><td>modified over time, documented</td><td>พัฒนาต่อยอดได้เรื่อย ๆ — ซอฟต์แวร์จะถูกแก้เพิ่มฟังก์ชันใหม่/แก้ฟังก์ชันเดิมตลอดเวลา · ถ้าการแก้ไม่ถูกจดบันทึก (documented) การแก้ครั้งหน้าจะยากขึ้นเรื่อย ๆ · การแก้ต้องศึกษา design เดิมอย่างรอบคอบ + บันทึกการเปลี่ยนทั้งใน design และ requirements spec</td></tr>
+      <tr><td><strong>10. Reusability</strong></td><td>reuse, reduce costs</td><td>นำกลับมาใช้ใหม่ — แก้ผลิตภัณฑ์เดิมเป็นเวอร์ชันใหม่ หรือใช้สร้างผลิตภัณฑ์อื่นด้วยการแก้เล็กน้อย · ลดต้นทุนผลิต · เช่นนำ requirements spec เก่ามา reuse แทนเขียนใหม่</td></tr>
+      <tr><td><strong>11. Portability</strong></td><td>different environments/platforms</td><td>ย้ายที่อยู่ได้ — รันบนสภาพแวดล้อม/แพลตฟอร์ม (OS) อื่นได้ เช่นโปรแกรมเดียวกันรันได้ทั้ง Windows และ macOS</td></tr>
+      <tr><td><strong>12. Understandability</strong></td><td>easy to understand, internal</td><td>อ่านเข้าใจง่าย — design ที่เข้าใจง่าย · เป็น internal quality · <strong>ช่วยบรรลุ evolvability และ verifiability</strong> (โค้ดที่อ่านรู้เรื่อง = แก้ง่าย ตรวจง่าย)</td></tr>
+      <tr><td><strong>13. Interoperability</strong></td><td>coexist + cooperate with other systems</td><td>อยู่ร่วมและร่วมมือกับระบบอื่นได้ — หลาย vendor ทำ integrated products ที่มีหลายฟังก์ชันต้องคุยกัน (เช่นแอปธนาคารเรียก PromptPay)</td></tr>
+      <tr><td><strong>14. Productivity</strong></td><td>process quality, SW reuse</td><td>คุณภาพเชิง performance ที่<em>ใช้กับ process</em> (ไม่ใช่ product!) — SW reuse เป็นเทคนิคที่เพิ่ม productivity รวมขององค์กร · แต่พัฒนาโมดูล reusable ยากกว่าโมดูลใช้เอง</td></tr>
+      <tr><td><strong>15. Timeliness</strong></td><td>deliver on time</td><td>ส่งทันเวลา — คุณภาพที่เกี่ยวกับ process: ความสามารถส่งมอบผลิตภัณฑ์<em>ตรงเวลา</em></td></tr>
+      <tr><td><strong>16. Visibility</strong></td><td>documented steps + current status</td><td>มองเห็นได้ — กระบวนการพัฒนาจะ visible ถ้า<em>ทุกขั้นตอนและสถานะปัจจุบันถูกจดบันทึกชัดเจน</em> · product จะ visible ถ้ามีโครงสร้างชัด ฟังก์ชันเข้าใจง่าย เอกสารเข้าถึงง่าย · เป็นทั้ง internal และ external quality · ช่วยให้ SEng ชั่งน้ำหนักผลของการกระทำและตัดสินใจได้</td></tr>
+    </tbody>
+  </table></div>
+  <figure class="fig">
+    <svg viewBox="0 0 560 380" role="img" aria-label="แผนผัง 16 คุณภาพรอบตัวกลาง Software Qualities">
+      <circle cx="280" cy="190" r="56" fill="rgba(236,72,153,.16)" stroke="#ec4899" stroke-width="2"></circle>
+      <text x="280" y="186" text-anchor="middle" class="big" fill="#be185d">Software</text>
+      <text x="280" y="206" text-anchor="middle" class="big" fill="#be185d">Qualities</text>
+      <text x="90" y="52" text-anchor="middle" class="big t1">Correctness</text>
+      <text x="90" y="72" text-anchor="middle" class="small mut">ถูกตาม spec</text>
+      <text x="280" y="34" text-anchor="middle" class="big t1">Reliability</text>
+      <text x="280" y="54" text-anchor="middle" class="small mut">ทำงานตามคาดตลอดเวลาที่กำหนด</text>
+      <text x="470" y="52" text-anchor="middle" class="big t2">Robustness</text>
+      <text x="470" y="72" text-anchor="middle" class="small mut">ทน input แปลก ๆ</text>
+      <text x="60" y="140" text-anchor="middle" class="big t3">Performance</text>
+      <text x="60" y="160" text-anchor="middle" class="small mut">ไม่ช้า ไม่ใหญ่ ไม่กินแรม</text>
+      <text x="500" y="140" text-anchor="middle" class="big t3">User Friendliness</text>
+      <text x="500" y="160" text-anchor="middle" class="small mut">ใช้ง่าย menu &gt; command</text>
+      <text x="60" y="230" text-anchor="middle" class="big t1">Verifiability</text>
+      <text x="60" y="250" text-anchor="middle" class="small mut">ตรวจสอบง่าย (monitor)</text>
+      <text x="500" y="230" text-anchor="middle" class="big t1">Maintainability</text>
+      <text x="500" y="250" text-anchor="middle" class="small mut">Corrective/Adaptive/Perfective</text>
+      <text x="90" y="320" text-anchor="middle" class="big t2">Repairability + Evolvability</text>
+      <text x="90" y="340" text-anchor="middle" class="small mut">ซ่อมง่าย (RAS) · พัฒนาต่อได้</text>
+      <text x="280" y="348" text-anchor="middle" class="big t2">Reusability · Portability</text>
+      <text x="280" y="366" text-anchor="middle" class="small mut">ใช้ซ้ำได้ · ย้ายแพลตฟอร์มได้</text>
+      <text x="470" y="320" text-anchor="middle" class="big t2">Understandability</text>
+      <text x="470" y="340" text-anchor="middle" class="small mut">อ่านเข้าใจง่าย (ช่วย evolve+verify)</text>
+      <text x="40" y="195" text-anchor="middle" class="small mut">Interoperability</text>
+      <text x="40" y="213" text-anchor="middle" class="small mut">คุยกับระบบอื่น</text>
+      <text x="520" y="195" text-anchor="middle" class="small mut">Productivity · Timeliness · Visibility</text>
+      <text x="520" y="213" text-anchor="middle" class="small mut">(ฝั่ง process)</text>
+    </svg>
+    <figcaption>ภาพ 3.2 — แผนผัง 16 คุณภาพ (สังเกต: Productivity/Timeliness/Visibility เป็นคุณภาพฝั่ง process — บางทีโจทย์ลักไก่ถามตรงนี้)</figcaption>
+  </figure>
+
+  <h3>4) คุณภาพตามประเภทระบบ — 4 แบบระบบที่ใส่ใจคนละคุณภาพ</h3>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>ประเภทระบบ</th><th>คืออะไร + ตัวอย่าง</th><th>คุณภาพที่ใส่ใจเป็นพิเศษ</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Information-Based Systems</strong><br>(ระบบจัดการสารสนเทศ)</td><td>หัวใจคือ <em>database</em> ใช้ transaction สร้าง/ดึง/แก้/ลบ — ธนาคาร, ระบบห้องสมุด, ระบบบุคลากร</td><td><strong>Data integrity</strong> (ข้อมูลจะเสียหายไหม?) · <strong>Security</strong> (ป้องกันการเข้าถึงโดยไม่ได้รับอนุญาต?) · <strong>Data availability</strong> (เงื่อนไขไหนทำให้ข้อมูลใช้ไม่ได้?) · <strong>Transaction performance</strong></td></tr>
+      <tr><td><strong>Real-Time Systems</strong></td><td>ต้องตอบสนองเหตุการณ์ภายใน<em>ช่วงเวลาที่กำหนดอย่างเข้มงวด</em> — ระบบเฝ้าดูอุณหภูมิโรงงาน, ซอฟต์แวร์จัดการคลิกเมาส์</td><td><strong>Response time</strong> คือส่วนหนึ่งของความถูกต้อง (correctness) — ตอบ<em>เร็วเกิน</em>ก็ผิดเท่ากับ<em>ช้าเกิน</em>! เช่นคลิกแรกประมวลผลไวเกิน จะไม่จับ double-click ได้</td></tr>
+      <tr><td><strong>Distributed Systems</strong></td><td>คอมโพเนนต์รันบนคอมพิวเตอร์<em>หลายเครื่อง</em> — คำถาม: กระจาย data? processing? หรือทั้งคู่?</td><td>ทนการแบ่งเครือข่าย (<em>partitioning</em> — สองกลุ่มเครื่องคุยกันไม่ได้) · ทนเครื่องล่มเป็นตัว ๆ (<em>failure of individual computers</em>) · ทางแก้: <strong>replicate</strong> ข้อมูลเดียวกันไว้หลายเครื่องเพื่อเพิ่ม reliability</td></tr>
+      <tr><td><strong>Embedded Systems</strong></td><td>SW เป็น 1 ในหลายคอมโพเนนต์ <em>มักไม่มี interface กับมนุษย์</em> แต่คุยกับอุปกรณ์อื่นและควบคุมมัน — เครื่องบิน, หุ่นยนต์, ไมโครเวฟ</td><td>ความต่างจากระบบอื่น = <em>interface กับอุปกรณ์ ไม่ใช่มนุษย์</em> · เช่นตู้ขายของอัตโนมัติหยอดเหรียญ, ระบบเฝ้าดูผู้ป่วยโรงพยาบาลที่เก็บประวัติ (จำตัวอย่าง CS-Hospital ไว้เชื่อมข้อเขียน!)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box box-idea">
+    <div class="box-title">💡 ความสัมพันธ์คำถาม Q1–Q3 ที่สไลด์ทิ้งไว้ (Correctness, Reliability, Robustness)</div>
+    <p>ทั้งสามเกี่ยวข้องกันเป็นลูกโซ่: <strong>Correctness</strong> = ทำตาม spec ถูกต้องในกรณีปกติ · <strong>Reliability</strong> = ทำงานตามคาดต่อเนื่องในช่วงเวลาที่วัด (ผิดเล็กน้อยแต่ไม่รบกวนผู้ใช้ก็ยัง reliable ได้) · <strong>Robustness</strong> = เมื่อเจอสิ่งที่ spec ไม่ได้ครอบคลุม (input เพี้ยน สถานการณ์แปลก) ระบบไม่พังทั้งระบบ — พูดรวม ๆ: ถูกต้องในกรณีปกติ (correctness) → เชื่อถือได้เมื่อใช้ยาว (reliability) → ไม่พังเมื่อโลกไม่เป็นตามแผน (robustness)</p>
+  </div>
+</section>
+
+<section class="block" id="exam">
+  <h2><span class="h2-dot">🎯</span> แนวข้อสอบของบทนี้</h2>
+  <div class="box box-warn">
+    <div class="box-title">🎯 ออกจริงจากรีวิวรุ่นพี่ (มิดเทอมมาแล้ว และ Final ก็ใช้จับคู่ศัพท์เหมือนกัน)</div>
+    <ul>
+      <li><strong>จับคู่ 16 คุณภาพ:</strong> ให้นิยาม/ประโยคมา เติมหรือจับชื่อ — คีย์เวิร์ดสำคัญ: probability (Reliability), ill-formatted input (Robustness), Measurement/Analysis/Simulation (Performance), SW monitors (Verifiability), 20% Corrective (Maintainability), RAS (Repairability), documented steps + status (Visibility), deliver on time (Timeliness)</li>
+      <li><strong>เติมคำเชื่อมโยง:</strong> "internal quality ของ ______ จำเป็นต่อการบรรลุ external quality ของ ______" → Verifiability / Reliability</li>
+      <li><strong>3 ประเภท Maintenance:</strong> Corrective / Adaptive / Perfective — โจทย์มักให้สถานการณ์ เช่น "เปลี่ยน DB ใหม่" → Adaptive (อย่าลืมว่าบทที่ 11 จะเพิ่ม Preventive เข้ามาเป็น 4 ตัว!)</li>
+      <li><strong>4 ประเภทระบบ:</strong> เช่น "ระบบที่ต้องตอบสนองภายในเวลาที่กำหนดเข้มงวด ตอบเร็วไปก็ผิด" → Real-time</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="practice">
+  <h2><span class="h2-dot">🏋️</span> โจทย์ซ้อมมือ (8 ข้อ)</h2>
+
+  <div class="pr-card" data-pkey="p3-1">
+    <div class="pr-head"><span class="pr-num">ข้อ 1</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เติมคำ (แนวข้อสอบตรง):</strong> (1) "The probability that SW can operate as expected over a specified time interval" คือคุณภาพใด (2) "The ability of a system to coexist and cooperate with other systems" คืออะไร (3) "The ability to run a system in the different environments or platform" คืออะไร</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>(1)</b> <strong>Reliability</strong> — คีย์ "probability" + "operate as expected" + "specified time interval"</span></li>
+          <li><span class="step-t"><b>(2)</b> <strong>Interoperability</strong> — คีย์ "coexist and cooperate with other systems"</span></li>
+          <li><span class="step-t"><b>(3)</b> <strong>Portability</strong> — คีย์ "different environments or platform (OS)"</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p3-2">
+    <div class="pr-head"><span class="pr-num">ข้อ 2</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เติมคำ:</strong> "The internal quality of ______ is necessary to achieve the external quality of ______" — เติมให้สมบูรณ์</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>ช่องแรก:</b> <strong>Verifiability</strong> (internal — โครงสร้างที่ตรวจสอบได้ง่าย)</span></li>
+          <li><span class="step-t"><b>ช่องสอง:</b> <strong>Reliability</strong> (external — ผู้ใช้เชื่อถือได้ว่าระบบทำงานตามคาด)</span></li>
+          <li><span class="step-t"><b>เหตุผล:</b> ถ้าโครงสร้างตรวจสอบยาก (ทดสอบไม่ได้) เราจะไม่มีทางมั่นใจได้เลยว่าระบบจะทำงานตามคาดเมื่อใช้จริง — ตรวจไม่ได้ = เชื่อไม่ได้</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p3-3">
+    <div class="pr-head"><span class="pr-num">ข้อ 3</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>จำแนกสถานการณ์ (แนว 3 ประเภท maintenance):</strong> (a) แอปพังเมื่อผู้ใช้พร้อมกันมาก — หาสาเหตุโค้ดแล้วแก้ (b) องค์กรเปลี่ยน OS server เป็นเวอร์ชันใหม่ — ต้องปรับระบบ (c) ลูกค้าอยากได้ฟีเจอร์ชำระเงินด้วย QR — ทำเพิ่ม</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>(a)</b> <strong>Corrective</strong> — แก้ error ที่พบหลังส่งมอบ (คีย์: พัง/แก้ bug)</span></li>
+          <li><span class="step-t"><b>(b)</b> <strong>Adaptive</strong> — ปรับตัวกับ environment ที่เปลี่ยน (คีย์: OS ใหม่ / DB ใหม่)</span></li>
+          <li><span class="step-t"><b>(c)</b> <strong>Perfective</strong> — ปรับปรุงเพิ่มฟังก์ชัน/คุณภาพใหม่ (คีย์: add new function)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p3-4">
+    <div class="pr-head"><span class="pr-num">ข้อ 4</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>จำแนกระบบ (แนว 4 ประเภทระบบ):</strong> (a) ระบบห้องสมุดที่หัวใจอยู่ที่ฐานข้อมูลและ transaction (b) ระบบตรวจจับการคลิกเมาส์สองครั้งติดกัน ต้องวัดเวลาแม่น (c) ระบบสำรองข้อมูลเหมือนกันไว้ 3 เครื่อง ทนเครื่องล่ม (d) ระบบในตู้ขายน้ำที่คุยกับเครื่องอ่านเหรียญ ไม่มีหน้าจอให้คนกด</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>(a)</b> <strong>Information-Based System</strong> — หัวใจ database + transactions, สนใจ data integrity/security/availability</span></li>
+          <li><span class="step-t"><b>(b)</b> <strong>Real-Time System</strong> — คีย์: เวลาตอบสนองเข้มงวด ตอบเร็วไปก็ผิด (ไม่จับ double-click)</span></li>
+          <li><span class="step-t"><b>(c)</b> <strong>Distributed System</strong> — คีย์: replicate ข้อมูลหลายเครื่อง ทน failure ของเครื่องแต่ละตัว</span></li>
+          <li><span class="step-t"><b>(d)</b> <strong>Embedded System</strong> — คีย์: ไม่มี interface กับมนุษย์ คุยกับอุปกรณ์อื่น (เหรียญ) และควบคุมมัน</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p3-5">
+    <div class="pr-head"><span class="pr-num">ข้อ 5</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>ตัวเลข:</strong> วิธีประเมิน Performance มีกี่วิธี อะไรบ้าง และผลกระทบ 3 แบบของระบบที่ performance แย่คืออะไร</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>ประเมินด้วย</b> การวิเคราะห์ complexity ของอัลกอริทึม + 3 วิธี: <strong>Measurement</strong> (วัดจริง), <strong>Analysis</strong> (วิเคราะห์), <strong>Simulation</strong> (จำลอง)</span></li>
+          <li><span class="step-t"><b>ช้าเกิน</b> → ลด productivity ของผู้ใช้</span></li>
+          <li><span class="step-t"><b>ใหญ่เกิน</b> → รันยาก</span></li>
+          <li><span class="step-t"><b>กินหน่วยความจำเยอะ</b> → กระทบแอปอื่นที่กำลังรัน</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p3-6">
+    <div class="pr-head"><span class="pr-num">ข้อ 6</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เทียบคู่:</strong> Correctness กับ Reliability ต่างกันอย่างไร และทำไม "โปรแกรมที่มี bug เล็ก ๆ ก็ยังอาจ reliable ได้"</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>Correctness</b> = โปรแกรมตรง functional spec ทุกข้อ (มองเทียบกับเอกสาร)</span></li>
+          <li><span class="step-t"><b>Reliability</b> = ความน่าจะเป็นที่จะทำงานตามคาดตลอดช่วงเวลาที่กำหนด (มองพฤติกรรมตามเวลาจริง)</span></li>
+          <li><span class="step-t"><b>ทำไม bug เล็กยัง reliable ได้:</b> สไลด์บอก "ถ้าความผิดพลาดของ error ไม่ร้ายแรง (ไม่ serious) โปรแกรมที่ไม่ถูก 100% ก็ยัง reliable อยู่ได้" — เช่นทายผิดพลาดในส่วนที่ผู้ใช้ไม่เจอ/ไม่กระทบการใช้งาน ผู้ใช้ก็ยังมั่นใจว่าระบบ "ทำงานตามคาด"</span></li>
+          <li><span class="step-t"><b>สรุปสั้น:</b> correctness วัดกับ spec, reliability วัดกับประสบการณ์ผู้ใช้ในเวลาจริง — เกณฑ์คนละแบบ</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p3-7">
+    <div class="pr-head"><span class="pr-num">ข้อ 7</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>ลักไก่:</strong> Productivity, Timeliness และ Visibility เป็นคุณภาพของอะไร — Product หรือ Process? และ Visibility เป็น internal หรือ external?</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>Productivity</b> = คุณภาพเชิง performance ที่ใช้กับ <strong>Process</strong> (ของทีม/วิธีทำงาน ไม่ใช่ของตัวโปรแกรม)</span></li>
+          <li><span class="step-t"><b>Timeliness</b> = เกี่ยวกับ <strong>Process</strong> — ความสามารถส่งมอบตรงเวลา</span></li>
+          <li><span class="step-t"><b>Visibility</b> = <strong>ทั้งสองอย่าง</strong> (both internal and external) — process จะ visible เมื่อทุกขั้น+สถานะถูกจดบันทึก / product จะ visible เมื่อโครงสร้างชัด เอกสารเข้าถึงง่าย</span></li>
+          <li><span class="step-t"><b>ประโยชน์ของ visibility:</b> ให้วิศวกรชั่งผลของการกระทำ (weigh the impact) และนำทางการตัดสินใจ</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p3-8">
+    <div class="pr-head"><span class="pr-num">ข้อ 8</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>โยงข้อสอบเขียน:</strong> ข้อสอบรุ่นพี่ถามเรื่องระบบ CS-Hospital — ถ้าให้คุณบอกว่าระบบจัดการผู้ป่วยนี้ต้องใส่ใจคุณภาพใดเป็นพิเศษ 3 อย่าง พร้อมเหตุผล จะตอบอย่างไร?</p>
+      <details class="sol"><summary>แนวคำตอบ</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>มองประเภทระบบก่อน:</b> CS-Hospital เก็บข้อมูลผู้ป่วยในฐานข้อมูล มี transaction สร้าง/ดึง/แก้ → เป็น <strong>Information-Based System</strong></span></li>
+          <li><span class="step-t"><b>คุณภาพที่ต้องเน้น 1:</b> <strong>Data integrity + Security</strong> — ข้อมูลผู้ป่วยเป็นความลับทางการแพทย์ ต้องไม่เสียหายและไม่รั่วไหลให้คนนอกเข้าถึง</span></li>
+          <li><span class="step-t"><b>2:</b> <strong>Data availability / Reliability</strong> — แพทย์ต้องเข้าถึงประวัติผู้ป่วยได้ทุกเมื่อเวลาฉุกเฉิน ระบบล่ม = เสี่ยงชีวิตผู้ป่วย</span></li>
+          <li><span class="step-t"><b>3:</b> <strong>Interoperability</strong> — ระบบต้องส่งต่อผลวินิจฉัยไปทีมแพทย์เฉพาะทางผ่านช่องทางออนไลน์ (LINE/Email) ต้องคุยกับระบบ/บริการอื่นได้</span></li>
+          <li><span class="step-t"><b>ปิดท้าย (ได้คะแนนเพิ่ม):</b> เพราะส่วน "ส่งต่อผลให้ทีมแพทย์" อาจต้องทำงานแบบ real-time จึงอาจกล่าวถึง performance/response time ของการแจ้งเตือนด้วย</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+</section>
+
+</div></main>
+
+<nav class="pager" id="pager"></nav>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/tts.js"></script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>บทที่ 6 วิศวกรรมความต้องการ — SE 05506017</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230d1930%22/><text x=%2250%22 y=%2270%22 font-size=%2252%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22>SE</text></svg>">
+<meta name="description" content="บทที่ 6 วิศวกรรมความต้องการ — FR vs NFR (FURPS+), User Story, Acceptance Test, Sizing และการประมาณงานแบบ Agile พร้อมตัวอย่างเขียนคำตอบสำหรับข้อสอบ">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-ch="6" data-section="6" data-page="ch6.html" data-tts="1">
+<header class="topbar">
+  <button class="icon-btn menu-btn" id="menuBtn" aria-label="เปิดเมนู">☰</button>
+  <a class="brand" href="index.html"><span class="brand-badge">SE</span><span>Software Engineering <span class="brand-sub">05506017 · 1/2569</span></span></a>
+  <span class="spacer"></span>
+  <button class="icon-btn theme-btn" id="themeBtn" aria-label="สลับโหมดมืด/สว่าง">🌙</button>
+</header>
+<div class="layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="scrim" id="scrim"></div>
+
+  <main class="content"><div class="inner">
+
+<div class="crumb">บทที่ 6 · วิศวกรรมความต้องการ</div>
+<h1 class="page-title">บทที่ 6 — Requirement Engineering</h1>
+<p class="page-sub">บทที่ตอบข้อสอบเขียนตรง ๆ: "เขียน Functional Requirement และ Non-Functional Requirement ของระบบ"
+เราจะเรียน RE 3 ขั้น, แยก FR/NFR ด้วย FURPS+, เขียน User Story และเทคนิคที่รุ่นพี่ยืนยันว่าใช้ได้จริงในห้องสอบ</p>
+
+<nav class="pillnav">
+  <a href="#objectives">🎯 จุดประสงค์</a>
+  <a href="#lesson">📖 บทเรียน</a>
+  <a href="#furps">🎯 FR/NFR (FURPS+)</a>
+  <a href="#exam">🎯 แนวข้อสอบ</a>
+  <a href="#practice">🏋️ โจทย์ซ้อมมือ</a>
+</nav>
+
+<section class="block" id="objectives">
+  <div class="obj">
+    <h2>🎯 เรียนจบบทนี้ คุณต้องทำสิ่งเหล่านี้ได้</h2>
+    <ul>
+      <li>อธิบาย 3 ส่วนของ Requirements Engineering: <strong>gathering → analysis → specification</strong></li>
+      <li>แยก <strong>Problem domain</strong> (โลกของปัญหา/ลูกค้า) กับ <strong>Solution domain</strong> (โลกของซอฟต์แวร์/นักพัฒนา)</li>
+      <li>เข้าใจว่า <strong>"Requirements are not simply desires!"</strong> — ความอยากที่ถูกปรับด้วยข้อจำกัดโลกจริง</li>
+      <li><strong>แยก FR กับ NFR ได้แม่น + เขียนได้จริง</strong> ตามกรอบ FURPS+ จากโจทย์ระบบใดก็ได้ (หัวใจข้อสอบเขียน)</li>
+      <li>เขียน User Story รูปแบบ "As a X, I can Y" พร้อม size points และอธิบาย sizing/velocity</li>
+      <li>อธิบาย Acceptance test: เขียนเมื่อไหร่ ใครทำ ตรวจอะไร</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="lesson">
+  <h2><span class="h2-dot">📖</span> บทเรียน</h2>
+
+  <div class="box box-idea">
+    <div class="box-title">🗺️ ที่มาที่ไป — ลูกค้าพูดอะไรมา เราแปลเป็นอะไร?</div>
+    <p>สไลด์ให้ภาพสำคัญ: <strong>เราไม่ได้รับ "requirements" จากลูกค้าตรง ๆ — เราได้แค่ "customer problem statement" (คำบ่นเล่าปัญหา)</strong> แล้วเรา (นักวิเคราะห์) ต้อง<em>วิเคราะห์</em>แปลงมันเป็น requirements และ specification ต่อเอง</p>
+    <p>สายการผลิต: <strong>ลูกค้าเล่าปัญหา (Problem domain) → Requirements (อธิบายปัญหา) → Specification (กำหนดพฤติกรรมระบบ โลกโซลูชัน/Solution domain) → โปรแกรม</strong></p>
+    <p><strong>อุปมา:</strong> ลูกค้าเข้าร้านสร้างบ้านพูดว่า "บ้านผมร้อนอยู่ตลอด" (problem statement) — ไม่ใช่ requirement จนเราวิเคราะห์สาเหตุ (ตึกหันผิดทิศ? ไม่มีฉนวน? หลังคาดูดความร้อน?) แล้วเขียนเป็นความต้องการที่ชัด เช่น "ห้องนั่งเล่นอุณหภูมิไม่เกิน 28°C ตลอดวัน" แล้วสถาปนิกแปลเป็น spec เชิงก่อสร้าง — ซอฟต์แวร์ก็เหมือนกัน ลูกค้าบ่น "ขายของยุ่งมาก" เราต้องแปลเป็นระบบอะไรทำอะไรได้</p>
+  </div>
+
+  <div class="box box-def">
+    <div class="box-title">📐 นิยาม Requirement + 3 ส่วนของ RE</div>
+    <p><strong>Requirement</strong> = ระบุฟังก์ชันธุรกิจที่ผู้ใช้จะทำได้ผ่านระบบในสถานการณ์/บริบทต่าง ๆ และประสบการณ์ที่ผู้ใช้จะได้รับ + ความกังวลอื่นเช่นระบบจัดการทรัพยากร (computing, network) อย่างไร, จัดการและปกป้องข้อมูลผู้ใช้อย่างไร</p>
+    <p>ระวัง: <strong>User requirements มัก high-level, กำกวม (vague) และไม่สมบูรณ์</strong> — มันเป็นเป้าหมายธุรกิจ (business goals) มากกว่าข้อกำหนดเทคนิค เราต้องมองลึกถึงพารามิเตอร์สำคัญในแต่ละ "scenario" แล้วค่อยแปลงเป็น requirement เทคนิคที่ละเอียด</p>
+    <p><strong>RE มี 3 ส่วน:</strong></p>
+    <ul>
+      <li><strong>1. Requirements gathering</strong> (aka elicitation) — ช่วยลูกค้านิยามว่าต้องการอะไร: จะบรรลุอะไร, ระบบจะเข้ากับธุรกิจอย่างไร, ใช้ในชีวิตประจำวันอย่างไร</li>
+      <li><strong>2. Requirements analysis</strong> — การ<em>refine และปรับปรุง</em> requirement ที่เก็บมา</li>
+      <li><strong>3. Requirements specification</strong> — จดเป็นเอกสารอย่าง<em>กึ่งทางการหรือทางการ</em> เพื่อความชัด (clarity), ความสม่ำเสมอ (consistency), ความครบถ้วน (completeness)</li>
+    </ul>
+  </div>
+
+  <div class="box box-key">
+    <div class="box-title">⚡ "Requirements are not simply desires!" — คำถามคลาสสิก</div>
+    <p>Requirement ถูกกำหนดจาก 3 แหล่ง:</p>
+    <ul>
+      <li>การประเมิน (judgment) <em>เป้าหมายธุรกิจของลูกค้า</em> และอุปสรรคที่ขวางอยู่ตอนนี้</li>
+      <li>เงื่อนไขบนโซลูชันจากข้อจำกัดโลกจริง: <em>กายภาพ (Physical) · สังคม/วัฒนธรรม (Social/Cultural) · กฎหมาย (Legal) · การเงิน (Financial)</em> ฯลฯ</li>
+      <li>ภัยคุกคามจากผู้ไม่หวังดี (Threats created by adversaries)</li>
+    </ul>
+    <p><strong>สรุปหนึ่งบรรทัดที่อาจออก:</strong> Requirements = <em>desires ที่ถูกปรับ (adjusted) ด้วยข้อจำกัดโลกจริงและภัยคุกคาม</em></p>
+    <p>ตัวอย่าง: อยาก "ประตูบ้านเปิดง่ายที่สุด" (desire) แต่โลกมีคนไม่หวังดี (threat) → requirement จึงกลายเป็น "ปลดล็อกได้เมื่อใช้คีย์ที่ถูกต้อง + พยายามผิดเกิน 3 ครั้งระบบต้องล็อกตัว" (ปรับด้วยข้อจำกัดความปลอดภัย)</p>
+  </div>
+
+  <h3>1) แยกสลายเป้าหมายธุรกิจ (Decomposition of Business Goals)</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 2 แนวทาง + ตัวอย่างจากสไลด์</div>
+    <p><strong>Breadth-first refinement</strong> — แผ่กว้างก่อน: Top-level goal → หลาย higher-level goals → หลาย use case → หลาย user story (ทำทุกกิ่งลึก 1 ระดับไล่ไปทีละชั้น)</p>
+    <p><strong>Depth-first refinement</strong> — ลึกหนึ่งกิ่งก่อน: เลือกกิ่งหนึ่งแล้วไล่ลงถึง user story ให้จบกิ่งนั้นก่อน</p>
+    <p><strong>ตัวอย่าง Safe Home Access:</strong> เป้าหมาย "Safe home" แตกเป็นสถานการณ์ Arrive / Stay / Depart / Away → ฟังก์ชัน Unlock, Enter, Lock, Devices → Authenticate → ...</p>
+    <p><strong>ตัวอย่าง Restaurant Automation:</strong> "Operate restaurant" แตกเป็น Manage employees / Manage tables / Manage inventory / Serve customers / Statistics & Planning → Serve customers แตกเป็น Reservations, Occupancy, Seat, Take order, Track order, Payment, Cleanup</p>
+  </div>
+  <figure class="fig">
+    <svg viewBox="0 0 560 280" role="img" aria-label="การแยกเป้าหมายธุรกิจ: ตัวอย่างร้านอาหาร Operate restaurant แตกเป็น 5 หมวดแล้วหมวด Serve customers แตกเป็นงานย่อย">
+      <rect x="200" y="16" width="160" height="36" rx="9" fill="rgba(239,68,68,.14)" stroke="#ef4444" stroke-width="1.6"></rect>
+      <text x="280" y="39" text-anchor="middle" class="big t2">Operate restaurant</text>
+      <line class="ax" x1="280" y1="52" x2="280" y2="72"></line>
+      <line class="ax" x1="80" y1="72" x2="480" y2="72"></line>
+      <g class="small">
+        <line class="ax" x1="80" y1="72" x2="80" y2="92"></line>
+        <line class="ax" x1="180" y1="72" x2="180" y2="92"></line>
+        <line class="ax" x1="280" y1="72" x2="280" y2="92"></line>
+        <line class="ax" x1="380" y1="72" x2="380" y2="92"></line>
+        <line class="ax" x1="480" y1="72" x2="480" y2="92"></line>
+      </g>
+      <g>
+        <rect x="26" y="92" width="108" height="34" rx="8" class="f1" stroke="#2563eb" fill="none"></rect>
+        <text x="80" y="113" text-anchor="middle">Manage employees</text>
+        <rect x="140" y="92" width="80" height="34" rx="8" class="f1" stroke="#2563eb" fill="none"></rect>
+        <text x="180" y="113" text-anchor="middle">Manage tables</text>
+        <rect x="226" y="92" width="108" height="34" rx="8" class="f1" stroke="#2563eb" fill="none"></rect>
+        <text x="280" y="113" text-anchor="middle">Manage inventory</text>
+        <rect x="340" y="92" width="80" height="34" rx="8" fill="rgba(239,68,68,.16)" stroke="#ef4444" stroke-width="1.6"></rect>
+        <text x="380" y="113" text-anchor="middle" class="t2">Serve customers</text>
+        <rect x="426" y="92" width="108" height="34" rx="8" class="f1" stroke="#2563eb" fill="none"></rect>
+        <text x="480" y="113" text-anchor="middle">Statistics &amp; Plan</text>
+      </g>
+      <line class="aux" x1="380" y1="126" x2="380" y2="152"></line>
+      <g class="small mut">
+        <rect x="130" y="152" width="500" height="0" fill="none"></rect>
+        <text x="380" y="146" text-anchor="middle" class="small t2">depth-first: ลึกกิ่งนี้ก่อน ↓</text>
+        <line class="ax" x1="168" y1="152" x2="592" y2="152"></line>
+        <line class="ax" x1="168" y1="152" x2="168" y2="168"></line>
+        <line class="ax" x1="258" y1="152" x2="258" y2="168"></line>
+        <line class="ax" x1="348" y1="152" x2="348" y2="168"></line>
+        <line class="ax" x1="438" y1="152" x2="438" y2="168"></line>
+        <line class="ax" x1="528" y1="152" x2="528" y2="168"></line>
+        <text x="168" y="186" text-anchor="middle">Reservations</text>
+        <text x="258" y="186" text-anchor="middle">Seat</text>
+        <text x="348" y="186" text-anchor="middle">Take order</text>
+        <text x="438" y="186" text-anchor="middle">Track order</text>
+        <text x="528" y="186" text-anchor="middle">Payment</text>
+        <text x="280" y="230" text-anchor="middle" class="mut">Top-level goal → Higher-level goals → Use case → User story (แตกลงเรื่อย ๆ ให้ชัดพอที่จะ implement)</text>
+      </g>
+    </svg>
+    <figcaption>ภาพ 6.1 — การแยกสลายเป้าหมาย: จาก "ดำเนินร้านอาหาร" ลงมาเป็นงานย่อยจำเดียว เช่น "รับออเดอร์" ได้ use case และ user story</figcaption>
+  </figure>
+
+  <div class="box box-def">
+    <div class="box-title">📐 Problem Analysis — ก่อนเขียน requirement ต้องหา "สาเหตุ"</div>
+    <p>สไลด์ตัวอย่าง Traffic Monitoring: <em>ปัญหา</em> = ผู้ใช้ไปทำงานสาย · <em>สาเหตุ A:</em> จราจรไม่แน่นอน · <em>สาเหตุ B:</em> ผู้ใช้ไม่คุ้นเส้นทาง · <em>สาเหตุ C:</em> ผู้ใช้มีนิสัยออกบ้านสาย — <strong>ขึ้นกับสาเหตุ โซลูชัน/requirement จะต่างกัน</strong> (ระบบพยากรณ์จราจร vs ระบบนำทาง vs ระบบปลุกซ้ำ)</p>
+    <p>ตัวอย่าง Safe Home Access: ปัญหา = กุญแจกายภาพไม่สะดวก / ถูกบุกรุก → วิเคราะห์สาเหตุ: ลืมล็อกประตู/ปิดเครื่องใช้, ทำกุญแจหาย, ไล่ดูประวัติการเข้าไม่ได้, ควบคุมระยะไกลไม่ได้, ผู้บุกรุกเข้าได้ → <strong>System requirements สร้างจากสาเหตุที่เลือก</strong> — เทคนิคนี้เองที่ใช้กับข้อสอบ CS-Hospital: อ่านโจทย์ → หาสาเหตุ/ความต้องการเป็นข้อ ๆ → แปลงเป็น FR/NFR</p>
+  </div>
+
+  <h3>2) Requirements as User Stories</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 โครง + กฎ 6 ข้อ</div>
+    <p>รูปแบบ: <strong>"As a [user-role], I can [capability], [business-goal]"</strong> — เช่น <em>"As a tenant, I can unlock the doors to enter my apartment."</em></p>
+    <ul>
+      <li>เครื่องมือที่ชื่นชอบใน<strong>agile methods</strong></li>
+      <li>พูดถึง<em>เป้าหมายและความสามารถของผู้ใช้</em> แทนการพูดถึง feature ของระบบ</li>
+      <li><strong>เขียนโดยลูกค้า/ผู้ใช้ ไม่ใช่นักพัฒนา</strong></li>
+      <li>ทีมประเมินแรงงาน (effort) ที่จะ implement story ทันที</li>
+      <li><strong>Acceptance test เขียนพร้อมตอนที่ story ถูกระบุ</strong> (ไม่ใช่รอตอนท้าย!)</li>
+      <li>ระบุ requirement เฉพาะ<em>iteration ถัดไป</em> ไม่ใช่ทั้งโปรเจกต์</li>
+    </ul>
+    <p><strong>จากสไลด์:</strong> แต่ละ story มี ID + size points (เช่น REQ-2 "As a user, I will be able to unlock the doors using a valid key" = 7 points) · <em>หมายเหตุ: ไม่ใช้ priority</em> — ลำดับความสำคัญให้ที่ตำแหน่งบน to-do list</p>
+  </div>
+
+  <div class="box box-key">
+    <div class="box-title">⚡ Sizing the Problem — 5 ขั้นประมาณงาน</div>
+    <ol class="flowsteps">
+      <li><b>แบ่งปัญหา</b>เป็นส่วนย่อยที่<em>เล็กและคล้ายกัน</em> (small & similar parts)</li>
+      <li><b>ประมาณขนาดสัมพัทธ์</b>ของทุกส่วน (Size = 4, 7, 10 points ฯลฯ)</li>
+      <li><b>ประมาณขนาดรวม</b>: Total size = ผลรวม points ทุกส่วน</li>
+      <li><b>ประมาณความเร็วทำงาน (velocity)</b> — เช่นเราทำได้ 1 point ต่อ 2 วัน</li>
+      <li><b>ประมาณระยะเวลางาน</b>: duration = ขนาดรวม ÷ velocity (เหมือน เวลาเดินทาง = ระยะทาง ÷ ความเร็ว)</li>
+    </ol>
+    <p><strong>อุปมาที่สไลด์ใช้:</strong> ประมาณเวลาตัดหญ้าคันข้างบ้าน — แบ่งพื้นที่เป็นก้อนเล็ก ๆ ประเมิน "ก้อนนี้ยากกว่าก้อนนั้นกี่เท่า" รวมเป็นคะแนน แล้วเอาคะแนน ÷ ความเร็วที่เคยวัดไว้จริง = เวลา — ถ้าประมาณผิดเพียงก้อนเล็ก ผลกระทบรวมก็น้อย (นั่นคือเหตุผลที่ต้อง "เล็กและคล้ายกัน")</p>
+    <p><strong>เกร็ดจากสไลด์:</strong> ซอฟต์แวร์<em>มองไม่เห็น</em> (unlike hedges) และยังไม่มีตัวตนตอนเริ่มโปรเจกต์ → ประมาณแรกขึ้นกับ <em>ประสบการณ์และจินตนาการ</em> มาก — velocity ต้องปรับจากความคืบหน้าจริง แต่ถ้าประเมินขนาดสัมพัทธ์แม่น คำนวณระยะเวลาใหม่ได้เร็ว</p>
+    <p><strong>ตัวอย่างอ่านค่าจริง:</strong> 1 point = 2 วัน → REQ2 (7 pts) = 14 วัน, REQ6 (3 pts) = 6 วัน ... รวม 102 วัน — to-do list ที่ลูกค้าจัดลำดับ แล้ว developer "ดึงงาน" จากบนลงมาทำใน iteration (tasks pulled by developers)</p>
+  </div>
+
+  <div class="box box-idea">
+    <div class="box-title">💡 Tradeoff: ลูกค้ายืดหยุ่น ↔ นักพัฒนามั่นคง</div>
+    <p>งานที่ถูกดึงเข้า iteration ไปแล้ว <em>ลูกค้าแก้ลำดับไม่ได้อีก</em> (developer มีเป้าหมายมั่นคงจนจบ iteration) · แต่ลูกค้ายังยืดหยุ่นได้กับงานที่เหลือบน to-do list (รองรับตลาดเปลี่ยน) — 2 ขั้นทุกครั้ง: (1) ถอดงานของ iteration หน้าออกจากลิสต์ (2) เลื่อนงานที่เหลือขึ้นบนแล้วให้ลูกค้าจัดลำดับใหม่ได้</p>
+  </div>
+
+  <h3>3) Requirements Analysis — เจาะ "Business Policies"</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 ตัวอย่าง REQ-3 ป้องกัน dictionary attack</div>
+    <p>Requirement บอกว่า "ผู้บุกรุกไม่สามารถ unlock ด้วยการเดาคีย์ได้ (dictionary attack) ระบบต้อง block" — แต่มีรายละเอียดเยอะต้องตัดสินใจ ("business policies"):</p>
+    <ul>
+      <li>อะไรแยก "ผู้ใช้กดพลาด" กับ "dictionary attack"? → จำนวนครั้งที่อนุญาตให้ผิด เทียบกับ threshold · threshold ควรเล็ก เช่น <strong>3 ครั้ง — นี่คือ business policy!</strong></li>
+      <li>กุญแจกลไก (mechanical lock) ทำอะไรตอนระบบ "blocked"? ใช้กุญแจจริงได้ไหม?</li>
+    </ul>
+    <p>และ REQ-5 "keypad ติดแสงเมื่อมืด" — ตรวจความมืดคุ้มไหม หรือเปิดติดตลอดดีกว่า?</p>
+    <p><strong>จำสไลด์:</strong> "Requirements analysis ไม่ควร exhaustive จนเว่อร์ แต่ก็ไม่ควรเลี่ยง (avoided)"</p>
+    <p><strong>ทำไมต้องระบุ business policy ให้ชัด (2 เหตุผล):</strong> ① ให้ stakeholder (โดยเฉพาะลูกค้า) มีส่วนตัดสินใจเรื่อง policy ② เห็นล่วงหน้าว่า policy อาจเปลี่ยนในอนาคต → เขียนโค้ดให้ localize จุดเปลี่ยน เปลี่ยนได้เร็ว · <strong>เรื่องสำคัญเกินจะปล่อยให้ programmer ตัดสินเองและ hard-code ไม่ได้!</strong></p>
+  </div>
+
+  <h3>4) 🎯 ประเภท Requirement — หัวใจข้อเขียนตอบ</h3>
+  <div class="box box-warn" id="furps">
+    <div class="box-title">🎯 FR vs NFR — ทุกปีออกในรูปแบบนี้ ("เขียน FR และ NFR ของระบบ X")</div>
+    <p><strong>Functional Requirements (FR)</strong> = <em>"ระบบต้องทำอะไร" (What the system will do)</em> — ฟังก์ชันงานธุรกิจ พฤติกรรม การตอบสนองต่อ input ในแต่ละบริบท</p>
+    <p><strong>Non-functional requirements (NFR)</strong> = quality requirements = <em>"ทำได้ดีเพียงไหน" (How well)</em> — คุณลักษณะ ข้อจำกัด คุณภาพ จัดหมวดด้วยกรอบ <strong>FURPS+</strong>:</p>
+  </div>
+  <figure class="fig">
+    <svg viewBox="0 0 560 330" role="img" aria-label="FURPS+: Functionality security, Usability, Reliability, Performance, Supportability และ + คือข้อจำกัดอื่น">
+      <circle cx="280" cy="165" r="120" class="uml-bound"></circle>
+      <g>
+        <circle cx="280" cy="62" r="34" class="f1" stroke="#2563eb" fill="none"></circle>
+        <text x="280" y="58" text-anchor="middle" class="big t1">F</text>
+        <text x="280" y="76" text-anchor="middle" class="small mut">Functionality</text>
+        <circle cx="383" cy="112" r="34" class="f1" stroke="#2563eb" fill="none"></circle>
+        <text x="383" y="108" text-anchor="middle" class="big t1">U</text>
+        <text x="383" y="126" text-anchor="middle" class="small mut">Usability</text>
+        <circle cx="383" cy="218" r="34" class="f1" stroke="#2563eb" fill="none"></circle>
+        <text x="383" y="214" text-anchor="middle" class="big t1">R</text>
+        <text x="383" y="232" text-anchor="middle" class="small mut">Reliability</text>
+        <circle cx="280" cy="268" r="34" class="f1" stroke="#2563eb" fill="none"></circle>
+        <text x="280" y="264" text-anchor="middle" class="big t1">P</text>
+        <text x="280" y="282" text-anchor="middle" class="small mut">Performance</text>
+        <circle cx="177" cy="218" r="34" class="f1" stroke="#2563eb" fill="none"></circle>
+        <text x="177" y="214" text-anchor="middle" class="big t1">S</text>
+        <text x="177" y="232" text-anchor="middle" class="small mut">Supportability</text>
+      </g>
+      <text x="280" y="150" text-anchor="middle" class="big t2">FURPS+</text>
+      <text x="280" y="176" text-anchor="middle" class="small mut">กรอบจำแนก NFR</text>
+      <text x="280" y="200" text-anchor="middle" class="small mut">"+" = constraints/design/</text>
+      <text x="280" y="216" text-anchor="middle" class="small mut">interface อื่น ๆ</text>
+      <text x="80" y="36" text-anchor="start" class="small">F = Security (ความปลอดภัย)</text>
+      <text x="80" y="56" text-anchor="start" class="small">U = ใช้ง่ายมือใหม่ก็ใช้ได้</text>
+      <text x="80" y="76" text-anchor="start" class="small">R = เชื่อถือได้ไม่พังบ่อย</text>
+      <text x="80" y="96" text-anchor="start" class="small">P = เร็ว/ทนโหลด</text>
+      <text x="80" y="116" text-anchor="start" class="small">S = บำรุงรักษาง่าย ขยายได้</text>
+    </svg>
+    <figcaption>ภาพ 6.2 — FURPS+ กรอบ NFR: Functionality(→Security), Usability, Reliability, Performance, Supportability — อย่าลืมว่า FURPS ตัว F ก็มี "security" ผูกอยู่ด้วย (สไลด์ระบุ Functionality (security))</figcaption>
+  </figure>
+
+  <div class="box box-key">
+    <div class="box-title">⚡ สูตรเขียนคำตอบข้อ FR/NFR ในห้องสอบ (3 ขั้น)</div>
+    <ol class="flowsteps">
+      <li><b>อ่านโจทย์วลีต่อวลี</b> — ทุกประโยคในโจทย์ล้วนเป็น "เมล็ด requirement": "เก็บข้อมูลผู้ป่วย" = ฟังก์ชัน, "ส่งต่อผ่าน LINE/Email" = ฟังก์ชัน+ความเชื่อมโยงระบบอื่น</li>
+      <li><b>จำแนกลง 2 กลุ่ม:</b> สิ่งที่ระบบ "<em>ทำ</em>" (เก็บ ค้น แสดง ออกรายงาน ส่งต่อ ยืนยันตัวตน จัดการบัญชี) → <strong>FR</strong> · สิ่งที่บอก "<em>ดีแค่ไหน</em>" (ปลอดภัย ไว น่าเชื่อถือ ใช้ง่าย รองรับคนเยอะ ซ่อมง่าย) → <strong>NFR</strong> แล้วผูกกับตัวอักษร FURPS+</li>
+      <li><b>เขียนเป็นประโยคมาตรฐาน:</b> FR เริ่มด้วย "ระบบต้องสามารถ..." · NFR เริ่มด้วยคุณภาพ+เกณฑ์วัดได้ เช่น "ระบบต้องรองรับผู้ใช้พร้อมกัน 500 คนโดยตอบสนองภายใน 2 วินาที" (ตัวเลขทำให้ NFR น่าเชื่อถือ — ไม่เขียน "ระบบต้องเร็ว" เปล่า ๆ)</li>
+    </ol>
+    <p>→ เฉลยตัวอย่างเต็มรูปแบบของ CS-Hospital อยู่ที่หน้า <a href="exam.html">🎓 ติว Final</a></p>
+  </div>
+
+  <div class="box box-def">
+    <div class="box-title">📐 Acceptance Tests + UI Requirements (เกร็ดท้ายบท)</div>
+    <p><strong>Acceptance tests</strong> = วิธีประเมินว่าบรรลุเกณฑ์ความสำเร็จ — requirement ถูกพบเหมือนที่คาด · <em>ลูกค้า conduct ตลอดโปรเจกต์ ไม่ใช่ตอนท้ายอย่างเดียว</em> · acceptance test ระบุว่าระบบจะผ่าน/ตกเมื่อให้ input ใด · ไม่มีทาง guarantee coverage 100% ของทุกสถานการณ์ใช้งาน แต่วิธีเป็นระบบ (systematic) เพิ่มความครอบคลุมคาดหวังได้</p>
+    <p>แต่ละ requirement อธิบายว่าเมื่อได้ "สถานการณ์" (system inputs) ใด → output/behavior ที่ระบบต้องผลิต — และ "output" แทนความต้องการ/เป้าหมายธุรกิจของผู้ใช้</p>
+    <p><strong>User interface requirements:</strong> อย่าเสียเวลาทำ screenshot หรูหรา สีสันประดับเยอะ มันสกัดสมาธิ · <strong>วาดมือ (hand-drawing)</strong> บังคับให้ประหยัดและโฟกัสฟีเจอร์สำคัญ · พอฉันทามติว่าดีแล้วค่อยลงแรง prototype จริง</p>
+  </div>
+</section>
+
+<section class="block" id="exam">
+  <h2><span class="h2-dot">🎯</span> แนวข้อสอบของบทนี้</h2>
+  <div class="box box-warn">
+    <div class="box-title">🎯 ออกเขียนตอบทุกปี — ข้อเดียวได้แต้มมหาศาล</div>
+    <ul>
+      <li><strong>"เขียน Functional Requirement และ Non-Functional Requirement ของระบบ CS-Hospital"</strong> (ปีล่าสุด) และปี 67 ถามระบบนักศึกษา — สูตร 3 ขั้นข้างบนใช้ได้กับทุกระบบ</li>
+      <li><strong>จำแนก FR/NFR จากประโยค:</strong> "ระบบต้องเก็บประวัติ" = FR · "ตอบสนองภายใน 2 วินาที" = NFR (Performance)</li>
+      <li><strong>FURPS+:</strong> ให้ตัวอักษรมาให้เติมชื่อ (โจทย์ชอบถาม F = ? ที่มี security ผูกอยู่)</li>
+      <li><strong>User Story:</strong> เขียน story รูปแบบ As a... I can... + อธิบายว่า acceptance test เขียนพร้อม story</li>
+      <li><strong>แนวคิด:</strong> "Requirements are desires adjusted to real-world constraints and threats" — เติมคำ/อธิบาย</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="practice">
+  <h2><span class="h2-dot">🏋️</span> โจทย์ซ้อมมือ (6 ข้อ)</h2>
+
+  <div class="pr-card" data-pkey="p6-1">
+    <div class="pr-head"><span class="pr-num">ข้อ 1</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>จำแนก (แนวข้อสอบตรง):</strong> ประโยคต่อไปนี้เป็น FR หรือ NFR (ก) "ระบบต้องออกใบรับรองแพทย์เป็น PDF ให้ดาวน์โหลด" (ข) "ระบบต้องเข้ารหัสข้อมูลผู้ป่วยทั้งหมดขณะส่งผ่านเครือข่าย" (ค) "ระบบต้องโหลดหน้าค้นหาผู้ป่วยภายใน 2 วินาที" (ง) "พยาบาลที่ไม่เคยใช้คอมมาก่อนต้องค้นประวัติผู้ป่วยสำเร็จภายใน 5 นาทีแรกโดยไม่ต้องอ่านคู่มือ"</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>(ก)</b> <strong>FR</strong> — ระบบ "ทำ" อะไร (ออกรายงาน PDF)</span></li>
+          <li><span class="step-t"><b>(ข)</b> <strong>NFR — Security</strong> (ฝั่ง FURPS ตัว F = Functionality (security))</span></li>
+          <li><span class="step-t"><b>(ค)</b> <strong>NFR — Performance</strong> (มีเกณฑ์วัด: 2 วินาที)</span></li>
+          <li><span class="step-t"><b>(ง)</b> <strong>NFR — Usability</strong> (มีเกณฑ์วัด: มือใหม่ใช้สำเร็จภายใน 5 นาทีไม่ต้องอ่านคู่มือ)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p6-2">
+    <div class="pr-head"><span class="pr-num">ข้อ 2</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เติม FURPS:</strong> (1) _ = Functionality (security) (2) _ = ความง่ายในการใช้ (3) _ = ความน่าเชื่อถือ (4) _ = ประสิทธิภาพ (5) _ = การสนับสนุน/บำรุงรักษา — แล้ว "+" หมายถึงอะไร</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>(1) F</b>unctionality (2) <b>U</b>sability (3) <b>R</b>eliability (4) <b>P</b>erformance (5) <b>S</b>upportability</span></li>
+          <li><span class="step-t"><b>"+":</b> ข้อจำกัด/เรื่องอื่น ๆ นอกห้าตัวหลัก เช่น constraints, design requirements, interface requirements อื่น</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p6-3">
+    <div class="pr-head"><span class="pr-num">ข้อ 3</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เขียน User Story:</strong> เขียน user story 3 อันสำหรับระบบ CS-Hospital ตามรูปแบบ "As a [role], I can [capability], [business-goal]" — เลือก role ให้หลากหลาย</p>
+      <details class="sol"><summary>ตัวอย่างคำตอบ</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>REQ-1:</b> As a <strong>receptionist</strong>, I can register a new patient with their personal and medical history, so that the hospital has accurate records for every visit.</span></li>
+          <li><span class="step-t"><b>REQ-2:</b> As a <strong>doctor</strong>, I can view a patient's treatment history and lab results before diagnosing, so that I make informed decisions.</span></li>
+          <li><span class="step-t"><b>REQ-3:</b> As a <strong>doctor</strong>, I can send diagnosis results to a specialist team via LINE or Email, so that specialist care is not delayed.</span></li>
+          <li><span class="step-t"><b>สังเกตโครง:</b> role ชัด / capability วัดได้ / business-goal อธิบายทำไม — และตามหลักสไลด์ ต้องเขียน acceptance test คู่กันทันที</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p6-4">
+    <div class="pr-head"><span class="pr-num">ข้อ 4</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>คำนวณ sizing:</strong> โปรเจกต์มี 5 stories ขนาด 4, 7, 3, 6, 10 points ทีมวัด velocity ได้ 1 point = 2 วัน หา total size และระยะเวลาประมาณ แล้วตอบว่าถ้า velocity จริงดีขึ้นเป็น 1 point = 1.5 วัน ระยะเวลาใหม่เป็นเท่าไหร่</p>
+      <details class="sol"><summary>เฉลย step-by-step</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>Total size</b> = 4+7+3+6+10 = <strong>30 points</strong></span></li>
+          <li><span class="step-t"><b>duration</b> = ขนาด ÷ velocity = 30 × 2 = <strong>60 วัน</strong></span></li>
+          <li><span class="step-t"><b>velocity ใหม่:</b> 30 × 1.5 = <strong>45 วัน</strong> — สังเกตว่าเมื่อ "ขนาดสัมพัทธ์" แม่นแล้ว แค่ปรับ velocity ก็คำนวณ duration ใหม่ได้เร็ว (จุดสำคัญจากสไลด์)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p6-5">
+    <div class="pr-head"><span class="pr-num">ข้อ 5</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เขียนเต็ม (จำลองข้อสอบ ย่อส่วน):</strong> ระบบ CS-Clinic เล็ก ๆ: จองคิวแพทย์ออนไลน์ สำหรับคลินิก 2 ชั้น ผู้ป่วยเข้าจองเองผ่านเว็บ เจ้าหน้าที่จัดคิว แพทย์ดูคิวของตน — เขียน FR 4 ข้อ และ NFR 4 ข้อ (ครบ FURPS)</p>
+      <details class="sol"><summary>แนวคำตอบ</summary>
+        <p><strong>Functional Requirements:</strong></p>
+        <ol class="steps">
+          <li><span class="step-t">ระบบต้องสามารถให้ผู้ป่วยลงทะเบียนและจองคิวกับแพทย์ที่ระบุวัน-เวลาได้ (FR)</span></li>
+          <li><span class="step-t">ระบบต้องสามารถแสดงรายการคิวที่รออยู่แก่เจ้าหน้าที่ และอนุญาตให้ย้าย/เลื่อนคิวได้ (FR)</span></li>
+          <li><span class="step-t">ระบบต้องสามารถแจ้งเตือนผู้ป่วยทาง SMS/Email เมื่อคิวใกล้ถึง (FR)</span></li>
+          <li><span class="step-t">ระบบต้องสามารถให้แพทย์ดูคิวของตนเองเฉพาะของตนเองหลังยืนยันตัวตน (FR)</span></li>
+        </ol>
+        <p><strong>Non-Functional Requirements (FURPS+):</strong></p>
+        <ol class="steps">
+          <li><span class="step-t"><b>F (Security):</b> ข้อมูลสุขภาพต้องเข้าถึงได้เฉพาะแพทย์ผู้รับผิดชอบและผู้ป่วยเจ้าของข้อมูล (role-based access)</span></li>
+          <li><span class="step-t"><b>U (Usability):</b> ผู้ป่วยอายุ 60+ ต้องจองคิวสำเร็จภายใน 3 นาทีโดยไม่ต้องอ่านคู่มือ</span></li>
+          <li><span class="step-t"><b>R (Reliability):</b> ระบบพร้อมใช้งาน 99.5% ในเวลาคลินิกเปิด ไม่สูญหายข้อมูลคิวเมื่อเครือข่ายขาดชั่วคราว</span></li>
+          <li><span class="step-t"><b>P (Performance):</b> แสดงรายการคิวปัจจุบันภายใน 2 วินาทีเมื่อผู้ใช้พร้อมกัน 100 คน</span></li>
+          <li><span class="step-t"><b>S (Supportability):</b> รองรับเพิ่มแพทย์ใหม่/แก้ตารางเวลาโดยเจ้าหน้าที่ทำเองได้ ไม่ต้องแก้โค้ด</span></li>
+          <li><span class="step-t"><b>เทคนิคจากข้อสอบ:</b> อ่านโจทย์วลีต่อวลี — มีตัวเลขในโจทย์ (ขนาดคลินิก 2 ชั้น) ก็นำมาผูก NFR ให้มีเกณฑ์วัดจริง</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p6-6">
+    <div class="pr-head"><span class="pr-num">ข้อ 6</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>อธิบายแนวคิด:</strong> "Requirements are not simply desires" — ข้อความนี้แปลว่าอะไร ยกตัวอย่าง desire → requirement ที่ถูกปรับด้วย constraint/threat 1 เคส</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>ความหมาย:</b> สิ่งที่ลูกค้า "อยากได้" (desire) ยังไม่ใช่ requirement เพราะ requirement คือ desire ที่<em>ถูกปรับด้วยข้อจำกัดโลกจริง</em> (physical/social/legal/financial) และ<em>ภัยคุกคามจากผู้ไม่หวังดี</em></span></li>
+          <li><span class="step-t"><b>เคส:</b> โรงพยาบาลอยากให้ "ผู้ป่วยเข้าถึงข้อมูลตัวเองได้ทุกเวลาจากทุกที่" (desire) — แต่มีกฎหมายคุ้มครองข้อมูลสุขภาพ (legal constraint) + มีแฮกเกอร์ (threat) → requirement จริงคือ "ผู้ป่วยเข้าถึงข้อมูลตัวเองได้ผ่านระบบยืนยันตัวตนสองชั้น เก็บ log การเข้าถึงทุกครั้ง"</span></li>
+          <li><span class="step-t"><b>สรุป:</b> requirement ดี = จำกัดขอบเขตให้ implement ได้จริง ไม่ใช่แค่ความปรารถนา</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+</section>
+
+</div></main>
+
+<nav class="pager" id="pager"></nav>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/tts.js"></script>
+</body>
+</html>

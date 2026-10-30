@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>บทที่ 2 หลักการวิศวกรรมซอฟต์แวร์ — SE 05506017</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230d1930%22/><text x=%2250%22 y=%2270%22 font-size=%2252%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22>SE</text></svg>">
+<meta name="description" content="บทที่ 2 หลักการวิศวกรรมซอฟต์แวร์ — ความสัมพันธ์ 4 ชั้นความรู้ (Principles→Methods→Methodologies→Tools) และ 7 หลักการสำคัญ พร้อมภาพประกอบและโจทย์ซ้อม">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-ch="2" data-section="2" data-page="ch2.html" data-tts="1">
+<header class="topbar">
+  <button class="icon-btn menu-btn" id="menuBtn" aria-label="เปิดเมนู">☰</button>
+  <a class="brand" href="index.html"><span class="brand-badge">SE</span><span>Software Engineering <span class="brand-sub">05506017 · 1/2569</span></span></a>
+  <span class="spacer"></span>
+  <button class="icon-btn theme-btn" id="themeBtn" aria-label="สลับโหมดมืด/สว่าง">🌙</button>
+</header>
+<div class="layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="scrim" id="scrim"></div>
+
+  <main class="content"><div class="inner">
+
+<div class="crumb">บทที่ 2 · หลักการวิศวกรรมซอฟต์แวร์</div>
+<h1 class="page-title">บทที่ 2 — Software Engineering Principles</h1>
+<p class="page-sub">บทสั้นแต่เป็น "รากฐาน" ของทุกบทหลัง — เราจะเข้าใจความสัมพันธ์ 4 ชั้น
+(Principles → Methods/Techniques → Methodologies → Tools) และ 7 หลักการสำคัญ
+ที่ใช้ร่วมกันทั้งกระบวนการพัฒนาซอฟต์แวร์</p>
+
+<nav class="pillnav">
+  <a href="#objectives">🎯 จุดประสงค์</a>
+  <a href="#lesson">📖 บทเรียน</a>
+  <a href="#exam">🎯 แนวข้อสอบ</a>
+  <a href="#practice">🏋️ โจทย์ซ้อมมือ</a>
+</nav>
+
+<section class="block" id="objectives">
+  <div class="obj">
+    <h2>🎯 เรียนจบบทนี้ คุณต้องทำสิ่งเหล่านี้ได้</h2>
+    <ul>
+      <li>แยก <strong>Method</strong> กับ <strong>Technique</strong> ต่างกันยังไง และรวมกันแล้วเรียกว่าอะไร</li>
+      <li>วาด/อธิบายความสัมพันธ์ 4 ชั้น: Principles → Methods/Techniques → Methodologies → Tools และบอกได้ว่า <em>Principles คือฐานของทุกอย่าง</em></li>
+      <li><strong>จำ 7 หลักการสำคัญ</strong> (Rigor and Formality, Separation of Concerns, Modularity, Abstraction, Anticipation of Change, Generality, Incrementality) พร้อมยกตัวอย่างในชีวิตจริงได้</li>
+      <li>อธิบายได้ว่า Modularity มีเป้าหมาย 2 ข้อคือ Decomposability กับ Composability ต่างกันอย่างไร</li>
+      <li>แยกได้ว่า Separation of Concerns แยกได้ 4 วิธีอะไรบ้าง (Time, Qualities, Views, Parts)</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="lesson">
+  <h2><span class="h2-dot">📖</span> บทเรียน</h2>
+
+  <div class="box box-idea">
+    <div class="box-title">🗺️ ที่มาที่ไป — ทำไมต้องมี "หลักการ"</div>
+    <p>บทที่ 1 บอกว่า SE คือการสร้างซอฟต์แวร์ใหญ่ ๆ ด้วยทีม อย่างเป็นระบบ — คำถามคือ "เป็นระบบ" แปลว่าอะไร? รู้มาจากไหน?</p>
+    <p>คำตอบ: จาก <strong>ประสบการณ์วิศวกรรมที่สะสมมาเป็น "หลักการ" (Principles)</strong> — หลักการคือสิ่งที่พิสูจน์แล้วว่าช่วยให้โครงการสำเร็จ ซอฟต์แวร์ที่ทำออกมาดีทั้งกระบวนการ (process) และผลลัพธ์ (product) ล้วนตั้งอยู่บนหลักการพวกนี้ วิศวกรที่มี method และ technique ที่เหมาะสมประกอบกัน จึงทำให้ทั้งกระบวนการและผลิตภัณฑ์ออกมาดี</p>
+    <p><strong>อุปมา:</strong> เหมือนทำอาหาร — Principles คือ "ความเข้าใจเรื่องความร้อนและรสชาติ" (พื้นความรู้) · Method คือ "สูตรอาหารแบบกว้าง ๆ" · Technique คือ "ท่าการผัด-การเคี่ยว" · Methodology คือ "ตำราที่รวมสูตรกับท่าเป็นระบบ" · Tool คือ "กระทะและเตา" — ถ้าพื้นความรู้ผิด ใช้กระทะดีแค่ไหนอาหารก็เป็นไม่ได้</p>
+  </div>
+
+  <h3>1) Method vs Technique — ต่างกันตรงไหน?</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 นิยาม (สั้นแต่ออกสอบ)</div>
+    <p><strong>Method</strong> = แนวทางปฏิบัติ<em>กว้าง ๆ</em> (general guidelines) สำหรับกิจกรรมบางอย่าง — บอกว่า "ควรทำอะไรในลำดับใด"</p>
+    <p><strong>Technique</strong> = มีความ <em>technical และ mechanical มากกว่า</em> — เจาะลึกว่า "ทำจริงด้วยวิธีไหน เครื่องมืออะไร"</p>
+    <p><strong>Method + Technique รวมกัน → Methodology</strong></p>
+    <p><strong>Tool</strong> = ถูกพัฒนาขึ้นเพื่อ<em>สนับสนุน</em>การใช้ techniques, methods และ methodologies</p>
+    <p><strong>ตัวอย่างเทียบ:</strong> Method = "ออกแบบก่อนเขียนโค้ด แล้วทดสอบทีหลัง" (แนวกว้าง) · Technique = "ออกแบบด้วย UML class diagram, เขียนด้วย Java, ทดสอบด้วย JUnit" (เจาะจง)</p>
+  </div>
+
+  <h3>2) ความสัมพันธ์ 4 ชั้น — รูปพีระมิดที่ต้องวาดได้</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 460 330" role="img" aria-label="พีระมิด 4 ชั้น: Tools บนสุด, Methodologies, Methods/Techniques, Principles ฐานล่างสุด">
+      <polygon points="230,20 360,80 100,80" fill="rgba(139,92,246,.16)" stroke="#8b5cf6" stroke-width="1.6"></polygon>
+      <text x="230" y="62" text-anchor="middle" class="big" fill="#8b5cf6">Tools</text>
+      <polygon points="92,92 368,92 300,168 160,168" fill="rgba(37,99,235,.14)" stroke="#2563eb" stroke-width="1.6"></polygon>
+      <text x="230" y="128" text-anchor="middle" class="big t1">Methodologies</text>
+      <text x="230" y="150" text-anchor="middle" class="small mut">เช่น Waterfall, Spiral, OO</text>
+      <polygon points="152,180 308,180 260,250 200,250" fill="rgba(5,150,105,.13)" stroke="#059669" stroke-width="1.6"></polygon>
+      <text x="230" y="216" text-anchor="middle" class="big t3">Methods /</text>
+      <text x="230" y="236" text-anchor="middle" class="big t3">Techniques</text>
+      <rect x="130" y="268" width="200" height="46" rx="10" fill="rgba(220,38,38,.12)" stroke="#dc2626" stroke-width="2"></rect>
+      <text x="230" y="289" text-anchor="middle" class="big t2">Principles</text>
+      <text x="230" y="308" text-anchor="middle" class="small mut">ฐานล่างสุด — พื้นของทุกชั้น</text>
+      <text x="452" y="305" text-anchor="end" class="mut small">** Principles เป็นฐานของทุก</text>
+      <text x="452" y="323" text-anchor="end" class="mut small">method/technique, methodology, tool **</text>
+    </svg>
+    <figcaption>ภาพ 2.1 — พีระมิด 4 ชั้น: สร้างจากล่างขึ้นบน — Principles คือฐาน ถ้าหลักการผิด ทุกชั้นบนก็พังตาม (อุปมา: พื้นความรู้ → สูตร+ท่า → ตำรา → เครื่องมือ)</figcaption>
+  </figure>
+  <div class="box box-warn">
+    <div class="box-title">🎯 กับดักข้อสอบ</div>
+    <p>ข้อสอบชอบสลับลำดับมาให้เรียง — จำว่า <strong>Principles อยู่ล่างสุด (ฐาน) และ Tools อยู่บนสุด</strong> สรุปหนึ่งบรรทัด: "Principles เป็นพื้นฐานของ methods/techniques, methodologies และ tools ทั้งหมด"</p>
+  </div>
+
+  <h3>3) 7 หลักการสำคัญ — หัวใจของบทนี้</h3>
+  <div class="box box-warn">
+    <div class="box-title">🎯 ออกสอบ: ให้นิยาม/ประโยคอธิบายมาแล้วให้เติมหรือจับคู่ชื่อหลักการ</div>
+    <p>7 หลักการนี้ใช้ได้<em>ทั้งกระบวนการพัฒนาซอฟต์แวร์</em> — ทุกหลักการจะอธิบายด้วยภาษาคน + ตัวอย่างจริง ให้อ่านเป็นเรื่องเล่าแล้วจะจำเอง</p>
+  </div>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>หลักการ</th><th>แปลง่าย ๆ</th><th>ใจความ + ตัวอย่างในชีวิตจริง</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1. Rigor and Formality</strong><br>(ความเข้มงวดและเป็นทางการ)</td><td>"ทำอย่างมีระเบียบ พิสูจน์ได้"</td><td>Approach แบบเข้มงวด (rigorous) ช่วยให้ผลิต<em>ผลิตภัณฑ์ที่เชื่อถือได้</em> (reliable) คุมต้นทุน และมั่นใจในความน่าเชื่อถือ · <strong>Formality คือระดับที่เข้มขึ้นไปอีก</strong> — ต้องขับเคลื่อน/ประเมินกระบวนการด้วย<em>กฎคณิตศาสตร์</em> (เช่นพิสูจน์ความถูกต้องของอัลกอริทึม) · ต้องเลือก "ระดับความเข้มงวด" ให้เหมาะกับความยากและความวิกฤต (criticality) ของงาน — ระบบเครื่องบินเข้มกว่าเกม · ไม่จำกัดอยู่แค่การเขียนโปรแกรม · ผลดีต่อ: reliability, verifiability, maintainability, reusability, portability, understandability, interoperability · เอกสารที่เข้มงวดช่วยให้ maintain ผลิตภัณฑ์ที่มีอยู่ได้</td></tr>
+      <tr><td><strong>2. Separation of Concerns</strong><br>(การแยกประเด็น)</td><td>"อย่างุ้มทุกอย่างพร้อมกัน — แยกทีละเรื่อง"</td><td>สามัญสำนึกในชีวิตประจำวัน ใช้ความรู้ของเราไล่ตามให้ชนะปัญหาที่ยาก · การตัดสินใจหลายเรื่องกังวลเรื่อง feature ผลิตภัณฑ์ (ฟังก์ชัน, reliability, ประสิทธิภาพ, UI) บางเรื่องกังวลเรื่องกระบวนการพัฒนา, environment, ทีม, schedule, กลยุทธ์ออกแบบ, error recovery, เศรษฐกิจการเงิน · <strong>แยกได้ 4 วิธี:</strong> <em>Time</em> (วงจรชีวิต SW — ลำดับกิจกรรม), <em>Qualities</em> (แยกเรื่องประสิทธิภาพออกจากความถูกต้อง), <em>Views</em> (มอง SW หลายมุมแยกกัน), <em>Parts</em> (แยกตามขนาด) · ผลพลอยได้: แยกความรับผิดชอบ (separation of responsibilities) ตามประเด็น</td></tr>
+      <tr><td><strong>3. Modularity</strong><br>(การแบ่งโมดูล)</td><td>"หั่นระบบใหญ่เป็นชิ้นเล็กที่จัดการง่าย"</td><td>ระบบซับซ้อนแบ่งเป็นชิ้นง่าย ๆ เรียกว่า <strong>modules</strong> · ประโยชน์หลัก: ทำให้ Separation of Concerns ใช้ได้ 2 เฟส — จัดการรายละเอียดของแต่ละโมดูลแยกกัน (<em>isolation</em>) และจัดการภาพรวมของทุกโมดูล + ความสัมพันธ์ตอนรวมกัน · การออกแบบมี 2 แนว: bottom-up และ top-down · <strong>เป้าหมาย 2 ข้อ:</strong> <em>Decomposability</em> = หั่นปัญหา top-down ลงเรื่อย ๆ (Divide and conquer — แบ่งแล้วแยกแล้วเอาชนะทีละชิ้น) · <em>Composability</em> = ประกอบจากชิ้นเล็ก bottom-up ขึ้นไปจนจบระบบ (เหมือนเลโก้)</td></tr>
+      <tr><td><strong>4. Abstraction</strong><br>(นามธรรม)</td><td>"มองเฉพาะสาระสำคัญ ละรายละเอียดไม่จำเป็น"</td><td>เป็นกรณีพิเศษของ Separation of Concerns — แยก "สิ่งสำคัญ" ออกจาก "รายละเอียดไม่สำคัญ" · ตัวอย่างนาฬิกา: abstraction ของนาฬิกาคือ "กล่องที่เปิดได้เพื่อเปลี่ยนถ่าน" — เราไม่ต้องรู้วิธีเฟืองหมุน · ใช้ประมาณต้นทุน (cost estimation): หา key factors ของระบบใหม่แล้ว extrapolate จาก cost profile ของระบบเก่าคล้ายกัน</td></tr>
+      <tr><td><strong>5. Anticipation of Change</strong><br>(คาดการณ์การเปลี่ยนแปลง)</td><td>"ออกแบบโดยคิดไว้ก่อนว่าจะต้องแก้/เพิ่ม"</td><td>การเปลี่ยนแปลงครอบคลุม: แก้ error ที่หลุดมาจนถึง release · รองรับการวิวัฒนาการเมื่อ requirement ใหม่เกิดขึ้น/เก่าเปลี่ยน — จึงทำให้ <strong>maintainability เป็นคุณภาพอันดับสำคัญ</strong> · <strong>หลักการนี้แยกซอฟต์แวร์ออกจากสินค้าอุตสาหกรรมอื่นมากที่สุด</strong> (ของอื่นแก้ยาก ซอฟต์แวร์ต้องออกแบบให้แก้ง่าย) · เป็นหลักการที่ใช้บรรลุ <em>evolvability</em> · กระทบ <em>reusability</em> อย่างมาก</td></tr>
+      <tr><td><strong>6. Generality</strong><br>(ความทั่วไป)</td><td>"ทำให้ใช้ได้กับหลายกรณี"</td><td>โซลูชันแบบ generalized อาจ<em>แพงกว่า</em> เรื่องความเร็ว (speed), หน่วยความจำ (memory), เวลาพัฒนา — เทียบกับ specialized solution ที่เย็บตัดเฉพาะปัญหาเดิม · แต่เป็นหลักการพื้นฐานถ้าเป้าหมายคือสร้าง general tools/packages ขายตลาด ที่ให้ standard solution แก่ปัญหาทั่วไป (เช่นระบบฐานข้อมูลสำเร็จรูป)</td></tr>
+      <tr><td><strong>7. Incrementality</strong><br>(การทำทีละส่วน)</td><td>"ส่งมอบเป็นก้อน ๆ เร็ว ๆ เพื่อรับ feedback เร็ว ๆ"</td><td>หา "early subsets" ที่มีประโยชน์ พัฒนาและ<em>ส่งมอบลูกค้าก่อน</em> เพื่อรับ "early feedback" — <strong>เพราะไม่มีทางทำ requirement ถูกหมดตั้งแต่แรก</strong> · การพัฒนาแบบ Evolutionary ต้องดูแลจัดการเอกสาร โปรแกรม test data เป็นพิเศษ · ทุก step ที่มีความหมายต้อง<em>บันทึก</em> เอกสารค้นหาง่าย เปลี่ยนแปลงอย่างมีควบคุม — (หลักนี้คือบรรพบุรุษของ Agile/Scrum ในบทที่ 8!)</td></tr>
+    </tbody>
+  </table></div>
+  <figure class="fig">
+    <svg viewBox="0 0 540 420" role="img" aria-label="การ์ด 7 หลักการพร้อมอุปมา: ตำรวจอย่างเข้มงวด, กล่องแยกช่อง, เลโก้, กล้องซูม, ประตูที่รอการเปลี่ยน, กุญแจร่วม, ขั้นบันได">
+      <g transform="translate(8,8)">
+        <rect width="168" height="96" rx="12" class="f1" stroke="#2563eb" fill="none"></rect>
+        <text x="84" y="26" text-anchor="middle" class="big t1">1. Rigor & Formality</text>
+        <text x="84" y="50" text-anchor="middle">มีระเบียบ ตรวจสอบได้</text>
+        <text x="84" y="70" text-anchor="middle" class="small mut">อุปมา: อัลกอริทึมที่พิสูจน์ได้</text>
+        <text x="84" y="86" text-anchor="middle" class="small mut">แทน "คิดเอาเองว่าน่าจะใช้ได้"</text>
+      </g>
+      <g transform="translate(186,8)">
+        <rect width="168" height="96" rx="12" class="f2" stroke="#dc2626" fill="none"></rect>
+        <text x="84" y="26" text-anchor="middle" class="big t2">2. Separation of Concerns</text>
+        <text x="84" y="50" text-anchor="middle">แยกประเด็น: Time/Qualities/</text>
+        <text x="84" y="68" text-anchor="middle">Views/Parts</text>
+        <text x="84" y="86" text-anchor="middle" class="small mut">อุปมา: กล่องเก็บของแยกช่อง</text>
+      </g>
+      <g transform="translate(364,8)">
+        <rect width="168" height="96" rx="12" class="f3" stroke="#059669" fill="none"></rect>
+        <text x="84" y="26" text-anchor="middle" class="big t3">3. Modularity</text>
+        <text x="84" y="50" text-anchor="middle">Decompose / Compose</text>
+        <text x="84" y="70" text-anchor="middle" class="small mut">อุปมา: บล็อกเลโก้ — หั่นเป็น</text>
+        <text x="84" y="86" text-anchor="middle" class="small mut">ชิ้นแล้วประกอบกลับได้</text>
+      </g>
+      <g transform="translate(8,114)">
+        <rect width="168" height="96" rx="12" class="fsoft" stroke="var(--acc-ink)" fill="none"></rect>
+        <text x="84" y="26" text-anchor="middle" class="big">4. Abstraction</text>
+        <text x="84" y="50" text-anchor="middle">มองสาระสำคัญ ละรายละเอียด</text>
+        <text x="84" y="70" text-anchor="middle" class="small mut">อุปมา: ใช้รถโดยไม่ต้องรู้</text>
+        <text x="84" y="86" text-anchor="middle" class="small mut">กลไกเครื่องยนต์ทั้งหมด</text>
+      </g>
+      <g transform="translate(186,114)">
+        <rect width="168" height="96" rx="12" class="f1" stroke="#2563eb" fill="none"></rect>
+        <text x="84" y="26" text-anchor="middle" class="big t1">5. Anticipation of Change</text>
+        <text x="84" y="50" text-anchor="middle">ออกแบบรอการเปลี่ยน</text>
+        <text x="84" y="70" text-anchor="middle" class="small mut">อุปมา: บ้านเผื่อท่อไว้</text>
+        <text x="84" y="86" text-anchor="middle" class="small mut">ต่อขยายในอนาคต</text>
+      </g>
+      <g transform="translate(364,114)">
+        <rect width="168" height="96" rx="12" class="f2" stroke="#dc2626" fill="none"></rect>
+        <text x="84" y="26" text-anchor="middle" class="big t2">6. Generality</text>
+        <text x="84" y="50" text-anchor="middle">ทำให้ใช้ได้หลายกรณี</text>
+        <text x="84" y="70" text-anchor="middle" class="small mut">อุปมา: กุญแจแม่กุญแจ</text>
+        <text x="84" y="86" text-anchor="middle" class="small mut">(แต่แพงกว่ากุญแจเฉพาะประตู)</text>
+      </g>
+      <g transform="translate(186,220)">
+        <rect width="168" height="96" rx="12" class="f3" stroke="#059669" fill="none"></rect>
+        <text x="84" y="26" text-anchor="middle" class="big t3">7. Incrementality</text>
+        <text x="84" y="50" text-anchor="middle">ส่งทีละส่วน รับ feedback เร็ว</text>
+        <text x="84" y="70" text-anchor="middle" class="small mut">อุปมา: เผยแพทช์เกมทีละ</text>
+        <text x="84" y="86" text-anchor="middle" class="small mut">โหมด ฟังคอมเมนต์ก่อนทำต่อ</text>
+      </g>
+      <text x="270" y="360" text-anchor="middle" class="mut">จำชื่อ 7 หลักการด้วยประโยค: "แข็งแรง-แยกประเด็น-แบ่งโมดูล-มองนามธรรม-รอเปลี่ยน-ใช้ทั่วไป-ทำทีละน้อย"</text>
+    </svg>
+    <figcaption>ภาพ 2.2 — สรุป 7 หลักการพร้อมอุปมา — อ่านตารางข้างบนให้ละเอียด แล้วใช้ภาพนี้ทบทวน</figcaption>
+  </figure>
+
+  <div class="box box-idea">
+    <div class="box-title">💡 หลักการไหนเชื่อมกับบทไหน (แผนที่เชื่อมโยง)</div>
+    <p><strong>Modularity</strong> → บทที่ 7 สถาปัตยกรรม (แบ่ง subsystem) · <strong>Incrementality</strong> → บทที่ 8 โมเดล Incremental/Agile · <strong>Anticipation of Change</strong> → บทที่ 11 Maintenance · <strong>Abstraction</strong> → Use case บทที่ 9 (มองระบบจากมุมผู้ใช้ ไม่สนรายละเอียดโค้ด) · <strong>Rigor & Formality</strong> → การทดสอบบทที่ 10 — เห็นไหมว่าบทนี้เป็น "ภาษากลาง" ของทั้งวิชา</p>
+  </div>
+</section>
+
+<section class="block" id="exam">
+  <h2><span class="h2-dot">🎯</span> แนวข้อสอบของบทนี้</h2>
+  <div class="box box-warn">
+    <div class="box-title">🎯 มีโอกาสสูง</div>
+    <ul>
+      <li><strong>จับคู่/เติมคำ 7 หลักการ:</strong> โจทย์ให้ประโยคอธิบาย เช่น "แบ่งระบบเป็นส่วนย่อยเพื่อจัดการง่าย" → Modularity, "ระบุสิ่งสำคัญโดยละเว้นรายละเอียด" → Abstraction, "พัฒนาส่วนย่อยที่ใช้ได้เร็ว เพื่อรับ feedback ก่อน" → Incrementality</li>
+      <li><strong>เรียงพีระมิด 4 ชั้น</strong> หรือถามว่าอะไรคือฐานของทุกอย่าง → Principles</li>
+      <li><strong>Method vs Technique:</strong> Method กว้าง (general guidelines) / Technique เชิงเทคนิค mechanical มากกว่า / รวมกัน = Methodology</li>
+      <li><strong>Modularity 2 เป้าหมาย:</strong> Decomposability (top-down, divide & conquer) vs Composability (bottom-up จากชิ้นเล็ก)</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="practice">
+  <h2><span class="h2-dot">🏋️</span> โจทย์ซ้อมมือ (5 ข้อ)</h2>
+
+  <div class="pr-card" data-pkey="p2-1">
+    <div class="pr-head"><span class="pr-num">ข้อ 1</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เติมคำ (แนวข้อสอบ):</strong> "______ is a stronger requirement than rigor, it requires the SW process to be driven and evaluated by mathematical laws." — คำที่หายไปคืออะไร และต่างจาก rigor ยังไง?</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>คำตอบ:</b> <strong>Formality</strong> — ระดับที่เข้มกว่า rigor เพราะต้องใช้กฎคณิตศาสตร์ขับเคลื่อนและประเมินกระบวนการ</span></li>
+          <li><span class="step-t"><b>Rigor</b> = เข้มงวดมีระเบียบแต่ไม่จำเป็นต้องถึงขั้นคณิตศาสตร์ เช่น ทำ code review ตาม checklist</span></li>
+          <li><span class="step-t"><b>Formality</b> = ถึงขั้นพิสูจน์ด้วยกฎทางคณิต เช่น พิสูจน์ความถูกต้อง (correctness proof) ของอัลกอริทึม — ใช้เมื่องาน critical มาก</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p2-2">
+    <div class="pr-head"><span class="pr-num">ข้อ 2</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>จับคู่:</strong> ประโยคต่อไปนี้อธิบายหลักการใด (1) "แบ่งระบบใหญ่เป็นส่วนย่อย เรียกว่า modules" (2) "ระบุสิ่งสำคัญและละทิ้งรายละเอียด" (3) "หา early subsets ส่งมอบเพื่อ early feedback" (4) "ออกแบบโดยยอมรับว่าซอฟต์แวร์จะถูกเปลี่ยนในอนาคต" (5) "ทำโซลูชันให้ใช้ได้กับหลายปัญหา ไม่ใช่เฉพาะปัญหาเดิม"</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>(1)</b> → <strong>Modularity</strong> (มี 2 เป้าหมาย: Decomposability / Composability)</span></li>
+          <li><span class="step-t"><b>(2)</b> → <strong>Abstraction</strong> (กรณีพิเศษของ Separation of Concerns)</span></li>
+          <li><span class="step-t"><b>(3)</b> → <strong>Incrementality</strong> (คำคีย์: early subsets, early feedback)</span></li>
+          <li><span class="step-t"><b>(4)</b> → <strong>Anticipation of Change</strong> (คำคีย์: แก้ error หลัง release, requirement เปลี่ยน, maintainability, evolvability)</span></li>
+          <li><span class="step-t"><b>(5)</b> → <strong>Generality</strong> (คำคีย์: แพงกว่า specialized แต่ใช้เมื่อทำ general tools/packages ขายตลาด)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p2-3">
+    <div class="pr-head"><span class="pr-num">ข้อ 3</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เรียงพีระมิด:</strong> เรียงชั้นต่อไปนี้จากฐานล่างสุดไปบนสุด: Tools / Methods/Techniques / Principles / Methodologies และบอกว่าอะไรคือฐานของทุกชั้น</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>ล่างสุด:</b> Principles (หลักการพื้นฐาน — ฐานของทุกอย่าง)</span></li>
+          <li><span class="step-t"><b>ชั้น 2:</b> Methods / Techniques</span></li>
+          <li><span class="step-t"><b>ชั้น 3:</b> Methodologies (รวม method+technique เป็นระบบ)</span></li>
+          <li><span class="step-t"><b>บนสุด:</b> Tools (ถูกพัฒนาเพื่อ support ทุกชั้นล่าง)</span></li>
+          <li><span class="step-t"><b>จำ:</b> ตัวหนังสือหลังพีระมิดในสไลด์ — "** Principles are the basis of all methods/techniques, methodologies and tools **"</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p2-4">
+    <div class="pr-head"><span class="pr-num">ข้อ 4</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เขียนตอบสั้น:</strong> Separation of Concerns สามารถแยก "concerns" ได้กี่วิธี อะไรบ้าง พร้อมยกตัวอย่างจริงทีละข้อ</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>Time:</b> แยกตามเวลา — วงจรชีวิตซอฟต์แวร์ (SDLC) กำหนดลำดับกิจกรรม: ทำ requirements ก่อน แล้ว design แล้ว coding</span></li>
+          <li><span class="step-t"><b>Qualities:</b> แยกตามคุณภาพ — เช่นแยกเรื่อง "ประสิทธิภาพ" (efficiency) ออกจาก "ความถูกต้อง" (correctness) ของโปรแกรม</span></li>
+          <li><span class="step-t"><b>Views:</b> แยกตามมุมมอง — มองระบบหลายมุมแยกกัน เช่นมุมผู้ใช้ (use case) กับมุมข้อมูล (schema)</span></li>
+          <li><span class="step-t"><b>Parts:</b> แยกตามขนาด — หั่นระบบเป็นส่วนย่อยตามขนาด (นี่คือทางไปสู่ Modularity)</span></li>
+          <li><span class="step-t"><b>ผลพลอยได้:</b> แยกความรับผิดชอบ (separation of responsibilities) — คนละคนดูแลคนละประเด็น</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p2-5">
+    <div class="pr-head"><span class="pr-num">ข้อ 5</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>วิเคราะห์:</strong> Modularity มีเป้าหมายอะไรบ้าง และการออกแบบระบบร้านอาหาร (CS-Pizza) เป็น 3 โมดูล: รับออเดอร์ / ครัว / ชำระเงิน — สอดคล้องกับเป้าหมายข้อไหน เพราะอะไร?</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>เป้าหมาย 2 ข้อ:</b> Decomposability — หั่นปัญหา top-down เป็น subproblem ลงเรื่อย ๆ (divide & conquer) / Composability — ประกอบจากชิ้นย่อย bottom-up จนได้ระบบ</span></li>
+          <li><span class="step-t"><b>การแบ่ง 3 โมดูล</b> = <strong>Decomposability</strong> — เริ่มจากปัญหาใหญ่ "ระบบร้านอาหาร" แล้วหั่นเป็น subproblem ตามหน้าที่</span></li>
+          <li><span class="step-t"><b>ประโยชน์ตามสไลด์:</b> ได้ Separation of Concerns 2 เฟส — ทำงานแต่ละโมดูลแบบ isolation (รับออเดอร์ไม่ต้องแกะโค้ดครัว) และจัดการภาพรวม/ความสัมพันธ์ตอน integrate (ออเดอร์ต้องส่งถึงครัวได้)</span></li>
+          <li><span class="step-t"><b>ปิดท้าย:</b> แนวคิดเดียวกันนี้จะถูกใช้ในบทที่ 7 (สถาปัตยกรรมแบ่ง subsystem) — ถ้าข้อสอบถามเขียนสถาปัตยกรรม ให้อ้างหลัก Modularity + Separation of Concerns ด้วยจะได้คะแนนเต็ม</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+</section>
+
+</div></main>
+
+<nav class="pager" id="pager"></nav>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/tts.js"></script>
+</body>
+</html>

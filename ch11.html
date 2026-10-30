@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>บทที่ 11 การบำรุงรักษาซอฟต์แวร์ — SE 05506017</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230d1930%22/><text x=%2250%22 y=%2270%22 font-size=%2252%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22>SE</text></svg>">
+<meta name="description" content="บทที่ 11 การบำรุงรักษาซอฟต์แวร์ — Corrective/Adaptive/Perfective/Preventive (21%/25%/50%/4%), กระบวนการ maintenance, Maintainability, ต้นทุน พร้อมแนวจับคู่ข้อสอบและโจทย์ซ้อม">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-ch="11" data-section="11" data-page="ch11.html" data-tts="1">
+<header class="topbar">
+  <button class="icon-btn menu-btn" id="menuBtn" aria-label="เปิดเมนู">☰</button>
+  <a class="brand" href="index.html"><span class="brand-badge">SE</span><span>Software Engineering <span class="brand-sub">05506017 · 1/2569</span></span></a>
+  <span class="spacer"></span>
+  <button class="icon-btn theme-btn" id="themeBtn" aria-label="สลับโหมดมืด/สว่าง">🌙</button>
+</header>
+<div class="layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <div class="scrim" id="scrim"></div>
+
+  <main class="content"><div class="inner">
+
+<div class="crumb">บทที่ 11 · การบำรุงรักษาซอฟต์แวร์</div>
+<h1 class="page-title">บทที่ 11 — Software Maintenance</h1>
+<p class="page-sub">บทปิดท้าย = หัวข้อจับคู่ที่รุ่นพี่ยืนยันออกชัวร์: <strong>Corrective / Adaptive / Perfective / Preventive</strong>
+(สัดส่วน 21% / 25% / 50% / 4%) บวกกระบวนการ maintenance และ "วางแผน Maintenance จากโปรเจกต์" ที่ออกเขียนตอบทุกปี</p>
+
+<nav class="pillnav">
+  <a href="#objectives">🎯 จุดประสงค์</a>
+  <a href="#lesson">📖 บทเรียน</a>
+  <a href="#exam">🎯 แนวข้อสอบ</a>
+  <a href="#practice">🏋️ โจทย์ซ้อมมือ</a>
+</nav>
+
+<section class="block" id="objectives">
+  <div class="obj">
+    <h2>🎯 เรียนจบบทนี้ คุณต้องทำสิ่งเหล่านี้ได้</h2>
+    <ul>
+      <li>นิยาม Maintenance: "กระบวนการ<em>แก้ไข</em>ระบบซอฟต์แวร์<em>หลังส่งมอบ</em> เพื่อ correct faults / improve performance / adapt สิ่งแวดล้อมเปลี่ยน"</li>
+      <li><strong>จำแนก 4 ประเภทจากสถานการณ์ + ท่องสัดส่วน 21/25/50/4</strong> ได้ (แนวจับคู่ตรง)</li>
+      <li>เทียบการพัฒนา (development) กับการบำรุงรักษา (maintenance) ได้ 5 บรรทัด</li>
+      <li>บอกจุดเน้น maintenance ในแต่ละช่วงชีวิตผลิตภัณฑ์ (Introductory / Growth / Maturity / Decline)</li>
+      <li>เดิน <strong>กระบวนการ maintenance 5 ขั้น</strong>: Change requests → Impact analysis → Release planning → Change implementation → System release</li>
+      <li>บอกปัจจัยที่กระทบ maintainability + ต้นทุน (team stability, contractual responsibility, staff skills, program age/structure)</li>
+      <li>เขียน "แผน Maintenance จากโปรเจกต์" ตามโครงข้อสอบได้</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="lesson">
+  <h2><span class="h2-dot">📖</span> บทเรียน</h2>
+
+  <div class="box box-idea">
+    <div class="box-title">🗺️ ที่มาที่ไป — ซอฟต์แวร์ "ไม่จบ" ตอนส่งมอบ</div>
+    <p>บทที่ 1 เราเห็นกฎ Law of Continuing Change — ซอฟต์แวร์ต้องเปลี่ยนตลอด · บทนี้คือ "หน้าที่การงาน" ที่ตามมา</p>
+    <p><strong>นิยาม:</strong> Software maintenance = กระบวนการแก้ไขระบบซอฟต์แวร์หรือ component <em>หลังการส่งมอบ (after delivery)</em> เพื่อ (1) <em>correct faults</em> (แก้ผิดพลาด) (2) <em>improve performance</em> หรือคุณลักษณะอื่น (3) <em>adapt to a changed environment</em> (ปรับกับสภาพแวดล้อมใหม่)</p>
+    <p>การเปลี่ยนอาจเล็ก (แก้ coding error) กว้างขึ้น (แก้ design error) หรือใหญ่ (แก้ specification error / รองรับ requirement ใหม่)</p>
+    <p><strong>ตัวเลขสำคัญจากกราฟ:</strong> ต้นทุนรวมยุคหลังมี <em>Software Maintenance</em> กินสัดส่วนสูงขึ้นเรื่อย ๆ จน<em>แพงกว่าการพัฒนา</em> (Hardware แพงน้อยลง ซอฟต์แวร์แพงขึ้น 1955→1985) — ตัวอย่าง System 1/System 2 ในกราฟสไลด์แสดงว่าต้นทุน maintenance สะสมทับพัฒนาครั้งเดียวได้อีกเป็นเท่าตัว</p>
+    <p><strong>อุปมา:</strong> ซื้อรถ — เงินก้อนแรก (development) จ่ายครั้งเดียว แต่น้ำมัน ยาง บำรุงรักษา (maintenance) จ่ายต่อทุกเดือนอีก 10 ปี รวมแพงกว่าค่าตัวหลายเท่า</p>
+  </div>
+
+  <h3>1) 🎯 Kinds of Maintenance — 4 ประเภท (จับคู่ข้อสอบชัวร์ที่สุด)</h3>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>ประเภท</th><th>สัดส่วน</th><th>คีย์เวิร์ด</th><th>อธิบาย + ตัวอย่าง</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Corrective</strong></td><td><strong>21%</strong> (สไลด์ Ch3 ใช้ ~20%)</td><td>"แก้บั๊ก" หลังส่งมอบ</td><td>แก้ไข<em>errors</em> — แก้ข้อผิดพลาดที่พบหลังส่งมอบ หรือผิดพลาดที่เกิดระหว่าง maintenance เอง · เช่นระบบคิด VAT เกินเมื่อยอดเฉพาะช่วง, แอปพังเมื่อคนเข้าพร้อมกันเยอะ</td></tr>
+      <tr><td><strong>Adaptive</strong></td><td><strong>25%</strong></td><td>"สิ่งแวดล้อมเปลี่ยน" ทั้ง HW/SW</td><td>ปรับระบบให้<em>เข้ากับสิ่งแวดล้อมที่เปลี่ยน</em> (hardware และ software ทั้งคู่) · เช่นอัปเดตให้รองรับ OS ใหม่, DB engine ใหม่, เปลี่ยน cloud provider</td></tr>
+      <tr><td><strong>Perfective</strong></td><td><strong>50%</strong> — เยอะสุด!</td><td>"ผู้ใช้อยากได้เพิ่ม/ดีขึ้น"</td><td>ปรับให้<em>ตอบสนอง requirement ผู้ใช้ที่เปลี่ยน</em> — เพิ่มฟังก์ชันใหม่ ปรับปรุงให้ใช้ดีขึ้น/เร็วขึ้น · เช่นเพิ่มช่องทางจ่าย QR, ปรับ UI ให้ง่ายขึ้น</td></tr>
+      <tr><td><strong>Preventive</strong></td><td><strong>4%</strong> — น้อยสุด</td><td>"ป้องกันล่วงหน้า เพิ่ม maintainability"</td><td>ปรับปรุงให้<em>maintainability ของระบบสูงขึ้น</em> เพื่อกันปัญหาอนาคต · เช่น refactoring โครงสร้างโค้ด เพิ่มเอกสาร/คอมเมนต์ ทำ automated test เพิ่ม</td></tr>
+    </tbody>
+  </table></div>
+  <figure class="fig">
+    <svg viewBox="0 0 240 240" role="img" aria-label="วงกลมสัดส่วน maintenance: perfective 50%, adaptive 25%, corrective 21%, preventive 4%">
+      <circle cx="120" cy="120" r="90" fill="none" stroke="var(--border)"></circle>
+      <path d="M120 120 L120 30 A90 90 0 0 1 199.5 165 Z" fill="rgba(168,85,247,.55)" stroke="var(--text)" stroke-width="1"></path>
+      <path d="M120 120 L199.5 165 A90 90 0 0 1 85.5 205.5 Z" fill="rgba(20,184,166,.55)" stroke="var(--text)" stroke-width="1"></path>
+      <path d="M120 120 L85.5 205.5 A90 90 0 0 1 31.5 78 Z" fill="rgba(239,68,68,.5)" stroke="var(--text)" stroke-width="1"></path>
+      <path d="M120 120 L31.5 78 A90 90 0 0 1 120 30 Z" fill="rgba(245,158,11,.5)" stroke="var(--text)" stroke-width="1"></path>
+      <text x="168" y="96" text-anchor="middle" class="big">Perfective 50%</text>
+      <text x="185" y="176" text-anchor="middle" class="small">Adaptive 25%</text>
+      <text x="76" y="188" text-anchor="middle" class="small">Corrective 21%</text>
+      <text x="84" y="80" text-anchor="middle" class="small">Preventive 4%</text>
+      <text x="120" y="232" text-anchor="middle" class="mut small">(SE, Hans van Vliet)</text>
+    </svg>
+    <figcaption>ภาพ 11.1 — สัดส่วนกิจกรรมบำรุงรักษา: Perfective ครึ่งงานทั้งหมด / Preventive น้อยเกินคาดเพียง 4%</figcaption>
+  </figure>
+
+  <h3>2) Development vs Maintenance — ทำงาน "คนละจังหวะ"</h3>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>หัวข้อ</th><th>Development (พัฒนา)</th><th>Maintenance (บำรุงรักษา)</th></tr></thead>
+    <tbody>
+      <tr><td>เชื่อมโลกจริง</td><td>not directly linked to the real world — อิสระ</td><td>directly driven by the real world — ถูกสั่งด้วยเหตุจริงตลอด</td></tr>
+      <tr><td>อิสระ vs ถูกมัด</td><td>freedom — เลือกได้</td><td>constrained by existing system — มัดมือกับระบบเดิม</td></tr>
+      <tr><td>defect</td><td>defects มี no immediate effect (ยังไม่ถึงผู้ใช้)</td><td>defects disrupt production — ผู้ใช้ที่ใช้อยู่จริงโดนทันที!</td></tr>
+      <tr><td>methods</td><td>เลือก method ทันสมัยได้</td><td>system ไม่ได้ใช้ method ปัจจุบัน</td></tr>
+      <tr><td>standards</td><td>บังคับ standards ได้</td><td>มีแต่ shifting standards (ถ้ามี)</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="box box-def">
+    <div class="box-title">📐 จุดเน้น Maintenance ตามช่วงชีวิตผลิตภัณฑ์ (Shift over Time)</div>
+    <ul>
+      <li><strong>Introductory stage:</strong> เน้น <em>user support</em> (ช่วยผู้ใช้เริ่มใช้)</li>
+      <li><strong>Growth stage:</strong> เน้น <em>correcting faults</em> (จุดติดบั๊กเยอะ เพราะคนใช้เยอะขึ้น)</li>
+      <li><strong>Maturity:</strong> เน้น <em>enhancements</em> (เพิ่มเติมปรับปรุง)</li>
+      <li><strong>Decline:</strong> เน้น <em>technology changes</em> (ตามเทคโนโลยีที่เปลี่ยน)</li>
+    </ul>
+  </div>
+
+  <h3>3) ปัญหา · เครื่องมือ · กระบวนการ</h3>
+  <div class="box box-def">
+    <div class="box-title">📐 Major Causes of Maintenance Problems (3 ข้อ) + เครื่องมือ 4 กลุ่ม</div>
+    <p><strong>สาเหตุหลัก 3 ข้อ:</strong> ① <em>Unstructured code</em> (โค้ดไม่มีโครง แก้ครั้งเดียวรู้เรื่อง ครั้งสองเละ) ② <em>Insufficient domain knowledge</em> (ไม่รู้เขตธุรกิจที่ระบบรองรับ) ③ <em>Insufficient documentation</em> (เอกสารไม่พอ)</p>
+    <p><strong>เครื่องมือบำรุงรักษา 4 กลุ่ม:</strong> ① ช่วยการรับรู้ (reformatters จัดหน้าตาโค้ด) ② มองโครงสร้างนิ่ง (static structure) ③ มองพฤติกรรมขณะรัน (dynamic behavior) ④ ส่องประวัติเวอร์ชัน (version history)</p>
+    <p><strong>วิเคราะห์ evolution 2 แนว:</strong> <em>Version-centered</em> (ศึกษา diff ระหว่างเวอร์ชันติดกัน) / <em>History-centered</em> (ศึกษาจากมุมมอง เช่น component ไหนถูกแก้<em>พร้อมกัน</em>บ่อย)</p>
+  </div>
+  <figure class="fig">
+    <svg viewBox="0 0 600 150" role="img" aria-label="กระบวนการ maintenance: Change requests → Impact analysis → Release planning → Change implementation → System release">
+      <g>
+        <rect x="16" y="46" width="104" height="52" rx="10" class="f1" stroke="#2563eb" fill="none"></rect>
+        <text x="68" y="69" text-anchor="middle" class="big t1">Change</text>
+        <text x="68" y="87" text-anchor="middle" class="big t1">requests</text>
+        <rect x="140" y="46" width="104" height="52" rx="10" class="f2" stroke="#dc2626" fill="none"></rect>
+        <text x="192" y="69" text-anchor="middle" class="big t2">Impact</text>
+        <text x="192" y="87" text-anchor="middle" class="big t2">analysis</text>
+        <rect x="264" y="46" width="104" height="52" rx="10" class="fsoft" stroke="var(--acc-ink)" fill="none"></rect>
+        <text x="316" y="69" text-anchor="middle" class="big">Release</text>
+        <text x="316" y="87" text-anchor="middle" class="big">planning</text>
+        <rect x="388" y="46" width="104" height="52" rx="10" class="f3" stroke="#059669" fill="none"></rect>
+        <text x="440" y="69" text-anchor="middle" class="big t3">Change</text>
+        <text x="440" y="87" text-anchor="middle" class="big t3">implementation</text>
+        <rect x="512" y="46" width="76" height="52" rx="10" class="f3" stroke="#059669" fill="none"></rect>
+        <text x="550" y="69" text-anchor="middle" class="big t3">System</text>
+        <text x="550" y="87" text-anchor="middle" class="big t3">release</text>
+      </g>
+      <line class="uml-msg" x1="120" y1="72" x2="136" y2="72" marker-end="url(#ar3)"></line>
+      <line class="uml-msg" x1="244" y1="72" x2="260" y2="72" marker-end="url(#ar3)"></line>
+      <line class="uml-msg" x1="368" y1="72" x2="384" y2="72" marker-end="url(#ar3)"></line>
+      <line class="uml-msg" x1="492" y1="72" x2="508" y2="72" marker-end="url(#ar3)"></line>
+      <g class="small mut">
+        <text x="192" y="124" text-anchor="middle">Fault repair · Platform adaptation · System enhancement</text>
+      </g>
+      <text x="300" y="144" text-anchor="middle" class="mut">ประเภทคำขอ 3 แบบ: ซ่อมบั๊ก / ปรับแพลตฟอร์ม / เพิ่มความสามารถ — เข้าขั้น impact analysis เสมอ</text>
+    </svg>
+    <figcaption>ภาพ 11.2 — กระบวนการ Maintenance 5 ขั้น: จาก Change requests ถึง System release — ชั้นกลางแยกเป็น Fault repair / Platform adaptation / System enhancement</figcaption>
+  </figure>
+  <div class="box box-idea">
+    <div class="box-title">💡 Architectural Evolution + UI Distribution (เกร็ดสไลด์)</div>
+    <p><strong>ความจำเป็นย้าย legacy รวมศูนย์ → client-server:</strong> ① ต้นทุน HW — server ถูกกว่า mainframe ② ผู้ใช้คาดหวัง GUI ③ ต้องเข้าระบบจากหลายที่ห่างกัน (distributed access)</p>
+    <p><strong>User Interface Distribution:</strong> ถ้าระบบเดิมแยก UI กับ application ชัด → ปรับกระจาย UI ไป PC ได้ตรง ๆ · ถ้าไม่ชัด → ใช้ <em>screen management middleware</em> แปลหน้าจอข้อความเก่าเป็น GUI</p>
+  </div>
+
+  <h3>4) อะไรกระทบ Maintainability + ปัญหาการจัดการ + Prediction</h3>
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>ปัจจัย</th><th>ใจความ</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Application age</strong></td><td>โปรแกรมเก่ามักเขียนแย่กว่า ("software rust?") และถูก patch รอบนาทมากกว่า</td></tr>
+      <tr><td><strong>Size</strong></td><td>วัดใน KLOC, จำนวนไฟล์ input/output — ใหญ่ = ยาก</td></tr>
+      <tr><td><strong>Programming language</strong></td><td>4GL ควรได้โค้ด maintainable กว่า 3GL</td></tr>
+      <tr><td><strong>Processing environment</strong></td><td>files ยากกว่า databases / real-time ยากกว่า batch</td></tr>
+      <tr><td><strong>Analysis &amp; design methodologies</strong></td><td>ซอฟต์แวร์ที่ออกแบบดี = บำรุงรักษาง่ายกว่ามาก</td></tr>
+      <tr><td><strong>Structured programming</strong></td><td>หลักฐานว่าช่วยจริงมี<em>ขัดแย้งกัน</em> (conflicting evidence)</td></tr>
+      <tr><td><strong>Modularization</strong></td><td>แกนกลางเทคนิค OO — ชิ้นเล็กครบในตัว (self-contained) ดูแลง่ายกว่า</td></tr>
+      <tr><td><strong>Documentation generation</strong></td><td>ดูแลเอกสาร<em>แพงเท่ากัน</em>กับดูแลโค้ด</td></tr>
+      <tr><td><strong>End-user involvement</strong></td><td>ผู้ใช้จริงมีส่วนร่วมมาก → maintenance ลดลง (ตามนักวิจัยบางส่วน)</td></tr>
+      <tr><td><strong>Maintenance management</strong></td><td>การจัดตารางและทัศนคติผู้บริหารกระทบ productivity</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box box-def">
+    <div class="box-title">📐 ปัญหาการจัดการ (Problems in Managing Maintenance) 5 ข้อ</div>
+    <ul>
+      <li><strong>Changing priorities</strong> — คำขอ maintenance ยุ่งวุ่นวาย งานยาวจนงานใหม่วิ่งเข้ามาก่อนงานเก่าจบ</li>
+      <li><strong>Inadequate testing methods</strong> — เวลาทดสอบไม่พอ ขาด test data ครบ ไม่มีเกณฑ์เข้มตอน sign-off</li>
+      <li><strong>Performance measurement difficulties</strong> — วัดผลงานรายคน/กลุ่มยังไง?</li>
+      <li><strong>เอกสารไม่ครบ/ไม่มี</strong> — อบรมคนใหม่ใช้เวลานาน โปรแกรมเมอร์เอาแต่ติดอยู่กับซอฟต์แวร์เดิม</li>
+      <li><strong>ตาม business ที่เปลี่ยนเร็ว</strong> — HW/SW เก่าล้า (obsolete)</li>
+    </ul>
+    <p><strong>Maintenance Prediction:</strong> ประเมินว่าส่วนไหนจะ "แพง" — ระบบที่<em>couple แน่น</em> (tightly coupled) ต้องแก้ทุกครั้งที่ environment เปลี่ยน · ปัจจัย: จำนวน+ซับซ้อนของ interfaces, requirement ที่ล่องหนเปลี่ยน (volatile), business process ที่ใช้ระบบ · งาน maintenance ส่วนใหญ่เอาแรงไปกองที่<em>component ไม่กี่ตัว</em> · ซับซ้อนขึ้นกับ: control structures / data structures / ขนาด procedure-module</p>
+    <p><strong>ชี้วัด maintainability จาก process measurements 4 ตัว:</strong> ① จำนวนคำขอ corrective ② เวลาเฉลี่ย impact analysis ③ เวลาเฉลี่ย implement แต่ละคำขอ ④ จำนวนคำขอค้าง — <em>ถ้าเหล่านี้เพิ่มขึ้นเรื่อย ๆ = maintainability กำลังถดถอย</em></p>
+  </div>
+  <div class="box box-key">
+    <div class="box-title">⚡ Maintenance Cost Factors — 4 ตัว (จับคู่ได้)</div>
+    <ul>
+      <li><strong>Team stability</strong> — ทีมเดิมทำต่อเนื่อง → ต้นทุนลด (รู้ระบบอยู่แล้ว)</li>
+      <li><strong>Contractual responsibility</strong> — ผู้พัฒนาไม่มีภาระสัญญาดูแลต่อ → ไม่มีแรงจูงใจออกแบบให้แก้ง่ายในอนาคต</li>
+      <li><strong>Staff skills</strong> — ทีม maintenance มักน้องใหม่+domain knowledge จำกัด</li>
+      <li><strong>Program age and structure</strong> — ยิ่งเก่าโครงยิ่งถดถอย เข้าใจยาก แก้ยาก</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="exam">
+  <h2><span class="h2-dot">🎯</span> แนวข้อสอบของบทนี้</h2>
+  <div class="box box-warn">
+    <div class="box-title">🎯 จับคู่ Maintenance + เขียนแผน — ออกชัวร์</div>
+    <ul>
+      <li><strong>จับคู่สถานการณ์ → 4 ประเภท:</strong> พัง/แก้บั๊ก = Corrective · OS/DB ใหม่ = Adaptive · เพิ่มฟังก์ชัน/ใช้ง่ายขึ้น = Perfective · refactor/เพิ่มเอกสารกันปัญหาอนาคต = Preventive · จำสัดส่วน 21/25/50/4</li>
+      <li><strong>เขียนตอบ "จะวางแผน Maintenance อย่างไร":</strong> เดินโครงกระบวนการ 5 ขั้น + ระบุ 4 ประเภทจะใช้เมื่อไหร่ + ชี้วัด 4 ตัว → เฉลยเต็มที่หน้า <a href="exam.html">ติว Final</a></li>
+      <li><strong>เทียบ Development vs Maintenance</strong> 5 บรรทัด (โดยเฉพาะ "defects disrupt production")</li>
+      <li><strong>ช่วงชีวิต:</strong> Introductory=user support / Growth=correcting / Maturity=enhancements / Decline=technology</li>
+      <li><strong>Cost factors 4 ตัว</strong> และสัญญาณ maintainability ถดถอย (คำขอ corrective เพิ่ม ฯลฯ)</li>
+    </ul>
+  </div>
+</section>
+
+<section class="block" id="practice">
+  <h2><span class="h2-dot">🏋️</span> โจทย์ซ้อมมือ (6 ข้อ)</h2>
+
+  <div class="pr-card" data-pkey="p11-1">
+    <div class="pr-head"><span class="pr-num">ข้อ 1</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>จำแนก (แนวข้อสอบตรง):</strong> (a) ผู้ใช้รายงานว่าโอนเงินข้ามธนาคารคิดค่าธีผิดเงื่อนไขบางเคส ทีมเข้าไปแก้โค้ด (b) บริษัทอัปเกรดฐานข้อมูลเป็นรุ่นใหม่ ทีมปรับ SQL และ driver ให้รองรับ (c) ผู้ใช้ขอปุ่ม export รายงานเป็น Excel เพิ่ม (d) ทีมใช้เวลา 2 สัปดาห์แยกฟังก์ชันที่วุ่นวายออกเป็นโมดูลและเขียนเอกสารเพิ่ม</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>(a)</b> <strong>Corrective</strong> — แก้ error ที่พบหลังส่งมอบ (คีย์: คิดผิด/bug)</span></li>
+          <li><span class="step-t"><b>(b)</b> <strong>Adaptive</strong> — สิ่งแวดล้อม (DB) เปลี่ยน ระบบปรับตาม</span></li>
+          <li><span class="step-t"><b>(c)</b> <strong>Perfective</strong> — requirement ผู้ใช้ใหม่ เพิ่มฟังก์ชัน (สัดส่วน 50% เยอะสุดจริง)</span></li>
+          <li><span class="step-t"><b>(d)</b> <strong>Preventive</strong> — เพิ่ม maintainability/โครงสร้างกันปัญหาอนาคต (4% น้อยสุด)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p11-2">
+    <div class="pr-head"><span class="pr-num">ข้อ 2</span><span class="diff">●○○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>นิยาม/ตัวเลข:</strong> เขียนนิยาม Software maintenance ตามสไลด์ และเรียงสัดส่วน 4 ประเภทจากมากไปน้อยพร้อมตัวเลข</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>นิยาม:</b> กระบวนการแก้ไขระบบซอฟต์แวร์หรือ component <em>หลังส่งมอบ</em> เพื่อ correct faults, improve performance หรือคุณลักษณะอื่น, หรือ adapt สิ่งแวดล้อมที่เปลี่ยน</span></li>
+          <li><span class="step-t"><b>เรียง:</b> Perfective 50% → Adaptive 25% → Corrective 21% → Preventive 4%</span></li>
+          <li><span class="step-t"><b>จำทริค:</b> "ครึ่งงานคือผู้ใช้อยากได้เพิ่ม (P50) สี่ส่วนร้อยแรกเป็นปรับสภาพแวดล้อม (A25) แก้บั๊ก (C21) ส่วนกันปัญหาล่วงหน้าแค่สี่เปอร์เซ็นต์ (P4)"</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p11-3">
+    <div class="pr-head"><span class="pr-num">ข้อ 3</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เทียบ:</strong> เมื่อพัฒนา (development) พบ defect กับเมื่อ maintenance พบ defect ต่างกันอย่างไร และอีก 2 ความต่างเด่นระหว่างสองช่วง</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>Development:</b> defect มี "no immediate effect" — ระบบยังไม่เปิดใช้ แก้ได้เงียบ ๆ</span></li>
+          <li><span class="step-t"><b>Maintenance:</b> defect <strong>"disrupt production"</strong> — ผู้ใช้ใช้งานจริงอยู่ บั๊กทำร้ายธุรกิจทันที ต้องเร่งแก้ + ระวังเวลาหยุดระบบ</span></li>
+          <li><span class="step-t"><b>ความต่างเด่นอื่น:</b> development มี freedom (ไม่ผูกโลกจริงตรง) / maintenance ถูก driven ด้วยเหตุจริงและ<em>ติดคาระบบเดิม</em> (constrained by existing system)</span></li>
+          <li><span class="step-t"><b>อีกความต่าง:</b> standards — พัฒนาบังคับ standard ได้ / maintenance เจอ shifting standards ถ้ามี</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p11-4">
+    <div class="pr-head"><span class="pr-num">ข้อ 4</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เรียงช่วงชีวิต:</strong> จับจุดเน้นกับช่วง: Introductory / Growth / Maturity / Decline กับ: correcting faults / user support / technology changes / enhancements</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>Introductory → user support</b> (ช่วยให้เริ่มใช้ได้)</span></li>
+          <li><span class="step-t"><b>Growth → correcting faults</b> (คนใช้เยอะ เจอบั๊กเยอะ)</span></li>
+          <li><span class="step-t"><b>Maturity → enhancements</b> (เสถียรแล้ว ต่อยอดความสามารถ)</span></li>
+          <li><span class="step-t"><b>Decline → technology changes</b> (ตามเทคโนโลยีที่ล้า)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p11-5">
+    <div class="pr-head"><span class="pr-num">ข้อ 5</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>เขียนตอบโยง Final (สำคัญ!):</strong> "จากโปรเจกต์ที่คุณทำ (เว็บ CS-Hospital) คุณจะวางแผน Maintenance อย่างไร" — เขียนโครงคำตอบ 5 ขั้นของกระบวนการ + แผนครอบ 4 ประเภท + ตัวชี้วัด</p>
+      <details class="sol"><summary>แนวคำตอบ (โครงที่ใช้สอบได้)</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>เปิดด้วยกระบวนการ 5 ขั้น:</b> ① เปิดช่องรับ <em>Change requests</em> จากพยาบาล/แพทย์/ผู้ดูแลระบบ (แยก fault repair, platform adaptation, enhancement) ② ทำ <em>Impact analysis</em> ทุกคำขอ — ดูโมดูล/schema ใดกระทบ ประเมินความเสี่ยง (เช่นแก้ตาราง Patient กระทบรายงานทุกใบ) ③ <em>Release planning</em> — จัดคิวงานเป็นรอบเช่นรายเดือน กำหนดเวลาหยุดบริการขั้นต่ำ ④ <em>Change implementation</em> — แก้บนสำเนา ทดสอบ (unit → system → acceptance โดยผู้ใช้จริง) ⑤ <em>System release</em> — ปล่อยเวอร์ชัน + เอกสาร + แจ้งผู้ใช้</span></li>
+          <li><span class="step-t"><b>แผนครอบ 4 ประเภท:</b> Corrective — มีช่องทางแจ้งปัญหา + SLA แก้ด่วนเคสรบกวนการรักษา · Adaptive — ติดตามอัปเดต OS/Browser/DB ทดสอบ compatibility ทุกไตรมาส · Perfective — เก็บ backlog ฟีเจอร์ใหม่จากผู้ใช้ (เช่นรายงานใหม่) ประเมินทุกรอบ · Preventive — จัดเวลา refactoring + ดูแลเอกสาร/test เพิ่มความ maintainable</span></li>
+          <li><span class="step-t"><b>ตัวชี้วัด (4 process measurements):</b> นับจำนวนคำขอ corrective ต่อเดือน / เวลาเฉลี่ย impact analysis / เวลาเฉลี่ย implement คำขอ / จำนวนคำขอค้าง — ถ้าโตต่อเนื่องแปลว่า maintainability ถดถอย ต้องจัด preventive เพิ่ม</span></li>
+          <li><span class="step-t"><b>ปิดท้ายคะแนนเต็ม:</b> อ้าง cost factors — เก็บทีมเดิม (team stability) + ออกแบบโมดูล แยก business policy ให้แก้ง่าย (จากบทที่ 6) — ลดต้นทุนระยะยาว</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+  <div class="pr-card" data-pkey="p11-6">
+    <div class="pr-head"><span class="pr-num">ข้อ 6</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
+    <div class="pr-body">
+      <p><strong>วิเคราะห์:</strong> บริษัท A ส่งงานแล้วหมดสัญญา (ไม่มีภาระบำรุงรักษา) บริษัท B พัฒนาและดูแลเอง — หลัง 5 ปี ระบบของ A แก้ทุกฟีเจอร์แพงมาก ระบบ B แก้ง่าย — อธิบายด้วย Maintenance Cost Factors</p>
+      <details class="sol"><summary>เฉลย</summary>
+        <ol class="steps">
+          <li><span class="step-t"><b>สาเหตุหลัก = Contractual responsibility:</b> ทีม A ไม่มีสัญญาผูกดูแลต่อ → <em>"no incentive to design for future change"</em> — ไม่มีแรงจูงใจออกแบบให้แก้ง่ายในอนาคต</span></li>
+          <li><span class="step-t"><b>เสริม = Program age and structure:</b> 5 ปีโครงสร้างถดถอย (ถ้าไม่มี preventive) + patch งั้นงี้ จนเข้าใจยาก</span></li>
+          <li><span class="step-t"><b>ทีม B ได้เปรียบจาก:</b> Team stability (คนเดิมรู้ระบบ) + Staff skills ที่สะสม domain knowledge ต่อเนื่อง</span></li>
+          <li><span class="step-t"><b>บทเรียน:</b> ตอนเขียนข้อสอบ "วางแผน maintenance" — บอกให้ชัดว่าโครงสร้างโมดูล+เอกสารที่ดีตอนพัฒนา = ลดต้นทุน maintenance ระยะยาว (เชื่อมจาก Ch3 maintainability และ Ch6 business policy แยกจุดเปลี่ยน)</span></li>
+        </ol>
+      </details>
+    </div>
+  </div>
+
+</section>
+
+</div></main>
+
+<nav class="pager" id="pager"></nav>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/tts.js"></script>
+</body>
+</html>
