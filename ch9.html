@@ -163,6 +163,12 @@
     <figcaption>ภาพ 9.1 — Use Case Diagram ของ Safe Home (จากสไลด์): Tenant/Landlord เป็น initiating actor · UC7 AuthenticateUser เป็น subroutine ถูก include โดยหลาย use case · LockDevice เป็น participating actor</figcaption>
   </figure>
 
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch9-usecase-diagram.png" alt="Use case diagram ประกอบด้วย annotation จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch9 หน้า 5 (Use Case Diagram (High-level goal: ARRIVE))</figcaption>
+  </figure>
+
+
   <div class="box box-def">
     <div class="box-title">📐 กฎการวาด (เช็คลิสต์ก่อนส่งกระดาษ)</div>
     <ul>
@@ -194,7 +200,13 @@
   </div>
 
   <div class="box box-warn">
-    <div class="box-title">🎯 กับดัก Login (BAD vs GOOD) — อาจารย์เน้นใน video ว่าข้อสอบชอบลักไก่</div>
+    
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch9-include-extend.png" alt="ตัวอย่าง extend และตารางเทียบ include extend จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch9 หน้า 7 (Subroutine Use Cases «extend» + ตารางเทียบ «include»/«extend»)</figcaption>
+  </figure>
+
+<div class="box-title">🎯 กับดัก Login (BAD vs GOOD) — อาจารย์เน้นใน video ว่าข้อสอบชอบลักไก่</div>
     <div class="match-grid">
       <div class="match-item" style="border-color: rgba(220,38,38,.5)"><span class="m-key" style="color:#dc2626">BAD</span> — วาด Login เป็น ellipse ใหญ่แล้วให้ AddUser, SetDevicePrefs "ต่อ" มันเป็นเส้นปกติ ทำให้ diagram พัวพัน Login ทุกเส้น อ่านไม่รู้เรื่อง</div>
       <div class="match-item" style="border-color: rgba(5,150,105,.5)"><span class="m-key" style="color:#059669">GOOD</span> — ทำ Login เป็น subroutine «include» (AuthenticateUser / Login) ให้ use cases ที่ต้องยืนยันตัวตนเรียกใช้ — หรือถ้า login เป็นแค่เงื่อนไขก่อนใช้ ก็<em>ยุบเป็น precondition</em> เลย</div>
@@ -202,7 +214,13 @@
     <p>หลักคิด: Login ไม่ใช่ "เป้าหมายธุรกิจ" ที่ผู้ใช้อยากทำ (ไม่มีใคร "อยาก login") — มันเป็นกลไกกลาง จึงควรเป็น subroutine เท่านั้น</p>
   </div>
 
-  <h3>5) Generalization — ทำให้ diagram ไม่บวม</h3>
+  
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch9-login-bad-good.png" alt="Login use case แบบ BAD และ GOOD จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch9 หน้า 8 (Login Use Case? — BAD vs GOOD)</figcaption>
+  </figure>
+
+<h3>5) Generalization — ทำให้ diagram ไม่บวม</h3>
   <div class="box box-def">
     <div class="box-title">📐 2 แบบ</div>
     <p><strong>Actor generalization:</strong> Resident (abstract, ทั่วไปกว่า) ← Tenant, Landlord (particular) — ความสัมพันธ์ที่ Tenant/Landlord มีร่วมกันย้ายขึ้น Resident ได้</p>
@@ -210,7 +228,13 @@
     <p>ลูกศรชี้จาก "particular" ไปหา "more general" — อุปมา: แผนผังตระกูล ยิ่งบนยิ่งกลาง</p>
   </div>
 
-  <h3>6) Traceability Matrix — ตารางความสอดคล้อง REQ ↔ UC</h3>
+  
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch9-generalization.png" alt="Actor และ use case generalization จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch9 หน้า 10 (Use Case Generalizations (Actor + Use Case))</figcaption>
+  </figure>
+
+<h3>6) Traceability Matrix — ตารางความสอดคล้อง REQ ↔ UC</h3>
   <div class="box box-def">
     <div class="box-title">📐 3 ประโยชน์ (จำให้ได้)</div>
     <ul>
@@ -220,7 +244,13 @@
     </ul>
   </div>
 
-  <h3>7) 🎯 โครงเขียน Use Case รายละเอียด (Schema for Detailed Use Cases)</h3>
+  
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch9-account-mgmt.png" alt="Account management subsystem จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch9 หน้า 9 (Use Case Diagram: Account Management (หลาย «include» ไป Login))</figcaption>
+  </figure>
+
+<h3>7) 🎯 โครงเขียน Use Case รายละเอียด (Schema for Detailed Use Cases)</h3>
   <pre class="schema"><span class="k">Use Case UC-#:</span>        ชื่อ / identifier [verb phrase — กริยา+นาม]
 <span class="k">Related Requirements:</span>  รายการ REQ ที่ use case นี้รองรับ
 <span class="k">Initiating Actor:</span>     actor ผู้เริ่มปฏิสัมพันธ์เพื่อบรรลุเป้าหมาย
@@ -309,6 +339,17 @@ Extensions:
     </svg>
     <figcaption>ภาพ 9.2 — System Sequence Diagram: สลับจังหวะ → (actor สั่ง) กับ ← (system ตอบ) — alternate scenario ใช้ loop (ใส่ key ผิดซ้ำ) แล้วสาย AlarmBell → Police</figcaption>
   </figure>
+
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch9-ssd-main.png" alt="SSD main success scenario จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch9 หน้า 26 (System Sequence Diagram — Unlock (Main success scenario))</figcaption>
+  </figure>
+
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch9-ssd-alt.png" alt="SSD alternate scenario พร้อม loop จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch9 หน้า 27 (System Sequence Diagram (2) — Alternate scenario (burglary attempt))</figcaption>
+  </figure>
+
   <div class="box box-def">
     <div class="box-title">📐 Activity Diagram (สรุปองค์ประกอบ)</div>
     <p>จากสไลด์: <em>Initial node</em> → Select "Unlock" → Enter Key → Verify Key → <em>decision</em> [authorized] → Signal Success → Open Lock &amp; Lit Light → Start Autolock Timer → <em>activity final node</em> · กิ่ง [not authorized] → Notify Intrusion → Sound Alarm → <em>merge</em> — องค์ประกอบ: initial/final node, action, decision + guard condition [..], merge</p>
@@ -321,6 +362,12 @@ Extensions:
     <p>③ <strong>Security &amp; abuse cases:</strong> ระบุความเสี่ยงร้ายแรง — risk 3 ระดับ: <em>Intolerable / ALARP (as low as reasonably practical) / Acceptable</em> · ตัวอย่าง abuse sequence: ใส่คีย์ผิดถึง max รอหมดเวลา ใส่ผิดอีก — ต้องมี counter-measure (block + alarm)</p>
   </div>
 </section>
+
+
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch9-activity.png" alt="Activity diagram พร้อมชื่อองค์ประกอบ จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch9 หน้า 28 (Activity Diagram (Initial node → Action → Decision → Merge → Final))</figcaption>
+  </figure>
 
 <section class="block" id="exam">
   <h2><span class="h2-dot">🎯</span> แนวข้อสอบของบทนี้</h2>

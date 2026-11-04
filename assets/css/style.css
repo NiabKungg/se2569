@@ -781,3 +781,15 @@ details.ans[open] summary { margin-bottom: .4em; }
     radial-gradient(500px 280px at 15% 110%, rgba(236, 72, 153, .28), transparent 60%),
     linear-gradient(135deg, #0d1930, #131242);
 }
+
+/* ---------- ภาพต้นฉบับจากสไลด์อาจารย์ ---------- */
+.fig.fig-orig img {
+  display: block; width: 100%; max-width: 720px; height: auto;
+  margin: 0 auto;
+  background: #ffffff;           /* สไลด์พื้นขาว — คงพื้นขาวทั้ง light/dark mode */
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+}
+.fig.fig-orig figcaption { color: #0d9488; font-weight: 600; }
+html[data-theme="dark"] .fig.fig-orig figcaption { color: #2dd4bf; }

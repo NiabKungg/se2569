@@ -76,7 +76,13 @@
     <p>เหมาะกับงาน: requirement <em>ชัดเจนคงที่</em> เทคโนโลยีคุ้นเคย — ไม่เหมาะ: requirement กำกวม/จะเปลี่ยน</p>
   </div>
 
-  <h3>2) Spiral Model — น้ำตก+ต้นแบบ+วิเคราะห์ความเสี่ยง</h3>
+  
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch8-waterfall.png" alt="Waterfall model จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch8 หน้า 4 (Software Life Cycle — Waterfall Model)</figcaption>
+  </figure>
+
+<h3>2) Spiral Model — น้ำตก+ต้นแบบ+วิเคราะห์ความเสี่ยง</h3>
   <div class="box box-def">
     <div class="box-title">📐 นิยามจากสไลด์</div>
     <p>โมเดลที่ใช้ <strong>Waterfall + Prototype โดยพัฒนาเป็นเฟสเล็ก ๆ</strong> — แต่ละเฟสเล็กถูก<em>ทดสอบ ประเมิน และ integrate</em> เข้าโปรเจกต์หลัก</p>
@@ -102,6 +108,17 @@
     <figcaption>ภาพ 8.1 — Spiral: วนซ้ำแต่ละวงโตขึ้น (ต้นทุนสะสมเพิ่ม) — เหมาะกับโครงการ<em>เสี่ยงสูง/ใหญ่</em> เพราะจับ risk ก่อนลงทุนจริงทุกวง</figcaption>
   </figure>
 
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch8-spiral-boehm.png" alt="Spiral model ฉบับเต็มของ Boehm จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch8 หน้า 11 (Spiral Model (Boehm, TRW))</figcaption>
+  </figure>
+
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch8-spiral-cycle.png" alt="วงของ Spiral พร้อมป้าย Risk Analysis / Prototype / Planning ฯลฯ จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch8 หน้า 13 (Spiral Model Cycle)</figcaption>
+  </figure>
+
+
   <h3>3) Prototyping Model</h3>
   <div class="box box-def">
     <div class="box-title">📐 ใจความสั้น ๆ</div>
@@ -109,7 +126,13 @@
     <p>โฟลว์: Requirements → Design → Coding &amp; Module Testing → Integration &amp; System Testing → (มี "Testing" loop กลับมาแก้) → Delivery &amp; Maintenance</p>
   </div>
 
-  <h3>4) RAD Model — เร่งสปีด 60–90 วัน</h3>
+  
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch8-prototyping.png" alt="Prototyping model flow จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch8 หน้า 18 (Prototyping Model (มี Testing loop กลับมาแก้))</figcaption>
+  </figure>
+
+<h3>4) RAD Model — เร่งสปีด 60–90 วัน</h3>
   <div class="box box-def">
     <div class="box-title">📐 นิยาม + 5 เฟส + เมื่อไหร่ใช้</div>
     <p><strong>RAD = Rapid Application Development</strong> — โมเดล incremental ที่เน้น<em>รอบพัฒนาสั้นมาก (extremely short development cycle)</em> · <strong>ใช้เมื่อ:</strong> requirement <em>เข้าใจดีแล้ว (well understood)</em> และ<em>scope ถูกจำกัด (constrained)</em> → ทีมสร้างระบบทำงานเต็มรูปแบบในเวลาสั้นมาก (ตามภาพสไลด์: <strong>60–90 วัน</strong>) โดยทีมหลายทีมทำขนานกัน</p>
@@ -123,14 +146,31 @@
     </ul>
   </div>
 
-  <h3>5) Incremental vs Evolutionary Distribution</h3>
+  
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch8-rad.png" alt="RAD model จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch8 หน้า 20 (RAD Model — 3 ทีมขนาน, 60–90 วัน)</figcaption>
+  </figure>
+
+<h3>5) Incremental vs Evolutionary Distribution</h3>
   <div class="box box-def">
     <div class="box-title">📐 คู่เทียบสั้น ๆ</div>
     <p><strong>Incremental Distribution Model:</strong> ทำ<em>analysis + design ของระบบทั้งหมดก่อน</em> แล้วค่อยพัฒนาแต่ละเฟส · ต่างจาก Waterfall ที่ห้ามหั่นเป็นเฟสเล็ก · แต่ก็ยากเหมือนกันที่จะหั่นโปรเจกต์รวมเป็นเฟสเล็ก</p>
     <p><strong>Evolutionary Distribution Model:</strong> = <em>Evolutionary (Prototyping) Model + Incremental</em> — พัฒนา<em>ระบบหลัก (main system) ก่อน</em> แล้วค่อยเพิ่มส่วนตามรอบ</p>
   </div>
 
-  <h3>6) RUP — Rational Unified Process</h3>
+  
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch8-incremental.png" alt="Incremental model จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch8 หน้า 24 (Incremental Distribution Model)</figcaption>
+  </figure>
+
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch8-evolutionary.png" alt="Evolutionary model จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch8 หน้า 25 (Evolutionary Distribution Model)</figcaption>
+  </figure>
+
+<h3>6) RUP — Rational Unified Process</h3>
   <div class="box box-def">
     <div class="box-title">📐 ภาพรวม</div>
     <p>พัฒนาโดย <strong>Rational Software Corporation</strong> (ต่อมารวมกับ IBM) — methodology นิยมสำหรับระบบ<em>เชิงวัตถุ</em>ใช้ <strong>UML</strong> · เหมาะกับองค์กร/ธุรกิจ<em>ขนาดใหญ่</em> โดยเฉพาะผู้ผลิต/จัดจำหน่ายซอฟต์แวร์ ครอบคลุมทั้งบริหารโครงการและควบคุมคุณภาพ</p>
@@ -148,7 +188,13 @@
     </ul>
   </div>
 
-  <h3>7) XP — Extreme Programming</h3>
+  
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch8-rup.png" alt="RUP hump chart จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch8 หน้า 34 (Phases and Workflows in Rational Unified Process)</figcaption>
+  </figure>
+
+<h3>7) XP — Extreme Programming</h3>
   <div class="box box-def">
     <div class="box-title">📐 วงจร 4 จุด: Planning → Design → Coding → Test</div>
     <ul>
@@ -177,7 +223,13 @@
     </table></div>
   </div>
 
-  <h3>8) Scrum</h3>
+  
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch8-xp.png" alt="XP process diagram จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch8 หน้า 35 (Agile Process: Extreme Programming (XP))</figcaption>
+  </figure>
+
+<h3>8) Scrum</h3>
   <div class="box box-def">
     <div class="box-title">📐 นิยาม + 3 เฟส</div>
     <p>Scrum เป็น agile method แบบกว้าง — เน้น <strong>การจัดการการพัฒนาแบบ iterative</strong> มากกว่าแนวปฏิบัติเฉพาะ</p>
@@ -190,7 +242,13 @@
     <p><strong>Scrum benefits (5 ข้อ):</strong> ① ผลิตภัณฑ์แตกเป็นชิ้นเล็ก manageable/understandable ② <em>requirement ไม่เสถียรไม่ขวางความคืบหน้า</em> ③ ทีมเห็นทุกอย่าง สื่อสารดีขึ้น ④ ลูกค้าเห็นส่งมอบตรงเวลา + feedback ⑤ เกิดความไว้ใจลูกค้า↔นักพัฒนา + วัฒนธรรมเชิงบวกที่ทุกคนเชื่อว่าโปรเจกต์สำเร็จ</p>
   </div>
 
-  <div class="box box-key" id="exam">
+  
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch8-scrum.png" alt="Scrum process จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch8 หน้า 42 (The Scrum process (Outline planning → Sprint cycle → Closure))</figcaption>
+  </figure>
+
+<div class="box box-key" id="exam">
     <div class="box-title">🎯 เทคนิคตอบ "งานแบบไหนเหมาะกับ Model ไหน" (แนวที่รุ่นพี่รีวิว)</div>
     <p>โจทย์จะเล่าสถานการณ์ — จับ "คีย์เวิร์ด" ในโจทย์มาเทียบตารางนี้:</p>
     <div class="tbl-wrap"><table class="tbl">

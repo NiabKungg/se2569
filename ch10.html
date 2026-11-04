@@ -116,6 +116,12 @@ Unit → Integration → Function → Quality → System → Acceptance → Inst
     </svg>
     <figcaption>ภาพ 10.1 — โครง Logical Organization of Testing (จากสไลด์): White-box ฝั่ง developer, Black-box ฝั่ง customer — สังเกตว่าไม่จำเป็นต้องทำเป็นเส้นตรงจนขั้นสุดท้ายในโลกจริง</figcaption>
   </figure>
+
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch10-testing-org.png" alt="ลำดับการทดสอบ unit ถึง installation จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch10 หน้า 6 (Logical Organization of Testing)</figcaption>
+  </figure>
+
   <div class="tbl-wrap"><table class="tbl">
     <thead><tr><th>ระดับ</th><th>ทำอะไร</th><th>ใคร/อะไรตรวจ</th></tr></thead>
     <tbody>
@@ -182,6 +188,12 @@ Unit → Integration → Function → Quality → System → Acceptance → Inst
     <figcaption>ภาพ 10.2 — Equivalence classes ของ input "จำนวน 0–100": ช่วงเดียว → 1 valid + 2 invalid</figcaption>
   </figure>
 
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch10-equivalence.png" alt="equivalence classes จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch10 หน้า 11 (Equivalence classes (valid/invalid))</figcaption>
+  </figure>
+
+
   <h3>2.2) Boundary Testing</h3>
   <div class="box box-def">
     <div class="box-title">📐 กรณีพิเศษของ equivalence — จับ "ขอบ"</div>
@@ -242,6 +254,12 @@ Unit → Integration → Function → Quality → System → Acceptance → Inst
     <figcaption>ภาพ 10.3 — State diagram ระบบล็อก: 4 สถานะ 2 เหตุการณ์ 5 transition ที่ valid — เงื่อนไขครอบคลุม state-based testing คือ (1) ทุก state ถูกเยี่ยม ≥1 ครั้ง (2) ทุก valid transition ≥1 ครั้ง (3) ทุก invalid transition ถูก trigger ≥1 ครั้ง</figcaption>
   </figure>
 
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch10-state.png" alt="state diagram พร้อมป้าย event guard action จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch10 หน้า 17 (State-based Testing Example (event/guard/action))</figcaption>
+  </figure>
+
+
   <h3>3) Practical Unit Testing — Mock objects</h3>
   <div class="box box-def">
     <div class="box-title">📐 Driver vs Stub + วงจร 3 ขั้น</div>
@@ -263,7 +281,13 @@ Unit → Integration → Function → Quality → System → Acceptance → Inst
     <p><strong>Vertical Integration:</strong> หั่นระบบ<em>แนวตั้งตาม use case (user story)</em> แล้ว integrate ในแต่ละสไลซ์ก่อน (ใช้เทคนิค horizontal ในสไลซ์) — ตาม TDD: outer loop = ทำ acceptance test ผ่าน, inner loop = ทำ unit test ผ่าน, ระหว่างกลาง Refactor (วงจร Red-Green-Refactor ของ story)</p>
   </div>
   <div class="box box-idea">
-    <div class="box-title">💡 เกร็ดจากสไลด์ท้ายบท — Honeypots (ความปลอดภัย)</div>
+    
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch10-integration.png" alt="horizontal integration testing จากสไลด์ต้นฉบับ" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์อาจารย์ — Ch10 หน้า 28 (Horizontal Integration Testing (Bottom-up / Top-down))</figcaption>
+  </figure>
+
+<div class="box-title">💡 เกร็ดจากสไลด์ท้ายบท — Honeypots (ความปลอดภัย)</div>
     <p><strong>Honeypot</strong> = กับดักหลอกเพื่อตรวจจับและศึกษาการโจมตีเครือข่าย (ส่วนของ security testing) — ผู้ใช้: <em>Attackers</em> (untrusted — script kiddies 95% ใช้มัลแวร์จากเน็ต ป้องกันง่าย / advanced 5% แกะระบบได้ ป้องกันยาก) กับ <em>Researchers</em> (trusted แต่อาจลบไฟล์ผิดพลาด) → ต้อง refine access control แยกสิทธิ์ตามประเภท</p>
   </div>
 </section>
