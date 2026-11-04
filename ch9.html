@@ -94,74 +94,7 @@
   <p class="small">Initiating actors มาจาก user stories อยู่แล้ว (บทที่ 6) — ส่วน participating actors จะถูก identify ตอนวิเคราะห์ use case</p>
 
   <h3>3) 🎯 Use Case Diagram — วาดถูกกฎ (ข้อสอบเขียน)</h3>
-  <figure class="fig">
-    <svg viewBox="0 0 620 360" role="img" aria-label="Use Case Diagram Safe Home: Tenant กับ Landlord อยู่นอก boundary, เชื่อม Unlock, Lock, AddUser, RemoveUser, InspectAccessHistory, SetDevicePrefs โดยย่อยหลายตัว include AuthenticateUser">
-      <defs><marker id="ar3" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--text)"></path></marker></defs>
-      <g transform="translate(30,110)">
-        <circle cx="16" cy="10" r="10" class="uml-actor"></circle>
-        <line class="uml-actor" x1="16" y1="20" x2="16" y2="42"></line>
-        <line class="uml-actor" x1="0" y1="28" x2="32" y2="28"></line>
-        <line class="uml-actor" x1="16" y1="42" x2="4" y2="60"></line>
-        <line class="uml-actor" x1="16" y1="42" x2="28" y2="60"></line>
-        <text x="16" y="78" text-anchor="middle">Tenant</text>
-      </g>
-      <g transform="translate(30,240)">
-        <circle cx="16" cy="10" r="10" class="uml-actor"></circle>
-        <line class="uml-actor" x1="16" y1="20" x2="16" y2="42"></line>
-        <line class="uml-actor" x1="0" y1="28" x2="32" y2="28"></line>
-        <line class="uml-actor" x1="16" y1="42" x2="4" y2="60"></line>
-        <line class="uml-actor" x1="16" y1="42" x2="28" y2="60"></line>
-        <text x="16" y="78" text-anchor="middle">Landlord</text>
-      </g>
-      <rect x="120" y="24" width="330" height="320" rx="14" class="uml-bound"></rect>
-      <text x="285" y="48" text-anchor="middle" class="mut">Safe Home Access System (system boundary)</text>
-      <g>
-        <ellipse cx="235" cy="90" rx="88" ry="24" class="uml-ell"></ellipse>
-        <text x="235" y="95" text-anchor="middle">UC1: Unlock</text>
-        <ellipse cx="235" cy="150" rx="88" ry="24" class="uml-ell"></ellipse>
-        <text x="235" y="155" text-anchor="middle">UC2: Lock</text>
-        <ellipse cx="150" cy="210" rx="90" ry="24" class="uml-ell"></ellipse>
-        <text x="150" y="215" text-anchor="middle">UC3: AddUser</text>
-        <ellipse cx="150" cy="268" rx="96" ry="24" class="uml-ell"></ellipse>
-        <text x="150" y="273" text-anchor="middle">UC4: RemoveUser</text>
-        <ellipse cx="170" cy="322" rx="110" ry="22" class="uml-ell"></ellipse>
-        <text x="170" y="327" text-anchor="middle">UC5: InspectAccessHistory</text>
-        <ellipse cx="330" cy="210" rx="104" ry="24" class="uml-ell"></ellipse>
-        <text x="330" y="215" text-anchor="middle">UC6: SetDevicePrefs</text>
-        <ellipse cx="330" cy="280" rx="92" ry="24" class="uml-ell2"></ellipse>
-        <text x="330" y="285" text-anchor="middle">UC7: AuthenticateUser</text>
-      </g>
-      <g transform="translate(500,120)">
-        <circle cx="16" cy="10" r="10" class="uml-actor"></circle>
-        <line class="uml-actor" x1="16" y1="20" x2="16" y2="42"></line>
-        <line class="uml-actor" x1="0" y1="28" x2="32" y2="28"></line>
-        <line class="uml-actor" x1="16" y1="42" x2="4" y2="60"></line>
-        <line class="uml-actor" x1="16" y1="42" x2="28" y2="60"></line>
-        <text x="16" y="78" text-anchor="middle">LockDevice</text>
-        <text x="16" y="94" text-anchor="middle" class="small mut">«participate»</text>
-      </g>
-      <line class="uml-line" x1="78" y1="140" x2="152" y2="102" marker-end="url(#ar3)"></line>
-      <text x="106" y="112" class="small mut">«initiate»</text>
-      <line class="uml-line" x1="78" y1="150" x2="152" y2="156" marker-end="url(#ar3)"></line>
-      <text x="104" y="144" class="small mut">«initiate»</text>
-      <line class="uml-line" x1="78" y1="290" x2="96" y2="232" marker-end="url(#ar3)"></line>
-      <text x="66" y="252" class="small mut">«initiate»</text>
-      <line class="uml-line" x1="78" y1="300" x2="86" y2="300" marker-end="url(#ar3)"></line>
-      <line class="uml-line" x1="78" y1="310" x2="90" y2="324" marker-end="url(#ar3)"></line>
-      <line class="uml-line" x1="78" y1="280" x2="130" y2="286" marker-end="url(#ar3)"></line>
-      <line class="uml-line" x1="252" y1="266" x2="268" y2="298" marker-end="url(#ar3)"></line>
-      <text x="262" y="252" class="small mut">«include»</text>
-      <line class="uml-line" x1="208" y1="228" x2="262" y2="268" marker-end="url(#ar3)"></line>
-      <text x="216" y="252" class="small mut">«include»</text>
-      <line class="uml-line" x1="204" y1="318" x2="262" y2="302" marker-end="url(#ar3)"></line>
-      <text x="226" y="336" class="small mut">«include»</text>
-      <line class="uml-line" x1="356" y1="300" x2="500" y2="196" marker-end="url(#ar3)"></line>
-      <text x="430" y="242" class="small mut">«participate»</text>
-      <text x="310" y="60" class="small mut">actor อยู่<tspan fill="#dc2626">นอก</tspan>กรอบ · ellipse = use case · เส้นเฉย ๆ = ความสัมพันธ์ · «include» = เรียก subroutine</text>
-      <text x="310" y="76" class="small mut">Base use cases: UC1–UC6 · Subroutine: UC7 AuthenticateUser (ถูก include)</text>
-    </svg>
-    <figcaption>ภาพ 9.1 — Use Case Diagram ของ Safe Home (จากสไลด์): Tenant/Landlord เป็น initiating actor · UC7 AuthenticateUser เป็น subroutine ถูก include โดยหลาย use case · LockDevice เป็น participating actor</figcaption>
-  </figure>
+  
 
   <figure class="fig fig-orig">
     <img src="assets/img/ch9-usecase-diagram.png" alt="Use case diagram ประกอบด้วย annotation จากสไลด์ต้นฉบับ" loading="lazy">
@@ -306,39 +239,27 @@ Extensions:
   </div>
 
   <h3>8) System Sequence Diagram (SSD) และ Activity Diagram</h3>
-  <figure class="fig">
-    <svg viewBox="0 0 600 340" role="img" aria-label="SSD ของ UC Unlock: User, System, LockDevice, LightSwitch, Timer แลกเปลี่ยนข้อความ 7 ข้อ">
-      <g>
-        <text x="70" y="40" text-anchor="middle" class="big">User</text>
-        <text x="70" y="56" text-anchor="middle" class="small mut">«initiating»</text>
-        <text x="300" y="40" text-anchor="middle" class="big">: System</text>
-        <text x="470" y="40" text-anchor="middle" class="big">LockDevice</text>
-        <text x="470" y="56" text-anchor="middle" class="small mut">«supporting»</text>
-        <text x="566" y="40" text-anchor="middle" class="big">Timer</text>
-        <text x="566" y="56" text-anchor="middle" class="small mut">«offstage»</text>
-      </g>
-      <line class="uml-line" x1="70" y1="64" x2="70" y2="300"></line>
-      <line class="uml-line" x1="300" y1="64" x2="300" y2="300"></line>
-      <line class="uml-line" x1="470" y1="64" x2="470" y2="300"></line>
-      <line class="uml-line" x1="566" y1="64" x2="566" y2="300"></line>
-      <g class="small">
-        <line class="uml-msg" x1="70" y1="96" x2="296" y2="96" marker-end="url(#ar3)"></line>
-        <text x="183" y="90" text-anchor="middle">select function("unlock")</text>
-        <line class="uml-ret" x1="300" y1="126" x2="74" y2="126" marker-end="url(#ar3)"></line>
-        <text x="187" y="120" text-anchor="middle">prompt for the key</text>
-        <line class="uml-msg" x1="70" y1="156" x2="296" y2="156" marker-end="url(#ar3)"></line>
-        <text x="183" y="150" text-anchor="middle">enter key</text>
-        <line class="uml-ret" x1="300" y1="186" x2="74" y2="186" marker-end="url(#ar3)"></line>
-        <text x="187" y="180" text-anchor="middle">signal: valid key, lock open</text>
-        <line class="uml-msg" x1="304" y1="216" x2="466" y2="216" marker-end="url(#ar3)"></line>
-        <text x="385" y="210" text-anchor="middle">open the lock</text>
-        <line class="uml-msg" x1="304" y1="248" x2="562" y2="248" marker-end="url(#ar3)"></line>
-        <text x="430" y="242" text-anchor="middle">start ("duration")</text>
-      </g>
-      <text x="300" y="326" text-anchor="middle" class="mut">Main success scenario — คล้าย UML sequence diagram แต่เป็น<em>ระหว่าง actor กับระบบ</em> ไม่ใช่ object กับ object</text>
-    </svg>
-    <figcaption>ภาพ 9.2 — System Sequence Diagram: สลับจังหวะ → (actor สั่ง) กับ ← (system ตอบ) — alternate scenario ใช้ loop (ใส่ key ผิดซ้ำ) แล้วสาย AlarmBell → Police</figcaption>
+  
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+sequenceDiagram
+  actor U as User «initiating actor»
+  participant S as :System
+  participant LD as LockDevice «supporting»
+  participant LS as LightSwitch «supporting»
+  participant T as Timer «offstage»
+  U->>S: select function("unlock")
+  S-->>U: prompt for the key
+  U->>S: enter key
+  S->>S: verify key
+  S-->>U: signal: valid key, lock open
+  S->>LD: open the lock
+  S->>LS: turn on the light
+  S->>T: start("duration")
+    </pre>
+    <figcaption>ภาพ 9.2 — System Sequence Diagram (mermaid sequenceDiagram): สลับจังหวะ → (actor สั่ง) กับ ← (system ตอบ) — alternate scenario ใช้ loop (ใส่ key ผิดซ้ำ) แล้วสาย AlarmBell → Police</figcaption>
   </figure>
+
 
   <figure class="fig fig-orig">
     <img src="assets/img/ch9-ssd-main.png" alt="SSD main success scenario จากสไลด์ต้นฉบับ" loading="lazy">
@@ -495,6 +416,7 @@ Extensions:
 <nav class="pager" id="pager"></nav>
 </div>
 
+<script type="module" src="assets/js/mermaid-init.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/tts.js"></script>
 </body>

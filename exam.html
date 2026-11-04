@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
-<title>🎓 ติว Final — แนวข้อสอบจากรุ่นพี่ + เฉลย CS-Hospital — SE 05506017</title>
+<title>🎓 ติว Final — อ่านจบในหน้าเดียว + เฉลยเต็ม CS-Hospital — SE 05506017</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230d1930%22/><text x=%2250%22 y=%2270%22 font-size=%2252%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22sans-serif%22 font-weight=%22bold%22>SE</text></svg>">
-<meta name="description" content="ติวสอบ Final วิชา SE — โครงสร้างข้อสอบจากรีวิวรุ่นพี่ แบบจับคู่ Testing/Maintenance พร้อมเฉลย และเฉลยเต็มข้อเขียนตอบ: FR/NFR, Use case diagram, Schema, สถาปัตยกรรม, Testing plan, Maintenance plan ของระบบ CS-Hospital">
+<meta name="description" content="ติวสอบ Final วิชา SE — อ่านไล่จากบนลงล่างจบในหน้าเดียว: ความรู้ข้อจับคู่ Testing/Maintenance ครบในตัว + ทฤษฎี 'รู้ก่อนเขียน' ก่อนทุกเฉลย และเฉลยเต็มรูปแบบของระบบ CS-Hospital ทุกข้อ ไม่ต้องเปิดหน้าอื่น">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -25,62 +25,129 @@
 
   <main class="content"><div class="inner">
 
-<div class="crumb">ติวสอบ · แนวข้อสอบจากรุ่นพี่</div>
-<h1 class="page-title">🎓 ติว Final — แนวข้อสอบจากรุ่นพี่ + เฉลยเต็มรูปแบบ</h1>
-<p class="page-sub">หน้านี้รวมทุกอย่างที่ต้องใช้ในห้องสอบ: โครงข้อสอบตามที่รุ่นพี่รีวิว,
-ฝึกจับคู่ Testing/Maintenance พร้อมเฉลย, และ<strong>เฉลยตัวอย่างเขียนตอบเต็มรูปแบบของ CS-Hospital ทุกข้อ</strong>
-(ระบบเดียวกับที่โจทย์ปีล่าสุดใช้!) — เรียนเป็นตัวอย่างแล้วไปเปลี่ยนระบบได้ทันที</p>
+<div class="crumb">ติวสอบ · อ่านจบในหน้าเดียว</div>
+<h1 class="page-title">🎓 ติว Final — อ่านไล่จากบนลงล่าง เข้าใจได้หมดในหน้านี้</h1>
+<p class="page-sub">หน้านี้ออกแบบให้<strong>เปิดหน้าเดียวอ่านยาว ๆ ลงมาก็เข้าใจเอง</strong> — ทุกหัวข้อมี
+"ความรู้ที่ต้องรู้" แทรกไว้ก่อนใช้เสมอ: เริ่มจากโครงข้อสอบ → ความรู้ข้อจับคู่ (Testing / Maintenance)
+→ ข้อเขียนตอบทีละข้อ โดยแต่ละข้อมีกล่อง <strong>"📚 รู้ก่อนเขียน"</strong> สรุปทฤษฎีขั้นต่ำก่อนเข้าเฉลยเต็มของระบบ
+CS-Hospital (ระบบเดียวกับโจทย์จริงปีล่าสุด) — ไม่ต้องเปิดหน้าบทเรียนเพิ่มก็ทำข้อสอบได้ครบ</p>
 
 <nav class="pillnav">
+  <a href="#howto">📖 อ่านยังไง</a>
   <a href="#structure">📋 โครงข้อสอบ</a>
-  <a href="#match">🔗 ฝึกจับคู่</a>
+  <a href="#matchT">1️⃣ จับคู่ Testing</a>
+  <a href="#matchM">2️⃣ จับคู่ Maintenance</a>
   <a href="#frnfr">✍️ ข้อ 1 FR/NFR</a>
   <a href="#usecase">🎨 ข้อ 2 Use Case</a>
   <a href="#schema">🗃️ ข้อ 3 Schema</a>
   <a href="#arch">🏛️ ข้อ 4 สถาปัตยกรรม</a>
   <a href="#testplan">🧪 ข้อ 5 Testing</a>
   <a href="#maintplan">🔧 ข้อ 6 Maintenance</a>
+  <a href="#practice">🏋️ ฝึกรวม</a>
   <a href="#tips">💡 ทริคห้องสอบ</a>
 </nav>
 
-<section class="block" id="structure">
-  <h2><span class="h2-dot">📋</span> โครงสร้างข้อสอบ Final จากรีวิวรุ่นพี่</h2>
-  <div class="box box-warn">
-    <div class="box-title">⚠️ สิ่งที่รุ่นพี่บอกมา คำต่อคำ (จัดหมวดให้เข้าใจ)</div>
-    <p><strong>แบบจับคู่ (Matching):</strong></p>
-    <ul>
-      <li>จับคู่ <strong>Testing</strong> → ต้องแม่นบทที่ <a href="ch10.html">10</a> (7 ระดับ + เทคนิคออกแบบเทส)</li>
-      <li>จับคู่ <strong>Maintenance</strong> → ต้องแม่นบทที่ <a href="ch11.html">11</a> (4 ประเภท + ตัวเลข 21/25/50/4)</li>
-    </ul>
-    <p><strong>แบบเขียนตอบ:</strong> ให้โจทย์ระบบ (ปีล่าสุด = CS-Hospital, ปี 67/รหัส 66 = มี CS-Pizza ด้วย) แล้วให้:</p>
-    <ol class="flowsteps">
-      <li><b>เขียน FR และ NFR</b> ของระบบ → บทที่ 6 (สูตรอ่านโจทย์หา FR/NFR)</li>
-      <li><b>เขียน Use case diagram</b> → บทที่ 9 (actor, ellipse, boundary, «include»)</li>
-      <li><b>เขียน Schema</b> → บทที่ 7 (ER crow's foot จาก entity ในโจทย์)</li>
-      <li><b>เขียนสถาปัตยกรรมซอฟต์แวร์</b> → บทที่ 7 (Layered + Client/Server + Central Repository)</li>
-      <li><b>จะทดสอบระบบ + วางแผน Maintenance อย่างไร</b> (จากโปรเจกต์ของตัวเอง) → บทที่ 4/10/11</li>
-    </ol>
-    <p>💡 <strong>กลยุทธ์:</strong> จำเฉลยของ CS-Hospital ในหน้านี้ให้ขึ้นใจ — โจทย์สอบจริงอาจเป็นระบบอื่น (CS-Pizza ปี 67) แต่<em>ท่าเขียนเหมือนกันทุกข้อ</em> เปลี่ยนชื่อระบบ/actor/entity เท่านั้น</p>
-  </div>
+<section class="block" id="howto">
+  <h2><span class="h2-dot">📖</span> อ่านหน้านี้ยังไงให้ได้ที่สุด</h2>
   <div class="box box-idea">
-    <div class="box-title">📄 โจทย์ตัวอย่าง (ตัวเดียวกับข้อสอบจริง)</div>
-    <p><strong>CS-Hospital:</strong> โรงพยาบาลขนาดเล็ก เปิดให้นักศึกษา บุคลากรในสถาบัน และรับผู้ป่วยนอกทั่วไป ยังไม่มีระบบจัดการผู้ป่วย จึงอยากได้เว็บแอปพลิเคชันจัดการผู้ป่วย ที่:</p>
-    <ul>
-      <li>① เก็บข้อมูลผู้ป่วย เช่น ประวัติการรักษา ผลการรักษา ผลจากห้องปฏิบัติการ</li>
-      <li>② เก็บข้อมูลบุคลากรทางการแพทย์</li>
-      <li>③ ออกรายงานต่าง ๆ เช่น ใบรับรองแพทย์ ประวัติการรักษา</li>
-      <li>④ ส่งต่อผลการรักษา/ผลวินิจฉัยให้ทีมแพทย์ผู้เชี่ยวชาญหรือทีมโรคเฉพาะทาง ผ่านช่องทางออนไลน์ เช่น LINE หรือ Email</li>
-    </ul>
-    <p>เราจะใช้โจทย์นี้ตอบทุกข้อในหน้านี้ — จบแล้วคุณจะมี "แม่แบบ" พร้อมดัดแปลงในห้องสอบ</p>
+    <div class="box-title">🗺️ เส้นทางการอ่าน (อ่านบนลงล่าง ไม่ต้องกระโดด)</div>
+    <p><strong>ช่วงที่ 1 — โครงข้อสอบ</strong> (5 นาที): รู้ก่อนว่าข้อสอบหน้าตาเป็นแบบไหน อะไรออกบ่อย</p>
+    <p><strong>ช่วงที่ 2 — ความรู้ข้อจับคู่</strong> (20 นาที): ทฤษฎี Testing และ Maintenance แบบย่อที่ออกสอบแน่ ๆ จบในตัว แล้วทำฝึกจับคู่ 2 ชุดที่ให้มาทันที</p>
+    <p><strong>ช่วงที่ 3 — ข้อเขียนตอบ 6 ข้อ</strong> (45 นาที): แต่ละข้ออ่านตามลำดับ <em>กล่อง "📚 รู้ก่อนเขียน"</em> (ทฤษฎีที่ต้องรู้ก่อนลงมือ) → <em>สูตรตอบ</em> → <em>เฉลยเต็มของ CS-Hospital</em> → <em>"ทำไมเฉลยนี้ได้คะแนน"</em> — อ่านจบข้อใดข้อหนึ่ง คุณทำข้อนั้นได้ทันทีแม้โจทย์จริงจะเป็นระบบอื่น</p>
+    <p><strong>ช่วงที่ 4 — ฝึกรวม + ทริค</strong>: โจทย์ซ้อมข้ามบท 8 ข้อ (เลียนแบบข้อสอบจริง) และเช็กลิสต์ก่อนเข้าห้องสอบ</p>
+    <p>💡 ปุ่ม <strong>"🔊 อ่าน"</strong> อยู่หัวทุกหัวข้อ — กดแล้วฟังเสียงอ่านไปเรื่อย ๆ ได้เหมือนมีติวเตอร์อ่านให้ฟัง</p>
   </div>
 </section>
 
-<section class="block" id="match">
-  <h2><span class="h2-dot">🔗</span> ฝึกจับคู่ — เลียนแบบข้อสอบจริง</h2>
+<section class="block" id="structure">
+  <h2><span class="h2-dot">📋</span> ช่วงที่ 1 — โครงสร้างข้อสอบ Final (จากรีวิวรุ่นพี่)</h2>
+  <div class="box box-warn">
+    <div class="box-title">⚠️ ข้อสอบมี 2 ส่วน — จำโครงนี้ให้ขึ้นใจ</div>
+    <p><strong>ส่วนที่ 1: แบบจับคู่ (Matching)</strong> — โจทย์ให้ศัพท์อังกฤษมาจับคู่กับนิยาม/ประโยคภาษาไทย โดย Final เน้น 2 เรื่อง:</p>
+    <ul>
+      <li><strong>จับคู่ Testing</strong> — ประเภทการทดสอบ 7 ระดับ (Unit / Integration / Function / Quality / System / Acceptance / Installation) จับกับคำอธิบาย → ความรู้ครบใน <a href="#matchT">ส่วน 1ก ด้านล่าง</a></li>
+      <li><strong>จับคู่ Maintenance</strong> — 4 ประเภท (Corrective / Adaptive / Perfective / Preventive) จับกับสถานการณ์ → ความรู้ครบใน <a href="#matchM">ส่วน 1ข ด้านล่าง</a></li>
+    </ul>
+    <p><strong>ส่วนที่ 2: แบบเขียนตอบ</strong> — ให้โจทย์ระบบ (ปีล่าสุด = <strong>CS-Hospital</strong>, ปี 67 รหัส 66 มี CS-Pizza ด้วย) แล้วให้เขียน 5–6 เรื่อง:</p>
+    <ol class="flowsteps">
+      <li><b>เขียน FR และ NFR</b> ของระบบ → <a href="#frnfr">ข้อ 1</a></li>
+      <li><b>เขียน Use case diagram</b> → <a href="#usecase">ข้อ 2</a></li>
+      <li><b>เขียน Schema</b> (แผนผังฐานข้อมูล) → <a href="#schema">ข้อ 3</a></li>
+      <li><b>เขียนสถาปัตยกรรมซอฟต์แวร์</b> → <a href="#arch">ข้อ 4</a></li>
+      <li><b>จะทดสอบระบบอย่างไร</b> (จากโปรเจกต์ของตัวเอง) → <a href="#testplan">ข้อ 5</a></li>
+      <li><b>จะวางแผน Maintenance อย่างไร</b> → <a href="#maintplan">ข้อ 6</a></li>
+    </ol>
+    <p>💡 <strong>กลยุทธ์สำคัญ:</strong> โจทย์สอบจริงอาจเป็นระบบอื่น (เช่น CS-Pizza) แต่<em>ท่าเขียนเหมือนกันทุกข้อ</em> — เปลี่ยนแค่ชื่อระบบ / actor / ตารางข้อมูล เราจึงฝึกกับ CS-Hospital ตัวเดียวจบ</p>
+  </div>
+  <div class="box box-def">
+    <div class="box-title">📄 โจทย์ตัวอย่าง (ตัวเดียวกับที่ใช้ในข้อสอบจริง) — อ่านให้คุ้นก่อนเริ่ม</div>
+    <p><strong>CS-Hospital:</strong> โรงพยาบาลขนาดเล็ก เปิดให้นักศึกษา บุคลากรในสถาบัน และรับผู้ป่วยนอกทั่วไป ยังไม่มีระบบจัดการผู้ป่วย จึงอยากได้<strong>เว็บแอปพลิเคชันจัดการผู้ป่วย</strong> โดยมีการทำงานดังนี้:</p>
+    <ol class="flowsteps">
+      <li><b>เก็บข้อมูลผู้ป่วย</b> — ประวัติการรักษา ผลการรักษา ผลจากห้องปฏิบัติการ (Lab)</li>
+      <li><b>เก็บข้อมูลบุคลากรทางการแพทย์</b> — แพทย์ พยาบาล นักวิชาการ พร้อมสิทธิ์การเข้าถึง</li>
+      <li><b>ออกรายงานต่าง ๆ</b> — เช่น ใบรับรองแพทย์ ประวัติการรักษา</li>
+      <li><b>ส่งต่อผลการรักษา/ผลวินิจฉัย</b> ให้ทีมแพทย์เฉพาะทาง ผ่านช่องทางออนไลน์ เช่น LINE หรือ Email</li>
+    </ol>
+    <p>🔒 <strong>เทคนิคสำคัญที่สุดของข้อเขียนตอบ:</strong> อ่านโจทย์<em>วลีต่อวลี</em> — ทุกวลีในโจทย์คือ "เมล็ดคะแนน" ที่กรรมการรอดูว่าเราหยิบไปใช้หรือเปล่า เช่น เห็น "ส่งต่อผ่าน LINE/Email" ต้องนึกถึง actor ระบบภายนอก, FR, และช่องทางในสถาปัตยกรรมพร้อมกัน</p>
+  </div>
+</section>
 
-  <h3>ฝึกที่ 1: จับคู่ Testing</h3>
+<section class="block" id="matchT">
+  <h2><span class="h2-dot">1️⃣</span> ช่วงที่ 2ก — ความรู้ข้อจับคู่: Software Testing</h2>
+
+  <div class="box box-def">
+    <div class="box-title">📚 พื้นฐานที่ต้องรู้ก่อนจับคู่</div>
+    <p><strong>ทำไมต้องทดสอบเป็นระบบ?</strong> เพราะทุกคนที่เขียนโปรแกรม "ทดสอบ" อยู่แล้วโดยธรรมชาติ — คำถามคือทำแบบสุ่ม ๆ หรือมีแผน เป้าหมายคือลอง input ที่ "วิกฤต" ให้มากที่สุดในเวลาที่มี จำคำพูดดังของ Dijkstra: <em>"Testing shows the presence, not the absence of bugs"</em> — การทดสอบพิสูจน์ได้แค่ว่า "มีบั๊ก" ไม่เคยพิสูจน์ได้ว่า "ไม่มีบั๊กเหลืออยู่"</p>
+    <p><strong>Test case</strong> = การเลือก input หนึ่งชุด + <em>ผลที่คาดว่าจะได้ (expected result)</em> — จำว่าต้องมี "คำตอบที่คาดหวัง" เสมอ ไม่งั้นไม่ใช่ test case</p>
+    <p><strong>White-box vs Black-box</strong> = สองมุมมองใหญ่: <em>White-box</em> มองข้างในโค้ด (โดยนักพัฒนา) · <em>Black-box</em> มองแค่หน้าตาการใช้งานตาม spec (โดยลูกค้า)</p>
+  </div>
+
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+flowchart LR
+  U["Unit test&lt;br/&gt;โมดูลเดี่ยว"] --> I["Integration test&lt;br/&gt;ต่อโมดูลเข้าด้วยกัน"] --> S["System test&lt;br/&gt;ระบบสมบูรณ์"] --> F["Function test&lt;br/&gt;(FR)"] --> Q["Quality test&lt;br/&gt;(NFR)"] --> A["Acceptance test&lt;br/&gt;(ลูกค้ายอมรับ)"] --> N["Installation test&lt;br/&gt;(ของจริงที่ผู้ใช้)"]
+    </pre>
+    <figcaption>ภาพ T-1 — ลำดับการทดสอบ 7 ระดับ: ทดสอบชิ้นเล็ก → รวมกัน → เช็กฟังก์ชัน → เช็กคุณภาพ → ระบบรวม → ลูกค้ายอมรับ → ติดตั้งในบ้านผู้ใช้จริง</figcaption>
+  </figure>
+
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>ระดับ</th><th>ทำอะไร</th><th>ใครทำ</th><th>ถ้าเป็นระบบ CS-Hospital ตัวอย่างคือ…</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Unit test</strong></td><td>ทดสอบโมดูลเดียว <em>แบบโดดเดี่ยว</em> เทียบกับ unit specification</td><td>นักพัฒนา (White-box)</td><td>ทดสอบฟังก์ชันตรวจว่าเลข HN ผู้ป่วยต้องเป็นตัวเลข 7 หลักพอดี ป้อนผิดรูปแบบต้องปฏิเสธ</td></tr>
+      <tr><td><strong>Integration test</strong></td><td>นำโมดูลที่ผ่าน unit test มา<em>ต่อกัน</em> ทดสอบว่าทำงานร่วมกันได้</td><td>นักพัฒนา</td><td>หน้าลงทะเบียนผู้ป่วยส่งข้อมูลเข้าฐานข้อมูลจริงได้ และหน้าค้นหาดึงข้อมูลชุดเดียวกันมาแสดงได้</td></tr>
+      <tr><td><strong>Function test</strong></td><td>ยืนยันว่า<em>Functional Requirements</em> ถูกตอบสนองครบ</td><td>ทีม QA</td><td>ไล่เช็กทีละข้อ: เก็บประวัติได้ / ออกใบรับรองได้ / ส่งต่อผ่าน LINE-Email ได้</td></tr>
+      <tr><td><strong>Quality test</strong></td><td>ยืนยัน<em>Non-functional Requirements</em> (คุณภาพ)</td><td>ทีม QA</td><td>ค้นหาประวัติต้องเสร็จใน 2 วินาที, ทดสอบว่าแพทย์นอกเขตเข้าถึงข้อมูลไม่ได้ (ความปลอดภัย)</td></tr>
+      <tr><td><strong>System test</strong></td><td>ทดสอบ<em>ระบบสมบูรณ์ทั้งหมด</em> เทียบ System Specification</td><td>ทีมรวมระบบ</td><td>รัน flow เต็ม: รับผู้ป่วยใหม่ → บันทึกผลรักษา → ออกรายงาน → ส่งต่อเฉพาะทาง จบทั้งสาย</td></tr>
+      <tr><td><strong>Acceptance test</strong></td><td><em>ลูกค้า</em>ทดสอบและ<em>ยอมรับ</em>ว่าตรงความต้องการ</td><td>ลูกค้า (Black-box)</td><td>สาธิตให้ตัวแทนโรงพยาบาลใช้กับเคสผู้ป่วยจำลอง แล้วเซ็นรับมอบ (sign-off)</td></tr>
+      <tr><td><strong>Installation test</strong></td><td>ติดตั้งและทดสอบใน<em>สภาพแวดล้อมจริง</em>ของผู้ใช้</td><td>ทีมติดตั้ง + ผู้ใช้</td><td>ติดตั้งบนเซิร์ฟเวอร์และเครือข่ายของโรงพยาบาลจริง ทดลองใช้ 1 วันก่อนเปิดใช้เต็มระบบ</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="box box-warn">
+    <div class="box-title">🎯 คีย์เวิร์ดที่โจทย์จับคู่ชอบใช้ — เห็นคำนี้ = คำตอบนั้น</div>
+    <ul>
+      <li>"<em>โดดเดี่ยว / แยกทดสอบแต่ละโมดูล</em>" → <strong>Unit test</strong></li>
+      <li>"<em>รวม/ต่อโมดูลเข้าด้วยกัน</em>" → <strong>Integration test</strong></li>
+      <li>"<em>Functional Requirements</em>" → <strong>Function test</strong></li>
+      <li>"<em>Non-functional / คุณภาพ / ความเร็ว-ความปลอดภัย</em>" → <strong>Quality test</strong></li>
+      <li>"<em>ระบบสมบูรณ์ / System Specification</em>" → <strong>System test</strong></li>
+      <li>"<em>ลูกค้า / ผู้ใช้ยอมรับ / sign-off</em>" → <strong>Acceptance test</strong></li>
+      <li>"<em>ติดตั้ง / สภาพแวดล้อมจริงของผู้ใช้</em>" → <strong>Installation test</strong></li>
+    </ul>
+  </div>
+
+  <div class="box box-def">
+    <div class="box-title">📚 เกร็ดเทคนิคที่บางปีถามร่วมด้วย (อ่านผ่อน ๆ พอเข้าใจแนวคิด)</div>
+    <ul>
+      <li><strong>Equivalence testing</strong> — แบ่ง input เป็นกลุ่มที่ "คาดว่าทำงานเหมือนกัน" แล้วหยิบตัวแทนกลุ่มละ 1 ค่า · กฎนับกลุ่ม: กำหนดเป็น<em>ช่วง</em> (เช่น 1–120) = 1 valid + 2 invalid · กำหนด<em>ค่าเดียว</em> (13 หลักพอดี) = 1+2 · กำหนดเป็น<em>เซต</em> (9 หรือ 10 หลัก) = 1+1 · <em>boolean</em> = 1+1</li>
+      <li><strong>Boundary testing</strong> — จับเฉพาะ "ขอบ" ที่คนเขียนโค้ดพลาดบ่อย: 0, ค่าน้อยสุด/มากสุด, ช่องว่าง, null, สับสน &gt; กับ ≥</li>
+      <li><strong>State-based testing</strong> — นิยามสถานะของระบบ (เช่น ล็อกประตูมี Locked / Accepting / Unlocked / Blocked) แล้วทดสอบให้ครบทุกสถานะ + ทุก transition ที่ถูกกฎ</li>
+    </ul>
+  </div>
+
+  <h3>🏋️ ฝึกจับคู่ Testing — เลียนแบบข้อสอบจริง</h3>
   <div class="ex-card">
-    <div class="ex-head"><span class="ex-badge">โจทย์</span><span class="ex-title">จับคู่ประเภทการทดสอบ (แนวเดียวกับข้อสอบ)</span></div>
+    <div class="ex-head"><span class="ex-badge">โจทย์</span><span class="ex-title">จับคู่ประเภทการทดสอบ</span></div>
     <div class="ex-body">
       <p>จับคู่คำศัพท์กับประโยคภาษาไทย:</p>
       <div class="match-grid">
@@ -93,50 +160,115 @@
         <div class="match-item"><span class="m-key">4. Quality test</span><br>( )</div>
         <div class="match-item">D) ทดสอบโมดูลแต่ละตัวแบบโดดเดี่ยวเทียบ unit specification</div>
         <div class="match-item"><span class="m-key">5. System test</span><br>( )</div>
-        <div class="match-item">E) ตรวจว่าฟังก์ชันระบบตอบสนอง Functional Requirements</div>
-        <div class="match-item"><span class="m-key">6. Acceptance test</span><br>( )</div>
         <div class="match-item">F) ทดสอบระบบที่สมบูรณ์ทั้งหมดเทียบ System Specification</div>
-        <div class="match-item"><span class="m-key">7. Installation test</span><br>( )</div>
+        <div class="match-item"><span class="m-key">6. Acceptance test</span><br>( )</div>
         <div class="match-item">G) ติดตั้งและทดสอบในสภาพแวดล้อมจริงที่ผู้ใช้ใช้งาน</div>
+        <div class="match-item"><span class="m-key">7. Installation test</span><br>( )</div>
+        <div class="match-item">E) ตรวจว่าฟังก์ชันระบบตอบสนอง Functional Requirements</div>
       </div>
       <details class="ans" open><summary>เฉลย (ลองทำก่อนเปิด!)</summary>
         <p><strong>1→D</strong> (โดดเดี่ยวแบบโมดูลเดียว) · <strong>2→C</strong> (ต่อโมดูล) · <strong>3→E</strong> (FR) · <strong>4→B</strong> (NFR คุณภาพ) · <strong>5→F</strong> (ระบบสมบูรณ์+System Spec) · <strong>6→A</strong> (ลูกค้ายอมรับ) · <strong>7→G</strong> (สภาพแวดล้อมจริง)</p>
-        <p class="small">ทริคเช็คตัวเอง: เจอคำ "ลูกค้า" → Acceptance · "โดดเดี่ยว" → Unit · "Non-functional/คุณภาพ" → Quality · "ทั้งหมด/System Spec" → System</p>
+        <p class="small">เช็คตัวเอง: เจอคำ "ลูกค้า" → Acceptance · "โดดเดี่ยว" → Unit · "Non-functional/คุณภาพ" → Quality · "ทั้งหมด/System Spec" → System</p>
       </details>
     </div>
   </div>
+</section>
 
-  <h3>ฝึกที่ 2: จับคู่ Maintenance</h3>
+<section class="block" id="matchM">
+  <h2><span class="h2-dot">2️⃣</span> ช่วงที่ 2ข — ความรู้ข้อจับคู่: Software Maintenance</h2>
+
+  <div class="box box-def">
+    <div class="box-title">📚 พื้นฐานที่ต้องรู้ก่อนจับคู่</div>
+    <p><strong>นิยาม:</strong> Software Maintenance = การแก้ไข/ปรับปรุงระบบซอฟต์แวร์<em>หลังส่งมอบแล้ว</em> เพื่อ ① แก้ข้อผิดพลาด (correct faults) ② ปรับปรุงประสิทธิภาพหรือคุณลักษณะอื่น (improve performance) ③ ปรับตัวกับสิ่งแวดล้อมที่เปลี่ยน (adapt to changed environment)</p>
+    <p><strong>ทำไมเรื่องนี้สำคัญ?</strong> เพราะซอฟต์แวร์ "ไม่จบ" ตอนส่งมอบ — ต้นทุนบำรุงรักษาสะสมหลายปีมัก<em>แพงกว่าค่าสร้างครั้งแรก</em> (เหมือนค่ารถ: ซื้อครั้งเดียวแต่ค่าน้ำมัน-ซ่อมบำรุงจ่ายต่ออีก 10 ปี)</p>
+  </div>
+
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+pie showData
+  title สัดส่วนกิจกรรมบำรุงรักษา (SE, Hans van Vliet)
+  "Perfective" : 50
+  "Adaptive" : 25
+  "Corrective" : 21
+  "Preventive" : 4
+    </pre>
+    <figcaption>ภาพ M-1 — สัดส่วน 4 ประเภท: Perfective กินครึ่งงาน / Preventive น้อยเกินคาดแค่ 4% — ตัวเลขนี้ออกสอบบ่อย</figcaption>
+  </figure>
+
+  <div class="tbl-wrap"><table class="tbl">
+    <thead><tr><th>ประเภท</th><th>สัดส่วน</th><th>คีย์เวิร์ดในโจทย์</th><th>ตัวอย่างในระบบ CS-Hospital</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Corrective</strong></td><td><strong>21%</strong></td><td>"พัง / ผิดพลาด / bug / แก้ error"</td><td>ระบบคิดค่ารักษาผิดในเงื่อนไขเฉพาะ ทีมเข้าไปแก้โค้ด</td></tr>
+      <tr><td><strong>Adaptive</strong></td><td><strong>25%</strong></td><td>"OS / DB / browser / แพลตฟอร์ม / environment ใหม่"</td><td>โรงพยาบาลอัปเกรดฐานข้อมูลรุ่นใหม่ ทีมปรับระบบให้รองรับ</td></tr>
+      <tr><td><strong>Perfective</strong></td><td><strong>50%</strong> — เยอะสุด</td><td>"อยากได้เพิ่ม / เพิ่มฟังก์ชัน / ปรับให้ดีขึ้น / ตามความต้องการใหม่"</td><td>ผู้ใช้ขอรายงานสถิติผู้ป่วยรายเดือนเพิ่ม — ทำใหม่ให้</td></tr>
+      <tr><td><strong>Preventive</strong></td><td><strong>4%</strong> — น้อยสุด</td><td>"refactor / ปรับโครงสร้าง / เพิ่มเอกสาร / กันปัญหาอนาคต"</td><td>แยกกฎธุรกิจออกเป็นโมดูล + เขียนเอกสารเพิ่ม เพื่อให้แก้ง่ายขึ้นในอนาคต</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="box box-warn">
+    <div class="box-title">🎯 3 กับดักลักไก่ของข้อจับคู่ Maintenance</div>
+    <ul>
+      <li>เห็นคำ "<em>เปลี่ยน OS/DB/เครื่องใหม่</em>" = <strong>Adaptive</strong> — อย่าสับสนกับ Corrective เพราะระบบ "ยังไม่พัง" แค่สิ่งแวดล้อมเปลี่ยน</li>
+      <li>"<em>เพิ่มฟังก์ชันใหม่ / ทำให้ใช้ง่ายขึ้น</em>" = <strong>Perfective</strong> เสมอ (และเป็นกลุ่มใหญ่สุด 50% — โจทย์ชอบถาม "แบบไหนพบมากที่สุด")</li>
+      <li><strong>Preventive</strong> คือการแก้ "ข้างใน" ที่<em>ผู้ใช้ไม่เห็นผลอะไรเลย</em> (โครงสร้างโค้ด/เอกสาร) — ถ้าโจทย์บอกว่าผู้ใช้ได้อะไรใหม่ แปลว่าไม่ใช่ Preventive</li>
+    </ul>
+  </div>
+
+  <h3>🏋️ ฝึกจับคู่ Maintenance — เลียนแบบข้อสอบจริง</h3>
   <div class="ex-card">
-    <div class="ex-head"><span class="ex-badge">โจทย์</span><span class="ex-title">จับคู่ประเภทการบำรุงรักษา (แนวเดียวกับข้อสอบ)</span></div>
+    <div class="ex-head"><span class="ex-badge">โจทย์</span><span class="ex-title">จับคู่ประเภทการบำรุงรักษา</span></div>
     <div class="ex-body">
       <p>จับคู่คำศัพท์กับสถานการณ์:</p>
       <div class="match-grid">
         <div class="match-item"><span class="m-key">1. Corrective ( )</span></div>
-        <div class="match-item">A) ระบบรายงานทำงานผิดตอนปีอธิกสุรทิน — ทีมเข้าไปแก้โค้ด</div>
+        <div class="match-item">A) ระบบรายงานผิดตอนปีอธิกสุรทิน — ทีมเข้าไปแก้โค้ด</div>
         <div class="match-item"><span class="m-key">2. Adaptive ( )</span></div>
-        <div class="match-item">B) บริษัทเปลี่ยนจาก on-premise เป็น cloud ใหม่ — ปรับระบบให้รันได้</div>
+        <div class="match-item">B) บริษัทย้ายระบบขึ้น cloud ใหม่ — ปรับระบบให้รันได้</div>
         <div class="match-item"><span class="m-key">3. Perfective ( )</span></div>
         <div class="match-item">C) เพิ่มช่องทางชำระเงิน PromptPay ตามคำขอผู้ใช้ใหม่</div>
         <div class="match-item"><span class="m-key">4. Preventive ( )</span></div>
         <div class="match-item">D) Refactor โค้ด + อัปเดตเอกสารชั้นใน เพื่อให้แก้ง่ายในอนาคต</div>
       </div>
       <details class="ans"><summary>เฉลย</summary>
-        <p><strong>1→A</strong> (แก้ error) · <strong>2→B</strong> (สภาพแวดล้อม/แพลตฟอร์มเปลี่ยน) · <strong>3→C</strong> (requirement ผู้ใช้ใหม่ — กลุ่มนี้ใหญ่สุด 50%) · <strong>4→D</strong> (เพิ่ม maintainability)</p>
-        <p class="small">เพิ่มความมั่นใจ: ท่องสัดส่วน <strong>Corrective 21% · Adaptive 25% · Perfective 50% · Preventive 4%</strong> — โจทย์ชอบถาม "แบบไหนกินสัดส่วนมากที่สุด" → Perfective</p>
+        <p><strong>1→A</strong> (แก้ error) · <strong>2→B</strong> (สภาพแวดล้อม/แพลตฟอร์มเปลี่ยน) · <strong>3→C</strong> (requirement ผู้ใช้ใหม่) · <strong>4→D</strong> (เพิ่ม maintainability)</p>
+        <p class="small">ท่องตัวเลขให้ขึ้นใจ: <strong>Corrective 21 · Adaptive 25 · Perfective 50 · Preventive 4</strong></p>
       </details>
     </div>
   </div>
 </section>
 
 <section class="block" id="frnfr">
-  <h2><span class="h2-dot">✍️</span> ข้อเขียน 1: เขียน FR และ NFR ของระบบ CS-Hospital</h2>
-  <div class="box box-key">
-    <div class="box-title">⚡ สูตรในห้องสอบ: อ่านโจทย์วลีต่อวลี → ผูกกับกล่องใดกล่องหนึ่ง</div>
-    <p>โจทย์ CS-Hospital มี 4 บุลลี ①–④ — ทุกบุลลี = เมล็ด FR แล้วขยาย NFR ด้วย FURPS+ · <strong>FR ใช้รูป "ระบบต้องสามารถ…" / NFR ใช้รูป "ระบบต้องมี…ภายใน…ไม่เกิน…" (มีเกณฑ์วัด)</strong></p>
+  <h2><span class="h2-dot">✍️</span> ช่วงที่ 3 · ข้อเขียนข้อ 1 — เขียน FR และ NFR ของระบบ</h2>
+
+  <div class="box box-def">
+    <div class="box-title">📚 รู้ก่อนเขียน — FR กับ NFR ต่างกันอย่างไร</div>
+    <p><strong>Functional Requirement (FR)</strong> = สิ่งที่ระบบ "<em>ต้องทำอะไร</em>" (What the system will do) — ฟังก์ชัน งาน พฤติกรรมที่ผู้ใช้จะได้ใช้ เช่น เก็บข้อมูล ค้นหา ออกรายงาน ส่งต่อผล</p>
+    <p><strong>Non-Functional Requirement (NFR)</strong> = ระบบ "<em>ทำได้ดีแค่ไหน</em>" (How well) — คุณภาพและข้อจำกัด เช่น ปลอดภัยแค่ไหน เร็วแค่ไหน ทนผู้ใช้กี่คน ใช้ง่ายแค่ไหน — จัดหมวดด้วยกรอบ <strong>FURPS+</strong> ตามตารางนี้:</p>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>ตัวอักษร</th><th>ย่อมาจาก</th><th>ถามตัวเองว่า…</th><th>ตัวอย่างประโยคของ CS-Hospital</th></tr></thead>
+      <tbody>
+        <tr><td><strong>F</strong></td><td>Functionality (รวม Security)</td><td>ระบบปกป้องอะไรได้ไหม</td><td>"เข้ารหัสข้อมูลขณะส่ง เข้าถึงได้เฉพาะแพทย์ผู้รับผิดชอบ"</td></tr>
+        <tr><td><strong>U</strong></td><td>Usability</td><td>คนไม่เก่งคอมใช้ได้ไหม</td><td>"พยาบาลมือใหม่ลงทะเบียนจบใน 5 นาที ไม่ต้องอ่านคู่มือ"</td></tr>
+        <tr><td><strong>R</strong></td><td>Reliability</td><td>พังบ่อยไหม ข้อมูลหายไหม</td><td>"พร้อมใช้ ≥ 99.5% ไม่สูญข้อมูลเมื่อเน็ตหลุดชั่วคราว"</td></tr>
+        <tr><td><strong>P</strong></td><td>Performance</td><td>เร็วแค่ไหน ทนกี่คน</td><td>"ค้นประวัติภายใน 2 วินาที ที่ผู้ใช้พร้อมกัน 200 คน"</td></tr>
+        <tr><td><strong>S</strong></td><td>Supportability</td><td>ต่อยอด/ดูแลง่ายไหม</td><td>"เพิ่มแพทย์ใหม่ได้โดยผู้ดูแลระบบ ไม่ต้องแก้โค้ด"</td></tr>
+        <tr><td><strong>+</strong></td><td>ข้อจำกัดอื่น ๆ</td><td>มีเงื่อนไขพิเศษไหม</td><td>"ใช้ได้ทั้งคอมและมือถือ (responsive)"</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>กติกาการเขียนให้ได้คะแนน:</b></strong> ประโยค FR เริ่มด้วย "ระบบต้องสามารถ…" · ประโยค NFR <em>ต้องมีตัวเลขเกณฑ์วัด</em> เสมอ (เขียนแค่ "ระบบต้องเร็ว" = ได้คะแนนน้อย)</p>
   </div>
+
+  <div class="box box-key">
+    <div class="box-title">⚡ สูตรตอบ 3 ขั้น — ใช้ได้กับทุกระบบ</div>
+    <ol class="flowsteps">
+      <li><b>อ่านโจทย์วลีต่อวลี</b> — ทุกประโยคในโจทย์คือ "เมล็ด requirement": "เก็บข้อมูลผู้ป่วย" = ฟังก์ชัน, "ส่งต่อผ่าน LINE/Email" = ฟังก์ชัน + ช่องทาง</li>
+      <li><b>จำแนกลง 2 กลุ่ม:</b> สิ่งที่ระบบ "<em>ทำ</em>" (เก็บ ค้น แสดง ออกรายงาน ส่งต่อ ยืนยันตัวตน) → <strong>FR</strong> · สิ่งที่บอก "<em>ดีแค่ไหน</em>" → <strong>NFR</strong> แล้วผูกกับ FURPS+</li>
+      <li><b>เขียนเป็นประโยคมาตรฐาน:</b> FR = "ระบบต้องสามารถ…" · NFR = คุณภาพ + <em>เกณฑ์วัด</em> เช่น "ตอบสนองภายใน 2 วินาทีเมื่อผู้ใช้พร้อมกัน 500 คน"</li>
+    </ol>
+  </div>
+
   <div class="ex-card">
-    <div class="ex-head"><span class="ex-badge">เฉลย</span><span class="ex-title">คำตอบตัวอย่างที่ได้คะแนนเต็ม</span></div>
+    <div class="ex-head"><span class="ex-badge">เฉลยเต็ม</span><span class="ex-title">คำตอบตัวอย่างสำหรับ CS-Hospital</span></div>
     <div class="ex-body">
       <p><strong>Functional Requirements (FR):</strong></p>
       <ol class="steps">
@@ -148,9 +280,9 @@
       </ol>
       <p><strong>Non-Functional Requirements (NFR — จัดตาม FURPS+):</strong></p>
       <ol class="steps">
-        <li><span class="step-t"><b>NFR-1 Security (F)</b> ข้อมูลผู้ป่วยเป็นข้อมูลลับทางการแพทย์ ระบบต้องเข้ารหัสข้อมูลขณะส่ง (HTTPS) และเข้าถึงข้อมูลผู้ป่วยได้เฉพาะบุคลากรที่รับผิดชอบ (role-based access) พร้อมบันทึก log การเข้าถึงทุกครั้ง</span></li>
+        <li><span class="step-t"><b>NFR-1 Security (F)</b> ข้อมูลผู้ป่วยเป็นความลับทางการแพทย์ ระบบต้องเข้ารหัสข้อมูลขณะส่ง (HTTPS) และเข้าถึงข้อมูลผู้ป่วยได้เฉพาะบุคลากรที่รับผิดชอบ (role-based access) พร้อมบันทึก log การเข้าถึงทุกครั้ง</span></li>
         <li><span class="step-t"><b>NFR-2 Usability (U)</b> พยาบาล/เจ้าหน้าที่ที่ไม่เชี่ยวชาญคอมพิวเตอร์ต้องลงทะเบียนผู้ป่วยใหม่สำเร็จภายใน 5 นาทีโดยไม่ต้องอ่านคู่มือ (รองรับภาษาไทย หน้าจอเรียงตามลำดับงานจริง)</span></li>
-        <li><span class="step-t"><b>NFR-3 Reliability (R)</b> ระบบต้องพร้อมใช้งานตลอดเวลาบริการของโรงพยาบาล (availability ≥ 99.5%) และไม่สูญหายข้อมูลการรักษาแม้เครือข่าย/เครื่องล่มชั่วคราว (มี backup อัตโนมัติทุกวัน)</span></li>
+        <li><span class="step-t"><b>NFR-3 Reliability (R)</b> ระบบต้องพร้อมใช้งานตลอดเวลาบริการ (availability ≥ 99.5%) และไม่สูญหายข้อมูลการรักษาแม้เครือข่าย/เครื่องล่มชั่วคราว (backup อัตโนมัติทุกวัน)</span></li>
         <li><span class="step-t"><b>NFR-4 Performance (P)</b> ระบบต้องแสดงผลการค้นหาประวัติผู้ป่วยภายใน 2 วินาที เมื่อมีผู้ใช้พร้อมกัน 100 คน และรองรับผู้ใช้พร้อมกันอย่างน้อย 200 คนในเวลาเปิดบริการ</span></li>
         <li><span class="step-t"><b>NFR-5 Supportability (S)</b> ระบบต้องเพิ่มแพทย์/ทีมเฉพาะทางใหม่และแก้แบบฟอร์มรายงานได้โดยผู้ดูแลระบบ โดยไม่ต้องแก้โค้ด (รองรับการบำรุงรักษาและขยายในอนาคต)</span></li>
         <li><span class="step-t"><b>NFR-6 (เสริม "+")</b> ระบบต้องใช้งานได้ทั้งคอมพิวเตอร์และมือถือ (responsive) เพราะบุคลากรเดินตรวจผู้ป่วยต้องเปิดด้วยแท็บเล็ตได้</span></li>
@@ -159,7 +291,7 @@
         <ol class="steps">
           <li><span class="step-t"><b>ครอบโจทย์ทุกบุลลี:</b> FR-1 จากบุลลี ①, FR-2 จาก ②, FR-3 จาก ③, FR-4 จาก ④ — ไม่มีบุลลีตกหล่น (กรรมการติ๊กตรงนี้)</span></li>
           <li><span class="step-t"><b>NFR มีเกณฑ์วัดจริง:</b> "2 วินาที", "99.5%", "200 คน" — NFR ที่เขียน "ต้องเร็ว/ต้องปลอดภัย" แบบลอย ๆ ได้คะแนนน้อย</span></li>
-          <li><span class="step-t"><b>อ้าง FURPS+ ให้เห็น:</b> ติดชื่อหมวดไว้ให้กรรมการเห็นว่าเรามีกรอบวิชาการ (จากบทที่ 6 ตรงตามสไลด์)</span></li>
+          <li><span class="step-t"><b>อ้าง FURPS+ ให้เห็น:</b> ติดชื่อหมวดไว้ให้กรรมการเห็นว่าเรามีกรอบวิชาการ</span></li>
         </ol>
       </details>
     </div>
@@ -167,211 +299,195 @@
 </section>
 
 <section class="block" id="usecase">
-  <h2><span class="h2-dot">🎨</span> ข้อเขียน 2: เขียน Use case diagram ของ CS-Hospital</h2>
+  <h2><span class="h2-dot">🎨</span> ข้อเขียนข้อ 2 — เขียน Use case diagram ของ CS-Hospital</h2>
+
+  <div class="box box-def">
+    <div class="box-title">📚 รู้ก่อนวาด — Use case คืออะไร ประกอบด้วยอะไร</div>
+    <p><strong>Use case</strong> = การบรรยายทีละขั้นว่า "ใคร ใช้ระบบทำอะไร เพื่อบรรลุเป้าหมายอะไร" — ใช้กับการวิเคราะห์และเขียน <em>Functional Requirements</em> โดยมี 3 องค์ประกอบ: <strong>① Actors</strong> (ผู้เกี่ยวข้องภายนอกระบบ) · <strong>② Use case diagram</strong> (ภาพความสัมพันธ์) · <strong>③ Scenarios</strong> (บทสนทนาทีละขั้น)</p>
+    <p><strong>Actor มี 4 ชนิด — ต้องแยกให้ออกก่อนวาด:</strong></p>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>ชนิด</th><th>หน้าที่</th><th>ตัวอย่างใน CS-Hospital</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Initiating (primary)</strong></td><td><em>เริ่ม</em>การใช้ use case เพื่อบรรลุเป้าหมาย</td><td>พยาบาล/เจ้าหน้าที่, แพทย์, Admin</td></tr>
+        <tr><td><strong>Participating (secondary)</strong></td><td>ร่วมด้วยแต่<em>ไม่ได้เริ่ม</em></td><td>ฐานข้อมูลผู้ป่วย</td></tr>
+        <tr><td>— Supporting</td><td><em>ช่วย</em>ให้ use case สำเร็จ</td><td>LINE API, Email Server</td></tr>
+        <tr><td>— Offstage</td><td>ไม่เริ่ม ไม่ช่วย แต่<em>ถูกแจ้ง</em>ผล</td><td>หัวหน้าแพทย์ที่ได้รับสำเนารายงาน</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>ตาราง 4 คำถาม «include» vs «extend»</strong> (ออกสอบบ่อยมาก):</p>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>คำถาม</th><th>«include»</th><th>«extend»</th></tr></thead>
+      <tbody>
+        <tr><td>Subroutine นี้ optional ไหม?</td><td>No — ต้องมีทุกครั้ง</td><td>Yes — เกิดเมื่อมีเงื่อนไข</td></tr>
+        <tr><td>Base use case สมบูรณ์โดยไม่มีมัน?</td><td>No</td><td>Yes</td></tr>
+        <tr><td>การ execute เป็น conditional?</td><td>No</td><td>Yes</td></tr>
+        <tr><td>เปลี่ยนพฤติกรรม base ไหม?</td><td>No</td><td>Yes</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>กับดัก Login (อาจารย์เน้นใน video):</strong> อย่าวาด Login เป็นวงรีใหญ่แล้วให้ทุก use case เส้นต่อเข้าหา (BAD) — ให้ทำเป็น subroutine «include» เรียกใช้ (GOOD) หรือยุบเป็น precondition เลย เพราะ Login ไม่ใช่เป้าหมายธุรกิจที่ใคร "อยากทำ"</p>
+  </div>
+
   <div class="box box-key">
     <div class="box-title">⚡ ขั้นวาด 4 จังหวะ (ใช้ได้กับทุกระบบ)</div>
     <ol class="flowsteps">
       <li><b>หา initiating actors</b> — ใคร "กดใช้" ระบบ? อ่านโจทย์: พยาบาล/เจ้าหน้าที่ (ลงทะเบียน บันทึกผล), แพทย์ (วินิจฉัย ออกใบรับรอง ส่งต่อ), ผู้ดูแลระบบ (จัดการบุคลากร)</li>
-      <li><b>หา participating actors</b> — ระบบภายนอกใดช่วย? LINE API, Email Server, (Database ก็เป็น participating ได้ตามสไลด์)</li>
+      <li><b>หา participating actors</b> — ระบบภายนอกใดช่วย? LINE API, Email Server, (Database ก็เป็น participating ได้)</li>
       <li><b>ตั้งชื่อ use case เป็นกริยา</b> — RegisterPatient, RecordTreatmentResult, IssueMedicalCertificate, SendDiagnosisToSpecialist, ManageMedicalStaff (+ AuthenticateUser เป็น subroutine)</li>
-      <li><b>วาด: actor นอกกรอบ, ellipse ในกรอบ (system boundary ชื่อระบบ), «include» จาก use case ที่ต้องยืนยันตัวตน</b></li>
+      <li><b>วาด:</b> actor นอกกรอบ, ellipse ในกรอบ (system boundary ชื่อระบบ), «include» จาก use case ที่ต้องยืนยันตัวตน</li>
     </ol>
   </div>
-  <figure class="fig">
-    <svg viewBox="0 0 620 430" role="img" aria-label="Use case diagram CS-Hospital: Nurse, Doctor, Admin นอกกรอบ, use cases RegisterPatient, RecordTreatment, IssueCertificate, SendDiagnosis, ManageStaff, AuthenticateUser ในกรอบ, LINE API และ Email Server เป็น participating actors">
-      <g transform="translate(20,80)">
-        <circle cx="16" cy="10" r="10" class="uml-actor"></circle>
-        <line class="uml-actor" x1="16" y1="20" x2="16" y2="42"></line>
-        <line class="uml-actor" x1="0" y1="28" x2="32" y2="28"></line>
-        <line class="uml-actor" x1="16" y1="42" x2="4" y2="60"></line>
-        <line class="uml-actor" x1="16" y1="42" x2="28" y2="60"></line>
-        <text x="16" y="78" text-anchor="middle">Nurse / Staff</text>
-      </g>
-      <g transform="translate(20,210)">
-        <circle cx="16" cy="10" r="10" class="uml-actor"></circle>
-        <line class="uml-actor" x1="16" y1="20" x2="16" y2="42"></line>
-        <line class="uml-actor" x1="0" y1="28" x2="32" y2="28"></line>
-        <line class="uml-actor" x1="16" y1="42" x2="4" y2="60"></line>
-        <line class="uml-actor" x1="16" y1="42" x2="28" y2="60"></line>
-        <text x="16" y="78" text-anchor="middle">Doctor</text>
-      </g>
-      <g transform="translate(20,330)">
-        <circle cx="16" cy="10" r="10" class="uml-actor"></circle>
-        <line class="uml-actor" x1="16" y1="20" x2="16" y2="42"></line>
-        <line class="uml-actor" x1="0" y1="28" x2="32" y2="28"></line>
-        <line class="uml-actor" x1="16" y1="42" x2="4" y2="60"></line>
-        <line class="uml-actor" x1="16" y1="42" x2="28" y2="60"></line>
-        <text x="16" y="78" text-anchor="middle">Admin</text>
-      </g>
-      <rect x="130" y="24" width="330" height="380" rx="14" class="uml-bound"></rect>
-      <text x="295" y="48" text-anchor="middle" class="mut">CS-Hospital Patient Management System</text>
-      <g>
-        <ellipse cx="290" cy="92" rx="120" ry="24" class="uml-ell"></ellipse>
-        <text x="290" y="97" text-anchor="middle">RegisterPatient</text>
-        <ellipse cx="290" cy="152" rx="130" ry="24" class="uml-ell"></ellipse>
-        <text x="290" y="157" text-anchor="middle">RecordTreatmentResult</text>
-        <ellipse cx="290" cy="212" rx="132" ry="24" class="uml-ell"></ellipse>
-        <text x="290" y="217" text-anchor="middle">IssueMedicalCertificate</text>
-        <ellipse cx="290" cy="272" rx="140" ry="24" class="uml-ell"></ellipse>
-        <text x="290" y="277" text-anchor="middle">SendDiagnosisToSpecialist</text>
-        <ellipse cx="290" cy="332" rx="124" ry="24" class="uml-ell"></ellipse>
-        <text x="290" y="337" text-anchor="middle">ManageMedicalStaff</text>
-        <ellipse cx="290" cy="386" rx="110" ry="18" class="uml-ell2"></ellipse>
-        <text x="290" y="391" text-anchor="middle">AuthenticateUser</text>
-      </g>
-      <g transform="translate(540,80)">
-        <rect x="0" y="0" width="66" height="40" rx="8" class="f1" stroke="#2563eb" fill="none"></rect>
-        <text x="33" y="24" text-anchor="middle" class="small t1">LINE API</text>
-        <text x="33" y="56" text-anchor="middle" class="small mut">«supporting»</text>
-      </g>
-      <g transform="translate(540,150)">
-        <rect x="0" y="0" width="66" height="40" rx="8" class="f1" stroke="#2563eb" fill="none"></rect>
-        <text x="33" y="24" text-anchor="middle" class="small t1">Email Server</text>
-        <text x="33" y="56" text-anchor="middle" class="small mut">«supporting»</text>
-      </g>
-      <line class="uml-line" x1="84" y1="120" x2="168" y2="98" marker-end="url(#ar3)"></line>
-      <text x="112" y="100" class="small mut">«initiate»</text>
-      <line class="uml-line" x1="84" y1="130" x2="162" y2="148" marker-end="url(#ar3)"></line>
-      <line class="uml-line" x1="84" y1="250" x2="160" y2="216" marker-end="url(#ar3)"></line>
-      <text x="112" y="246" class="small mut">«initiate»</text>
-      <line class="uml-line" x1="84" y1="262" x2="156" y2="264" marker-end="url(#ar3)"></line>
-      <line class="uml-line" x1="84" y1="272" x2="170" y2="330" marker-end="url(#ar3)"></line>
-      <line class="uml-line" x1="84" y1="370" x2="162" y2="336" marker-end="url(#ar3)"></line>
-      <text x="112" y="362" class="small mut">«initiate»</text>
-      <line class="uml-dash" x1="420" y1="270" x2="446" y2="120" marker-end="url(#ar3)"></line>
-      <line class="uml-dash" x1="428" y1="284" x2="536" y2="172" marker-end="url(#ar3)"></line>
-      <text x="492" y="238" class="small mut">«supporting»</text>
-      <line class="uml-dash" x1="440" y1="160" x2="466" y2="288" marker-end="url(#ar3)"></line>
-      <text x="448" y="180" class="small mut">«include»</text>
-      <text x="310" y="424" text-anchor="middle" class="mut">กรรมการให้คะแนนจาก: actor ครบ · ชื่อเป็นกริยา · boundary มี · «include» AuthenticateUser ใช้ถูกจุด · ระบบภายนอก (LINE/Email) โผล่เป็น actor</text>
-    </svg>
-    <figcaption>ภาพ E-1 — Use Case Diagram คำตอบตัวอย่างของ CS-Hospital: initiating = Nurse/Doctor/Admin, supporting = LINE API + Email Server, subroutine = AuthenticateUser (include) — อย่าวาด Login พัวพันทุก use case!</figcaption>
+
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+flowchart LR
+  NS["Nurse / Staff"] --- RP(["RegisterPatient"]) & RT(["RecordTreatmentResult"])
+  DC["Doctor"] --- IM(["IssueMedicalCertificate"]) & SD(["SendDiagnosisToSpecialist"])
+  ADM["Admin"] --- MS(["ManageMedicalStaff"])
+  RP & RT & IM & SD & MS -.->|"«include»"| AU(["AuthenticateUser"])
+  SD --- LN["LINE API&lt;br/&gt;(supporting)"] & EM["Email Server&lt;br/&gt;(supporting)"]
+    </pre>
+    <figcaption>ภาพ E-1 — Use Case Diagram คำตอบตัวอย่างของ CS-Hospital: initiating = Nurse/Doctor/Admin, supporting = LINE API + Email Server, subroutine = AuthenticateUser («include») — เส้นทึบ = ความสัมพันธ์, เส้นประ = «include»</figcaption>
   </figure>
+
   <div class="box box-warn">
     <div class="box-title">🎯 ข้อห้ามพลาดในข้อนี้</div>
     <ul>
       <li>ห้ามให้ actor อยู่<em>ใน</em>กรอบระบบ (actor คือสิ่งนอกระบบเสมอ)</li>
       <li>ห้ามตั้งชื่อ use case เป็นคำนาม ("Patient", "Report") — ต้องมีกริยา</li>
-      <li>ห้ามวาด "บ้าน/ประตู/ห้องผู้ป่วย" เป็น actor — มันไม่ปฏิสัมพันธ์กับระบบ</li>
-      <li>Login ทำเป็น subroutine «include» หรือยุบเป็น precondition — ไม่ใช่ ellipse ศูนย์กลางที่ทุกอย่างต่อเส้นตรง</li>
+      <li>ห้ามวาด "ห้องผู้ป่วย/อุปกรณ์" เป็น actor — มันไม่ได้ปฏิสัมพันธ์กับระบบ</li>
+      <li>Login ทำเป็น subroutine «include» หรือยุบเป็น precondition — ไม่ใช่วงรีศูนย์กลางที่ทุกอย่างต่อเส้นตรง</li>
     </ul>
   </div>
 </section>
 
 <section class="block" id="schema">
-  <h2><span class="h2-dot">🗃️</span> ข้อเขียน 3: เขียน Schema ของ CS-Hospital</h2>
-  <div class="box box-key">
-    <div class="box-title">⚡ สูตรอ่านโจทย์หา entity (เทคนิค: คำนามใหญ่ ๆ ที่ "ต้องเก็บข้อมูล" = entity)</div>
-    <p>จากโจทย์: "ผู้ป่วย" (ข้อมูลผู้ป่วย/ประวัติ/ผลการรักษา/ผลแล็บ) · "บุคลากรทางการแพทย์" · "การรักษาครั้งหนึ่ง" (ประวัติการรักษาเป็นเหตุการณ์ต่อครั้ง — จึงมีตาราง TreatmentRecord) · "ผลห้องปฏิบัติการ" (LabResult — เพราะโจทย์แยกมาเอง) · "รายงาน/ใบรับรอง" (ออกจากระบบ = อาจไม่ต้องเก็บ แต่เก็บ log ออกใบได้) · "การส่งต่อ" (Referral — เพราะโจทย์บอกส่งไปทีมเฉพาะทาง ต้องมีบันทึก)</p>
+  <h2><span class="h2-dot">🗃️</span> ข้อเขียนข้อ 3 — เขียน Schema ของ CS-Hospital</h2>
+
+  <div class="box box-def">
+    <div class="box-title">📚 รู้ก่อนวาด — Schema คืออะไร อ่านสัญลักษณ์ยังไง</div>
+    <p><strong>Schema ในบริบทข้อสอบนี้</strong> = แผนผังฐานข้อมูล (Entity-Relationship diagram) ที่บอกว่าระบบเก็บข้อมูลอะไรบ้าง และข้อมูลเหล่านั้นเชื่อมโยงกันอย่างไร</p>
+    <p><strong>ศัพท์ 4 คำที่ต้องเข้าใจ:</strong> <em>Entity</em> = ตารางเก็บข้อมูล (สิ่งที่เรา "เก็บของ") · <em>Attribute</em> = คอลัมน์ในตาราง · <em>PK (Primary Key)</em> = หมายเลขประจำตัวไม่ซ้ำของแถว เช่น patient_id · <em>FK (Foreign Key)</em> = คอลัมน์ที่ชี้ไปยัง PK ของตารางอื่น (ทำให้สองตารางเชื่อมกัน)</p>
+    <p><strong>สัญลักษณ์ crow's foot (เท้าอีก้า) บอก "จำนวน" ของความสัมพันธ์:</strong></p>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>สัญลักษณ์</th><th>ความหมาย</th><th>ตัวอย่าง</th></tr></thead>
+      <tbody>
+        <tr><td>ขีด | |</td><td>exactly one — หนึ่งเดียว</td><td>การจอง 1 ครั้ง มีแพทย์ 1 คน</td></tr>
+        <tr><td>อีก้า &lt;</td><td>one or more — หนึ่งขึ้นไป</td><td>ผู้ป่วย 1 คน มีประวัติรักษาอย่างน้อย 1 ครั้ง</td></tr>
+        <tr><td>วงกลม+ขีด ○|</td><td>zero or one — ศูนย์หรือหนึ่ง</td><td>การรักษาอาจยังไม่มีใบเสร็จ</td></tr>
+        <tr><td>วงกลม+อีก้า ○&lt;</td><td>zero or more — ศูนย์หรือหลาย</td><td>การรักษาอาจยังไม่มีผลแล็บ</td></tr>
+      </tbody>
+    </table></div>
   </div>
-  <figure class="fig">
-    <svg viewBox="0 0 620 380" role="img" aria-label="ER Schema CS-Hospital: Patient, MedicalStaff, TreatmentRecord, LabResult, Referral เชื่อมด้วย crow's foot">
-      <defs><marker id="crow2" markerWidth="14" markerHeight="12" refX="12" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12" fill="none" stroke="var(--text)" stroke-width="1.4"></path></marker></defs>
-      <g>
-        <rect x="16" y="60" width="130" height="74" rx="10" class="f1" stroke="#2563eb" fill="none"></rect>
-        <text x="81" y="84" text-anchor="middle" class="big t1">Patient</text>
-        <text x="81" y="106" text-anchor="middle" class="small mut">patient_id (PK)</text>
-        <text x="81" y="122" text-anchor="middle" class="small mut">name, dob, phone</text>
-        <rect x="230" y="60" width="160" height="74" rx="10" class="f2" stroke="#dc2626" fill="none"></rect>
-        <text x="310" y="84" text-anchor="middle" class="big t2">TreatmentRecord</text>
-        <text x="310" y="106" text-anchor="middle" class="small mut">record_id (PK), patient_id (FK)</text>
-        <text x="310" y="122" text-anchor="middle" class="small mut">staff_id (FK), diagnosis, date</text>
-        <rect x="470" y="60" width="140" height="74" rx="10" class="f3" stroke="#059669" fill="none"></rect>
-        <text x="540" y="84" text-anchor="middle" class="big t3">MedicalStaff</text>
-        <text x="540" y="106" text-anchor="middle" class="small mut">staff_id (PK)</text>
-        <text x="540" y="122" text-anchor="middle" class="small mut">name, role, specialty</text>
-        <rect x="230" y="196" width="160" height="74" rx="10" class="f2" stroke="#dc2626" fill="none"></rect>
-        <text x="310" y="220" text-anchor="middle" class="big t2">LabResult</text>
-        <text x="310" y="242" text-anchor="middle" class="small mut">lab_id (PK), record_id (FK)</text>
-        <text x="310" y="258" text-anchor="middle" class="small mut">test_type, result, date</text>
-        <rect x="230" y="310" width="160" height="62" rx="10" class="fsoft" stroke="var(--acc-ink)" fill="none"></rect>
-        <text x="310" y="334" text-anchor="middle" class="big">Referral</text>
-        <text x="310" y="356" text-anchor="middle" class="small mut">referral_id (PK), record_id (FK), channel, status</text>
-        <rect x="16" y="196" width="130" height="74" rx="10" class="f1" stroke="#2563eb" fill="none"></rect>
-        <text x="81" y="220" text-anchor="middle" class="big t1">Certificate</text>
-        <text x="81" y="242" text-anchor="middle" class="small mut">cert_id (PK), record_id (FK)</text>
-        <text x="81" y="258" text-anchor="middle" class="small mut">type, issued_date</text>
-      </g>
-      <line class="uml-line" x1="146" y1="97" x2="226" y2="97" marker-end="url(#crow2)"></line>
-      <text x="186" y="88" text-anchor="middle" class="small mut">1:N has</text>
-      <line class="uml-line" x1="390" y1="97" x2="466" y2="97" marker-end="url(#crow2)"></line>
-      <text x="428" y="88" text-anchor="middle" class="small mut">N:1 treated-by</text>
-      <line class="uml-line" x1="310" y1="134" x2="310" y2="192" marker-end="url(#crow2)"></line>
-      <text x="338" y="166" class="small mut">1:N contains</text>
-      <line class="uml-line" x1="230" y1="233" x2="150" y2="233" marker-end="url(#crow2)"></line>
-      <text x="190" y="224" text-anchor="middle" class="small mut">N:1 produced</text>
-      <line class="uml-line" x1="310" y1="270" x2="310" y2="306" marker-end="url(#crow2)"></line>
-      <text x="344" y="292" class="small mut">1:N sent-via</text>
-      <text x="310" y="72" text-anchor="middle" class="mut" opacity="0">.</text>
-      <text x="310" y="146" text-anchor="middle" class="mut" opacity="0">.</text>
-      <text x="420" y="182" class="small mut">← ปีกอีก้า (crow's foot) ฝั่ง N</text>
-      <text x="310" y="230" text-anchor="middle" class="mut" opacity="0">.</text>
-      <text x="308" y="290" text-anchor="middle" class="small mut">โครงตอบ: entity + PK/FK + ความสัมพันธ์ 1:N — แล้วอธิบายทีละเส้นใต้ภาพ</text>
-    </svg>
-    <figcaption>ภาพ E-2 — ER Schema คำตอบตัวอย่างของ CS-Hospital: Patient 1:N TreatmentRecord N:1 MedicalStaff · TreatmentRecord 1:N LabResult / Certificate / Referral — โจทย์จริงอาจให้ข้อมูลน้อยกว่านี้ เอา entity ที่จำเป็น 4–5 ตารางพร้อม PK/FK + สัญลักษณ์จำนวน ก็เต็มแล้ว</figcaption>
+
+  <div class="box box-key">
+    <div class="box-title">⚡ สูตรอ่านโจทย์หา Schema 4 ขั้น</div>
+    <ol class="flowsteps">
+      <li><b>ขั้น 1 หา entity:</b> อ่านโจทย์ทีละวลี — "สิ่งที่ต้องเก็บข้อมูล" = entity เช่น ผู้ป่วย, บุคลากร, การรักษา, ผลแล็บ, การส่งต่อ</li>
+      <li><b>ขั้น 2 กำหนด attribute + PK:</b> ให้ทุกตารางมี PK ของตัวเอง (patient_id, staff_id, record_id…)</li>
+      <li><b>ขั้น 3 หาความสัมพันธ์:</b> ถามว่า "หนึ่งอัน เชื่อมกับอีกฝั่งกี่อัน" — ผู้ป่วย 1 : การรักษาหลายครั้ง (1:N) ฯลฯ</li>
+      <li><b>ขั้น 4 ใส่สัญลักษณ์จำนวน:</b> ฝั่ง "หลาย" วาดปีกอีก้า, ฝั่ง "หนึ่ง" วาดขีด พร้อม FK เชื่อม</li>
+    </ol>
+  </div>
+
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+erDiagram
+  PATIENT ||--o{ TREATMENT_RECORD : "has"
+  MEDICAL_STAFF ||--o{ TREATMENT_RECORD : "treats"
+  TREATMENT_RECORD ||--o{ LAB_RESULT : "produces"
+  TREATMENT_RECORD ||--o{ CERTIFICATE : "issues"
+  TREATMENT_RECORD ||--o{ REFERRAL : "sent-via"
+  PATIENT {
+    string patientId PK "patient_id"
+    string name
+    string phone
+  }
+  MEDICAL_STAFF {
+    string staffId PK "staff_id"
+    string name
+    string specialty
+  }
+  TREATMENT_RECORD {
+    string recordId PK "record_id"
+    string diagnosis
+    string recordDate "date"
+  }
+  LAB_RESULT {
+    string labId PK "lab_id"
+    string testType
+    string result
+  }
+  CERTIFICATE {
+    string certId PK "cert_id"
+    string type
+  }
+  REFERRAL {
+    string referralId PK "referral_id"
+    string channel
+    string status
+  }
+    </pre>
+    <figcaption>ภาพ E-2 — ER Schema คำตอบตัวอย่างของ CS-Hospital (crow's foot): Patient 1:N TreatmentRecord N:1 MedicalStaff · TreatmentRecord 1:N LabResult / Certificate / Referral</figcaption>
   </figure>
+
   <div class="box box-def">
     <div class="box-title">📐 ข้อความอธิบายที่ควรพิมพ์กำกับภาพ (ทำให้คะแนนเต็ม)</div>
     <ul>
       <li><strong>Patient 1:N TreatmentRecord</strong> — ผู้ป่วยหนึ่งคนมีประวัติรักษาหลายครั้ง</li>
       <li><strong>MedicalStaff 1:N TreatmentRecord</strong> — บุคลากรหนึ่งคนดูแลการรักษาหลายรายการ</li>
       <li><strong>TreatmentRecord 1:N LabResult</strong> — การรักษาหนึ่งครั้งอาจมีผลแล็บหลายผล (เลือด/ปัสสาวะ)</li>
-      <li><strong>TreatmentRecord 1:N Certificate / 1:N Referral</strong> — ออกใบรับรอง/ส่งต่อเฉพาะทางเทียบกับการรักษาครั้งนั้น</li>
-      <li>ระบุ <strong>PK</strong> (ตัวหนา/ขีดเส้นใต้) และ <strong>FK</strong> ทุกตาราง — กรรมการมองหาตรงนี้</li>
+      <li><strong>TreatmentRecord 1:N Certificate / 1:N Referral</strong> — ออกใบรับรอง/ส่งต่อเฉพาะทางผูกกับการรักษาครั้งนั้น</li>
+      <li>ระบุ <strong>PK</strong> (ขีดเส้นใต้/ตัวหนา) และ <strong>FK</strong> ทุกตาราง — กรรมการมองหาตรงนี้</li>
     </ul>
   </div>
 </section>
 
 <section class="block" id="arch">
-  <h2><span class="h2-dot">🏛️</span> ข้อเขียน 4: เขียนสถาปัตยกรรมซอฟต์แวร์ของ CS-Hospital</h2>
-  <div class="box box-key">
-    <div class="box-title">⚡ คำตอบนำด้วยประโยคความรู้ แล้ววาดไดอะแกรมผสม 3 สไตล์</div>
-    <p>เปิดด้วย: "นิยามสถาปัตยกรรมซอฟต์แวร์คือชุดการตัดสินใจระดับสูงที่กำหนดโครงสร้างระบบ (ส่วนย่อย + ความสัมพันธ์) — สำหรับระบบเว็บ CS-Hospital ขอเลือกผสม 3 สไตล์: <strong>Layered (Multi-Tiered) + Client/Server + Central Repository</strong>" — แล้ววาดตามภาพด้านล่าง</p>
+  <h2><span class="h2-dot">🏛️</span> ข้อเขียนข้อ 4 — เขียนสถาปัตยกรรมซอฟต์แวร์ของ CS-Hospital</h2>
+
+  <div class="box box-def">
+    <div class="box-title">📚 รู้ก่อนวาด — สถาปัตยกรรมคืออะไร และเลือกสไตล์ไหนตอบ</div>
+    <p><strong>นิยาม:</strong> Software Architecture = ชุดการตัดสินใจระดับสูงที่กำหนดโครงสร้างของระบบ — มี "ส่วนย่อย" อะไรบ้าง และ "เชื่อมกัน" อย่างไร — ทำตั้งแต่เนิ่น ๆ แก้ยากมากทีหลัง และ<em>ไม่ใช่ phase</em> ของการพัฒนา (เป็นการตัดสินใจที่เกิดต่อเนื่อง)</p>
+    <p><strong>สำหรับระบบเว็บแบบ CS-Hospital เลือกผสม 3 สไตล์นี้ตอบ (ตามหลัก "ระบบจริงผสมหลายสไตล์"):</strong></p>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>สไตล์</th><th>หน้าตาเป็นอย่างไร</th><th>ทำไมเหมาะกับ CS-Hospital</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Client/Server</strong></td><td>Client = triggering process (ริเริ่มส่งคำขอ) · Server = reactive process (คอยฟังและตอบ) · คุยกันผ่าน Connector</td><td>เว็บแอปโดยธรรมชาติคือ browser (client) ร้องขอ ไปยัง web server</td></tr>
+        <tr><td><strong>Layered (Multi-Tiered)</strong></td><td>แบ่ง 3 ชั้น: UI Layer → Application Logic Layer → Technical Services Layer — ชั้นบนใช้บริการชั้นล่าง</td><td>แยกหน้าจอ/กฎธุรกิจ/ฐานข้อมูลออกจากกัน แก้ทีละชั้นไม่กระทบกัน (maintain ง่าย — separation of concerns)</td></tr>
+        <tr><td><strong>Central Repository</strong></td><td>มีคลังข้อมูลกลาง (ฐานข้อมูลเดียว) ที่ทุก subsystem อ่าน/เขียนผ่าน</td><td>ทุกแผนกต้องเห็นข้อมูลผู้ป่วย "ชุดเดียวกัน" ไม่ใช่คนละสำเนา</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>วิธีตอบให้เต็ม:</strong> เปิดด้วยนิยาม 1 ประโยค → วาดไดอะแกรม → <em>ตั้งชื่อสไตล์กำกับชัด ๆ</em> → ปิดด้วยเหตุผลที่เลือก (กรรมการมองหาชื่อสไตล์ + เหตุผล)</p>
   </div>
-  <figure class="fig">
-    <svg viewBox="0 0 620 400" role="img" aria-label="สถาปัตยกรรม CS-Hospital: Client (browser PC/มือถือ) → Web Server + Application Server 3 ชั้น (UI, Logic, Technical Services) → Database กลาง + บริการภายนอก LINE/Email">
-      <rect x="18" y="30" width="120" height="46" rx="9" class="f1" stroke="#2563eb" fill="none"></rect>
-      <text x="78" y="50" text-anchor="middle" class="small t1">Browser (PC)</text>
-      <text x="78" y="66" text-anchor="middle" class="small mut">พยาบาล/แพทย์/Admin</text>
-      <rect x="18" y="96" width="120" height="46" rx="9" class="f1" stroke="#2563eb" fill="none"></rect>
-      <text x="78" y="116" text-anchor="middle" class="small t1">Browser (Mobile)</text>
-      <text x="78" y="132" text-anchor="middle" class="small mut">ใช้ขณะเดินตรวจ</text>
-      <rect x="190" y="60" width="110" height="46" rx="9" class="f3" stroke="#059669" fill="none"></rect>
-      <text x="245" y="80" text-anchor="middle" class="small t3">Web Server</text>
-      <text x="245" y="96" text-anchor="middle" class="small mut">HTTP/HTTPS</text>
-      <rect x="330" y="24" width="230" height="56" rx="10" class="f1" stroke="#2563eb" fill="none"></rect>
-      <text x="445" y="48" text-anchor="middle" class="big t1">Application Server — UI Layer</text>
-      <text x="445" y="68" text-anchor="middle" class="small mut">หน้าเว็บลงทะเบียน/ค้นหา/รายงาน (Presentation)</text>
-      <rect x="330" y="104" width="230" height="56" rx="10" class="f2" stroke="#dc2626" fill="none"></rect>
-      <text x="445" y="128" text-anchor="middle" class="big t2">Application Logic Layer</text>
-      <text x="445" y="148" text-anchor="middle" class="small mut">กฎธุรกิจ: สิทธิ์เข้าถึง, ตรวจข้อมูล, ส่งต่อเฉพาะทาง</text>
-      <rect x="330" y="184" width="230" height="56" rx="10" class="f3" stroke="#059669" fill="none"></rect>
-      <text x="445" y="208" text-anchor="middle" class="big t3">Technical Services Layer</text>
-      <text x="445" y="228" text-anchor="middle" class="small mut">DB access, LINE API client, Email sender, Backup</text>
-      <rect x="330" y="284" width="150" height="52" rx="10" fill="rgba(168,85,247,.14)" stroke="#a855f7" stroke-width="1.6"></rect>
-      <text x="405" y="306" text-anchor="middle" class="big">Central Database</text>
-      <text x="405" y="324" text-anchor="middle" class="small mut">Patient, Staff, Records…</text>
-      <rect x="510" y="284" width="90" height="46" rx="9" class="f1" stroke="#2563eb" fill="none"></rect>
-      <text x="555" y="304" text-anchor="middle" class="small t1">LINE / Email</text>
-      <text x="555" y="322" text-anchor="middle" class="small mut">บริการภายนอก</text>
-      <line class="uml-msg" x1="138" y1="70" x2="186" y2="80" marker-end="url(#ar3)"></line>
-      <line class="uml-ret" x1="138" y1="112" x2="186" y2="96" marker-end="url(#ar3)"></line>
-      <text x="160" y="64" text-anchor="middle" class="small mut">request/</text>
-      <text x="160" y="132" text-anchor="middle" class="small mut">response</text>
-      <line class="uml-msg" x1="300" y1="82" x2="326" y2="66" marker-end="url(#ar3)"></line>
-      <line class="uml-msg" x1="445" y1="80" x2="445" y2="100" marker-end="url(#ar3)"></line>
-      <line class="uml-msg" x1="445" y1="160" x2="445" y2="180" marker-end="url(#ar3)"></line>
-      <line class="uml-msg" x1="415" y1="240" x2="408" y2="280" marker-end="url(#ar3)"></line>
-      <line class="uml-msg" x1="480" y1="240" x2="546" y2="280" marker-end="url(#ar3)"></line>
-      <text x="300" y="362" text-anchor="middle" class="mut">3 สไตล์: ① Client/Server (browser↔web server: client = triggering, server = reactive) ② Layered 3 ชั้นใน app server</text>
-      <text x="300" y="382" text-anchor="middle" class="mut">③ Central Repository (ทุก layer อ่านเขียนข้อมูลผ่าน DB เดียว) — เพิ่มชื่อสไตล์ชัด ๆ กรรมการจะติ๊ก</text>
-    </svg>
-    <figcaption>ภาพ E-3 — สถาปัตยกรรมคำตอบตัวอย่างของ CS-Hospital: Client/Server + Layered + Central Repository — ระบุเหตุผลสั้น ๆ ว่าทำไมเลือก: web ต้องใช้ C/S, แยก UI/logic/data ทำให้ maintain ง่าย (separation of concerns), ข้อมูลต้องศูนย์กลางเดียวกันทุกแผนก</figcaption>
+
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+flowchart LR
+  B1["Browser (PC)&lt;br/&gt;พยาบาล / แพทย์ / Admin"] & B2["Browser (Mobile)&lt;br/&gt;ใช้ขณะเดินตรวจ"] --> WS["Web Server&lt;br/&gt;HTTP/HTTPS"]
+  WS --> L1["UI Layer&lt;br/&gt;หน้าเว็บลงทะเบียน / ค้นหา / รายงาน"]
+  L1 --> L2["Application Logic Layer&lt;br/&gt;กฎธุรกิจ: สิทธิ์เข้าถึง ตรวจข้อมูล ส่งต่อเฉพาะทาง"]
+  L2 --> L3["Technical Services Layer&lt;br/&gt;DB access, LINE/Email client, Backup"]
+  L3 --> DB[("Central Database&lt;br/&gt;Patient, Staff, Records")]
+  L3 --> EXT["LINE / Email&lt;br/&gt;บริการภายนอก"]
+    </pre>
+    <figcaption>ภาพ E-3 — สถาปัตยกรรมคำตอบตัวอย่างของ CS-Hospital: Client/Server + Layered + Central Repository — อุปมา Layered: ตึกสำนักงาน พนักงานขาย (UI) ไม่ต้องรู้ว่ามิเตอร์ไฟวิ่งยังไง (Technical services)</figcaption>
   </figure>
 </section>
 
 <section class="block" id="testplan">
-  <h2><span class="h2-dot">🧪</span> ข้อเขียน 5: "จะทดสอบระบบอย่างไร"</h2>
+  <h2><span class="h2-dot">🧪</span> ข้อเขียนข้อ 5 — "จากโปรเจกต์ที่ทำ จะทดสอบระบบอย่างไร"</h2>
+
+  <div class="box box-def">
+    <div class="box-title">📚 รู้ก่อนเขียน — Verification กับ Validation (คู่คำที่อาจารย์รัก)</div>
+    <p>ประโยคคลาสสิกของ <strong>Barry Boehm</strong> ที่แยกสองมุมมอง:</p>
+    <ul>
+      <li><strong>Verification</strong> ถามว่า <em>"Are we building the product right?"</em> — เราสร้างสินค้า<em>ถูกวิธี</em>ไหม (ตรง spec ไหม) — มุมมอง<em>นักพัฒนา</em> มองข้างใน → ทำผ่าน <strong>Unit + System testing</strong></li>
+      <li><strong>Validation</strong> ถามว่า <em>"Are we building the right product?"</em> — เราสร้าง<em>สินค้าที่ถูก</em>ไหม (ตรงใจผู้ใช้ไหม) — มุมมอง<em>ลูกค้า</em> มองข้างนอก → ทำผ่าน <strong>Acceptance testing</strong></li>
+    </ul>
+    <p><strong>วิธีจำ:</strong> ตำแหน่งคำ "right" สลับกัน — <em>product RIGHT</em> = ถูกวิธี = Verification · <em>RIGHT product</em> = ของที่ใช่ = Validation</p>
+    <p>และลำดับการทดสอบ 7 ระดับ (Unit → Integration → Function → Quality → System → Acceptance → Installation) อ่านซ้ำได้จาก <a href="#matchT">ส่วน 1ก</a> ข้างบน — ข้อนี้จะเอามาเรียงเป็นแผน</p>
+  </div>
+
   <div class="box box-key">
     <div class="box-title">⚡ โครงคำตอบ 5 ขั้น (เดินจากบทที่ 4 + 10)</div>
     <ol class="flowsteps">
@@ -382,6 +498,7 @@
       <li><b>Validation — Acceptance testing โดยลูกค้า:</b> สาธิตให้โรงพยาบาลทดลองใช้กับเคสจริงจำลอง แล้ว sign-off; ต่อด้วย Installation test ในเครื่องบริการของโรงพยาบาลจริงก่อนเปิดใช้</li>
     </ol>
   </div>
+
   <div class="ex-card">
     <div class="ex-head"><span class="ex-badge">ตัวอย่าง</span><span class="ex-title">test case 1 ชุดที่ควรเขียนโชว์ในข้อนี้</span></div>
     <div class="ex-body">
@@ -392,58 +509,43 @@ Step 1 กรอกข้อมูลครบถูกต้อง → บั�
 Step 2 ทิ้งช่องชื่อว่าง → ระบบตรวจและแจ้ง "กรุณากรอกชื่อ" ไม่ crash (boundary/invalid)
 Step 3 เบอร์โทร 8 หลัก → ปฏิเสธพร้อมข้อความเกณฑ์ (equivalence: ผิดรูปแบบ)
 Step 4 ค้น HN ที่เพิ่งสร้าง → พบข้อมูลตรงทุกช่อง (verify persistence)</pre>
-      <p class="small">โชว์เทคนิค: มี expected result ทุก step + กล่าวถึง equivalence/boundary — เชื่อมบทที่ 10 ให้กรรมการเห็นคำศัพท์</p>
+      <p class="small">โชว์เทคนิค: มี expected result ทุก step + กล่าวถึง equivalence/boundary — เชื่อมคำศัพท์บทที่ 10 ให้กรรมการเห็น</p>
     </div>
   </div>
 </section>
 
 <section class="block" id="maintplan">
-  <h2><span class="h2-dot">🔧</span> ข้อเขียน 6: "จะวางแผน Maintenance อย่างไร"</h2>
+  <h2><span class="h2-dot">🔧</span> ข้อเขียนข้อ 6 — "จะวางแผน Maintenance อย่างไร"</h2>
+
+  <div class="box box-def">
+    <div class="box-title">📚 รู้ก่อนเขียน — 4 ประเภท + กระบวนการ 5 ขั้น</div>
+    <p><strong>4 ประเภท</strong> (อ่านซ้ำจาก <a href="#matchM">ส่วน 1ข</a>): Corrective 21% แก้บั๊ก · Adaptive 25% ตามสิ่งแวดล้อมใหม่ · Perfective 50% ตามความต้องการใหม่ของผู้ใช้ · Preventive 4% เพิ่ม maintainability</p>
+    <p><strong>กระบวนการทำ maintenance มาตรฐาน 5 ขั้น</strong> — ข้อนี้ให้เดินตามโครงนี้:</p>
+  </div>
+
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+flowchart LR
+  CR["รับคำขอ&lt;br/&gt;(Change requests)"] --> IA["วิเคราะห์ผลกระทบ&lt;br/&gt;(Impact analysis)"] --> RP["วางแผนปล่อยเวอร์ชัน&lt;br/&gt;(Release planning)"] --> CI["แก้ไข + ทดสอบ&lt;br/&gt;(Change implementation)"] --> SR["ปล่อยระบบ&lt;br/&gt;(System release)"]
+    </pre>
+    <figcaption>ภาพ M-2 — กระบวนการ Maintenance 5 ขั้น: ทุกคำขอต้องผ่าน impact analysis ก่อนลงมือแก้เสมอ</figcaption>
+  </figure>
+
   <div class="box box-key">
-    <div class="box-title">⚡ โครงคำตอบ: กระบวนการ 5 ขั้น + 4 ประเภท + ตัวชี้วัด</div>
+    <div class="box-title">⚡ โครงคำตอบ: เดิน 5 ขั้น + ครอบ 4 ประเภท + มีตัวชี้วัด</div>
     <ol class="flowsteps">
       <li><b>รับคำขอ (Change requests):</b> เปิดช่องทางเดียว (ระบบ ticket) ให้โรงพยาบาลแจ้ง — แยกประเภท: fault repair / platform adaptation / enhancement พร้อมระดับด่วน (เคสกระทบการรักษาผู้ป่วย = ฉุกเฉิน)</li>
       <li><b>Impact analysis:</b> ตรวจทุกคำขอว่ากระทบโมดูล/ตารางใด (เช่นแก้ตาราง Patient กระทบรายงาน+ส่งต่อเฉพาะทาง) ประเมินความเสี่ยง-เวลา-ทรัพยากร ก่อนตกลงทำ</li>
       <li><b>Release planning:</b> รวมงานเป็นรอบ (เช่นรายเดือน) เลือกเวลา release นอกชั่วโมงบริการ แจ้งล่วงหน้า + สำรองข้อมูลก่อนอัปเดตเสมอ</li>
       <li><b>Change implementation:</b> แก้บนสำเนา รัน test suite เดิมทั้งหมด (unit→system) ให้ผ่าน ก่อนขึ้นจริง + อัปเดตเอกสาร/โครงสร้าง (preventive ไปด้วยในตัว)</li>
-      <li><b>System release + ติดตาม:</b> ปล่อยเวอร์ชัน แจ้งผู้ใช้ แล้ววัดตัวชี้วัด 4 ตัว: จำนวนคำขอ corrective ต่อเดือน / เวลาเฉลี่ย impact analysis / เวลาเฉลี่ย implement / คำขอค้าง — ถ้าโต = maintainability ถดถอย จัด refactoring ทันที</li>
+      <li><b>System release + ติดตาม:</b> ปล่อยเวอร์ชัน แจ้งผู้ใช้ แล้ววัดตัวชี้วัด 4 ตัว: จำนวนคำขอ corrective ต่อเดือน / เวลาเฉลี่ย impact analysis / เวลาเฉลี่ย implement / คำขอค้าง — ถ้าโตต่อเนื่อง = maintainability ถดถอย ต้องจัด refactoring ทันที</li>
     </ol>
-    <p>ปิดท้าย 1 บรรทัดได้คะแนนเพิ่ม: "แผนนี้แตกจาก Maintenance plan หนึ่งใน Types of Project Plan (บทที่ 5) และครอบ maintenance 4 ประเภท: Corrective (SLA แก้บั๊กด่วนเคสการรักษา) / Adaptive (ติดตาม OS/Browser/DB ทุกไตรมาส) / Perfective (backlog ฟีเจอร์ใหม่จากผู้ใช้) / Preventive (จองเวลา refactoring + ดูแลเอกสาร)"</p>
-  </div>
-</section>
-
-<section class="block" id="tips">
-  <h2><span class="h2-dot">💡</span> ทริคในห้องสอบ — อ่านก่อนเข้า 10 นาที</h2>
-  <div class="feat-grid">
-    <div class="feat">
-      <div class="f-ico">📝</div>
-      <div class="f-t">ข้อจับคู่: หา "คีย์เวิร์ด" ก่อน</div>
-      <div class="f-d">โดดเดี่ยว=Unit · รวมโมดูล=Integration · FR=Function · NFR=Quality · ลูกค้า=Acceptance · สภาพแวดล้อม=Adaptive · แก้บั๊ก=Corrective · เพิ่มฟีเจอร์=Perfective · refactor=Preventive</div>
-    </div>
-    <div class="feat">
-      <div class="f-ico">🎯</div>
-      <div class="f-t">ข้อเขียน: ตอบ "ตามคำศัพท์ในโจทย์"</div>
-      <div class="f-d">ทุกวลีในโจทย์เป็นเมล็ดคะแนน — จับวลี "ส่งต่อผ่าน LINE/Email" แปลงเป็น actor + FR + ช่องทางใน architecture ให้กรรมการเห็นว่าอ่านโจทย์ครบ</div>
-    </div>
-    <div class="feat">
-      <div class="f-ico">📐</div>
-      <div class="f-t">วาดไดอะแกรม: ครบ &gt; สวย</div>
-      <div class="f-d">ไม่ต้องเรขาคณิตเป๊ะ แต่ต้องครบชิ้น: actor นอกกรอบ / ชื่อระบบบน boundary / ellipse ชื่อกริยา / ป้าย «include» / สัญลักษณ์จำนวน 1:N บน schema</div>
-    </div>
-    <div class="feat">
-      <div class="f-ico">⏱️</div>
-      <div class="f-t">จัดเวลา: จับคู่เร็ว เขียนให้เวลา</div>
-      <div class="f-d">จับคู่ทำเร็วแล้วตรวจซ้ำ (แม่นแล้วได้เต็ม) อย่าเผาเวลา — เงินส่วนใหญ่อยู่ที่ข้อเขียนตอบ โดยเฉพาะ Use case + FR/NFR ที่มีแบบฟอร์มพร้อม</div>
-    </div>
-  </div>
-  <div class="box box-idea">
-    <div class="box-title">🔁 ก่อนเข้าห้องสอบ ทบทวนลำดับนี้</div>
-    <p>1) ตาราง 7 ระดับทดสอบ + 4 ประเภท maintenance (จับคู่ = คะแนนง่าย) · 2) แม่แบบ FR/NFR 5+6 ข้อของ CS-Hospital · 3) แม่แบบ Use case + Schema + Architecture · 4) โครง testing plan + maintenance plan · 5) ตาราง Model ↔ งานที่เหมาะ (บทที่ 8) — ทั้งหมดอยู่ใน <a href="summary.html">📋 สรุปรวมทุกบท</a> อ่านได้ใน 15 นาที</p>
+    <p>ปิดท้าย 1 บรรทัดได้คะแนนเพิ่ม: "แผนนี้แตกจาก <strong>Maintenance plan</strong> หนึ่งใน Types of Project Plan และครอบ maintenance 4 ประเภท: Corrective (SLA แก้บั๊กด่วนเคสการรักษา) / Adaptive (ติดตาม OS/Browser/DB ทุกไตรมาส) / Perfective (backlog ฟีเจอร์ใหม่จากผู้ใช้) / Preventive (จองเวลา refactoring + ดูแลเอกสาร)"</p>
   </div>
 </section>
 
 <section class="block" id="practice">
-  <h2><span class="h2-dot">🏋️</span> โจทย์ซ้อมข้ามบท (8 ข้อ)</h2>
+  <h2><span class="h2-dot">🏋️</span> ฝึกข้ามบท 8 ข้อ — เลียนแบบข้อสอบจริง</h2>
 
   <div class="pr-card" data-pkey="pF-1">
     <div class="pr-head"><span class="pr-num">ข้อ 1</span><span class="diff">●●○</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
@@ -455,7 +557,7 @@ Step 4 ค้น HN ที่เพิ่งสร้าง → พบข้อ�
           <li><span class="step-t"><b>FR-2:</b> ระบบต้องสามารถแสดงสถานะออเดอร์แบบเรียลไทม์ (รับออเดอร์→กำลังทำ→กำลังจัดส่ง)</span></li>
           <li><span class="step-t"><b>FR-3:</b> ระบบต้องสามารถรับการชำระเงินออนไลน์และออกใบเสร็จ</span></li>
           <li><span class="step-t"><b>FR-4:</b> ระบบต้องสามารถส่งออเดอร์ถึงพนักงานส่งพร้อมที่อยู่</span></li>
-          <li><span class="step-t"><b>NFR-P:</b> ยืนยันการชำระเงินภายใน 3 วินาที รองรับออเดอร์พรุ้งพรุ่งช่วงค่ำ 500 ออเดอร์/ชม.</span></li>
+          <li><span class="step-t"><b>NFR-P:</b> ยืนยันการชำระเงินภายใน 3 วินาที รองรับออเดอร์พร้อมกันช่วงค่ำ 500 ออเดอร์/ชม.</span></li>
           <li><span class="step-t"><b>NFR-U:</b> ลูกค้าใหม่สั่งสำเร็จภายใน 2 นาทีไม่ต้องสมัครสมาชิก</span></li>
           <li><span class="step-t"><b>NFR-R:</b> ออเดอร์ไม่หายแม้ payment gateway ล่มชั่วคราว (มีคิวรอ)</span></li>
           <li><span class="step-t"><b>NFR-F(Security):</b> ข้อมูลบัตร/PromptPay เข้ารหัส พนักงานไม่เห็นเลขบัตร</span></li>
@@ -506,7 +608,7 @@ Step 4 ค้น HN ที่เพิ่งสร้าง → พบข้อ�
           <li><span class="step-t"><b>(4)</b> RUP (Rational Unified Process)</span></li>
           <li><span class="step-t"><b>(5)</b> XP — Extreme Programming</span></li>
           <li><span class="step-t"><b>(6)</b> ER Schema / สัญลักษณ์ความสัมพันธ์ "หลายตัว"</span></li>
-          <li><span class="step-t"><b>(7)</b> เดาคีย์จนเข้า — กันด้วย block หลัง N ครั้ง (NFR Security / บทที่ 6)</span></li>
+          <li><span class="step-t"><b>(7)</b> เดาคีย์จนเข้า — กันด้วย block หลัง N ครั้ง (NFR Security)</span></li>
           <li><span class="step-t"><b>(8)</b> "makes it later" — Brooks / scheduling problem (บทที่ 5)</span></li>
         </ol>
       </details>
@@ -576,11 +678,43 @@ Step 4 ค้น HN ที่เพิ่งสร้าง → พบข้อ�
 
 </section>
 
+<section class="block" id="tips">
+  <h2><span class="h2-dot">💡</span> ทริคในห้องสอบ — อ่านก่อนเข้า 10 นาที</h2>
+  <div class="feat-grid">
+    <div class="feat">
+      <div class="f-ico">📝</div>
+      <div class="f-t">ข้อจับคู่: หา "คีย์เวิร์ด" ก่อน</div>
+      <div class="f-d">โดดเดี่ยว=Unit · รวมโมดูล=Integration · FR=Function · NFR=Quality · ลูกค้า=Acceptance · แก้บั๊ก=Corrective · เปลี่ยน OS/DB=Adaptive · เพิ่มฟีเจอร์=Perfective · refactor=Preventive</div>
+    </div>
+    <div class="feat">
+      <div class="f-ico">🎯</div>
+      <div class="f-t">ข้อเขียน: ตอบ "ตามคำศัพท์ในโจทย์"</div>
+      <div class="f-d">ทุกวลีในโจทย์เป็นเมล็ดคะแนน — จับวลี "ส่งต่อผ่าน LINE/Email" แปลงเป็น actor + FR + ช่องทางใน architecture ให้กรรมการเห็นว่าอ่านโจทย์ครบ</div>
+    </div>
+    <div class="feat">
+      <div class="f-ico">📐</div>
+      <div class="f-t">วาดไดอะแกรม: ครบ &gt; สวย</div>
+      <div class="f-d">ไม่ต้องเรขาคณิตเป๊ะ แต่ต้องครบชิ้น: actor นอกกรอบ / ชื่อระบบบน boundary / ellipse ชื่อกริยา / ป้าย «include» / สัญลักษณ์จำนวน 1:N บน schema</div>
+    </div>
+    <div class="feat">
+      <div class="f-ico">⏱️</div>
+      <div class="f-t">จัดเวลา: จับคู่เร็ว เขียนให้เวลา</div>
+      <div class="f-d">จับคู่ทำเร็วแล้วตรวจซ้ำ (แม่นแล้วได้เต็ม) อย่าเผาเวลา — เงินส่วนใหญ่อยู่ที่ข้อเขียนตอบ โดยเฉพาะ Use case + FR/NFR ที่มีแบบฟอร์มพร้อม</div>
+    </div>
+  </div>
+  <div class="box box-idea">
+    <div class="box-title">🔁 แผนทบทวนก่อนเข้าห้องสอบ (อ่านจากหน้านี้หน้าเดียวพอ)</div>
+    <p>1) ตาราง 7 ระดับทดสอบ + 4 ประเภท maintenance (ส่วน 1ก/1ข — คะแนนง่าย) · 2) แม่แบบ FR/NFR 5+6 ข้อ (ข้อ 1) · 3) แม่แบบ Use case + Schema + Architecture (ข้อ 2–4) · 4) โครง testing plan + maintenance plan (ข้อ 5–6) · 5) โจทย์ฝึกรวม 8 ข้อท้ายหน้า — อ่านรอบสุดท้ายใช้เวลา ~15 นาที</p>
+    <p>🤖 ถ้าอยากถามเพิ่มจาก video การสอนอาจารย์ เข้าไปพิมพ์ถามได้ที่ <a href="https://notebook.google.com/notebook/5db4f39c-dd66-4504-8cc6-ed33e889b56a" target="_blank" rel="noopener">💻 Notebook วิชา SE</a></p>
+  </div>
+</section>
+
 </div></main>
 
 <nav class="pager" id="pager"></nav>
 </div>
 
+<script type="module" src="assets/js/mermaid-init.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/tts.js"></script>
 </body>

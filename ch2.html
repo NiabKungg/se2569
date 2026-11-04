@@ -72,24 +72,15 @@
   </div>
 
   <h3>2) ความสัมพันธ์ 4 ชั้น — รูปพีระมิดที่ต้องวาดได้</h3>
-  <figure class="fig">
-    <svg viewBox="0 0 460 330" role="img" aria-label="พีระมิด 4 ชั้น: Tools บนสุด, Methodologies, Methods/Techniques, Principles ฐานล่างสุด">
-      <polygon points="230,20 360,80 100,80" fill="rgba(139,92,246,.16)" stroke="#8b5cf6" stroke-width="1.6"></polygon>
-      <text x="230" y="62" text-anchor="middle" class="big" fill="#8b5cf6">Tools</text>
-      <polygon points="92,92 368,92 300,168 160,168" fill="rgba(37,99,235,.14)" stroke="#2563eb" stroke-width="1.6"></polygon>
-      <text x="230" y="128" text-anchor="middle" class="big t1">Methodologies</text>
-      <text x="230" y="150" text-anchor="middle" class="small mut">เช่น Waterfall, Spiral, OO</text>
-      <polygon points="152,180 308,180 260,250 200,250" fill="rgba(5,150,105,.13)" stroke="#059669" stroke-width="1.6"></polygon>
-      <text x="230" y="216" text-anchor="middle" class="big t3">Methods /</text>
-      <text x="230" y="236" text-anchor="middle" class="big t3">Techniques</text>
-      <rect x="130" y="268" width="200" height="46" rx="10" fill="rgba(220,38,38,.12)" stroke="#dc2626" stroke-width="2"></rect>
-      <text x="230" y="289" text-anchor="middle" class="big t2">Principles</text>
-      <text x="230" y="308" text-anchor="middle" class="small mut">ฐานล่างสุด — พื้นของทุกชั้น</text>
-      <text x="452" y="305" text-anchor="end" class="mut small">** Principles เป็นฐานของทุก</text>
-      <text x="452" y="323" text-anchor="end" class="mut small">method/technique, methodology, tool **</text>
-    </svg>
+  
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+flowchart BT
+  P["Principles&lt;br/&gt;ฐานล่างสุด — พื้นของทุกชั้น"] --> MT["Methods / Techniques"] --> MD["Methodologies&lt;br/&gt;เช่น Waterfall, Spiral, OO"] --> TL["Tools"]
+    </pre>
     <figcaption>ภาพ 2.1 — พีระมิด 4 ชั้น: สร้างจากล่างขึ้นบน — Principles คือฐาน ถ้าหลักการผิด ทุกชั้นบนก็พังตาม (อุปมา: พื้นความรู้ → สูตร+ท่า → ตำรา → เครื่องมือ)</figcaption>
   </figure>
+
 
   <figure class="fig fig-orig">
     <img src="assets/img/ch2-layers.png" alt="พีระมิด 4 ชั้น Principles Methods Methodologies Tools จากสไลด์ต้นฉบับ" loading="lazy">
@@ -118,61 +109,18 @@
       <tr><td><strong>7. Incrementality</strong><br>(การทำทีละส่วน)</td><td>"ส่งมอบเป็นก้อน ๆ เร็ว ๆ เพื่อรับ feedback เร็ว ๆ"</td><td>หา "early subsets" ที่มีประโยชน์ พัฒนาและ<em>ส่งมอบลูกค้าก่อน</em> เพื่อรับ "early feedback" — <strong>เพราะไม่มีทางทำ requirement ถูกหมดตั้งแต่แรก</strong> · การพัฒนาแบบ Evolutionary ต้องดูแลจัดการเอกสาร โปรแกรม test data เป็นพิเศษ · ทุก step ที่มีความหมายต้อง<em>บันทึก</em> เอกสารค้นหาง่าย เปลี่ยนแปลงอย่างมีควบคุม — (หลักนี้คือบรรพบุรุษของ Agile/Scrum ในบทที่ 8!)</td></tr>
     </tbody>
   </table></div>
-  <figure class="fig">
-    <svg viewBox="0 0 540 420" role="img" aria-label="การ์ด 7 หลักการพร้อมอุปมา: ตำรวจอย่างเข้มงวด, กล่องแยกช่อง, เลโก้, กล้องซูม, ประตูที่รอการเปลี่ยน, กุญแจร่วม, ขั้นบันได">
-      <g transform="translate(8,8)">
-        <rect width="168" height="96" rx="12" class="f1" stroke="#2563eb" fill="none"></rect>
-        <text x="84" y="26" text-anchor="middle" class="big t1">1. Rigor & Formality</text>
-        <text x="84" y="50" text-anchor="middle">มีระเบียบ ตรวจสอบได้</text>
-        <text x="84" y="70" text-anchor="middle" class="small mut">อุปมา: อัลกอริทึมที่พิสูจน์ได้</text>
-        <text x="84" y="86" text-anchor="middle" class="small mut">แทน "คิดเอาเองว่าน่าจะใช้ได้"</text>
-      </g>
-      <g transform="translate(186,8)">
-        <rect width="168" height="96" rx="12" class="f2" stroke="#dc2626" fill="none"></rect>
-        <text x="84" y="26" text-anchor="middle" class="big t2">2. Separation of Concerns</text>
-        <text x="84" y="50" text-anchor="middle">แยกประเด็น: Time/Qualities/</text>
-        <text x="84" y="68" text-anchor="middle">Views/Parts</text>
-        <text x="84" y="86" text-anchor="middle" class="small mut">อุปมา: กล่องเก็บของแยกช่อง</text>
-      </g>
-      <g transform="translate(364,8)">
-        <rect width="168" height="96" rx="12" class="f3" stroke="#059669" fill="none"></rect>
-        <text x="84" y="26" text-anchor="middle" class="big t3">3. Modularity</text>
-        <text x="84" y="50" text-anchor="middle">Decompose / Compose</text>
-        <text x="84" y="70" text-anchor="middle" class="small mut">อุปมา: บล็อกเลโก้ — หั่นเป็น</text>
-        <text x="84" y="86" text-anchor="middle" class="small mut">ชิ้นแล้วประกอบกลับได้</text>
-      </g>
-      <g transform="translate(8,114)">
-        <rect width="168" height="96" rx="12" class="fsoft" stroke="var(--acc-ink)" fill="none"></rect>
-        <text x="84" y="26" text-anchor="middle" class="big">4. Abstraction</text>
-        <text x="84" y="50" text-anchor="middle">มองสาระสำคัญ ละรายละเอียด</text>
-        <text x="84" y="70" text-anchor="middle" class="small mut">อุปมา: ใช้รถโดยไม่ต้องรู้</text>
-        <text x="84" y="86" text-anchor="middle" class="small mut">กลไกเครื่องยนต์ทั้งหมด</text>
-      </g>
-      <g transform="translate(186,114)">
-        <rect width="168" height="96" rx="12" class="f1" stroke="#2563eb" fill="none"></rect>
-        <text x="84" y="26" text-anchor="middle" class="big t1">5. Anticipation of Change</text>
-        <text x="84" y="50" text-anchor="middle">ออกแบบรอการเปลี่ยน</text>
-        <text x="84" y="70" text-anchor="middle" class="small mut">อุปมา: บ้านเผื่อท่อไว้</text>
-        <text x="84" y="86" text-anchor="middle" class="small mut">ต่อขยายในอนาคต</text>
-      </g>
-      <g transform="translate(364,114)">
-        <rect width="168" height="96" rx="12" class="f2" stroke="#dc2626" fill="none"></rect>
-        <text x="84" y="26" text-anchor="middle" class="big t2">6. Generality</text>
-        <text x="84" y="50" text-anchor="middle">ทำให้ใช้ได้หลายกรณี</text>
-        <text x="84" y="70" text-anchor="middle" class="small mut">อุปมา: กุญแจแม่กุญแจ</text>
-        <text x="84" y="86" text-anchor="middle" class="small mut">(แต่แพงกว่ากุญแจเฉพาะประตู)</text>
-      </g>
-      <g transform="translate(186,220)">
-        <rect width="168" height="96" rx="12" class="f3" stroke="#059669" fill="none"></rect>
-        <text x="84" y="26" text-anchor="middle" class="big t3">7. Incrementality</text>
-        <text x="84" y="50" text-anchor="middle">ส่งทีละส่วน รับ feedback เร็ว</text>
-        <text x="84" y="70" text-anchor="middle" class="small mut">อุปมา: เผยแพทช์เกมทีละ</text>
-        <text x="84" y="86" text-anchor="middle" class="small mut">โหมด ฟังคอมเมนต์ก่อนทำต่อ</text>
-      </g>
-      <text x="270" y="360" text-anchor="middle" class="mut">จำชื่อ 7 หลักการด้วยประโยค: "แข็งแรง-แยกประเด็น-แบ่งโมดูล-มองนามธรรม-รอเปลี่ยน-ใช้ทั่วไป-ทำทีละน้อย"</text>
-    </svg>
-    <figcaption>ภาพ 2.2 — สรุป 7 หลักการพร้อมอุปมา — อ่านตารางข้างบนให้ละเอียด แล้วใช้ภาพนี้ทบทวน</figcaption>
-  </figure>
+  
+  <div class="match-grid">
+    <div class="match-item"><span class="m-key">1. Rigor and Formality</span><br>ทำอย่างมีระเบียบ ตรวจสอบได้ — <em>อุปมา:</em> อัลกอริทึมที่พิสูจน์ได้ แทน "คิดเอาเองว่าน่าจะใช้ได้"</div>
+    <div class="match-item"><span class="m-key">2. Separation of Concerns</span><br>แยกประเด็น: Time / Qualities / Views / Parts — <em>อุปมา:</em> กล่องเก็บของแยกช่อง</div>
+    <div class="match-item"><span class="m-key">3. Modularity</span><br>Decompose / Compose — <em>อุปมา:</em> บล็อกเลโก้ หั่นเป็นชิ้นแล้วประกอบกลับได้</div>
+    <div class="match-item"><span class="m-key">4. Abstraction</span><br>มองสาระสำคัญ ละรายละเอียด — <em>อุปมา:</em> ใช้รถโดยไม่ต้องรู้กลไกเครื่องยนต์ทั้งหมด</div>
+    <div class="match-item"><span class="m-key">5. Anticipation of Change</span><br>ออกแบบรอการเปลี่ยน — <em>อุปมา:</em> บ้านเผื่อท่อไว้ต่อขยายในอนาคต</div>
+    <div class="match-item"><span class="m-key">6. Generality</span><br>ทำให้ใช้ได้หลายกรณี — <em>อุปมา:</em> กุญแจแม่กุญแจ (แต่แพงกว่ากุญแจเฉพาะประตู)</div>
+    <div class="match-item"><span class="m-key">7. Incrementality</span><br>ส่งทีละส่วน รับ feedback เร็ว — <em>อุปมา:</em> เผยแพตช์เกมทีละโหมด ฟังคอมเมนต์ก่อนทำต่อ</div>
+  </div>
+  <p class="small" style="text-align:center;margin-top:8px">จำชื่อ 7 หลักการด้วยประโยค: "แข็งแรง-แยกประเด็น-แบ่งโมดูล-มองนามธรรม-รอเปลี่ยน-ใช้ทั่วไป-ทำทีละน้อย"</p>
+
 
   <div class="box box-idea">
     <div class="box-title">💡 หลักการไหนเชื่อมกับบทไหน (แผนที่เชื่อมโยง)</div>
@@ -280,6 +228,7 @@
 <nav class="pager" id="pager"></nav>
 </div>
 
+<script type="module" src="assets/js/mermaid-init.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/tts.js"></script>
 </body>

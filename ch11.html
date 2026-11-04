@@ -74,21 +74,19 @@
       <tr><td><strong>Preventive</strong></td><td><strong>4%</strong> — น้อยสุด</td><td>"ป้องกันล่วงหน้า เพิ่ม maintainability"</td><td>ปรับปรุงให้<em>maintainability ของระบบสูงขึ้น</em> เพื่อกันปัญหาอนาคต · เช่น refactoring โครงสร้างโค้ด เพิ่มเอกสาร/คอมเมนต์ ทำ automated test เพิ่ม</td></tr>
     </tbody>
   </table></div>
-  <figure class="fig">
-    <svg viewBox="0 0 240 240" role="img" aria-label="วงกลมสัดส่วน maintenance: perfective 50%, adaptive 25%, corrective 21%, preventive 4%">
-      <circle cx="120" cy="120" r="90" fill="none" stroke="var(--border)"></circle>
-      <path d="M120 120 L120 30 A90 90 0 0 1 199.5 165 Z" fill="rgba(168,85,247,.55)" stroke="var(--text)" stroke-width="1"></path>
-      <path d="M120 120 L199.5 165 A90 90 0 0 1 85.5 205.5 Z" fill="rgba(20,184,166,.55)" stroke="var(--text)" stroke-width="1"></path>
-      <path d="M120 120 L85.5 205.5 A90 90 0 0 1 31.5 78 Z" fill="rgba(239,68,68,.5)" stroke="var(--text)" stroke-width="1"></path>
-      <path d="M120 120 L31.5 78 A90 90 0 0 1 120 30 Z" fill="rgba(245,158,11,.5)" stroke="var(--text)" stroke-width="1"></path>
-      <text x="168" y="96" text-anchor="middle" class="big">Perfective 50%</text>
-      <text x="185" y="176" text-anchor="middle" class="small">Adaptive 25%</text>
-      <text x="76" y="188" text-anchor="middle" class="small">Corrective 21%</text>
-      <text x="84" y="80" text-anchor="middle" class="small">Preventive 4%</text>
-      <text x="120" y="232" text-anchor="middle" class="mut small">(SE, Hans van Vliet)</text>
-    </svg>
+  
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+pie showData
+  title สัดส่วนกิจกรรมบำรุงรักษา (SE, Hans van Vliet)
+  "Perfective" : 50
+  "Adaptive" : 25
+  "Corrective" : 21
+  "Preventive" : 4
+    </pre>
     <figcaption>ภาพ 11.1 — สัดส่วนกิจกรรมบำรุงรักษา: Perfective ครึ่งงานทั้งหมด / Preventive น้อยเกินคาดเพียง 4%</figcaption>
   </figure>
+
 
   <figure class="fig fig-orig">
     <img src="assets/img/ch11-pie.png" alt="pie chart สัดส่วน maintenance จากสไลด์ต้นฉบับ" loading="lazy">
@@ -125,36 +123,16 @@
     <p><strong>เครื่องมือบำรุงรักษา 4 กลุ่ม:</strong> ① ช่วยการรับรู้ (reformatters จัดหน้าตาโค้ด) ② มองโครงสร้างนิ่ง (static structure) ③ มองพฤติกรรมขณะรัน (dynamic behavior) ④ ส่องประวัติเวอร์ชัน (version history)</p>
     <p><strong>วิเคราะห์ evolution 2 แนว:</strong> <em>Version-centered</em> (ศึกษา diff ระหว่างเวอร์ชันติดกัน) / <em>History-centered</em> (ศึกษาจากมุมมอง เช่น component ไหนถูกแก้<em>พร้อมกัน</em>บ่อย)</p>
   </div>
-  <figure class="fig">
-    <svg viewBox="0 0 600 150" role="img" aria-label="กระบวนการ maintenance: Change requests → Impact analysis → Release planning → Change implementation → System release">
-      <g>
-        <rect x="16" y="46" width="104" height="52" rx="10" class="f1" stroke="#2563eb" fill="none"></rect>
-        <text x="68" y="69" text-anchor="middle" class="big t1">Change</text>
-        <text x="68" y="87" text-anchor="middle" class="big t1">requests</text>
-        <rect x="140" y="46" width="104" height="52" rx="10" class="f2" stroke="#dc2626" fill="none"></rect>
-        <text x="192" y="69" text-anchor="middle" class="big t2">Impact</text>
-        <text x="192" y="87" text-anchor="middle" class="big t2">analysis</text>
-        <rect x="264" y="46" width="104" height="52" rx="10" class="fsoft" stroke="var(--acc-ink)" fill="none"></rect>
-        <text x="316" y="69" text-anchor="middle" class="big">Release</text>
-        <text x="316" y="87" text-anchor="middle" class="big">planning</text>
-        <rect x="388" y="46" width="104" height="52" rx="10" class="f3" stroke="#059669" fill="none"></rect>
-        <text x="440" y="69" text-anchor="middle" class="big t3">Change</text>
-        <text x="440" y="87" text-anchor="middle" class="big t3">implementation</text>
-        <rect x="512" y="46" width="76" height="52" rx="10" class="f3" stroke="#059669" fill="none"></rect>
-        <text x="550" y="69" text-anchor="middle" class="big t3">System</text>
-        <text x="550" y="87" text-anchor="middle" class="big t3">release</text>
-      </g>
-      <line class="uml-msg" x1="120" y1="72" x2="136" y2="72" marker-end="url(#ar3)"></line>
-      <line class="uml-msg" x1="244" y1="72" x2="260" y2="72" marker-end="url(#ar3)"></line>
-      <line class="uml-msg" x1="368" y1="72" x2="384" y2="72" marker-end="url(#ar3)"></line>
-      <line class="uml-msg" x1="492" y1="72" x2="508" y2="72" marker-end="url(#ar3)"></line>
-      <g class="small mut">
-        <text x="192" y="124" text-anchor="middle">Fault repair · Platform adaptation · System enhancement</text>
-      </g>
-      <text x="300" y="144" text-anchor="middle" class="mut">ประเภทคำขอ 3 แบบ: ซ่อมบั๊ก / ปรับแพลตฟอร์ม / เพิ่มความสามารถ — เข้าขั้น impact analysis เสมอ</text>
-    </svg>
-    <figcaption>ภาพ 11.2 — กระบวนการ Maintenance 5 ขั้น: จาก Change requests ถึง System release — ชั้นกลางแยกเป็น Fault repair / Platform adaptation / System enhancement</figcaption>
+  
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+flowchart LR
+  CR["Change requests"] --> IA["Impact analysis"] --> RP["Release planning"] --> CI["Change implementation"] --> SR["System release"]
+  CI -.-> FR["Fault repair"] & PA["Platform adaptation"] & SE2["System enhancement"]
+    </pre>
+    <figcaption>ภาพ 11.2 — กระบวนการ Maintenance 5 ขั้น: จาก Change requests ถึง System release — คำขอแยกเป็น Fault repair / Platform adaptation / System enhancement</figcaption>
   </figure>
+
 
   <figure class="fig fig-orig">
     <img src="assets/img/ch11-process.png" alt="maintenance process จากสไลด์ต้นฉบับ" loading="lazy">
@@ -319,6 +297,7 @@
 <nav class="pager" id="pager"></nav>
 </div>
 
+<script type="module" src="assets/js/mermaid-init.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/tts.js"></script>
 </body>

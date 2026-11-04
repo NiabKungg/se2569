@@ -587,7 +587,7 @@ html[data-theme="dark"] .btn-danger { color: #fb7185; }
 
 /* ---------- SVG figures (ภาพประกอบ) ---------- */
 .fig { margin: 1.25em 0; }
-.fig svg {
+.fig > svg {
   display: block; width: 100%; max-width: 560px; height: auto;
   margin: 0 auto;
   background: var(--surface);
@@ -599,7 +599,7 @@ html[data-theme="dark"] .btn-danger { color: #fb7185; }
   font-size: .92rem; color: var(--muted); text-align: center;
   margin-top: .5em; line-height: 1.65; padding: 0 .5em;
 }
-.fig text {
+.fig > svg text {
   fill: var(--text);
   font-family: 'Sarabun', 'Noto Sans Thai', 'Leelawadee UI', Tahoma, sans-serif;
   font-size: 13px;
@@ -793,3 +793,16 @@ details.ans[open] summary { margin-bottom: .4em; }
 }
 .fig.fig-orig figcaption { color: #0d9488; font-weight: 600; }
 html[data-theme="dark"] .fig.fig-orig figcaption { color: #2dd4bf; }
+
+/* ---------- Mermaid diagrams (แทน SVG ที่วาดเอง) ---------- */
+.fig.fig-mermaid .mermaid {
+  display: flex; justify-content: center;
+  background: #ffffff;              /* ธีม mermaid ออกแบบบนพื้นขาว — ใส่การ์ดขาวทั้ง light/dark */
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  padding: 16px 12px;
+  overflow-x: auto;
+}
+.fig.fig-mermaid .mermaid svg { max-width: 100%; height: auto; }
+.fig.fig-mermaid pre.mermaid { margin: 0; font-size: .9rem; color: var(--muted); }

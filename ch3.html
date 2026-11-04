@@ -67,29 +67,17 @@
     <p><strong>Internal qualities</strong> = คุณภาพที่<em>นักพัฒนา</em>เป็นคนสนใจ (concern the developers) — เกี่ยวกับ "โครงสร้างของซอฟต์แวร์" เป็นหลัก และมีหน้าที่ "ช่วยให้เกิดคุณภาพภายนอก"</p>
     <p><strong>ประโยคที่อาจารย์เขียนไว้ (ออกสอบได้):</strong> "The internal quality of <em>verifiability</em> is necessary to achieve the external quality of <em>reliability</em>" — โครงสร้างที่ตรวจสอบง่าย (internal) คือสิ่งจำเป็นที่ทำให้ระบบเชื่อถือได้ในสายตาผู้ใช้ (external)</p>
   </div>
-  <figure class="fig">
-    <svg viewBox="0 0 520 260" role="img" aria-label="External quality ผู้ใช้มองเห็น เทียบกับ Internal quality นักพัฒนาดูโครงสร้าง โดย internal ช่วยให้ external เกิดขึ้น">
-      <rect x="30" y="30" width="210" height="180" rx="14" class="f1" stroke="#2563eb" fill="none"></rect>
-      <text x="135" y="60" text-anchor="middle" class="big t1">External</text>
-      <text x="135" y="84" text-anchor="middle" class="small">ผู้ใช้มองเห็น · ผู้ใช้สนใจ</text>
-      <text x="135" y="116" text-anchor="middle" class="small">reliability (ใช้แล้วเชื่อได้)</text>
-      <text x="135" y="140" text-anchor="middle" class="small">usability (ใช้ง่าย)</text>
-      <text x="135" y="164" text-anchor="middle" class="small">performance (ไว)</text>
-      <text x="135" y="196" text-anchor="middle" class="mut small">อุปมา: คันเร่ง เกียร์ หน้าปัด</text>
-      <rect x="290" y="30" width="200" height="180" rx="14" class="f3" stroke="#059669" fill="none"></rect>
-      <text x="390" y="60" text-anchor="middle" class="big t3">Internal</text>
-      <text x="390" y="84" text-anchor="middle" class="small">นักพัฒนาสนใจ · ดูโครงสร้าง</text>
-      <text x="390" y="116" text-anchor="middle" class="small">verifiability (ตรวจสอบง่าย)</text>
-      <text x="390" y="140" text-anchor="middle" class="small">understandability (อ่านโค้ดรู้เรื่อง)</text>
-      <text x="390" y="164" text-anchor="middle" class="small">maintainability (แก้ง่าย)</text>
-      <text x="390" y="196" text-anchor="middle" class="mut small">อุปมา: เครื่องยนต์ สายไวริง ใต้ฝากระโปรง</text>
-      <line class="uml-msg" x1="240" y1="120" x2="286" y2="120" stroke-dasharray="7 4"></line>
-      <polygon points="286,115 296,120 286,125" fill="#2563eb"></polygon>
-      <text x="263" y="108" text-anchor="middle" class="small t1">ช่วยให้เกิด</text>
-      <text x="260" y="235" text-anchor="middle" class="mut">ความเชื่อมโยงคีย์ข้อสอบ: verifiability (internal) จำเป็นต่อ reliability (external)</text>
-    </svg>
+  
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+flowchart LR
+  IN["Internal&lt;br/&gt;นักพัฒนาสนใจ · ดูโครงสร้าง&lt;br/&gt;verifiability · understandability · maintainability"]
+  EX["External&lt;br/&gt;ผู้ใช้มองเห็น · ผู้ใช้สนใจ&lt;br/&gt;reliability · usability · performance"]
+  IN -- "ช่วยให้เกิด" --> EX
+    </pre>
     <figcaption>ภาพ 3.1 — External = สิ่งที่ผู้ใช้สัมผัสได้, Internal = โครงสร้างที่นักพัฒนาสร้างไว้เพื่อหล่อเลี้ยง external</figcaption>
   </figure>
+
 
   <h3>2) Product vs Process Qualities — คุณภาพของ "ของ" หรือของ "วิธีทำ"</h3>
   <div class="box box-def">
@@ -126,38 +114,31 @@
       <tr><td><strong>16. Visibility</strong></td><td>documented steps + current status</td><td>มองเห็นได้ — กระบวนการพัฒนาจะ visible ถ้า<em>ทุกขั้นตอนและสถานะปัจจุบันถูกจดบันทึกชัดเจน</em> · product จะ visible ถ้ามีโครงสร้างชัด ฟังก์ชันเข้าใจง่าย เอกสารเข้าถึงง่าย · เป็นทั้ง internal และ external quality · ช่วยให้ SEng ชั่งน้ำหนักผลของการกระทำและตัดสินใจได้</td></tr>
     </tbody>
   </table></div>
-  <figure class="fig">
-    <svg viewBox="0 0 560 380" role="img" aria-label="แผนผัง 16 คุณภาพรอบตัวกลาง Software Qualities">
-      <circle cx="280" cy="190" r="56" fill="rgba(236,72,153,.16)" stroke="#ec4899" stroke-width="2"></circle>
-      <text x="280" y="186" text-anchor="middle" class="big" fill="#be185d">Software</text>
-      <text x="280" y="206" text-anchor="middle" class="big" fill="#be185d">Qualities</text>
-      <text x="90" y="52" text-anchor="middle" class="big t1">Correctness</text>
-      <text x="90" y="72" text-anchor="middle" class="small mut">ถูกตาม spec</text>
-      <text x="280" y="34" text-anchor="middle" class="big t1">Reliability</text>
-      <text x="280" y="54" text-anchor="middle" class="small mut">ทำงานตามคาดตลอดเวลาที่กำหนด</text>
-      <text x="470" y="52" text-anchor="middle" class="big t2">Robustness</text>
-      <text x="470" y="72" text-anchor="middle" class="small mut">ทน input แปลก ๆ</text>
-      <text x="60" y="140" text-anchor="middle" class="big t3">Performance</text>
-      <text x="60" y="160" text-anchor="middle" class="small mut">ไม่ช้า ไม่ใหญ่ ไม่กินแรม</text>
-      <text x="500" y="140" text-anchor="middle" class="big t3">User Friendliness</text>
-      <text x="500" y="160" text-anchor="middle" class="small mut">ใช้ง่าย menu &gt; command</text>
-      <text x="60" y="230" text-anchor="middle" class="big t1">Verifiability</text>
-      <text x="60" y="250" text-anchor="middle" class="small mut">ตรวจสอบง่าย (monitor)</text>
-      <text x="500" y="230" text-anchor="middle" class="big t1">Maintainability</text>
-      <text x="500" y="250" text-anchor="middle" class="small mut">Corrective/Adaptive/Perfective</text>
-      <text x="90" y="320" text-anchor="middle" class="big t2">Repairability + Evolvability</text>
-      <text x="90" y="340" text-anchor="middle" class="small mut">ซ่อมง่าย (RAS) · พัฒนาต่อได้</text>
-      <text x="280" y="348" text-anchor="middle" class="big t2">Reusability · Portability</text>
-      <text x="280" y="366" text-anchor="middle" class="small mut">ใช้ซ้ำได้ · ย้ายแพลตฟอร์มได้</text>
-      <text x="470" y="320" text-anchor="middle" class="big t2">Understandability</text>
-      <text x="470" y="340" text-anchor="middle" class="small mut">อ่านเข้าใจง่าย (ช่วย evolve+verify)</text>
-      <text x="40" y="195" text-anchor="middle" class="small mut">Interoperability</text>
-      <text x="40" y="213" text-anchor="middle" class="small mut">คุยกับระบบอื่น</text>
-      <text x="520" y="195" text-anchor="middle" class="small mut">Productivity · Timeliness · Visibility</text>
-      <text x="520" y="213" text-anchor="middle" class="small mut">(ฝั่ง process)</text>
-    </svg>
+  
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+flowchart LR
+  SW(("Software&lt;br/&gt;Qualities"))
+  SW --- Q1["Correctness&lt;br/&gt;ถูกต้องตาม spec"]
+  SW --- Q2["Reliability&lt;br/&gt;ทำงานตามคาดตลอดเวลาที่กำหนด"]
+  SW --- Q3["Robustness&lt;br/&gt;ทน input แปลก ๆ"]
+  SW --- Q4["Performance&lt;br/&gt;ไม่ช้า ไม่ใหญ่ ไม่กินแรม"]
+  SW --- Q5["User Friendliness&lt;br/&gt;ใช้ง่าย menu ดีกว่า command"]
+  SW --- Q6["Verifiability&lt;br/&gt;ตรวจสอบง่าย (monitor)"]
+  SW --- Q7["Maintainability&lt;br/&gt;Corrective / Adaptive / Perfective"]
+  SW --- Q8["Repairability&lt;br/&gt;ซ่อมง่าย (RAS)"]
+  SW --- Q9["Evolvability&lt;br/&gt;พัฒนาต่อยอดได้"]
+  SW --- Q10["Reusability&lt;br/&gt;นำกลับมาใช้ใหม่ได้"]
+  SW --- Q11["Portability&lt;br/&gt;ย้ายแพลตฟอร์มได้"]
+  SW --- Q12["Understandability&lt;br/&gt;อ่านเข้าใจง่าย"]
+  SW --- Q13["Interoperability&lt;br/&gt;คุยกับระบบอื่นได้"]
+  SW --- Q14["Productivity&lt;br/&gt;(ฝั่ง process)"]
+  SW --- Q15["Timeliness&lt;br/&gt;ส่งตรงเวลา (process)"]
+  SW --- Q16["Visibility&lt;br/&gt;ทุกขั้น+สถานะถูกจดบันทึก"]
+    </pre>
     <figcaption>ภาพ 3.2 — แผนผัง 16 คุณภาพ (สังเกต: Productivity/Timeliness/Visibility เป็นคุณภาพฝั่ง process — บางทีโจทย์ลักไก่ถามตรงนี้)</figcaption>
   </figure>
+
 
   <figure class="fig fig-orig">
     <img src="assets/img/ch3-qualities.png" alt="แผนผัง 16 คุณภาพซอฟต์แวร์จากสไลด์ต้นฉบับ" loading="lazy">
@@ -322,6 +303,7 @@
 <nav class="pager" id="pager"></nav>
 </div>
 
+<script type="module" src="assets/js/mermaid-init.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/tts.js"></script>
 </body>

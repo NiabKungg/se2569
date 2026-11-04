@@ -94,51 +94,16 @@
     <p><strong>ตัวอย่าง Safe Home Access:</strong> เป้าหมาย "Safe home" แตกเป็นสถานการณ์ Arrive / Stay / Depart / Away → ฟังก์ชัน Unlock, Enter, Lock, Devices → Authenticate → ...</p>
     <p><strong>ตัวอย่าง Restaurant Automation:</strong> "Operate restaurant" แตกเป็น Manage employees / Manage tables / Manage inventory / Serve customers / Statistics & Planning → Serve customers แตกเป็น Reservations, Occupancy, Seat, Take order, Track order, Payment, Cleanup</p>
   </div>
-  <figure class="fig">
-    <svg viewBox="0 0 560 280" role="img" aria-label="การแยกเป้าหมายธุรกิจ: ตัวอย่างร้านอาหาร Operate restaurant แตกเป็น 5 หมวดแล้วหมวด Serve customers แตกเป็นงานย่อย">
-      <rect x="200" y="16" width="160" height="36" rx="9" fill="rgba(239,68,68,.14)" stroke="#ef4444" stroke-width="1.6"></rect>
-      <text x="280" y="39" text-anchor="middle" class="big t2">Operate restaurant</text>
-      <line class="ax" x1="280" y1="52" x2="280" y2="72"></line>
-      <line class="ax" x1="80" y1="72" x2="480" y2="72"></line>
-      <g class="small">
-        <line class="ax" x1="80" y1="72" x2="80" y2="92"></line>
-        <line class="ax" x1="180" y1="72" x2="180" y2="92"></line>
-        <line class="ax" x1="280" y1="72" x2="280" y2="92"></line>
-        <line class="ax" x1="380" y1="72" x2="380" y2="92"></line>
-        <line class="ax" x1="480" y1="72" x2="480" y2="92"></line>
-      </g>
-      <g>
-        <rect x="26" y="92" width="108" height="34" rx="8" class="f1" stroke="#2563eb" fill="none"></rect>
-        <text x="80" y="113" text-anchor="middle">Manage employees</text>
-        <rect x="140" y="92" width="80" height="34" rx="8" class="f1" stroke="#2563eb" fill="none"></rect>
-        <text x="180" y="113" text-anchor="middle">Manage tables</text>
-        <rect x="226" y="92" width="108" height="34" rx="8" class="f1" stroke="#2563eb" fill="none"></rect>
-        <text x="280" y="113" text-anchor="middle">Manage inventory</text>
-        <rect x="340" y="92" width="80" height="34" rx="8" fill="rgba(239,68,68,.16)" stroke="#ef4444" stroke-width="1.6"></rect>
-        <text x="380" y="113" text-anchor="middle" class="t2">Serve customers</text>
-        <rect x="426" y="92" width="108" height="34" rx="8" class="f1" stroke="#2563eb" fill="none"></rect>
-        <text x="480" y="113" text-anchor="middle">Statistics &amp; Plan</text>
-      </g>
-      <line class="aux" x1="380" y1="126" x2="380" y2="152"></line>
-      <g class="small mut">
-        <rect x="130" y="152" width="500" height="0" fill="none"></rect>
-        <text x="380" y="146" text-anchor="middle" class="small t2">depth-first: ลึกกิ่งนี้ก่อน ↓</text>
-        <line class="ax" x1="168" y1="152" x2="592" y2="152"></line>
-        <line class="ax" x1="168" y1="152" x2="168" y2="168"></line>
-        <line class="ax" x1="258" y1="152" x2="258" y2="168"></line>
-        <line class="ax" x1="348" y1="152" x2="348" y2="168"></line>
-        <line class="ax" x1="438" y1="152" x2="438" y2="168"></line>
-        <line class="ax" x1="528" y1="152" x2="528" y2="168"></line>
-        <text x="168" y="186" text-anchor="middle">Reservations</text>
-        <text x="258" y="186" text-anchor="middle">Seat</text>
-        <text x="348" y="186" text-anchor="middle">Take order</text>
-        <text x="438" y="186" text-anchor="middle">Track order</text>
-        <text x="528" y="186" text-anchor="middle">Payment</text>
-        <text x="280" y="230" text-anchor="middle" class="mut">Top-level goal → Higher-level goals → Use case → User story (แตกลงเรื่อย ๆ ให้ชัดพอที่จะ implement)</text>
-      </g>
-    </svg>
-    <figcaption>ภาพ 6.1 — การแยกสลายเป้าหมาย: จาก "ดำเนินร้านอาหาร" ลงมาเป็นงานย่อยจำเดียว เช่น "รับออเดอร์" ได้ use case และ user story</figcaption>
+  
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+flowchart TD
+  G["Operate restaurant"] --> M1["Manage employees"] & M2["Manage tables"] & M3["Manage inventory"] & S["Serve customers"] & ST["Statistics and Planning"]
+  S --> S1["Reservations"] & S2["Seat"] & S3["Take order"] & S4["Track order"] & S5["Payment"] & S6["Cleanup"]
+    </pre>
+    <figcaption>ภาพ 6.1 — การแยกสลายเป้าหมาย: จาก "ดำเนินร้านอาหาร" ลงมาเป็นงานย่อยจำเจ เช่น "รับออเดอร์" ได้ use case และ user story</figcaption>
   </figure>
+
 
   <figure class="fig fig-orig">
     <img src="assets/img/ch6-decomposition.png" alt="การแยกสลายเป้าหมาย breadth-first และ depth-first จากสไลด์ต้นฉบับ" loading="lazy">
@@ -205,38 +170,21 @@
     <p><strong>Functional Requirements (FR)</strong> = <em>"ระบบต้องทำอะไร" (What the system will do)</em> — ฟังก์ชันงานธุรกิจ พฤติกรรม การตอบสนองต่อ input ในแต่ละบริบท</p>
     <p><strong>Non-functional requirements (NFR)</strong> = quality requirements = <em>"ทำได้ดีเพียงไหน" (How well)</em> — คุณลักษณะ ข้อจำกัด คุณภาพ จัดหมวดด้วยกรอบ <strong>FURPS+</strong>:</p>
   </div>
-  <figure class="fig">
-    <svg viewBox="0 0 560 330" role="img" aria-label="FURPS+: Functionality security, Usability, Reliability, Performance, Supportability และ + คือข้อจำกัดอื่น">
-      <circle cx="280" cy="165" r="120" class="uml-bound"></circle>
-      <g>
-        <circle cx="280" cy="62" r="34" class="f1" stroke="#2563eb" fill="none"></circle>
-        <text x="280" y="58" text-anchor="middle" class="big t1">F</text>
-        <text x="280" y="76" text-anchor="middle" class="small mut">Functionality</text>
-        <circle cx="383" cy="112" r="34" class="f1" stroke="#2563eb" fill="none"></circle>
-        <text x="383" y="108" text-anchor="middle" class="big t1">U</text>
-        <text x="383" y="126" text-anchor="middle" class="small mut">Usability</text>
-        <circle cx="383" cy="218" r="34" class="f1" stroke="#2563eb" fill="none"></circle>
-        <text x="383" y="214" text-anchor="middle" class="big t1">R</text>
-        <text x="383" y="232" text-anchor="middle" class="small mut">Reliability</text>
-        <circle cx="280" cy="268" r="34" class="f1" stroke="#2563eb" fill="none"></circle>
-        <text x="280" y="264" text-anchor="middle" class="big t1">P</text>
-        <text x="280" y="282" text-anchor="middle" class="small mut">Performance</text>
-        <circle cx="177" cy="218" r="34" class="f1" stroke="#2563eb" fill="none"></circle>
-        <text x="177" y="214" text-anchor="middle" class="big t1">S</text>
-        <text x="177" y="232" text-anchor="middle" class="small mut">Supportability</text>
-      </g>
-      <text x="280" y="150" text-anchor="middle" class="big t2">FURPS+</text>
-      <text x="280" y="176" text-anchor="middle" class="small mut">กรอบจำแนก NFR</text>
-      <text x="280" y="200" text-anchor="middle" class="small mut">"+" = constraints/design/</text>
-      <text x="280" y="216" text-anchor="middle" class="small mut">interface อื่น ๆ</text>
-      <text x="80" y="36" text-anchor="start" class="small">F = Security (ความปลอดภัย)</text>
-      <text x="80" y="56" text-anchor="start" class="small">U = ใช้ง่ายมือใหม่ก็ใช้ได้</text>
-      <text x="80" y="76" text-anchor="start" class="small">R = เชื่อถือได้ไม่พังบ่อย</text>
-      <text x="80" y="96" text-anchor="start" class="small">P = เร็ว/ทนโหลด</text>
-      <text x="80" y="116" text-anchor="start" class="small">S = บำรุงรักษาง่าย ขยายได้</text>
-    </svg>
-    <figcaption>ภาพ 6.2 — FURPS+ กรอบ NFR: Functionality(→Security), Usability, Reliability, Performance, Supportability — อย่าลืมว่า FURPS ตัว F ก็มี "security" ผูกอยู่ด้วย (สไลด์ระบุ Functionality (security))</figcaption>
+  
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+flowchart TD
+  F["FURPS+&lt;br/&gt;กรอบจำแนก NFR"]
+  F --- FF["F — Functionality&lt;br/&gt;(มี Security ความปลอดภัย)"]
+  F --- FU["U — Usability&lt;br/&gt;ใช้ง่าย มือใหม่ก็ใช้ได้"]
+  F --- FR["R — Reliability&lt;br/&gt;เชื่อถือได้ ไม่พังบ่อย"]
+  F --- FP["P — Performance&lt;br/&gt;เร็ว / ทนโหลด"]
+  F --- FS["S — Supportability&lt;br/&gt;บำรุงรักษาง่าย ขยายได้"]
+  F --- FP2["+ — อื่น ๆ&lt;br/&gt;constraints / interface requirements"]
+    </pre>
+    <figcaption>ภาพ 6.2 — FURPS+ กรอบจำแนก NFR: Functionality(→Security), Usability, Reliability, Performance, Supportability — อย่าลืมว่าตัว F ก็มี "security" ผูกอยู่ด้วย (สไลด์ระบุ Functionality (security))</figcaption>
   </figure>
+
 
   <div class="box box-key">
     <div class="box-title">⚡ สูตรเขียนคำตอบข้อ FR/NFR ในห้องสอบ (3 ขั้น)</div>
@@ -376,6 +324,7 @@
 <nav class="pager" id="pager"></nav>
 </div>
 
+<script type="module" src="assets/js/mermaid-init.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/tts.js"></script>
 </body>

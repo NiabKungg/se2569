@@ -76,46 +76,23 @@ Unit → Integration → Function → Quality → System → Acceptance → Inst
   </div>
 
   <h3 id="levels">1) 🎯 Logical Organization of Testing — 7 ระดับ (หัวใจข้อจับคู่)</h3>
-  <figure class="fig">
-    <svg viewBox="0 0 600 380" role="img" aria-label="ลำดับการทดสอบ 7 ระดับจาก component code ถึง system in use พร้อมผู้ทำและเป้าหมาย">
-      <g>
-        <rect x="20" y="30" width="150" height="42" rx="9" class="f1" stroke="#2563eb" fill="none"></rect>
-        <text x="95" y="49" text-anchor="middle" class="big t1">Unit test</text>
-        <text x="95" y="66" text-anchor="middle" class="small mut">ตรวจแต่ละโมดูลตาม spec (ของ dev)</text>
-        <rect x="200" y="30" width="150" height="42" rx="9" class="f1" stroke="#2563eb" fill="none"></rect>
-        <text x="275" y="49" text-anchor="middle" class="big t1">Integration test</text>
-        <text x="275" y="66" text-anchor="middle" class="small mut">โมดูลทั้งหมดทำงานร่วมกันได้</text>
-        <rect x="380" y="30" width="150" height="42" rx="9" class="f2" stroke="#dc2626" fill="none"></rect>
-        <text x="455" y="49" text-anchor="middle" class="big t2">Function test</text>
-        <text x="455" y="66" text-anchor="middle" class="small mut">ตรวจ Functional Requirements</text>
-        <rect x="380" y="110" width="150" height="42" rx="9" class="f2" stroke="#dc2626" fill="none"></rect>
-        <text x="455" y="129" text-anchor="middle" class="big t2">Quality test</text>
-        <text x="455" y="146" text-anchor="middle" class="small mut">ตรวจ Non-functional Requirements</text>
-        <rect x="380" y="190" width="150" height="42" rx="9" class="f3" stroke="#059669" fill="none"></rect>
-        <text x="455" y="209" text-anchor="middle" class="big t3">Acceptance test</text>
-        <text x="455" y="226" text-anchor="middle" class="small mut">ลูกค้าตรวจ requirement ทั้งหมด</text>
-        <rect x="380" y="270" width="150" height="42" rx="9" class="f3" stroke="#059669" fill="none"></rect>
-        <text x="455" y="289" text-anchor="middle" class="big t3">Installation test</text>
-        <text x="455" y="306" text-anchor="middle" class="small mut">ในสภาพแวดล้อมจริงของผู้ใช้</text>
-        <rect x="200" y="190" width="150" height="42" rx="9" class="fsoft" stroke="var(--acc-ink)" fill="none"></rect>
-        <text x="275" y="209" text-anchor="middle" class="big">System test</text>
-        <text x="275" y="226" text-anchor="middle" class="small mut">ระบบสมบูรณ์เทียบ System Spec</text>
-        <rect x="20" y="190" width="150" height="42" rx="9" class="f1" stroke="#2563eb" fill="none"></rect>
-        <text x="95" y="209" text-anchor="middle" class="big t1">White box</text>
-        <text x="95" y="226" text-anchor="middle" class="small mut">(โดย developer)</text>
-        <rect x="20" y="270" width="150" height="42" rx="9" class="f3" stroke="#059669" fill="none"></rect>
-        <text x="95" y="289" text-anchor="middle" class="big t3">Black box</text>
-        <text x="95" y="306" text-anchor="middle" class="small mut">(โดย customer)</text>
-      </g>
-      <line class="uml-msg" x1="170" y1="50" x2="196" y2="50" marker-end="url(#ar3)"></line>
-      <line class="uml-msg" x1="350" y1="50" x2="376" y2="50" marker-end="url(#ar3)"></line>
-      <line class="uml-msg" x1="455" y1="72" x2="455" y2="106" marker-end="url(#ar3)"></line>
-      <line class="uml-msg" x1="455" y1="152" x2="455" y2="186" marker-end="url(#ar3)"></line>
-      <line class="uml-msg" x1="455" y1="232" x2="455" y2="266" marker-end="url(#ar3)"></line>
-      <text x="300" y="345" text-anchor="middle" class="mut">จำเป็นท่อน: ทดสอบชิ้นเดี่ยว → รวมกัน → เช็กฟังก์ชัน (FR) → เช็กคุณภาพ (NFR) → ระบบรวม → ลูกค้ายอมรับ → ติดตั้งในบ้านผู้ใช้จริง</text>
-    </svg>
+  
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+flowchart LR
+  subgraph DEV["ฝั่งนักพัฒนา — White box"]
+    direction LR
+    UT["Unit test&lt;br/&gt;ทดสอบโมดูลเดี่ยว"] --> IT["Integration test&lt;br/&gt;ต่อโมดูลร่วมกัน"] --> ST["System test&lt;br/&gt;ระบบสมบูรณ์เทียบ System Spec"]
+  end
+  subgraph REQ["ตรวจตาม requirement"]
+    direction LR
+    FU["Function test&lt;br/&gt;(FR)"] --> QU["Quality test&lt;br/&gt;(NFR)"] --> AC["Acceptance test&lt;br/&gt;(โดยลูกค้า — Black box)"] --> IN2["Installation test&lt;br/&gt;สภาพแวดล้อมจริงของผู้ใช้"]
+  end
+  ST --> FU
+    </pre>
     <figcaption>ภาพ 10.1 — โครง Logical Organization of Testing (จากสไลด์): White-box ฝั่ง developer, Black-box ฝั่ง customer — สังเกตว่าไม่จำเป็นต้องทำเป็นเส้นตรงจนขั้นสุดท้ายในโลกจริง</figcaption>
   </figure>
+
 
   <figure class="fig fig-orig">
     <img src="assets/img/ch10-testing-org.png" alt="ลำดับการทดสอบ unit ถึง installation จากสไลด์ต้นฉบับ" loading="lazy">
@@ -227,32 +204,21 @@ Unit → Integration → Function → Quality → System → Acceptance → Inst
     </ol>
     <p><strong>Events 2 ตัว:</strong> valid-key, invalid-key · <strong>transitions 5 เส้นที่ valid:</strong> Locked→Unlocked · Locked→Accepting · Accepting→Accepting (พยายามผิดซ้ำ ยังไม่เกิน) · Accepting→Unlocked · Accepting→Blocked (พยายามผิดจนเต็ม → sound-alarm)</p>
   </div>
-  <figure class="fig">
-    <svg viewBox="0 0 560 300" role="img" aria-label="State diagram: Locked, Accepting, Unlocked, Blocked พร้อม transition ตาม valid-key และ invalid-key">
-      <defs><marker id="ar4" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="var(--text)"></path></marker></defs>
-      <ellipse cx="110" cy="90" rx="62" ry="28" class="uml-ell"></ellipse>
-      <text x="110" y="95" text-anchor="middle" class="big">Locked</text>
-      <ellipse cx="330" cy="90" rx="70" ry="28" class="uml-ell"></ellipse>
-      <text x="330" y="95" text-anchor="middle" class="big">Accepting</text>
-      <text x="330" y="66" text-anchor="middle" class="small mut">(นับพยายาม)</text>
-      <ellipse cx="110" cy="230" rx="70" ry="28" class="uml-ell3"></ellipse>
-      <text x="110" y="235" text-anchor="middle" class="big t3">Unlocked</text>
-      <ellipse cx="420" cy="230" rx="62" ry="28" class="uml-ell2"></ellipse>
-      <text x="420" y="235" text-anchor="middle" class="big t2">Blocked</text>
-      <line class="uml-msg" x1="164" y1="82" x2="256" y2="82" marker-end="url(#ar4)"></line>
-      <text x="210" y="72" text-anchor="middle" class="small">invalid-key [count &lt; max] / signal-failure</text>
-      <line class="uml-msg" x1="300" y1="64" x2="150" y2="66" marker-end="url(#ar4)"></line>
-      <text x="226" y="52" text-anchor="middle" class="small mut">valid-key / signal-success</text>
-      <line class="uml-ret" x1="110" y1="118" x2="110" y2="200" marker-end="url(#ar4)"></line>
-      <text x="30" y="165" class="small t3">valid-key / success</text>
-      <line class="uml-ret" x1="170" y1="226" x2="354" y2="240" marker-end="url(#ar4)"></line>
-      <text x="262" y="222" text-anchor="middle" class="small t3">valid-key / success</text>
-      <line class="uml-msg" x1="392" y1="96" x2="420" y2="198" marker-end="url(#ar4)"></line>
-      <text x="470" y="150" class="small t2">invalid-key [count = max] / sound-alarm</text>
-      <text x="280" y="285" text-anchor="middle" class="mut">รูปแบบ label: event [guard condition] / action — ครอบ state ทุกสถานะ ≥ 1 เทส + transition ถูกทุกเส้น ≥ 1 ครั้ง + กระตุ้น transition ผิดกฎทุกแบบ</text>
-    </svg>
-    <figcaption>ภาพ 10.3 — State diagram ระบบล็อก: 4 สถานะ 2 เหตุการณ์ 5 transition ที่ valid — เงื่อนไขครอบคลุม state-based testing คือ (1) ทุก state ถูกเยี่ยม ≥1 ครั้ง (2) ทุก valid transition ≥1 ครั้ง (3) ทุก invalid transition ถูก trigger ≥1 ครั้ง</figcaption>
+  
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+stateDiagram-v2
+  [*] --> Locked
+  Locked --> Accepting : invalid-key [numOfAttempts ≤ max] / signal-failure
+  Accepting --> Accepting : invalid-key [numOfAttempts ≤ max] / signal-failure
+  Locked --> Unlocked : valid-key / signal-success
+  Accepting --> Unlocked : valid-key / signal-success
+  Accepting --> Blocked : invalid-key [numOfAttempts = max] / sound-alarm
+  Blocked --> [*]
+    </pre>
+    <figcaption>ภาพ 10.3 — State diagram ระบบล็อก (mermaid stateDiagram-v2): 4 สถานะ 2 เหตุการณ์ 5 transition ที่ valid — เงื่อนไขครอบคลุม state-based testing คือ (1) ทุก state ถูกเยี่ยม ≥1 ครั้ง (2) ทุก valid transition ≥1 ครั้ง (3) ทุก invalid transition ถูก trigger ≥1 ครั้ง</figcaption>
   </figure>
+
 
   <figure class="fig fig-orig">
     <img src="assets/img/ch10-state.png" alt="state diagram พร้อมป้าย event guard action จากสไลด์ต้นฉบับ" loading="lazy">
@@ -445,6 +411,7 @@ Step 4. แพทย์นอกเขตค้นผู้ป่วย    | ร
 <nav class="pager" id="pager"></nav>
 </div>
 
+<script type="module" src="assets/js/mermaid-init.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/tts.js"></script>
 </body>

@@ -107,48 +107,34 @@
     <p><strong>Client = triggering process</strong> (ตัวกระตุ้น — ส่งคำขอเมื่อไหร่ที่มันอยาก) · <strong>Server = reactive process</strong> (ตัวรับ — คอย<em>ฟัง</em>คำขอแล้ว<em>ตอบสนอง</em>) · คุยกันผ่าน <strong>connector</strong></p>
     <p>ขั้นตอน 4 จังหวะ: (1) client ประกอบคำขอ (packing) → (2) server unpacking คำขอ → (3) server ประกอบคำตอบ (packing response) → (4) client unpacking ผลลัพธ์ใช้งาน — ส่งกันเป็น packets บน network connection</p>
   </div>
-  <figure class="fig">
-    <svg viewBox="0 0 540 250" role="img" aria-label="Client/Server: User ส่งผ่าน Client (triggering) ผ่าน Connector ไป Server (reactive) แล้วตอบกลับ">
-      <rect x="30" y="60" width="120" height="56" rx="10" class="f1" stroke="#2563eb" fill="none"></rect>
-      <text x="90" y="84" text-anchor="middle" class="big t1">Client</text>
-      <text x="90" y="104" text-anchor="middle" class="small mut">triggering (ริเริ่มคำขอ)</text>
-      <rect x="400" y="60" width="120" height="56" rx="10" class="f3" stroke="#059669" fill="none"></rect>
-      <text x="460" y="84" text-anchor="middle" class="big t3">Server</text>
-      <text x="460" y="104" text-anchor="middle" class="small mut">reactive (คอยฟัง+ตอบ)</text>
-      <rect x="220" y="66" width="120" height="44" rx="22" class="fsoft" stroke="var(--acc-ink)" fill="none"></rect>
-      <text x="280" y="93" text-anchor="middle" class="big">Connector</text>
-      <line class="uml-msg" x1="150" y1="78" x2="216" y2="82" marker-end="url(#ar2)"></line>
-      <text x="183" y="64" text-anchor="middle" class="small t1">request →</text>
-      <line class="uml-ret" x1="396" y1="94" x2="344" y2="90" marker-end="url(#ar2)"></line>
-      <text x="370" y="124" text-anchor="middle" class="small t3">← response</text>
-      <line class="uml-msg" x1="340" y1="88" x2="398" y2="82" marker-end="url(#ar2)"></line>
-      <circle cx="280" cy="176" r="14" class="pt2"></circle>
-      <text x="280" y="212" text-anchor="middle" class="small mut">User ใช้ผ่าน Client — Client เลือกเวลาส่งคำขอเอง (times of its choosing) Server จะ reject หรือทำตามแล้วส่งคำตอบกลับ</text>
-      <text x="280" y="232" text-anchor="middle" class="small mut">อุปมา: ร้านอาหาร — ลูกค้า (client) เรียกพนักงาน พนักงาน (server) คอยรับออเดอร์แล้วส่งอาหารกลับ</text>
-    </svg>
-    <figcaption>ภาพ 7.1 — Client/Server style: จำคู่คำ triggering vs reactive</figcaption>
+  
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+flowchart LR
+  U(("User")) --> CL["Client&lt;br/&gt;triggering — ริเริ่มคำขอเอง"]
+  CL -->|"request →"| CN["Connector"]
+  CN -->|"request →"| SV["Server&lt;br/&gt;reactive — คอยฟังและตอบสนอง"]
+  SV -->|"response ←"| CN
+  CN -->|"response ←"| CL
+    </pre>
+    <figcaption>ภาพ 7.1 — Client/Server style: จำคู่คำ triggering vs reactive — อุปมา: ร้านอาหาร ลูกค้า (client) เรียก พนักงาน (server) คอยรับออเดอร์แล้วส่งอาหารกลับ</figcaption>
   </figure>
 
+
   <h3>2.2) Layered (Multi-Tiered)</h3>
-  <figure class="fig">
-    <svg viewBox="0 0 460 260" role="img" aria-label="Layered architecture 3 ชั้น: UI, Application Logic, Technical Services แต่ละชั้นให้บริการชั้นบนและใช้บริการชั้นล่าง">
-      <rect x="80" y="24" width="300" height="56" rx="10" class="f1" stroke="#2563eb" fill="none"></rect>
-      <text x="230" y="48" text-anchor="middle" class="big t1">User Interface Layer</text>
-      <text x="230" y="68" text-anchor="middle" class="small mut">User Interaction (หน้าจอ ปุ่ม ฟอร์ม)</text>
-      <rect x="80" y="102" width="300" height="56" rx="10" class="f2" stroke="#dc2626" fill="none"></rect>
-      <text x="230" y="126" text-anchor="middle" class="big t2">Application Logic Layer</text>
-      <text x="230" y="146" text-anchor="middle" class="small mut">(Business Policies) อัลกอริทึม + ประมวลผลข้อมูล</text>
-      <rect x="80" y="180" width="300" height="56" rx="10" class="f3" stroke="#059669" fill="none"></rect>
-      <text x="230" y="204" text-anchor="middle" class="big t3">Technical Services Layer</text>
-      <text x="230" y="224" text-anchor="middle" class="small mut">(Mechanisms & Utilities) storage, networking, device drivers</text>
-      <line class="uml-msg" x1="340" y1="80" x2="340" y2="100" marker-end="url(#ar2)"></line>
-      <text x="404" y="94" class="small mut">ใช้บริการ ↓</text>
-      <line class="uml-ret" x1="120" y1="158" x2="120" y2="178" marker-end="url(#ar2)"></line>
-      <text x="16" y="172" class="small mut">ให้บริการ ↑</text>
-      <text x="230" y="252" text-anchor="middle" class="mut">แต่ละชั้นให้บริการชั้นบน และใช้บริการชั้นล่าง — ซ่อนชั้นในจากทุกชั้นยกเว้นชั้นติดกัน → coupling ลด → evolvability + reusability ดีขึ้น</text>
-    </svg>
-    <figcaption>ภาพ 7.2 — Layered style: อุปมา ตึกสำนักงาน — พนักงานขาย (UI) ไม่จำเป็นต้องรู้ว่ามิเตอร์ไฟวิ่งยังไง (Technical services)</figcaption>
+  
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+flowchart TB
+  UI["User Interface Layer&lt;br/&gt;User Interaction — หน้าจอ ปุ่ม ฟอร์ม"]
+  AL["Application Logic Layer&lt;br/&gt;(Business Policies) — อัลกอริทึม + ประมวลผลข้อมูล"]
+  TS["Technical Services Layer&lt;br/&gt;(Mechanisms and Utilities) — storage, networking, device drivers"]
+  UI -->|"ให้บริการชั้นบน ↑ · ใช้บริการชั้นล่าง ↓"| AL
+  AL -->|"ให้บริการชั้นบน ↑ · ใช้บริการชั้นล่าง ↓"| TS
+    </pre>
+    <figcaption>ภาพ 7.2 — Layered style: แต่ละชั้นให้บริการชั้นบน และใช้บริการชั้นล่าง — อุปมา ตึกสำนักงาน: พนักงานขาย (UI) ไม่จำเป็นต้องรู้ว่ามิเตอร์ไฟวิ่งยังไง (Technical services)</figcaption>
   </figure>
+
 
   <figure class="fig fig-orig">
     <img src="assets/img/ch7-layered.png" alt="Layered architecture จากสไลด์ต้นฉบับ" loading="lazy">
@@ -157,33 +143,19 @@
 
 
   <h3>2.3) MVC — Model-View-Controller</h3>
-  <figure class="fig">
-    <svg viewBox="0 0 560 300" role="img" aria-label="MVC: User กด Controller สั่ง Model, Model แจ้ง View, View ดึง state มาแสดง">
-      <rect x="210" y="30" width="130" height="52" rx="10" class="f2" stroke="#dc2626" fill="none"></rect>
-      <text x="275" y="52" text-anchor="middle" class="big t2">View</text>
-      <text x="275" y="72" text-anchor="middle" class="small mut">แสดงผลให้ผู้ใช้</text>
-      <rect x="210" y="180" width="130" height="52" rx="10" class="f1" stroke="#2563eb" fill="none"></rect>
-      <text x="275" y="202" text-anchor="middle" class="big t1">Model</text>
-      <text x="275" y="222" text-anchor="middle" class="small mut">ข้อมูล+state+logic</text>
-      <rect x="60" y="105" width="120" height="52" rx="10" class="f3" stroke="#059669" fill="none"></rect>
-      <text x="120" y="127" text-anchor="middle" class="big t3">Controller</text>
-      <text x="120" y="147" text-anchor="middle" class="small mut">รับ input แปลความหมาย</text>
-      <circle cx="490" cy="130" r="16" class="pt"></circle>
-      <text x="490" y="165" text-anchor="middle" class="small">User</text>
-      <line class="uml-msg" x1="180" y1="120" x2="255" y2="178" marker-end="url(#ar2)"></line>
-      <text x="150" y="200" class="small t1">2. แก้ state</text>
-      <line class="uml-ret" x1="290" y1="178" x2="286" y2="84" marker-end="url(#ar2)"></line>
-      <text x="304" y="140" class="small t3">4. บอกว่า "เปลี่ยนแล้ว"</text>
-      <line class="uml-msg" x1="256" y1="84" x2="250" y2="176" marker-end="url(#ar2)"></line>
-      <text x="212" y="132" class="small t3">5. ขอ state มาแสดง</text>
-      <line class="uml-msg" x1="470" y1="120" x2="184" y2="128" marker-end="url(#ar2)"></line>
-      <text x="330" y="112" class="small t1">1. ผู้ใช้ทำอะไรบางอย่าง</text>
-      <line class="uml-ret" x1="192" y1="146" x2="474" y2="142" marker-end="url(#ar2)"></line>
-      <text x="330" y="168" class="small mut">3+6. อัปเดตหน้าจอ (change your display)</text>
-      <text x="280" y="272" text-anchor="middle" class="mut">Model ไม่สนใจ View และ Controller เลย (oblivious) — เลขเดียวกันใน Model แสดงหลายแบบใน View ได้ (เช่น array เรียง 1 แถว หรือ 3 แถว)</text>
-    </svg>
-    <figcaption>ภาพ 7.3 — MVC: Model เก็บข้อมูล/state/logic อย่างเงียบ ๆ · Controller รับ input ผู้ใช้แปลความหมายสั่ง Model · View ดึงข้อมูลจาก Model มาแสดง — ตัวอย่าง array [14, 26, 31] แสดงเรียงคนละแบบได้จาก Model เดียว</figcaption>
+  
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+flowchart LR
+  U(("User")) -- "1. The user did something (ผู้ใช้ทำอะไรบางอย่าง)" --> C["Controller&lt;br/&gt;รับ input แปลความหมาย"]
+  C -- "2. Change your state (แก้ state)" --> M["Model&lt;br/&gt;ข้อมูล + state + logic เงียบ ๆ"]
+  M -- "4. I have changed (แจ้งว่าเปลี่ยนแล้ว)" --> V["View&lt;br/&gt;แสดงผลให้ผู้ใช้"]
+  V -- "5. I need your state (ขอ state มาแสดง)" --> M
+  V -- "3+6. Change your display (อัปเดตหน้าจอ)" --> U
+    </pre>
+    <figcaption>ภาพ 7.3 — MVC: Model เก็บข้อมูล/state/logic อย่างเงียบ ๆ (oblivious) · Controller รับ input ผู้ใช้แปลความหมายสั่ง Model · View ดึงข้อมูลจาก Model มาแสดง — ตัวอย่าง array [14, 26, 31] แสดงเรียงคนละแบบได้จาก Model เดียว</figcaption>
   </figure>
+
 
   <figure class="fig fig-orig">
     <img src="assets/img/ch7-mvc.png" alt="MVC พร้อมลำดับ 1-6 จากสไลด์ต้นฉบับ" loading="lazy">
@@ -220,51 +192,41 @@
     <p>สไลด์ตัวอย่างร้านอาหาร: <strong>Entity set</strong> (ตาราง) เช่น employee, dining table, food order, menu item, payment · <strong>Relationship set</strong> เชื่อมระหว่าง entity เช่น employee–assigned–table · <strong>Attribute</strong> = คอลัมน์ (emp-id, name, role, salary…) · สัญลักษณ์ <strong>Crow's foot</strong> บอกจำนวน: exactly one (ขีด 1) · one or more (ปีกอีก้า) · zero or one (วงกลม+ขีด) · zero or more (วงกลม+ปีก)</p>
     <p>สไลด์เขียน schema แบบข้อความด้วย: <code class="inline">employee (identifier, name, role, salary, …)</code>, <code class="inline">assigned (date, working shift)</code>, <code class="inline">dining table (identifier, capacity, status, seated customers)</code>, <code class="inline">food order (time, item, quantity, total price, status)</code>, <code class="inline">menu item (identifier, price, ingredients, availability)</code>, <code class="inline">payment (time, date, amount, confirmation number)</code></p>
   </div>
-  <figure class="fig">
-    <svg viewBox="0 0 560 400" role="img" aria-label="ER Schema ร้านอาหารแบบ crow's foot: employee — assigned — dining table — food order — menu item พร้อม payment">
-      <defs><marker id="crow" markerWidth="14" markerHeight="12" refX="12" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12" fill="none" stroke="var(--text)" stroke-width="1.4"></path></marker></defs>
-      <g>
-        <rect x="20" y="40" width="96" height="52" rx="9" class="f1" stroke="#2563eb" fill="none"></rect>
-        <text x="68" y="62" text-anchor="middle" class="big t1">employee</text>
-        <text x="68" y="80" text-anchor="middle" class="small mut">emp-id (PK), name,</text>
-        <text x="68" y="88" text-anchor="middle" class="small mut" dy="0">role, salary</text>
-        <rect x="170" y="40" width="90" height="52" rx="9" class="fsoft" stroke="var(--acc-ink)" fill="none"></rect>
-        <text x="215" y="62" text-anchor="middle" class="big">assigned</text>
-        <text x="215" y="80" text-anchor="middle" class="small mut">date, shift</text>
-        <rect x="314" y="40" width="104" height="52" rx="9" class="f1" stroke="#2563eb" fill="none"></rect>
-        <text x="366" y="62" text-anchor="middle" class="big t1">dining table</text>
-        <text x="366" y="80" text-anchor="middle" class="small mut">tbl-id (PK), capacity,</text>
-        <text x="366" y="88" text-anchor="middle" class="small mut">status, customers</text>
-        <rect x="464" y="40" width="86" height="52" rx="9" class="f2" stroke="#dc2626" fill="none"></rect>
-        <text x="507" y="62" text-anchor="middle" class="big t2">food order</text>
-        <text x="507" y="80" text-anchor="middle" class="small mut">time, item,</text>
-        <text x="507" y="88" text-anchor="middle" class="small mut">qty, price, status</text>
-        <rect x="464" y="150" width="86" height="52" rx="9" class="f2" stroke="#dc2626" fill="none"></rect>
-        <text x="507" y="172" text-anchor="middle" class="big t2">menu item</text>
-        <text x="507" y="190" text-anchor="middle" class="small mut">mi-id (PK), price,</text>
-        <text x="507" y="198" text-anchor="middle" class="small mut">ingredients</text>
-        <rect x="170" y="150" width="90" height="52" rx="9" class="f3" stroke="#059669" fill="none"></rect>
-        <text x="215" y="172" text-anchor="middle" class="big t3">payment</text>
-        <text x="215" y="190" text-anchor="middle" class="small mut">time, date,</text>
-        <text x="215" y="198" text-anchor="middle" class="small mut">amount, confirm#</text>
-      </g>
-      <line class="uml-line" x1="116" y1="66" x2="170" y2="66" marker-end="url(#crow)"></line>
-      <text x="143" y="58" text-anchor="middle" class="small mut">1:N</text>
-      <line class="uml-line" x1="260" y1="66" x2="314" y2="66" marker-end="url(#crow)"></line>
-      <text x="287" y="58" text-anchor="middle" class="small mut">1:N</text>
-      <line class="uml-line" x1="418" y1="66" x2="464" y2="66" marker-end="url(#crow)"></line>
-      <text x="441" y="58" text-anchor="middle" class="small mut">1:N</text>
-      <line class="uml-line" x1="507" y1="92" x2="507" y2="150" marker-end="url(#crow)"></line>
-      <text x="530" y="124" class="small mut">ordered</text>
-      <line class="uml-line" x1="260" y1="176" x2="330" y2="92"></line>
-      <text x="300" y="160" class="small mut">paid by</text>
-      <text x="280" y="248" text-anchor="middle" class="mut">ตัวอย่าง: พนักงาน 1 คน assigned โต๊ะหลายโต๊ะ (1:N) · โต๊ะหนึ่งมี food order หลายใบ (1:N) · order ประกอบ menu item หลายรายการ</text>
-      <text x="280" y="268" text-anchor="middle" class="mut">สัญลักษณ์ crow's foot: ปีกอีก้า = "หลายตัว" ขีด = "หนึ่งตัว" วงกลม = "ศูนย์ได้"</text>
-      <text x="280" y="308" text-anchor="middle" class="big t2">→ โจทย์สอบจะเป็นระบบอื่น (เช่น CS-Hospital) — ท่าเดิมเปลี่ยน entity เท่านั้น</text>
-      <text x="280" y="336" text-anchor="middle" class="small mut">ขั้น 1: อ่านโจทย์หา "สิ่งที่เก็บข้อมูล" = entity · ขั้น 2: หา "ความสัมพันธ์" = line · ขั้น 3: กำกับ attribute + PK · ขั้น 4: ใส่สัญลักษณ์จำนวน (1:N ฯลฯ)</text>
-    </svg>
-    <figcaption>ภาพ 7.4 — ER Schema ร้านอาหารจากสไลด์ (แบบ crow's foot) + สูตร 4 ขั้นแปลงโจทย์เป็น schema — ใช้ท่าเดิมกับ CS-Hospital ที่หน้าติว Final</figcaption>
+  
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+erDiagram
+  EMPLOYEE ||--o{ DINING_TABLE : "assigned (date, shift)"
+  DINING_TABLE ||--o{ FOOD_ORDER : "receives"
+  FOOD_ORDER }o--o{ MENU_ITEM : "ordered (status)"
+  PAYMENT }o--|| FOOD_ORDER : "pays"
+  EMPLOYEE {
+    string empId PK "emp-id"
+    string name
+    string role
+    number salary
+  }
+  DINING_TABLE {
+    string tblId PK "tbl-id"
+    number capacity
+    string status
+  }
+  FOOD_ORDER {
+    string orderTime "time"
+    number quantity
+    number totalPrice
+    string status
+  }
+  MENU_ITEM {
+    string miId PK "mi-id"
+    number price
+    string ingredients
+    string availability
+  }
+    </pre>
+    <figcaption>ภาพ 7.4 — ER Schema ร้านอาหาร (mermaid erDiagram วาด crow’s foot ให้อัตโนมัติ) — โจทย์สอบจะเป็นระบบอื่น (เช่น CS-Hospital) ใช้ท่าเดิมเปลี่ยน entity เท่านั้น</figcaption>
   </figure>
+
 
   <figure class="fig fig-orig">
     <img src="assets/img/ch7-er-schema.png" alt="ER diagram และ crow’s foot พร้อมสัญลักษณ์จำนวน จากสไลด์ต้นฉบับ" loading="lazy">
@@ -396,6 +358,7 @@
 <nav class="pager" id="pager"></nav>
 </div>
 
+<script type="module" src="assets/js/mermaid-init.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/tts.js"></script>
 </body>

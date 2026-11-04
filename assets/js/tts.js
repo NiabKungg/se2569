@@ -106,7 +106,7 @@
   /* ---------- ดึงข้อความจาก DOM ---------- */
   function cleanText(root) {
     const clone = root.cloneNode(true);
-    clone.querySelectorAll('script, style, input, button, label, svg, .tts-btn').forEach((n) => n.remove());
+    clone.querySelectorAll('script, style, input, button, label, svg, .tts-btn, .mermaid').forEach((n) => n.remove());
     /* ปิด details ที่ยังไม่เปิด → อ่านแค่หัวเรื่อง ไม่อ่านเฉลยที่ซ่อนอยู่ */
     clone.querySelectorAll('details:not([open])').forEach((d) => {
       const s = d.querySelector('summary');

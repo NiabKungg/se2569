@@ -60,31 +60,7 @@
   </div>
 
   <h3>1) ภาพรวม 13 งาน</h3>
-  <figure class="fig">
-    <svg viewBox="0 0 560 340" role="img" aria-label="วงล้อ 13 งานพัฒนาซอฟต์แวร์: Feasibility, Requirements, UI design, Architectural design, Detailed design, Programming, System integration, Verification, Validation, Production, Maintenance, Documentation, Project management">
-      <circle cx="280" cy="170" r="118" class="uml-bound"></circle>
-      <circle cx="280" cy="170" r="46" fill="rgba(16,185,129,.15)" stroke="#10b981" stroke-width="1.6"></circle>
-      <text x="280" y="166" text-anchor="middle" class="big t3">Software</text>
-      <text x="280" y="184" text-anchor="middle" class="big t3">Development</text>
-      <g class="small">
-        <text x="150" y="44" class="t1">Feasibility study</text>
-        <text x="330" y="44" class="t1">Requirements engineering</text>
-        <text x="452" y="92" class="t1">UI design</text>
-        <text x="492" y="150" class="t1">Architectural design</text>
-        <text x="478" y="208" class="t1">Detailed design</text>
-        <text x="404" y="266" class="t1">Programming</text>
-        <text x="256" y="316" class="t1">System integration</text>
-        <text x="96" y="300" class="t1">Verification (testing)</text>
-        <text x="44" y="240" class="t2">Validation</text>
-        <text x="24" y="178" class="t2">Production</text>
-        <text x="16" y="116" class="t2">Maintenance</text>
-        <text x="60" y="66" class="t3">Documentation</text>
-        <text x="330" y="300" class="t3">Project management</text>
-      </g>
-      <text x="280" y="52" text-anchor="middle" class="mut small">งาน 3 อย่างครอบทุกวง: Documentation · Project management · Validation</text>
-    </svg>
-    <figcaption>ภาพ 4.1 — วงล้อ 13 งาน (จากสไลด์อาจารย์): ตัวหนาคือลำดับหลัก สีแดงคืองานฝั่งผู้ใช้/ระยะยาว</figcaption>
-  </figure>
+  
 
   <figure class="fig fig-orig">
     <img src="assets/img/ch4-activities.png" alt="วงล้อ 13 งานพัฒนาซอฟต์แวร์จากสไลด์ต้นฉบับ" loading="lazy">
@@ -119,31 +95,27 @@
     <p><strong>Validation</strong> ตอบคำถาม: <em>"Are we building the right product?"</em> — เรากำลังสร้าง<em>สินค้าที่ถูก</em>อยู่หรือเปล่า (ตรงกับความต้องการผู้ใช้จริง)</p>
     <p>สังเกตตำแหน่งคำ "right": ซ้ายสลับ — <em>product <strong>right</strong></em> (สร้างถูกวิธี) = Verification · <em><strong>right</strong> product</em> (สินค้าที่ใช่) = Validation</p>
   </div>
-  <figure class="fig">
-    <svg viewBox="0 0 540 330" role="img" aria-label="เทียบ Verification กับ Validation: มุมมอง ผู้ตอบคำถาม ประเภทการทดสอบ ตัวอย่าง">
-      <rect x="20" y="20" width="240" height="290" rx="14" class="f1" stroke="#2563eb" fill="none"></rect>
-      <text x="140" y="52" text-anchor="middle" class="big t1">Verification</text>
-      <text x="140" y="74" text-anchor="middle" class="small">"building the product RIGHT?"</text>
-      <text x="140" y="102" text-anchor="middle" class="small">มุมมองของ <tspan class="t1">นักพัฒนา</tspan> (developer's view)</text>
-      <text x="140" y="124" text-anchor="middle" class="small">มองระบบจากด้านใน — implementation</text>
-      <text x="140" y="156" text-anchor="middle" class="small">ประเภท: <tspan class="t1">Unit testing</tspan> + <tspan class="t1">System testing</tspan></text>
-      <text x="140" y="184" text-anchor="middle" class="small">unit: ทดสอบโมดูลเดี่ยวแบบโดดเดี่ยว</text>
-      <text x="140" y="204" text-anchor="middle" class="small">system: ต่อโมดูลแล้วทดสอบทั้งระบบ</text>
-      <text x="140" y="240" text-anchor="middle" class="mut small">อุปมา: ช่างตรวจว่าต่อท่อตามแบบ</text>
-      <text x="140" y="258" text-anchor="middle" class="mut small">ที่วิศวกรวาดไว้ไหมทุกจุด</text>
-      <rect x="290" y="20" width="230" height="290" rx="14" class="f2" stroke="#dc2626" fill="none"></rect>
-      <text x="405" y="52" text-anchor="middle" class="big t2">Validation</text>
-      <text x="405" y="74" text-anchor="middle" class="small">"building the RIGHT product?"</text>
-      <text x="405" y="102" text-anchor="middle" class="small">มุมมองของ <tspan class="t2">ลูกค้า</tspan> (client's view)</text>
-      <text x="405" y="124" text-anchor="middle" class="small">มองระบบจากด้านนอก — external view</text>
-      <text x="405" y="156" text-anchor="middle" class="small">ตัวอย่างเด่น: <tspan class="t2">Acceptance testing</tspan></text>
-      <text x="405" y="180" text-anchor="middle" class="small">ท้ายโปรเจกต์ สาธิตให้ลูกค้าดูแล้ว</text>
-      <text x="405" y="200" text-anchor="middle" class="small">ลูกค้ารับรอง (accept) ว่าพอใจ</text>
-      <text x="405" y="240" text-anchor="middle" class="mut small">อุปมา: เจ้าของบ้านลองอยู่จริง</text>
-      <text x="405" y="258" text-anchor="middle" class="mut small">ว่า "บ้านแบบนี้ใช่ชีวิตที่ฉันอยากมีไหม"</text>
-      <text x="270" y="322" text-anchor="middle" class="mut">ได้ระบบที่ทดสอบสมบูรณ์แต่ผู้ใช้ไม่อยากใช้ = ผ่าน Verification แต่ตก Validation!</text>
-    </svg>
-    <figcaption>ภาพ 4.2 — Verification (ถูกวิธีไหม) vs Validation (ใช่ของที่ต้องการไหม) — จากคำกล่าวของ Barry Boehm</figcaption>
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+flowchart LR
+  subgraph V1["Verification — building the product RIGHT? (ถูกวิธีไหม)"]
+    direction TB
+    VA["มุมมองของ นักพัฒนา (developer view)"]
+    VB["มองระบบจากด้านใน — internal implementation"]
+    VC["Unit testing + System testing"]
+    VD["อุปมา: ช่างตรวจว่าต่อท่อตามแบบที่วิศวกรวาดไว้ไหมทุกจุด"]
+    VA ~~~ VB ~~~ VC ~~~ VD
+  end
+  subgraph V2["Validation — building the RIGHT product? (ใช่ของที่ต้องการไหม)"]
+    direction TB
+    WA["มุมมองของ ลูกค้า (client view)"]
+    WB["มองระบบจากด้านนอก — external view"]
+    WC["Acceptance testing — สาธิตให้ลูกค้าดูแล้วลูกค้ารับรอง"]
+    WD["อุปมา: เจ้าของบ้านลองอยู่จริง ว่าบ้านแบบนี้ใช่ชีวิตที่ฉันอยากมีไหม"]
+    WA ~~~ WB ~~~ WC ~~~ WD
+  end
+    </pre>
+    <figcaption>ภาพ 4.2 — Verification (ถูกวิธีไหม) vs Validation (ใช่ของที่ต้องการไหม) — จากคำกล่าวของ Barry Boehm · ได้ระบบที่ทดสอบสมบูรณ์แต่ผู้ใช้ไม่อยากใช้ = ผ่าน Verification แต่ตก Validation!</figcaption>
   </figure>
 
   <div class="box box-def">
@@ -272,6 +244,7 @@
 <nav class="pager" id="pager"></nav>
 </div>
 
+<script type="module" src="assets/js/mermaid-init.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/tts.js"></script>
 </body>
