@@ -314,6 +314,18 @@ pie showData
         <tr><td>— Offstage</td><td>ไม่เริ่ม ไม่ช่วย แต่<em>ถูกแจ้ง</em>ผล</td><td>หัวหน้าแพทย์ที่ได้รับสำเนารายงาน</td></tr>
       </tbody>
     </table></div>
+    <p><strong>ป้าย «...» (stereotype) ที่เจอใน Use case diagram มี 5 ตัว — อย่าสลับกัน:</strong></p>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>«...»</th><th>อยู่บนเส้นไหน</th><th>ความหมาย</th><th>ตัวอย่างจากสไลด์ (Safe Home)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>«initiate»</strong></td><td>เส้นทึบ actor → use case</td><td>actor ตัวนี้<em>เป็นผู้เริ่ม</em> use case (initiating actor) — คนที่ "กดใช้" เพื่อบรรลุเป้าหมายเอง</td><td>Tenant «initiate» UC1: Unlock</td></tr>
+        <tr><td><strong>«participate»</strong></td><td>เส้นทึบ actor → use case</td><td>actor ร่วมทำงานให้ use case สำเร็จแต่<em>ไม่ใช่คนเริ่ม</em> (participating — ทั้ง supporting และ offstage)</td><td>LockDevice / LightSwitch «participate» UC1: Unlock</td></tr>
+        <tr><td><strong>«initiate + participate»</strong></td><td>เส้นทึบ actor → use case</td><td>กรณีพิเศษ: actor ตัวนั้น<em>ทั้งเริ่มเองและร่วมทำงานด้วย</em></td><td><strong>Timer</strong> «initiate + participate» UC2: Lock — เมื่อนับ auto-lock หมดเวลา Timer เป็นตัวเริ่ม Lock เอง และร่วมทำงานด้วย</td></tr>
+        <tr><td><strong>«include»</strong></td><td>เส้นประ base → subroutine</td><td>ทำ base ครั้งไหน<em>ต้องเรียกตัวย่อยนี้เสมอ</em> (จำเป็น ไม่ optional — ตัดออกไม่ได้)</td><td>UC1: Unlock ──«include»──&gt; UC8: AuthenticateUser</td></tr>
+        <tr><td><strong>«extend»</strong></td><td>เส้นประ extension → base</td><td><em>เกิดเฉพาะเงื่อนไข</em> เสริมพฤติกรรมของ base (base จบได้สมบูรณ์โดยไม่มีมัน)</td><td>UC5: InspectAccessHistory / UC6: SetDevicePrefs «extend» ManageAccount</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>วิธีจำแบบไม่ปนกัน:</strong> ดู<em>ชนิดเส้น</em>ก่อน — <em>เส้นทึบ actor–use case</em> มีแต่ «initiate» / «participate» / «initiate + participate» · <em>เส้นประ use case–use case</em> มีแต่ «include» / «extend» — จากนั้นดู<em>ทิศลูกศร</em> (include จาก base ไปหาตัวย่อย / extend จากตัวเสริมกลับมาหา base) · ป้าย «...» พวกนี้เรียกว่า <em>stereotype</em> = ป้ายกำกับความหมายพิเศษของเส้นใน UML และทั้ง 4 แบบแรก («initiate», «participate», «initiate + participate», «include») ปรากฏพร้อมกันในภาพ Ch9 หน้า 5 ด้านล่าง</p>
     <p><strong>ตาราง 4 คำถาม «include» vs «extend»</strong> (ออกสอบบ่อยมาก):</p>
     <div class="tbl-wrap"><table class="tbl">
       <thead><tr><th>คำถาม</th><th>«include»</th><th>«extend»</th></tr></thead>
