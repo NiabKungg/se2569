@@ -1,6 +1,6 @@
 {
   "schema_version": "mimosa-task-review/v2",
-  "run_id": "20261104T175436193Z-42196-c6703a35d16d",
+  "run_id": "20261104T182947156Z-59489-c2ac9f44938d",
   "run_status": "inconclusive",
   "errors": [
     {
@@ -20,26 +20,26 @@
       "truncated": false,
       "enumeration_error_count": 0,
       "snapshot_error_count": 2,
-      "compensated_target_count": 1
+      "compensated_target_count": 0
     },
     "change_tracking": {
-      "touched_observed": 1,
-      "touched_retained": 1,
+      "touched_observed": 0,
+      "touched_retained": 0,
       "truncated": false,
       "bash_mutation": true,
-      "bash_discovered": 1,
+      "bash_discovered": 0,
       "bash_discovery_limit": 80,
       "bash_discovery_truncated": false
     },
     "candidates": {
-      "eligible_files": 1,
-      "selected_files": 1,
+      "eligible_files": 0,
+      "selected_files": 0,
       "limit": 20,
       "truncated": false
     },
     "scanning": {
-      "required_files": 1,
-      "scanned_files": 1,
+      "required_files": 0,
+      "scanned_files": 0,
       "skipped_files": 0,
       "failed_files": 0,
       "project_checks_required": 0,
@@ -73,49 +73,21 @@
     ],
     "reasons_truncated": false
   },
-  "generated_at": "2026-11-04T17:54:36.193Z",
+  "generated_at": "2026-11-04T18:29:47.156Z",
   "session_id": "sess_b8587882-93bc-4825-9ac8-97f6288bf712",
   "target": ".",
-  "revision": "7329317a490ddd515cb1008e21a4c60ca62b751f",
+  "revision": "1f642c46f863d5f39cfb0ab054b889d9bd0e29af",
   "rules_version": "unavailable",
-  "diff_hash": "148f535dc56b7e1290418caa3176700d50971ad17a483b9a4d98dd620c80e767",
+  "diff_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
   "diff": {
     "algorithm": "sha256",
-    "changed_file_count": 1,
-    "changed_files": [
-      {
-        "file": "assets/js/mermaid-init.js",
-        "ranges": [
-          {
-            "start": 1,
-            "end": 3
-          },
-          {
-            "start": 15,
-            "end": 15
-          },
-          {
-            "start": 17,
-            "end": 17
-          },
-          {
-            "start": 24,
-            "end": 24
-          },
-          {
-            "start": 26,
-            "end": 37
-          }
-        ],
-        "before_hash": "3f27cac969cd0ca403963828bf609f76920f8823411d63c5ee93b05f1d17f067",
-        "after_hash": "a1f18ecbae5887b72dd5a8706b5ba9506c0ed486d1947dbc801829c10855d006"
-      }
-    ]
+    "changed_file_count": 0,
+    "changed_files": []
   },
   "timing": {
-    "started_at": "2026-11-04T17:54:35.165Z",
-    "completed_at": "2026-11-04T17:54:36.193Z",
-    "duration_ms": 1028,
+    "started_at": "2026-11-04T18:29:46.745Z",
+    "completed_at": "2026-11-04T18:29:47.156Z",
+    "duration_ms": 411,
     "measurement": "hook_wall_clock"
   },
   "tokens": {
@@ -130,10 +102,10 @@
     "profile": "gate",
     "operation": "Stop",
     "outcome": "partial/INCONCLUSIVE",
-    "latencyMs": 1028,
-    "peakMemoryBytes": 158699520,
+    "latencyMs": 411,
+    "peakMemoryBytes": 94031872,
     "memoryMeasurement": "max-observed-process-rss",
-    "scannedFiles": 1,
+    "scannedFiles": 0,
     "cache": {
       "hits": 0,
       "misses": 0,
@@ -155,11 +127,83 @@
     "static_fix_verification": "observed_static_only",
     "runtime_verification": "not_performed"
   },
-  "finding_events": [],
+  "finding_events": [
+    {
+      "finding_id": "mimosa-6e12d612bf85212b5f8a027a",
+      "file": "",
+      "line": 71,
+      "rule_id": "security",
+      "severity": "high",
+      "category": "SSRF 服务端请求伪造",
+      "status": "blocked",
+      "decision": "deny",
+      "at": "2026-11-04T18:06:20.901Z",
+      "evidence": {
+        "kind": "source",
+        "boundary": "candidate",
+        "producer": "deterministic",
+        "source": "semgrep",
+        "evidence_hash": "3e177e942e2ba1e4a44ffda4242e701e1c925a6107560bbce3567e669e5debae",
+        "runtime_oracle": false
+      }
+    },
+    {
+      "finding_id": "mimosa-6e12d612bf85212b5f8a027a",
+      "file": "",
+      "line": 71,
+      "rule_id": "security",
+      "severity": "high",
+      "category": "SSRF 服务端请求伪造",
+      "status": "fixed_candidate",
+      "decision": "repair_observed",
+      "at": "2026-11-04T18:07:05.886Z",
+      "evidence": {
+        "kind": "source",
+        "boundary": "candidate",
+        "producer": "deterministic",
+        "source": "semgrep",
+        "evidence_hash": "3e177e942e2ba1e4a44ffda4242e701e1c925a6107560bbce3567e669e5debae",
+        "candidate_before_evidence_hash": "3e177e942e2ba1e4a44ffda4242e701e1c925a6107560bbce3567e669e5debae",
+        "post_change_evidence_hash_at_previous_location": "3cbae7b5f464e0489afd225098626f6ef6292d320c60f91e9b566dadfec3088e",
+        "runtime_oracle": false,
+        "verification": {
+          "method": "mimosa-posttool-static-rescan",
+          "finding_absent": true,
+          "runtime_oracle": false
+        }
+      }
+    },
+    {
+      "finding_id": "mimosa-6e12d612bf85212b5f8a027a",
+      "file": "",
+      "line": 71,
+      "rule_id": "security",
+      "severity": "high",
+      "category": "SSRF 服务端请求伪造",
+      "status": "static_verified",
+      "decision": "static_rescan_passed",
+      "at": "2026-11-04T18:07:05.886Z",
+      "evidence": {
+        "kind": "static_scan",
+        "boundary": "observed",
+        "producer": "deterministic",
+        "source": "semgrep",
+        "evidence_hash": "3e177e942e2ba1e4a44ffda4242e701e1c925a6107560bbce3567e669e5debae",
+        "candidate_before_evidence_hash": "3e177e942e2ba1e4a44ffda4242e701e1c925a6107560bbce3567e669e5debae",
+        "post_change_evidence_hash_at_previous_location": "3cbae7b5f464e0489afd225098626f6ef6292d320c60f91e9b566dadfec3088e",
+        "runtime_oracle": false,
+        "verification": {
+          "method": "mimosa-posttool-static-rescan",
+          "finding_absent": true,
+          "runtime_oracle": false
+        }
+      }
+    }
+  ],
   "findings": [],
   "artifacts": {
-    "immutable_report": ".mimosa/reports/task-review-sess_b8587882-93bc-4825-9ac8-97f6288bf712-20261104T175436193Z-42196-c6703a35d16d.json",
+    "immutable_report": ".mimosa/reports/task-review-sess_b8587882-93bc-4825-9ac8-97f6288bf712-20261104T182947156Z-59489-c2ac9f44938d.json",
     "latest_report": ".mimosa/reports/task-review-sess_b8587882-93bc-4825-9ac8-97f6288bf712.json",
-    "history_summary": ".mimosa/history/run-20261104T175436193Z-42196-c6703a35d16d.json"
+    "history_summary": ".mimosa/history/run-20261104T182947156Z-59489-c2ac9f44938d.json"
   }
 }
