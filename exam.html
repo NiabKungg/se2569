@@ -324,8 +324,26 @@ pie showData
         <tr><td>เปลี่ยนพฤติกรรม base ไหม?</td><td>No</td><td>Yes</td></tr>
       </tbody>
     </table></div>
+    <p><strong>ทิศลูกศรต้องถูก (จุดที่พลาดกันเยอะ):</strong> «include» ลูกศรประชี้<em>จาก base ไปหา subroutine</em> (base บอกว่า "ฉันรวมเข้าหาตัวย่อย") แต่ «extend» ลูกศรประชี้<em>จากตัวที่มาเสริมกลับไปหา base</em> — <strong>ทิศตรงข้ามกัน!</strong> ใน PlantUML เขียนว่า <code class="inline">Base ..&gt; Sub : &lt;&lt;include&gt;&gt;</code> และ <code class="inline">Ext ..&gt; Base : &lt;&lt;extend&gt;&gt;</code></p>
     <p><strong>กับดัก Login (อาจารย์เน้นใน video):</strong> อย่าวาด Login เป็นวงรีใหญ่แล้วให้ทุก use case เส้นต่อเข้าหา (BAD) — ให้ทำเป็น subroutine «include» เรียกใช้ (GOOD) หรือยุบเป็น precondition เลย เพราะ Login ไม่ใช่เป้าหมายธุรกิจที่ใคร "อยากทำ"</p>
   </div>
+
+  <div class="box box-def">
+    <div class="box-title">📚 Base use case vs Subroutine use case — และกฎการวาง layout ซ้าย → ขวา</div>
+    <p><strong>Base use case</strong> = use case "ตัวหลัก" ที่ actor เรียกใช้<em>โดยตรง</em>เพื่อบรรลุเป้าหมายธุรกิจ — สมบูรณ์ในตัวเอง อ่านชื่อรู้เรื่องทันที (Unlock, RegisterPatient) · <strong>Subroutine use case</strong> = use case "ตัวย่อย" ที่<em>ถูกเรียกโดย base</em> เพื่อทำงานซ้ำ ๆ ที่ใช้ร่วมกัน (ยืนยันตัวตน, ล็อกอิน) — actor<em>ไม่มีเส้นตรง</em>ไปหามัน</p>
+    <p><strong>กฎ layout มาตรฐาน (แนวเดียวกับ PlantUML use case diagram)</strong> — วาดตามทิศการอ่านซ้าย → ขวา ให้ภาพเล่าเรื่องได้ด้วยตัวเอง:</p>
+    <ol class="flowsteps">
+      <li><b>Actor อยู่ซ้ายสุด</b> — นอก system boundary เสมอ (คนเริ่มเรื่อง)</li>
+      <li><b>Base use cases อยู่ทางซ้ายของ system boundary</b> — ใกล้ actor เพราะ actor เรียกใช้มันตรง ๆ</li>
+      <li><b>Subroutine use cases อยู่ทางขวาของ system boundary</b> — ไกลออกไป เพราะถูกเรียกผ่าน base เท่านั้น (ไม่มีเส้นจาก actor)</li>
+      <li><b>«include» พุ่งจากซ้ายไปขวา</b> — อ่านต่อเนื่องเป็น Actor → Base → Subroutine</li>
+    </ol>
+  </div>
+
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch9-usecase-diagram.png" alt="Use Case Diagram จากสไลด์ Ch9 หน้า 5 — โซน Base use cases ทางซ้ายและ Subroutine use cases ทางขวาใน system boundary" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์ — Ch9 หน้า 5 (Use Case Diagram, High-level goal: ARRIVE): สังเกตโซน "<b>Base use cases</b>" ทาง<b>ซ้าย</b>ของ boundary และโซน "<b>Subroutine use cases</b>" (UC8: AuthenticateUser) ทาง<b>ขวา</b> — actor (Tenant/Landlord) อยู่นอกกรอบฝั่งซ้าย มีเส้นตรงเฉพาะไปหา base เท่านั้น</figcaption>
+  </figure>
 
   <div class="box box-key">
     <div class="box-title">⚡ ขั้นวาด 4 จังหวะ (ใช้ได้กับทุกระบบ)</div>
@@ -337,17 +355,41 @@ pie showData
     </ol>
   </div>
 
-  <figure class="fig fig-mermaid">
-    <pre class="mermaid">
-flowchart LR
-  NS["Nurse / Staff"] --- RP(["RegisterPatient"]) & RT(["RecordTreatmentResult"])
-  DC["Doctor"] --- IM(["IssueMedicalCertificate"]) & SD(["SendDiagnosisToSpecialist"])
-  ADM["Admin"] --- MS(["ManageMedicalStaff"])
-  RP & RT & IM & SD & MS -.->|"«include»"| AU(["AuthenticateUser"])
-  SD --- LN["LINE API&lt;br/&gt;(supporting)"] & EM["Email Server&lt;br/&gt;(supporting)"]
-    </pre>
-    <figcaption>ภาพ E-1 — Use Case Diagram คำตอบตัวอย่างของ CS-Hospital: initiating = Nurse/Doctor/Admin, supporting = LINE API + Email Server, subroutine = AuthenticateUser («include») — เส้นทึบ = ความสัมพันธ์, เส้นประ = «include»</figcaption>
+  <figure class="fig fig-orig">
+    <img src="assets/img/puml-e1-cshospital.svg" alt="Use Case Diagram ของ CS-Hospital วาดด้วย PlantUML: actor ซ้ายนอก boundary, Base use cases ซ้ายในกรอบ, AuthenticateUser ขวาในกรอบ, LINE API และ Email Server ขวานอกกรอบ" loading="lazy">
+    <figcaption>ภาพ E-1 — Use Case Diagram คำตอบตัวอย่างของ CS-Hospital วาดด้วย <b>PlantUML</b> (layout มาตรฐาน ซ้าย→ขวา): actor ซ้ายนอก boundary · Base use cases ซ้ายในกรอบ · Subroutine (AuthenticateUser) ขวาในกรอบ · LINE API + Email Server เป็น supporting actor ขวานอกกรอบ — เส้นทึบ = ความสัมพันธ์ actor→base, เส้นประ = «include»</figcaption>
   </figure>
+
+  <h3>🎯 เจาะลึก Login — ทำไม GOOD ถึงวาง Login ไว้ทางขวามือ?</h3>
+  <figure class="fig fig-orig">
+    <img src="assets/img/ch9-login-bad-good.png" alt="สไลด์ Login Use Case? BAD vs GOOD — BAD: Login อยู่ใกล้ actor เส้นพัวพัน / GOOD: Login อยู่ขวาสุด มี «include» ชี้จากซ้ายไปขวาเข้าหา" loading="lazy">
+    <figcaption>📷 ภาพต้นฉบับจากสไลด์ — Ch9 หน้า 8 (Login Use Case? BAD vs GOOD)</figcaption>
+  </figure>
+  <div class="box box-idea">
+    <div class="box-title">💡 อ่านภาพ BAD vs GOOD ให้ขาด</div>
+    <p><strong>BAD (ซ้าย):</strong> Login ถูกวางเป็นวงรีปกติ<em>ใกล้ actor</em> เทียบเคียงกับ AddUser/SetDevicePrefs — ดูเหมือน "เมนูที่ Landlord เลือกได้" และมีเส้นจาก actor พุ่งเข้าหามันตรง ๆ ผลคือ (1) ผิดความหมาย เพราะ Landlord ไม่ได้ "ทำ Login เพื่อบรรลุเป้าหมายธุรกิจ" (2) พอมี use case ใหม่ที่ต้องล็อกอิน ก็ต้องลากเส้นเพิ่มไปเรื่อย ๆ จนภาพพัง</p>
+    <p><strong>GOOD (ขวา):</strong> Login ถูกดึงออกไปเป็น subroutine อยู่<em>ขวาสุด</em> — AddUser กับ SetDevicePrefs (base, ซ้ายใกล้ actor) ชี้เส้นประ «include» จากซ้ายไปขวาเข้าหามัน สื่อว่า "ถ้าทำ AddUser → ต้องผ่าน Login เสมอ" และ Landlord <em>ไม่มีเส้น</em>ตรงไปหา Login เลย</p>
+    <p><strong>สรุปหลักวางตำแหน่ง:</strong> ระยะห่างจาก actor = ความ "ตรง" ของการเรียกใช้ — ยิ่งใกล้ actor ยิ่งเป็นเป้าหมายที่ actor เรียกเอง (base), ยิ่งไกล/ขวาสุด ยิ่งเป็นกลไกที่ถูกเรียกผ่าน ๆ («include»)</p>
+  </div>
+  <figure class="fig fig-orig">
+    <img src="assets/img/puml-login-good.svg" alt="GOOD Login diagram วาดด้วย PlantUML: Landlord ซ้ายสุด, AddUser/SetDevicePrefs กลาง, Login ขวาสุด พร้อม «include» จากซ้ายไปขวา" loading="lazy">
+    <figcaption>ภาพ E-1b — GOOD diagram วาดด้วย PlantUML (left to right direction): Login ถูกดันไป<b>ขวาสุด</b>โดยอัตโนมัติ เพราะเป็นปลายทางของ «include» — ทิศลูกศร = ทิศ layout พอดี</figcaption>
+  </figure>
+  <details class="ans">
+    <summary>🧩 PlantUML source ของภาพ E-1b (ลอกไปวางที่ plantuml.com/plantuml ได้เลย)</summary>
+    <pre class="schema">@startuml
+left to right direction
+actor "Landlord" as L
+usecase "AddUser" as U1
+usecase "SetDevicePrefs" as U2
+usecase "Login" as U3
+L -- U1
+L -- U2
+U1 ..> U3 : &lt;&lt;include&gt;&gt;
+U2 ..> U3 : &lt;&lt;include&gt;&gt;
+@enduml</pre>
+    <p class="small">หลักการ: <code class="inline">left to right direction</code> บังคับ layout ซ้าย→ขวา · <code class="inline">L -- U1</code> = เส้นสัมพันธ์ actor→base · <code class="inline">U1 ..&gt; U3 : &lt;&lt;include&gt;&gt;</code> = เส้นประ «include» จาก base ไป subroutine — PlantUML จะจัดให้ Login (ปลายทาง) อยู่ขวาสุดเอง</p>
+  </details>
 
   <div class="box box-warn">
     <div class="box-title">🎯 ข้อห้ามพลาดในข้อนี้</div>
