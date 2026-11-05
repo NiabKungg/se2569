@@ -45,6 +45,7 @@ CS-Hospital (ระบบเดียวกับโจทย์จริงป�
   <a href="#maintplan">🔧 ข้อ 6 Maintenance</a>
   <a href="#practice">🏋️ ฝึกรวม</a>
   <a href="#tips">💡 ทริคห้องสอบ</a>
+  <a href="#s2g13">🗂️ ตัวอย่างงานจริง S2G13</a>
 </nav>
 
 <section class="block" id="howto">
@@ -582,6 +583,53 @@ flowchart LR
     </pre>
     <figcaption>ภาพ E-3 — สถาปัตยกรรมคำตอบตัวอย่างของ CS-Hospital: Client/Server + Layered + Central Repository — อุปมา Layered: ตึกสำนักงาน พนักงานขาย (UI) ไม่ต้องรู้ว่ามิเตอร์ไฟวิ่งยังไง (Technical services)</figcaption>
   </figure>
+
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-badge">ตัวอย่างจริง</span><span class="ex-title">เฉลยสถาปัตยกรรมของกลุ่ม S2G13 — เอกสารจริง 1 หน้า (แอปติดตามรถโดยสาร)</span></div>
+    <div class="ex-body">
+      <p>งานจริงของกลุ่มนักศึกษาที่ทำระบบ<strong>ติดตามรถโดยสารสาธารณะ</strong> — สถาปัตยกรรม 1 หน้าแบบ <strong>3 ชั้น (Layered)</strong>: กล่องหน้าจอ (ม่วง) → ตรรกะธุรกิจ (เหลือง) → ข้อมูล (เขียว) โดยมี <strong>label ลูกศรครบทั้งขาไป-ขากลับ</strong> ทุกชั้น (User Input Request / Data back to user · Action / Update Data · Data Req / Update Req)</p>
+      <p><strong>เคล็ดลับ 4 อย่างที่กลุ่มนี้ทำและเลียนแบบได้ทันที:</strong></p>
+      <ul>
+        <li><strong>แบ่งชั้นชัดเจน ชั้นละกล่องใหญ่</strong> — เห็นปุ๊บรู้ปั๊บว่าเป็นสไตล์ Layered/Multi-tiered ผสม Client/Server (user ส่งคำขอ → ระบบส่งข้อมูลกลับ)</li>
+        <li><strong>ตั้งชื่อ component ตรงหน้าที่จริง</strong> ("Trip Planner", "Route &amp; Fare Calculator", "ETA &amp; Traffic Engine") — ไม่ใช่ "Module 1/2/3" กลาง ๆ</li>
+        <li><strong>ลูกศรทุกเส้นมี label</strong> บอกทั้งคำขอลงและข้อมูลกลับขึ้น — กรรมการเห็นทิศทางการสื่อสารครบทุกรอยเชื่อม</li>
+        <li><strong>ชั้นข้อมูลแยก repository ตามชนิดข้อมูล</strong> (ข้อมูลสด / ข้อมูลหลัก / ล็อก) — ถ้าโจทย์แบบนี้ตอบแบบแยกคลังได้ แต่โจทย์ CS-Hospital ย้ำ "ข้อมูลชุดเดียวกันทุกแผนก" จึงเน้น Central Repository</li>
+      </ul>
+      <p class="small">ในห้องสอบวาดด้วยกล่อง-เส้นธรรมดาบนกระดาษก็ได้คะแนนเท่ากัน — ของสำคัญคือ "ชั้นชัด + ชื่อ component ชัด + label ลูกศร" ไม่ต้องมีไอคอนสวย ๆ</p>
+    </div>
+  </div>
+
+  <figure class="fig fig-orig">
+    <img src="assets/img/s2g13-architecture.png" alt="คำตอบตัวอย่างสถาปัตยกรรมจริงของกลุ่ม S2G13: User ด้านบนส่ง User Input Request ลงสู่กล่องชั้นหน้าจอ (Main Tracking &amp; ETA, Trip Planner, Alert Overlay / Pop-up, Admin Dashboard View) ต่อด้วย Action ลงสู่ชั้นตรรกะธุรกิจ (Route &amp; Fare Calculator, ETA &amp; Traffic Engine, Safety &amp; Event Trigger) และ Data Req ลงสู่ชั้นข้อมูล (Live Telemetry Data, Transit Master Data, Fleet &amp; Driver Logs) พร้อมลูกศรย้อนกลับกำกับทุกชั้น" loading="lazy">
+    <figcaption>ภาพ E-4 — ตัวอย่างคำตอบจริงจากกลุ่ม S2G13 (ไฟล์ "S2G13 Architecture.pdf"): สถาปัตยกรรม 3 ชั้นของแอปติดตามรถโดยสาร — User ส่งคำขอลงและรับข้อมูลกลับผ่านชั้นหน้าจอ → ชั้นตรรกะธุรกิจ → ชั้นข้อมูล พร้อม label ลูกศรครบทุกเส้น · เอกสารเต็มชุดอยู่ท้ายหน้าหัวข้อ <a href="#s2g13">🗂️ ตัวอย่างงานจริง S2G13</a></figcaption>
+  </figure>
+
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+flowchart LR
+  USER["👤 User"]
+  subgraph UI["ชั้นหน้าจอ — Presentation"]
+    U1["Main Tracking &amp; ETA"]
+    U2["Trip Planner"]
+    U3["Alert Overlay / Pop-up"]
+    U4["Admin Dashboard View"]
+  end
+  subgraph LOGIC["ชั้นตรรกะธุรกิจ — Business Logic"]
+    L1["Route &amp; Fare Calculator"]
+    L2["ETA &amp; Traffic Engine"]
+    L3["Safety &amp; Event Trigger"]
+  end
+  subgraph DATA["ชั้นข้อมูล — Data"]
+    D1[("Live Telemetry Data")]
+    D2[("Transit Master Data")]
+    D3[("Fleet &amp; Driver Logs")]
+  end
+  USER <-->|"User Input Request ⇄ Data back to user"| UI
+  UI <-->|"Action ⇄ Update Data"| LOGIC
+  LOGIC <-->|"Data Req ⇄ Update Req"| DATA
+    </pre>
+    <figcaption>ภาพ E-5 — โครงเดียวกับ E-4 วาดใหม่ด้วย Mermaid: 3 กล่องใหญ่ = 3 ชั้น (หน้าจอ → ตรรกะธุรกิจ → ข้อมูล) พร้อม label คู่ขาไป/ขากลับทุกรอยเชื่อม — ใช้เป็นแบบวาดลงกระดาษในห้องสอบได้เลย</figcaption>
+  </figure>
 </section>
 
 <section class="block" id="testplan">
@@ -815,8 +863,131 @@ flowchart LR
   </div>
   <div class="box box-idea">
     <div class="box-title">🔁 แผนทบทวนก่อนเข้าห้องสอบ (อ่านจากหน้านี้หน้าเดียวพอ)</div>
-    <p>1) ตาราง 7 ระดับทดสอบ + 4 ประเภท maintenance (ส่วน 1ก/1ข — คะแนนง่าย) · 2) แม่แบบ FR/NFR 5+6 ข้อ (ข้อ 1) · 3) แม่แบบ Use case + Schema + Architecture (ข้อ 2–4) · 4) โครง testing plan + maintenance plan (ข้อ 5–6) · 5) โจทย์ฝึกรวม 8 ข้อท้ายหน้า — อ่านรอบสุดท้ายใช้เวลา ~15 นาที</p>
+    <p>1) ตาราง 7 ระดับทดสอบ + 4 ประเภท maintenance (ส่วน 1ก/1ข — คะแนนง่าย) · 2) แม่แบบ FR/NFR 5+6 ข้อ (ข้อ 1) · 3) แม่แบบ Use case + Schema + Architecture (ข้อ 2–4) · 4) โครง testing plan + maintenance plan (ข้อ 5–6) · 5) โจทย์ฝึกรวม 8 ข้อท้ายหน้า · 6) เทียบโครงคำตอบกับเอกสารจริงของกลุ่ม S2G13 ท้ายหน้า — อ่านรอบสุดท้ายใช้เวลา ~15 นาที</p>
     <p>🤖 ถ้าอยากถามเพิ่มจาก video การสอนอาจารย์ เข้าไปพิมพ์ถามได้ที่ <a href="https://notebook.google.com/notebook/5db4f39c-dd66-4504-8cc6-ed33e889b56a" target="_blank" rel="noopener">💻 Notebook วิชา SE</a></p>
+  </div>
+</section>
+
+<section class="block" id="s2g13">
+  <h2><span class="h2-dot">🗂️</span> ตัวอย่างงานจริงของกลุ่ม S2G13 — เอกสารโปรเจกต์เต็มชุด</h2>
+
+  <div class="box box-def">
+    <div class="box-title">📚 รู้ก่อนอ่าน — ชุดนี้คืออะไร ใช้ยังไง</div>
+    <p>เอกสารจริง <strong>7 ชิ้น</strong> ของกลุ่ม S2G13 โปรเจกต์ <strong>"Public Transit Navigation System" (ระบบช่วยเดินทางโดยรถขนส่งสาธารณะ)</strong> — แอปติดตามรถเมล์/สองแถวบนแผนที่ ประเมินเวลารถจะถึง เช็คความแน่นบนรถ กดกริ่งลงรถผ่านแอป พร้อมหน้าจอฝั่งพนักงานขับรถและผู้ดูแลระบบ</p>
+    <p>ชุดนี้ครอบโครงข้อสอบ<em>เขียน</em>เกือบทุกข้อ — ใช้เทียบว่า "งานจริงของกลุ่มนักศึกษา" หน้าตาเป็นยังไง แล้วย่อโครงเดียวกันลงกระดาษในห้องสอบ · <strong>ทุกภาพ ตาราง และข้อความด้านล่างเป็นของเดิมจากเอกสาร ไม่มีการแต่งเติมเนื้อหา</strong> · แต่ละเอกสารกาง/ย่อได้ อ่านจบทั้งชุดในหน้านี้หน้าเดียว</p>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>เอกสาร</th><th>ตรงกับข้อ</th><th>ข้างในมีอะไร (ของจริง)</th></tr></thead>
+      <tbody>
+        <tr><td>📄 Sofware Requirements<br>(11 หน้า)</td><td>ข้อ 1 FR/NFR</td><td>ที่มา + วัตถุประสงค์ 4 ข้อ · ตาราง User Story REQ-01–17 พร้อม story points · Functional Requirements จัดกลุ่ม 6 ระบบ · Non-Functional ตาม FURPS+</td></tr>
+        <tr><td>🎨 UseCaseDiagram<br>(1 หน้า)</td><td>ข้อ 2 Use case</td><td>UC01–UC10 · 3 actor (ผู้โดยสาร / พนักงานขับรถ / ผู้ดูแลระบบ) · «include» เข้าสู่ระบบ</td></tr>
+        <tr><td>🗃️ Schema<br>(13 หน้า — หน้า 13 เปล่า)</td><td>ข้อ 2–3 Schema</td><td>หน้า 1 Traceability Matrix (REG×UC) · หน้า 2–12 Use Case Specification UC-01–UC-10</td></tr>
+        <tr><td>🏛️ Architecture<br>(1 หน้า)</td><td>ข้อ 4 สถาปัตยกรรม</td><td>3 ชั้น หน้าจอ → ตรรกะธุรกิจ → ข้อมูล พร้อม label ลูกศรคู่ (วิเคราะห์แล้วที่ <a href="#arch">ข้อ 4 ด้านบน</a> ภาพ E-4–E-5)</td></tr>
+        <tr><td>🔄 Model<br>(1 หน้า)</td><td>กระบวนการพัฒนา (Ch8)</td><td>เลือก Evolutionary Model ตามสไลด์ Chapter 8 พร้อมย่อหน้าอธิบายเหตุผล</td></tr>
+        <tr><td>🌳 Hierarchical structure<br>(1 หน้า)</td><td>โครงสร้างระบบ (Ch6)</td><td>ผังแบ่งระบบย่อย 7 ระบบ แตกฟีเจอร์ย่อยอีกชั้น</td></tr>
+        <tr><td>📊 Gantt Chart<br>(1 หน้า)</td><td>แผนโปรเจกต์ (Ch5)</td><td>"SE Gantt Chart" ช่วง ส.ค.–ธ.ค. แบ่งช่วงงานใหญ่พร้อมหมากา (milestone) 1–5</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="box box-def">
+    <div class="box-title">📄 เอกสาร 1) Sofware Requirements.pdf — 11 หน้า (ตรงข้อ 1 FR/NFR)</div>
+    <p>โครงเอกสาร (ตามของจริง): หน้า 1–2 ที่มาและความสำคัญ + วัตถุประสงค์ 4 ข้อ · หน้า 3–5 ตาราง User Story ภาษาอังกฤษ (Identifier | User Story | Size) · หน้า 6–7 รายละเอียด User Story ภาษาไทย · หน้า 8–9 Functional Requirements จัดกลุ่ม 6 ระบบ · หน้า 10 Non-Functional Requirements ตาม FURPS+ · หน้า 11 ข้อมูลกลุ่มผู้จัดทำ</p>
+    <figure class="fig fig-orig">
+      <img src="assets/img/s2g13-req-03.jpg" alt="หน้า 3 ของเอกสาร Requirements ของระบบช่วยเดินทางโดยรถขนส่งสาธารณะ — ตาราง 3 คอลัมน์ Identifier, User Story, Size เริ่มที่ REQ-01 As a passenger, I want to view the real-time location of buses and songthaews on a map so that I know where the vehicle currently is — 8 pts ต่อด้วย REQ-02 ถึง REQ-06" loading="lazy">
+      <figcaption>หน้า 3 — ตาราง User Story: ทุกข้อมี ID (REQ-xx) + เขียนแบบ "As a …, I want to … so that …" + ประเมิน Size เป็น story points (8/5/3 pts) — โครงนี้ใช้เป็น FR ในข้อ 1 ได้เลย</figcaption>
+    </figure>
+    <details class="sol">
+      <summary>กางดูเอกสารทั้ง 11 หน้า</summary>
+      <div class="sol-body">
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-req-01.jpg" alt="หน้า 1: ส่วน 1.1 ที่มาและความสำคัญ เล่าปัญหาการรอรถเมล์/สองแถว ไม่รู้เวลา รถแน่น กดกริ่งลำบาก พร้อมแนวคิดระบบติดตามรถ และ 1.2 วัตถุประสงค์ ข้อ 1-2" loading="lazy"><figcaption>หน้า 1 — 1.1 ที่มาและความสำคัญ + 1.2 วัตถุประสงค์ (ข้อ 1–2)</figcaption></figure>
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-req-02.jpg" alt="หน้า 2: วัตถุประสงค์ข้อ 3 เพื่อช่วยแจ้งเตือนคนขับในการรับ-ส่งผู้โดยสาร และข้อ 4 เพื่อชัดการเข้าถึงและความสะดวกของผู้ดูแลระบบ" loading="lazy"><figcaption>หน้า 2 — วัตถุประสงค์ (ต่อ ข้อ 3–4)</figcaption></figure>
+        <p class="small">(หน้า 3 แสดงด้านบนแล้ว)</p>
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-req-04.jpg" alt="หน้า 4: ตาราง Identifier, User Story, Size ต่อจากหน้าก่อน เป็น user story ภาษาอังกฤษของ REQ ลำดับถัดไป" loading="lazy"><figcaption>หน้า 4 — ตาราง User Story (ต่อ)</figcaption></figure>
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-req-05.jpg" alt="หน้า 5: ตาราง Identifier, User Story, Size ต่อ เป็นชุดสุดท้ายของตาราง user story ภาษาอังกฤษ" loading="lazy"><figcaption>หน้า 5 — ตาราง User Story (ต่อ)</figcaption></figure>
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-req-06.jpg" alt="หน้า 6: หัวข้อ รายละเอียด User Story (Descriptions User Story) เป็นคำอธิบายภาษาไทยของแต่ละ REQ" loading="lazy"><figcaption>หน้า 6 — รายละเอียด User Story (Descriptions User Story — ภาษาไทย)</figcaption></figure>
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-req-07.jpg" alt="หน้า 7: รายละเอียด User Story ต่อ เริ่มที่ REQ-13 ในฐานะผู้ใช้งานทั่วไป" loading="lazy"><figcaption>หน้า 7 — รายละเอียด User Story (ต่อ — เริ่มที่ REQ-13)</figcaption></figure>
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-req-08.jpg" alt="หน้า 8: ส่วน 4. Functional Requirements ตารางจัดกลุ่มตามระบบ เริ่มที่ระบบติดตาม ระบบค้นหาเส้นทาง ระบบช่วยเหลือบนรถ แต่ละข้อเขียนแบบ ในฐานะ... ฉันต้องการ..." loading="lazy"><figcaption>หน้า 8 — 4. Functional Requirements: จัดกลุ่มตาม 6 ระบบ เขียนแบบ "ในฐานะ … ฉันต้องการ …"</figcaption></figure>
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-req-09.jpg" alt="หน้า 9: Functional Requirements ต่อ กลุ่ม 4 ระบบแจ้งเตือนการเดินทาง กลุ่ม 5 ระบบสำหรับพนักงานขับรถ และกลุ่ม 6 ระบบจัดการของผู้ดูแล" loading="lazy"><figcaption>หน้า 9 — Functional Requirements (ต่อ — ระบบแจ้งเตือน / ระบบสำหรับพนักงานขับรถ / ระบบจัดการของผู้ดูแล)</figcaption></figure>
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-req-10.jpg" alt="หน้า 10: ส่วน 5. Non-Functional Requirements (ตามหลัก FURPS+) ตาราง ความปลอดภัย-Functionality, ความง่ายในการใช้-Usability, ความน่าเชื่อถือ-Reliability, ประสิทธิภาพ-Performance" loading="lazy"><figcaption>หน้า 10 — 5. Non-Functional Requirements (ตามหลัก FURPS+): Functionality / Usability / Reliability / Performance …</figcaption></figure>
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-req-11.jpg" alt="หน้า 11: ข้อมูลกลุ่มผู้จัดทำ ปิดท้ายเอกสาร" loading="lazy"><figcaption>หน้า 11 — ข้อมูลกลุ่มผู้จัดทำ (ปิดท้ายเอกสาร)</figcaption></figure>
+      </div>
+    </details>
+  </div>
+
+  <div class="box box-def">
+    <div class="box-title">🎨 เอกสาร 2) S2G13 UseCaseDiagram.pdf — 1 หน้า (ตรงข้อ 2)</div>
+    <figure class="fig fig-orig">
+      <img src="assets/img/s2g13-usecase.png" alt="Use Case Diagram ระบบช่วยเดินทางโดยรถขนส่งสาธารณะ: actor ผู้โดยสารเชื่อม UC01 ดูพิกัดตำแหน่งรถบนแผนที่, UC02 ดูสายรถ เส้นทาง และอัตราค่าโดยสาร, UC03 ตรวจสอบสถานะความหนาแน่นบนรถ, UC04 กดกริ่งลงรถผ่านแอปพลิเคชัน, UC05 รับการแจ้งเตือนเมื่อรถใกล้ถึงจุดจอด; พนักงานขับรถเชื่อม UC06 กดเปลี่ยนสถานะของรถ; ผู้ดูแลระบบเชื่อม UC07 ดูตำแหน่งรถทุกคันบนแผนที่ภาพรวม, UC8 เพิ่ม ลบ แก้ไข สายรถ จุดจอด เส้นทาง, UC9 ดูและดาวน์โหลดประวัติรอบการวิ่ง; UC10 เข้าสู่ระบบอยู่ขวาในกรอบ มี «include» จาก UC04, UC06 และ UC8; มุมขวาบนเป็นกล่องสรุปรายชื่อ UC ทั้งสิบ" loading="lazy">
+      <figcaption>หน้าเดียวจบ — UC01–UC09 เรียงซ้ายใน boundary · UC10 เข้าสู่ระบบอยู่ขวา ให้ UC04/UC06/UC8 วิ่ง «include» เข้าหา (ตรงกฎ GOOD Login ใน <a href="#usecase">ข้อ 2</a>) · มุมขวาบนมีกล่องสรุปชื่อ UC ทั้งหมดกำกับ</figcaption>
+    </figure>
+  </div>
+
+  <div class="box box-def">
+    <div class="box-title">🗃️ เอกสาร 3) S2G13 Schema.pdf — 13 หน้า (ตรงข้อ 2–3)</div>
+    <p>ชื่อไฟล์ว่า "Schema" แต่ข้างในคือ <strong>Traceability Matrix (หน้า 1) + เอกสารรายละเอียด Use Case ทีละตัว UC-01–UC-10 (หน้า 2–12)</strong> — ตรงกับความหมายหลัก "Schema for Detailed Use Cases" ที่สรุปไว้ใน <a href="#schema">ข้อ 3</a> (ตามสไลด์ Ch9 หน้า 13) · (หน้า 13 ของไฟล์เป็นหน้าเปล่า จึงไม่แสดง)</p>
+    <figure class="fig fig-orig">
+      <img src="assets/img/s2g13-schema-01.jpg" alt="หน้า 1 ของเอกสาร Schema — ตาราง Traceability Matrix: คอลัมน์ Req't มี REG1 ถึง REG17 ตั้ง ข้ามคอลัมน์ UC1 ถึง UC10 นอน วางเครื่องหมาย X ที่จุดตัดของ requirement กับ use case ที่เกี่ยวข้อง" loading="lazy">
+      <figcaption>หน้า 1 — Traceability Matrix: REG1–REG17 (ตั้ง) × UC1–UC10 (นอน) วาง X ที่จุดตัด — พิสูจน์ว่าทุก requirement ถูกดูแลด้วย use case อย่างน้อย 1 ตัว</figcaption>
+    </figure>
+    <details class="sol">
+      <summary>กางดู Use Case Specification ทั้ง 10 ตัว (หน้า 2–12)</summary>
+      <div class="sol-body">
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-schema-02.jpg" alt="หน้า 2: ตาราง Use Case Specification UC-01 ดูพิกัดตำแหน่งรถบนแผนที่ พร้อม Related Requirements, Initiating Actor, Actor's Goal, Participating Actors, Preconditions, Postconditions, Flow of Events และ Extensions" loading="lazy"><figcaption>หน้า 2 — UC-01: ดูพิกัดตำแหน่งรถบนแผนที่</figcaption></figure>
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-schema-03.jpg" alt="หน้า 3: Use Case Specification UC-02 ดูสายรถ เส้นทาง และอัตราค่าโดยสาร" loading="lazy"><figcaption>หน้า 3 — UC-02: ดูสายรถ เส้นทาง และอัตราค่าโดยสาร</figcaption></figure>
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-schema-04.jpg" alt="หน้า 4: Use Case Specification UC-03 ตรวจสอบสถานะความหนาแน่นบนรถ" loading="lazy"><figcaption>หน้า 4 — UC-03: ตรวจสอบสถานะความหนาแน่นบนรถ</figcaption></figure>
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-schema-05.jpg" alt="หน้า 5: Use Case Specification UC-04 กดกริ่งลงรถผ่านแอปพลิเคชัน" loading="lazy"><figcaption>หน้า 5 — UC-04: กดกริ่งลงรถผ่านแอปพลิเคชัน</figcaption></figure>
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-schema-06.jpg" alt="หน้า 6: Use Case Specification UC-05 รับการแจ้งเตือนเมื่อรถใกล้ถึงจุดจอด" loading="lazy"><figcaption>หน้า 6 — UC-05: รับการแจ้งเตือนเมื่อรถใกล้ถึงจุดจอด</figcaption></figure>
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-schema-07.jpg" alt="หน้า 7: Use Case Specification UC-06 กดเปลี่ยนสถานะของรถ" loading="lazy"><figcaption>หน้า 7 — UC-06: กดเปลี่ยนสถานะของรถ</figcaption></figure>
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-schema-08.jpg" alt="หน้า 8: Use Case Specification UC-07 ดูตำแหน่งรถทุกคันบนแผนที่ภาพรวม" loading="lazy"><figcaption>หน้า 8 — UC-07: ดูตำแหน่งรถทุกคันบนแผนที่ภาพรวม</figcaption></figure>
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-schema-09.jpg" alt="หน้า 9: แถวท้ายของตาราง UC-07 แล้วต่อด้วยตาราง Use Case Specification UC-08 เพิ่ม ลบ แก้ไข สายรถ จุดจอด เส้นทาง Initiating Actor ผู้ดูแลระบบ" loading="lazy"><figcaption>หน้า 9 — UC-08: เพิ่ม ลบ แก้ไข สายรถ จุดจอด เส้นทาง (เริ่มตาราง)</figcaption></figure>
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-schema-10.jpg" alt="หน้า 10: ตาราง UC-08 ต่อ ส่วน Flow of Events for Extensions (Alternate Scenarios)" loading="lazy"><figcaption>หน้า 10 — UC-08 (ต่อ: Flow of Events for Extensions)</figcaption></figure>
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-schema-11.jpg" alt="หน้า 11: Use Case Specification UC-09 ดูและดาวน์โหลดประวัติรอบการวิ่ง" loading="lazy"><figcaption>หน้า 11 — UC-09: ดูและดาวน์โหลดประวัติรอบการวิ่ง</figcaption></figure>
+        <figure class="fig fig-orig"><img src="assets/img/s2g13-schema-12.jpg" alt="หน้า 12: Use Case Specification UC-10 เข้าสู่ระบบ" loading="lazy"><figcaption>หน้า 12 — UC-10: เข้าสู่ระบบ</figcaption></figure>
+      </div>
+    </details>
+  </div>
+
+  <div class="box box-def">
+    <div class="box-title">🏛️ เอกสาร 4) S2G13 Architecture.pdf — 1 หน้า (ตรงข้อ 4)</div>
+    <figure class="fig fig-orig">
+      <img src="assets/img/s2g13-architecture.png" alt="สถาปัตยกรรม 3 ชั้นของแอปติดตามรถโดยสารจากกลุ่ม S2G13: User ส่ง User Input Request ลงสู่ชั้นหน้าจอ (Main Tracking &amp; ETA, Trip Planner, Alert Overlay / Pop-up, Admin Dashboard View) ส่ง Action ลงสู่ชั้นตรรกะธุรกิจ (Route &amp; Fare Calculator, ETA &amp; Traffic Engine, Safety &amp; Event Trigger) และ Data Req ลงสู่ชั้นข้อมูล (Live Telemetry Data, Transit Master Data, Fleet &amp; Driver Logs) พร้อมลูกศรย้อนกลับทุกชั้น" loading="lazy">
+      <figcaption>หน้าเดียวจบ — สถาปัตยกรรม 3 ชั้น + label ลูกศรคู่ขาไป/ขากลับ · เอามาวิเคราะห์จุดที่ควรเลียนแบบไว้แล้วที่ <a href="#arch">ข้อ 4 ด้านบน</a> (ภาพ E-4 พร้อมแบบวาด Mermaid E-5)</figcaption>
+    </figure>
+  </div>
+
+  <div class="box box-def">
+    <div class="box-title">🔄 เอกสาร 5) Model.pdf — 1 หน้า (กระบวนการพัฒนา — Ch8)</div>
+    <figure class="fig fig-orig">
+      <img src="assets/img/s2g13-model.png" alt="หน้าเดียวของเอกสาร Model: หัวข้อ S2G13 Public Transit Navigation System — Evolutionary Distribution Model พร้อมไดอะแกรม Requirements Analysis and Specification ชี้ไป Design and Specification แล้วเข้าวงรอบ Develop new version, Delivery new version, Evaluation, Analysis the result of evaluation กำกับว่ามาจาก Chapter 8: Software Process Model ด้านล่างเป็นย่อหน้าเหตุผลการเลือกภาษาไทย" loading="lazy">
+      <figcaption>หน้าเดียวจบ — หัวข้อเอกสารเขียนว่า "Evolutionary Distribution Model" (ตามตัวเอกสาร) วาดจากสไลด์ "Chapter 8: Software Process Model": Requirements → Design แล้ววนรอบ Develop new version → Delivery new version → Evaluation → Analysis the result of evaluation · ท้ายหน้าเป็นย่อหน้าอธิบายเหตุผลภาษาไทย</figcaption>
+    </figure>
+    <p class="small">เหตุผลในเอกสาร (ย่อความตามที่เขียนไว้): โปรเจกต์มีฟีเจอร์ค่อนข้างเยอะและมีผู้ใช้งานหลายกลุ่ม (ผู้โดยสาร / คนขับ / ผู้ดูแลระบบ) ถ้าทำรวดเดียวส่งตอนจบทีเดียวแบบ Waterfall กลัวว่าถ้ามีปัญหาจะแก้ไม่ทัน — เลยเลือก Evolutionary แบ่งทำเป็นเฟส เอาฟีเจอร์หลักพวกดูรถบนแผนที่ให้เสร็จก่อน แล้วค่อยทยอยเพิ่มฟีเจอร์ย่อยทีหลัง จะได้เอา feedback ระหว่างทางมาปรับแก้</p>
+  </div>
+
+  <div class="box box-def">
+    <div class="box-title">🌳 เอกสาร 6) Hierarchical structure.pdf — 1 หน้า (โครงสร้างระบบ — Ch6)</div>
+    <p>ผังแบ่งระบบ (decomposition) แยกออกเป็น 7 ระบบย่อยตามเอกสาร: ระบบจัดการบัญชี · ระบบติดตามตำแหน่งยานพาหนะ · ระบบค้นหาเส้นทางและเวลา · ระบบช่วยเหลือบนรถ · ระบบแจ้งเตือนการเดินทาง · ระบบสำหรับพนักงานขับรถ · ระบบจัดการของผู้ดูแล — แต่ละระบบแตกเป็นฟีเจอร์ย่อยอีกชั้น</p>
+    <div class="tbl-wrap">
+      <figure class="fig fig-orig">
+        <img src="assets/img/s2g13-hierarchy.png" alt="ต้นไม้แบ่งระบบแนวนอนกว้าง: หัวบนสุดคือ ซอฟต์แวร์ช่วยเดินทางโดยรถขนส่งสาธารณะ แตกออกเป็น 7 ระบบย่อย ระบบจัดการบัญชี ระบบติดตามตำแหน่งยานพาหนะ ระบบค้นหาเส้นทางและเวลา ระบบช่วยเหลือบนรถ ระบบแจ้งเตือนการเดินทาง ระบบสำหรับพนักงานขับรถ และระบบจัดการของผู้ดูแล แต่ละระบบแตกฟีเจอร์ย่อยเช่น สมัครสมาชิก เข้าสู่ระบบ ดูตำแหน่งรถบนแผนที่ ค้นหาจุดจอดและเวลาโดยประมาณ กดกริ่งลงรถผ่านแอป แจ้งเตือนเมื่อรถใกล้ถึง เปลี่ยนสถานะรถ เพิ่ม/แก้ไข/ลบ สายรถ จุดจอด เส้นทาง และดู/ดาวน์โหลดประวัติการวิ่ง" loading="lazy" style="max-width:none;width:4200px">
+        <figcaption>ภาพกว้าง — เลื่อนซ้าย-ขวาเพื่อดูทุกกิ่งของผัง 7 ระบบย่อย</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="box box-def">
+    <div class="box-title">📊 เอกสาร 7) S2G13 Gantt Chart.pdf — 1 หน้า (แผนโปรเจกต์ — Ch5)</div>
+    <div class="tbl-wrap">
+      <figure class="fig fig-orig">
+        <img src="assets/img/s2g13-gantt.jpg" alt="ตารางงาน SE Gantt Chart ของกลุ่ม S2G13 ช่วงเดือนสิงหาคมถึงธันวาคม: รายการงานภาษาไทยแบ่งเป็นช่วงงานใหญ่หลายช่วง พร้อมแท่งสีกำกับระยะเวลา start-due สถานะ และหมากา (milestone) เพชรสีน้ำเงินหมายเลข 1 ถึง 5 กำกับครบแต่ละช่วง" loading="lazy" style="max-width:none;width:2600px">
+        <figcaption>หน้าเดียวจบ (ภาพกว้าง เลื่อนซ้าย-ขวาได้) — "SE Gantt Chart" ช่วง ส.ค.–ธ.ค. แบ่งช่วงงานใหญ่พร้อมหมากา (milestone ◆) 1–5 กำกับปลายแต่ละช่วง</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div class="box box-idea">
+    <div class="box-title">🎯 วิธีใช้ชุดนี้กับการสอบ</div>
+    <p>อ่านเพื่อ<em>ขโมยโครง</em> ไม่ใช่ลอกทั้งหน้า — ในห้องสอบเวลาจำกัด: FR เขียน 4–6 ข้อก็พอ (แบบ "As a …, I want to … so that …" + มี ID) · Use case เลือก UC หลัก 5–8 ตัว + «include» login · Schema แบบนี้คือ UC specification + traceability · สถาปัตยกรรมวาด 3 ชั้นพร้อม label ลูกศร · ถ้าโจทย์ขอแผนโปรเจกต์ ให้เส้นเวลาแบบ Gantt + จุด milestone</p>
   </div>
 </section>
 
