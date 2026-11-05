@@ -415,13 +415,69 @@ U2 ..> U3 : &lt;&lt;include&gt;&gt;
 </section>
 
 <section class="block" id="schema">
-  <h2><span class="h2-dot">🗃️</span> ข้อเขียนข้อ 3 — เขียน Schema ของ CS-Hospital</h2>
+  <h2><span class="h2-dot">🗃️</span> ข้อเขียนข้อ 3 — เขียน Schema (⚠️ 2 ความหมายที่ต้องเตรียม)</h2>
 
+  <div class="box box-warn">
+    <div class="box-title">⚠️ อ่านก่อน — คำว่า "Schema" ในสไลด์อาจารย์ปรากฏแค่จุดเดียว</div>
+    <p>ค้นคำว่า "Schema" ในสไลด์ทั้ง 12 บท — พบ<em>จุดเดียว</em> คือ <strong>"Schema for Detailed Use Cases"</strong> (Ch9 หน้า 13)
+    = <strong>โครงมาตรฐานสำหรับเขียนรายละเอียดของ use case หนึ่ง ๆ</strong> — ส่วน ER diagram / crow's foot ที่เรียนใน Ch7 หน้า 16
+    สไลด์เรียกว่า <em>"data model"</em> ไม่ได้ใช้คำว่า schema</p>
+    <p>รีวิวรุ่นพี่เขียนแค่ว่า "เขียน Schema" โดยไม่ขยายความ — จึงมี 2 ความหมายที่เป็นไปได้ และควรเตรียมทั้งคู่:</p>
+    <ol class="flowsteps">
+      <li><b>ความหมายหลัก (ตรงตามสไลด์):</b> Schema for Detailed Use Cases — เขียนรายละเอียด use case หนึ่งตามโครงมาตรฐาน 9 หัวข้อ (ดู 3ก ด้านล่าง) — สังเกตด้วยว่ารีวิวรุ่นพี่เรียงไว้<em>ต่อท้าย "เขียน Use case diagram"</em> พอดี</li>
+      <li><b>ความหมายเผื่อไว้ (จาก Ch7):</b> แผนผังฐานข้อมูล ER / crow's foot — ใช้เมื่อโจทย์พูดถึงฐานข้อมูลชัด ๆ</li>
+    </ol>
+    <p>🔍 <strong>วิธีตัดสินในห้องสอบ:</strong> "เขียน Schema" ที่ออก<em>ต่อท้าย Use case diagram</em> โดยไม่มีคำว่าฐานข้อมูล → เขียน <strong>UC Schema</strong> · ถ้าโจทย์พูดว่า "ฐานข้อมูล / ตาราง / เก็บข้อมูล" หรือออกคู่กับข้อสถาปัตยกรรม → เขียน <strong>ER</strong> · ถ้ายังไม่ชัดและเวลาเหลือ เขียน UC Schema ก่อน (เร็ว ชัวร์) แล้วเติม ER แบบย่อท้าย</p>
+  </div>
+
+  <h3>3ก) ความหมายหลัก — Schema for Detailed Use Cases (Ch9 หน้า 13)</h3>
   <div class="box box-def">
-    <div class="box-title">📚 รู้ก่อนวาด — Schema คืออะไร อ่านสัญลักษณ์ยังไง</div>
-    <p><strong>Schema ในบริบทข้อสอบนี้</strong> = แผนผังฐานข้อมูล (Entity-Relationship diagram) ที่บอกว่าระบบเก็บข้อมูลอะไรบ้าง และข้อมูลเหล่านั้นเชื่อมโยงกันอย่างไร</p>
-    <p><strong>ศัพท์ 4 คำที่ต้องเข้าใจ:</strong> <em>Entity</em> = ตารางเก็บข้อมูล (สิ่งที่เรา "เก็บของ") · <em>Attribute</em> = คอลัมน์ในตาราง · <em>PK (Primary Key)</em> = หมายเลขประจำตัวไม่ซ้ำของแถว เช่น patient_id · <em>FK (Foreign Key)</em> = คอลัมน์ที่ชี้ไปยัง PK ของตารางอื่น (ทำให้สองตารางเชื่อมกัน)</p>
-    <p><strong>สัญลักษณ์ crow's foot (เท้าอีก้า) บอก "จำนวน" ของความสัมพันธ์:</strong></p>
+    <div class="box-title">📚 รู้ก่อนเขียน — Schema คือ "แบบฟอร์มบังคับ" ให้เขียน use case ครบชิ้น 9 หัวข้อ</div>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>หัวข้อ</th><th>เขียนอะไร</th><th>เอามาจากโจทย์ตรงไหน</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Use Case UC-#</strong></td><td>ชื่อแบบกริยา+นาม</td><td>ฟังก์ชันหลักของระบบ เช่น RegisterPatient</td></tr>
+        <tr><td><strong>Related Requirements</strong></td><td>รายการ REQ ที่ use case นี้รองรับ</td><td>FR ที่เราเขียนไว้ในข้อ 1 ข้อนั้น ๆ!</td></tr>
+        <tr><td><strong>Initiating Actor</strong></td><td>ใครเริ่มใช้</td><td>ผู้ใช้ที่โจทย์บอก เช่น แพทย์</td></tr>
+        <tr><td><strong>Actor's Goal</strong></td><td>เป้าหมายของ actor ประโยคเดียว</td><td>ปัญหาที่โจทย์บอกว่าอยากแก้</td></tr>
+        <tr><td><strong>Participating Actors</strong></td><td>ใครช่วย / ใครต้องรู้ผล</td><td>ระบบภายนอก เช่น LINE, Email</td></tr>
+        <tr><td><strong>Preconditions</strong></td><td>สถานะที่ต้องจริง "ก่อน" เริ่ม</td><td>เช่น ล็อกอินแล้ว, มีข้อมูลอยู่แล้ว</td></tr>
+        <tr><td><strong>Postconditions</strong></td><td>สถานะที่ต้องจริง "หลัง" จบ</td><td>ข้อมูลถูกบันทึก / ส่งถึงแล้ว</td></tr>
+        <tr><td><strong>Main Success Scenario</strong></td><td>ขั้นตอนสลับ → (actor สั่ง) กับ ← (system ตอบ)</td><td>ลำดับงานที่โจทย์บรรยาย</td></tr>
+        <tr><td><strong>Extensions</strong></td><td>เลขขั้น+ตัวอักษร เช่น 4a — เกิดอะไรพังแล้วจัดการยังไง</td><td>เช่น เน็ตหลุด, กรอกผิด</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>กฎเครื่องหมาย:</strong> <strong>→</strong> = actor ส่งคำสั่งเข้าระบบ · <strong>←</strong> = system ตอบกลับ / สั่งอุปกรณ์ · เลขขั้นเรียง 1,2,3… · extension ใช้เลขขั้น+ตัวอักษร (4a, 4a1)</p>
+  </div>
+
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-badge">เฉลยเต็ม</span><span class="ex-title">UC Schema ตัวอย่างของ CS-Hospital — UC-4 SendDiagnosisToSpecialist</span></div>
+    <div class="ex-body">
+      <pre class="schema">Use Case UC-4:        SendDiagnosisToSpecialist
+Related Requirements: FR-4 (ส่งต่อผลวินิจฉัยให้ทีมเฉพาะทางผ่าน LINE/Email)
+Initiating Actor:     Doctor
+Actor's Goal:         ส่งผลวินิจฉัยให้ทีมแพทย์เฉพาะทางรับทราบโดยเร็ว ไม่ให้การรักษาล่าช้า
+Participating Actors: LINE API / Email Server, Specialist Team
+Preconditions:        Doctor ยืนยันตัวตนแล้ว · มีผลวินิจฉัยบันทึกในระบบแล้ว
+Postconditions:       ระบบบันทึกการส่ง (เวลา/สถานะ) และ Specialist Team ได้รับข้อความแล้ว
+Flow of Events — Main Success Scenario:
+  → 1. Doctor เลือกผลวินิจฉัย กด "ส่งต่อเฉพาะทาง" และเลือกทีมปลายทาง
+     2. System แสดงสรุปให้ยืนยัน
+  → 3. Doctor ยืนยันส่ง
+     4. System ส่งข้อความผ่าน LINE API / Email Server และบันทึก log
+     5. System แจ้ง Doctor ว่าส่งสำเร็จพร้อมเวลา
+Flow of Events — Extensions:
+  4a. ช่องทาง LINE ล้มเหลว (network fail)
+      1. System สลับไปช่องทางสำรอง (Email) อัตโนมัติ
+      2. ถ้าทุกช่องทางล้ม → System แจ้ง Doctor ให้ลองใหม่ และเก็บงานไว้ในคิวรอส่ง</pre>
+      <p class="small">สังเกต: ขั้นสลับ → / ← · extension อ้างเลขขั้นต้นทาง (4a) · pre/post เขียนให้ "ตรวจสอบได้" ไม่ใช่คำลอย ๆ — ทุกช่องหยิบมาจากโจทย์ CS-Hospital ทั้งหมด</p>
+    </div>
+  </div>
+
+  <h3>3ข) ความหมายเผื่อไว้ — ถ้าโจทย์หมายถึงแผนผังฐานข้อมูล (ER / crow's foot — Ch7 หน้า 16)</h3>
+  <div class="box box-def">
+    <div class="box-title">📚 รู้ก่อนวาด — สัญลักษณ์ crow's foot 4 แบบ (จากสไลด์ Shared Database Connector)</div>
+    <p><strong>ศัพท์ 4 คำ:</strong> <em>Entity</em> = ตารางเก็บข้อมูล (สิ่งที่ "เก็บของ") · <em>Attribute</em> = คอลัมน์ในตาราง · <em>PK (Primary Key)</em> = หมายเลขประจำตัวไม่ซ้ำของแถว เช่น patient_id · <em>FK (Foreign Key)</em> = คอลัมน์ที่ชี้ไปยัง PK ของตารางอื่น (ทำให้สองตารางเชื่อมกัน)</p>
     <div class="tbl-wrap"><table class="tbl">
       <thead><tr><th>สัญลักษณ์</th><th>ความหมาย</th><th>ตัวอย่าง</th></tr></thead>
       <tbody>
@@ -637,9 +693,10 @@ flowchart LR
   <div class="pr-card" data-pkey="pF-3">
     <div class="pr-head"><span class="pr-num">ข้อ 3</span><span class="diff">●●●</span><span class="spacer"></span><label class="pr-done"><input type="checkbox"> ทำสำเร็จแล้ว</label></div>
     <div class="pr-body">
-      <p><strong>Schema CS-Pizza:</strong> วาด ER ของ Customer, Order, OrderItem, MenuItem, Payment — กำหนด PK/FK + ความสัมพันธ์</p>
+      <p><strong>Schema CS-Pizza (ฝึกทั้ง 2 ความหมาย):</strong> (ก) เขียน UC Schema ของ MakePayment (ข) วาด ER ของ Customer, Order, OrderItem, MenuItem, Payment — กำหนด PK/FK + ความสัมพันธ์</p>
       <details class="sol"><summary>แนวคำตอบ</summary>
         <ol class="steps">
+          <li><span class="step-t"><b>(ก) UC Schema ย่อ:</b> UC-1 MakePayment · Related REQ: ชำระออนไลน์ · Initiating: Customer · Participating: Payment Gateway · Pre: มีออเดอร์รอชำระ · Post: บันทึกการชำระ + ออกใบเสร็จ · Main: → เลือกวิธีชำระ ยืนยัน ← ตรวจกับ Gateway สำเร็จ ออกใบเสร็จ · Ext: 3a Gateway ล่ม → เก็บคิวรอตรวจซ้ำ</span></li>
           <li><span class="step-t"><b>Order แยก OrderItem ได้แต้ม:</b> ออเดอร์ 1 ใบมีรายการพิซซ่าหลายรายการ (M:N แก้ด้วยตารางกลาง OrderItem)</span></li>
           <li><span class="step-t"><b>Customer 1:N Order</b> — ลูกค้า 1 สั่งได้หลายครั้ง</span></li>
           <li><span class="step-t"><b>MenuItem 1:N OrderItem</b> — เมนู 1 รายการโผล่หลายออเดอร์</span></li>
