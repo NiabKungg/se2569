@@ -46,6 +46,7 @@ CS-Hospital (ระบบเดียวกับโจทย์จริงป�
   <a href="#practice">🏋️ ฝึกรวม</a>
   <a href="#tips">💡 ทริคห้องสอบ</a>
   <a href="#s2g13">🗂️ ตัวอย่างงานจริง S2G13</a>
+  <a href="#seq">🧵 Sequence Diagram</a>
 </nav>
 
 <section class="block" id="howto">
@@ -863,7 +864,7 @@ flowchart LR
   </div>
   <div class="box box-idea">
     <div class="box-title">🔁 แผนทบทวนก่อนเข้าห้องสอบ (อ่านจากหน้านี้หน้าเดียวพอ)</div>
-    <p>1) ตาราง 7 ระดับทดสอบ + 4 ประเภท maintenance (ส่วน 1ก/1ข — คะแนนง่าย) · 2) แม่แบบ FR/NFR 5+6 ข้อ (ข้อ 1) · 3) แม่แบบ Use case + Schema + Architecture (ข้อ 2–4) · 4) โครง testing plan + maintenance plan (ข้อ 5–6) · 5) โจทย์ฝึกรวม 8 ข้อท้ายหน้า · 6) เทียบโครงคำตอบกับเอกสารจริงของกลุ่ม S2G13 ท้ายหน้า — อ่านรอบสุดท้ายใช้เวลา ~15 นาที</p>
+    <p>1) ตาราง 7 ระดับทดสอบ + 4 ประเภท maintenance (ส่วน 1ก/1ข — คะแนนง่าย) · 2) แม่แบบ FR/NFR 5+6 ข้อ (ข้อ 1) · 3) แม่แบบ Use case + Schema + Architecture (ข้อ 2–4) · 4) โครง testing plan + maintenance plan (ข้อ 5–6) · 5) โจทย์ฝึกรวม 8 ข้อท้ายหน้า · 6) เทียบโครงคำตอบกับเอกสารจริงของกลุ่ม S2G13 + ทบ SSD/Sequence Diagram ท้ายหน้า — อ่านรอบสุดท้ายใช้เวลา ~15 นาที</p>
     <p>🤖 ถ้าอยากถามเพิ่มจาก video การสอนอาจารย์ เข้าไปพิมพ์ถามได้ที่ <a href="https://notebook.google.com/notebook/5db4f39c-dd66-4504-8cc6-ed33e889b56a" target="_blank" rel="noopener">💻 Notebook วิชา SE</a></p>
   </div>
 </section>
@@ -988,6 +989,88 @@ flowchart LR
   <div class="box box-idea">
     <div class="box-title">🎯 วิธีใช้ชุดนี้กับการสอบ</div>
     <p>อ่านเพื่อ<em>ขโมยโครง</em> ไม่ใช่ลอกทั้งหน้า — ในห้องสอบเวลาจำกัด: FR เขียน 4–6 ข้อก็พอ (แบบ "As a …, I want to … so that …" + มี ID) · Use case เลือก UC หลัก 5–8 ตัว + «include» login · Schema แบบนี้คือ UC specification + traceability · สถาปัตยกรรมวาด 3 ชั้นพร้อม label ลูกศร · ถ้าโจทย์ขอแผนโปรเจกต์ ให้เส้นเวลาแบบ Gantt + จุด milestone</p>
+  </div>
+</section>
+
+<section class="block" id="seq">
+  <h2><span class="h2-dot">🧵</span> หัวข้อเสริม — Sequence Diagram (SSD) วาดยังไง พร้อมตัวอย่างเต็ม</h2>
+
+  <div class="box box-def">
+    <div class="box-title">📚 รู้ก่อนวาด — SSD คืออะไร และอ่านสัญลักษณ์ยังไง</div>
+    <p><strong>นิยาม (ตามสไลด์ Ch9):</strong> System Sequence Diagram (SSD) = ไดอะแกรมแสดง<em>ลำดับข้อความ (messages) ที่ส่งถึงกันตามเวลา</em> — เวลาไหลจากบนลงล่าง — ระหว่าง actor กับระบบ ของ use case เดียว · เขียนต่อจาก use case ได้ทันที: แปลงแต่ละ step ของ <em>main success scenario</em> เป็นลูกศร และ <em>extensions</em> กลายเป็นกล่องเงื่อนไข alt</p>
+    <div class="tbl-wrap"><table class="tbl">
+      <thead><tr><th>สิ่งที่เห็นในภาพ</th><th>ชื่อเรียก</th><th>หน้าที่</th></tr></thead>
+      <tbody>
+        <tr><td>ตัวคนเส้นขีด</td><td><strong>Actor</strong></td><td>ผู้เริ่มใช้ระบบ (initiating actor)</td></tr>
+        <tr><td>กล่องชื่อ + เส้นประแนวตั้งลงมา</td><td><strong>Lifeline</strong></td><td>วัตถุ/ระบบที่ร่วม interaction (เช่น :ATM, :Bank Server) — เส้นคือช่วงชีวิตของมัน</td></tr>
+        <tr><td>แท่งบาง ๆ บน lifeline</td><td><strong>Activation</strong></td><td>ช่วงเวลาที่วัตถุกำลังทำงาน/ประมวลผลอยู่</td></tr>
+        <tr><td>ลูกศรเส้นทึบ →</td><td><strong>Message</strong></td><td>คำขอ/การเรียกใช้งาน</td></tr>
+        <tr><td>ลูกศรเส้นประ ⇢</td><td><strong>Return</strong></td><td>ค่า/ข้อมูลที่ตอบกลับ (Card OK, PIN OK, Funds OK)</td></tr>
+        <tr><td>กล่องป้าย "Alternative" + เส้นประแบ่งช่อง</td><td><strong>alt fragment</strong></td><td>แยกทาง if/else ตามเงื่อนไขในวงเล็บเหลี่ยม [..] — เขียนว่า alt ก็ถูกต้อง</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>จะออกสอบไหม:</strong> รีวิวข้อสอบรุ่นพี่ยังไม่เคยออกเป็นข้อโดยตรง — แต่ SSD อยู่ใน Ch9 ที่ออกแน่ผ่าน use case ถ้าโจทย์ว่า "แสดงลำดับเหตุการณ์ / ปฏิสัมพันธ์ระหว่างผู้ใช้กับระบบ / system operations" ให้วาดตัวนี้ประกอบข้อ use case ได้เลย (อ่านบทเต็มที่ <a href="ch9.html">Ch9 — ส่วนที่ 8</a>)</p>
+  </div>
+
+  <figure class="fig fig-orig">
+    <img src="assets/img/seq-atm-example.png" alt="Sequence Diagram ระบบ ATM ถอนเงิน 4 lifeline: User, ATM, Bank Server, Bank Account — เริ่มจาก User ส่ง Insert Card ไป ATM แล้ว ATM ถาม Bank Server ว่า Verify Card กล่อง Alternative แยกถ้าบัตรผ่าน Bank Server ตอบ Card OK แล้ว ATM ขอ PIN จากผู้ใช้ ถ้าไม่ผ่านตอบ Card Invalid แล้วคว้าบัตรคืน (Eject Card) ต่อด้วย PIN Entered, Verify PIN กล่อง Alternative ถ้า PIN ผ่านได้ Request Amount ถ้าไม่ผ่าน PIN Invalid แล้ว Eject Card จากนั้น Amount Entered, Start Transaction, สอบถาม Bank Account ว่า Sufficient Funds? กล่อง Alternative ใหญ่: ถ้าเงินพอ — Funds OK, Withdraw Amount, Withdraw Successful, Transaction Successful, Dispense Cash ถ้าเงินไม่พอ — Insufficient Funds, Transaction Unsuccessful และปิดท้ายนอกกล่องด้วย Eject Card" loading="lazy">
+    <figcaption>ภาพ SQ-1 — ตัวอย่างเต็ม: SSD "ถอนเงินจาก ATM" 4 lifeline (User → ATM → Bank Server → Bank Account) มีกล่อง Alternative 3 จุด (บัตรผิด / PIN ผิด / เงินไม่พอ) — เส้นทึบ = คำขอ, เส้นประ = คำตอบ · สังเกต activation bar สีส้ม/เขียวติดตั้งที่ตัวที่กำลังทำงาน และ Eject Card ปิดท้ายนอกกล่อง alt = ทำเสมอไม่ว่าสายไหนสำเร็จ</figcaption>
+  </figure>
+
+  <figure class="fig fig-mermaid">
+    <pre class="mermaid">
+sequenceDiagram
+  actor U as User
+  participant ATM as ATM
+  participant BS as Bank Server
+  participant BA as Bank Account
+  U->>ATM: Insert Card
+  ATM->>BS: Verify Card
+  alt if card is valid
+    BS-->>ATM: Card OK
+    ATM->>U: Request PIN
+  else card invalid
+    BS-->>ATM: Card Invalid
+    ATM->>U: Eject Card
+  end
+  U-->>ATM: PIN Entered
+  ATM->>BS: Verify PIN
+  alt if PIN is valid
+    BS-->>ATM: PIN OK
+    ATM->>U: Request Amount
+  else PIN invalid
+    BS-->>ATM: PIN Invalid
+    ATM->>U: Eject Card
+  end
+  U-->>ATM: Amount Entered
+  ATM->>BS: Start Transaction
+  BS->>BA: Sufficient Funds?
+  alt if funds are sufficient
+    BA-->>BS: Funds OK
+    BS->>BA: Withdraw Amount
+    BA-->>BS: Withdraw Successful
+    BS-->>ATM: Transaction Successful
+    ATM->>U: Dispense Cash
+  else funds insufficient
+    BA-->>BS: Insufficient Funds
+    BS-->>ATM: Transaction Unsuccessful
+  end
+  ATM->>U: Eject Card
+    </pre>
+    <figcaption>ภาพ SQ-2 — ไดอะแกรมเดียวกับ SQ-1 พิมพ์ใหม่ด้วย Mermaid: กล่อง "alt" ใน Mermaid = กล่อง "Alternative" ในภาพจริง (แยก if/else ด้วยเส้นประเช่นกัน) — ลองซูมดูทีละส่วน แล้วฝึกวาดตามลงกระดาษ</figcaption>
+  </figure>
+
+  <div class="ex-card">
+    <div class="ex-head"><span class="ex-badge">เคล็ดลับ</span><span class="ex-title">ทำไมตัวอย่าง ATM นี้น่าเลียนแบบในห้องสอบ</span></div>
+    <div class="ex-body">
+      <ul>
+        <li><strong>4 lifeline แยก role ชัด:</strong> ผู้ใช้ → เครื่อง ATM (หน้าร้าน) → Bank Server (สมองกลาง) → Bank Account (ข้อมูล) — ข้อมูลอยู่ขวาสุด ถูกเรียกค่อยมี activation ทีเดียว ตรงกฎ layout "ตัวเริ่มซ้าย ตัวร่วมขวา" ที่ซ้อมไว้ในข้อ use case</li>
+        <li><strong>จังหวะสลับทึบ/ประ สม่ำเสมอ:</strong> ทุกคำขอมีคำตอบเสมอ (Verify Card → Card OK, Verify PIN → PIN OK, Sufficient Funds? → Funds OK) — เขียนแล้วตรวจตัวเองว่าไม่มีลูกศรไปที่ตอบไม่กลับ</li>
+        <li><strong>ความเสี่ยงครบในกล่อง alt 3 จุด:</strong> บัตรไม่ผ่าน / PIN ไม่ผ่าน / เงินไม่พอ — แต่ละกล่องมีเงื่อนไข [..] กำกับและเส้นประแบ่งช่อง if–else ชัดเจน</li>
+        <li><strong>ปิดท้ายด้วย Eject Card นอกกล่อง alt</strong> — เพราะคว้าบัตรคืนเกิดขึ้นไม่ว่าสายไหนสำเร็จ จุดนี้เป็นจุดที่คนวาดลืมบ่อยที่สุด</li>
+      </ul>
+      <p class="small">แบบวาดลงกระดาษ 5 นาที: กล่องชื่อ 4 ใบ + เส้นประลงล่าง + ลูกศรสลับทึบ/ประ + กล่อง alt 3 ใบ แล้วปิดท้าย Eject Card — ไม่ต้องสวย แต่ต้องครบทั้ง 4 อย่างนี้</p>
+    </div>
   </div>
 </section>
 
